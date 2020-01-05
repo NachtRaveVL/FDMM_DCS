@@ -1,7 +1,7 @@
 # FDMM_DCS
 Fully Dynamic Multiplayer Mission for DCS.
 
-** CURRENTLY UNDER DEVELOPMENT **
+**CURRENTLY UNDER DEVELOPMENT**
 
 FDMM aims to create a fully dynamic multiplayer mission system for the DCS: World combat flight simulator.
 
@@ -16,4 +16,4 @@ FDMM will feature:
 - Specialty missions for helicopters including search and rescue, resupply, base building, mechanized infantry transport, and the new ASW sub-hunting and ship rescue.
 - PvP and PvE support.
 
-** Currently under development, please check back later for updates. **
+**Currently under development, please check back later for updates.**
