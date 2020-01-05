@@ -1,13 +1,15 @@
 # FDMM_DCS
 Fully Dynamic Multiplayer Mission for DCS.
 
-**FDMM_DCS v0.01a**
+**FDMM_DCS v0.01a**  
 **CURRENTLY UNDER DEVELOPMENT**
 
-DCS: World multiplayer mission for server admins and air combat ethusiasts.
+DCS: World multiplayer mission for server admins and air combat ethusiasts.  
 Licensed under the non-restrictive MIT license.
 
 Created by NachtRaveVL, Jan 5th, 2020.
+
+------
 
 FDMM aims to create a fully dynamic multiplayer mission system for the DCS: World combat flight simulator.
 
