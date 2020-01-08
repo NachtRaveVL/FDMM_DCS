@@ -1,0 +1,1 @@
+coffee bin\lua-distiller.coffee -i "C:\Users\%USERNAME%\Saved Games\DCS\Missions\FDMM\workspace\FDMM\src\FDMM_MissionStart.lua" -o "C:\Users\%USERNAME%\Saved Games\DCS\Missions\FDMM\FDMM_MissionStart.lua"

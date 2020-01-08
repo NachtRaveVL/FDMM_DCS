@@ -9,4 +9,5 @@
 		</accessrules>
 	</buildpathentry>
 	<buildpathentry external="true" kind="lib" path="U:/SteamLibrary/steamapps/common/DCSWorld/Scripts"/>
+	<buildpathentry external="true" kind="lib" path="U:/SteamLibrary/steamapps/common/DCSWorld/MissionEditor"/>
 </buildpath>
