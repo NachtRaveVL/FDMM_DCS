@@ -41,3 +41,4 @@ luac.out
 
 # Lua Development Tools
 *.metadata
+*_.lua

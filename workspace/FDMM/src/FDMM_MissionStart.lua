@@ -5,6 +5,7 @@ require('FDMM_Config');
 require('FDMM_PortOps');
 
 do
+  trigger.action.outText("FDMM Started", 10)
   -- TODO: Me.
 end
 
