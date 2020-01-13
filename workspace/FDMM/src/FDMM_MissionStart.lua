@@ -1,12 +1,21 @@
-env.setErrorMessageBoxEnabled(false);
-env.info("---FDMM_MissionStart Start---");
+env.info('---FDMM_MissionStart Start---')
+env.setErrorMessageBoxEnabled(false)
 
-require('FDMM_Config');
-require('FDMM_PortOps');
+fdmm = {}
 
-do
-  trigger.action.outText("FDMM Started", 10)
-  -- TODO: Me.
-end
+require('FDMM_Config')
+require('FDMM_MISTAdditions')
+require('FDMM_MooseAdditions')
+require('FDMM_Territory')
+require('FDMM_Port')
 
-env.info("---FDMM_MissionStart End---");
+do --FDMM_MissionStart
+  
+  fdmm.territory.createTerritories()
+  fdmm.territory.dumpTerritories()
+  
+  trigger.action.outText('FDMM Started', 10)
+  
+end --FDMM_MissionStart
+
+env.info('---FDMM_MissionStart End---')
