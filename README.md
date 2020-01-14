@@ -45,3 +45,7 @@ Other systems that FDDM is due to support:
 - (more to come soon)
 
 **Currently under development, please check back later for updates.**
+
+------
+
+Help wanted: Are you a DCS script developer, livery artist, or other skilled mission editing guru? I can help you with some $(doe) if you can help me with some work on this project. Contact NachtRaveVL for details (her contact info can be found on her GitHub profile).

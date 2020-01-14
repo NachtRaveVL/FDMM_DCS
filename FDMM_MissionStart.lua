@@ -9,20 +9,24 @@ return __DISTILLER.__nativeRequire(e)end,define=function(i,e,r)assert(type(e)=="
 i.FACTORIES[e]=r
 else
 print("[__DISTILLER::define] module "..tostring(e).." is already defined")end
-end,exec=function(r,e)local r=r.FACTORIES[e]assert(r,"missing factory method for id "..tostring(e))r(__DISTILLER.require)end}end
+end,exec=function(e,r)local e=e.FACTORIES[r]assert(e,"missing factory method for id "..tostring(r))e(__DISTILLER.require)end}end
 __DISTILLER:define("FDMM_Config",function(e)env.info("---FDMM_Config Start---");fdmm.config={}do
-fdmm.config.enums={}fdmm.config.enums.TerritoryType={Land=1,Sea=2}fdmm.config.consts={}fdmm.config.consts.TerritoryGroupPrefix='TERR_'fdmm.config.consts.TerritoryLinkPrefix='TLNK_'fdmm.config.consts.TerritoryFarpPrefix='TFRP_'end
+fdmm.config.enums={}fdmm.config.enums.TerritoryType={Land=1,Sea=2}fdmm.config.consts={}fdmm.config.consts.TerritoryGroupPrefix='TERR_'fdmm.config.consts.TerritoryLinkPrefix='TLNK_'fdmm.config.consts.TerritoryFARPPrefix='TFRP_'end
 env.info("---FDMM_Config End---");end)__DISTILLER:define("FDMM_MISTAdditions",function(e)env.info('---FDMM_MISTAdditions Start---')assert(mist,'MIST not initialized.')do
 function mist.utils.get2DDistSqrd(r,e)r=mist.utils.makeVec3(r)e=mist.utils.makeVec3(e)return mist.vec.magSqrd({x=r.x-e.x,y=0,z=r.z-e.z})end
 function mist.utils.get3DDistSqrd(e,r)return mist.vec.magSqrd({x=e.x-r.x,y=e.y-r.y,z=e.z-r.z})end
 function mist.vec.magSqrd(e)return(e.x^2+e.y^2+e.z^2)end
 end
 env.info('---FDMM_MISTAdditions End---')end)__DISTILLER:define("FDMM_MooseAdditions",function(e)env.info('---FDMM_MooseAdditions Start---')assert(routines,'Moose not initialized.')do
-function routines.utils.get2DDistSqrd(r,e)r=routines.utils.makeVec3(r)e=routines.utils.makeVec3(e)return routines.vec.magSqrd({x=r.x-e.x,y=0,z=r.z-e.z})end
-function routines.utils.get3DDistSqrd(e,r)return routines.vec.magSqrd({x=e.x-r.x,y=e.y-r.y,z=e.z-r.z})end
+function routines.utils.get2DDistSqrd(e,r)e=routines.utils.makeVec3(e)r=routines.utils.makeVec3(r)return routines.vec.magSqrd({x=e.x-r.x,y=0,z=e.z-r.z})end
+function routines.utils.get3DDistSqrd(r,e)return routines.vec.magSqrd({x=r.x-e.x,y=r.y-e.y,z=r.z-e.z})end
 routines.vec.magSqrd=function(e)return(e.x^2+e.y^2+e.z^2)end
 end
-env.info('---FDMM_MooseAdditions End---')end)__DISTILLER:define("FDMM_Territory",function(e)env.info('---FDMM_Territory Start---')fdmm.territory={}do
+env.info('---FDMM_MooseAdditions End---')end)__DISTILLER:define("FDMM_Utils",function(e)env.info("---FDMM_Utils Start---");fdmm.utils={}do
+function fdmm.utils.pos2ToReadableString(e)return'~{'..mist.utils.round(e.x,-2)..','..mist.utils.round(e.y,-2)..'}'end
+function fdmm.utils.pos3ToReadableString(e)return'~{'..mist.utils.round(e.x,-2)..','..mist.utils.round(e.z,-2)..',a:'..mist.utils.round(e.y,-1)..'}'end
+end
+env.info("---FDMM_Utils End---");end)__DISTILLER:define("FDMM_Territory",function(e)env.info('---FDMM_Territory Start---')fdmm.territory={}do
 FDMMTerritory={}FDMMTerritory.__index=FDMMTerritory
 setmetatable(FDMMTerritory,{__call=function(e,...)return e.new(...)end,})function FDMMTerritory.new(r,i)local e=setmetatable({},FDMMTerritory)e.groupName=r
 e.groupData=i or mist.DBs.groupsByName[r]e.name=e.groupName:sub(#fdmm.config.consts.TerritoryGroupPrefix+1)if e.groupData.category=='ship'then
@@ -38,27 +42,34 @@ else
 e.capturePoint=i
 end
 end
-e.linkedTerritories={}return e
+e.linkedTerritories={}e.linkedTerritoryDistances={}e.farpPoints={}return e
 end
 function FDMMTerritory:addTerritoryLink(e)if self.name~=e.name then
 self.linkedTerritories[e.name]=e
 e.linkedTerritories[self.name]=self
+local r=mist.utils.get2DDist(self.centerPoint,e.centerPoint)self.linkedTerritoryDistances[e.name]=r
+e.linkedTerritoryDistances[self.name]=r
 else
 env.error("Cannot link territory '"..self.name.."' with itself.")end
 end
+function FDMMTerritory:addFARPPoints(e)for r,e in ipairs(e)do
+if r>1 then
+table.insert(self.farpPoints,e)end
+end
+end
 end
 do
-fdmm.territory.landTerritories={}fdmm.territory.seaTerritories={}fdmm.territory.allTerritories={}function fdmm.territory.createTerritories()local n={}local i={}local t={}for e,r in pairs(mist.DBs.groupsByName)do
+fdmm.territory.landTerritories={}fdmm.territory.seaTerritories={}fdmm.territory.allTerritories={}function fdmm.territory.createTerritories()fdmm.territory.landTerritories={}fdmm.territory.seaTerritories={}fdmm.territory.allTerritories={}local n={}local i={}local t={}for e,r in pairs(mist.DBs.groupsByName)do
 if e:find(fdmm.config.consts.TerritoryGroupPrefix)==1 then
 n[e]=r
 elseif e:find(fdmm.config.consts.TerritoryLinkPrefix)==1 then
 i[e]=r
-elseif e:find(fdmm.config.consts.TerritoryFarpPrefix)==1 then
+elseif e:find(fdmm.config.consts.TerritoryFARPPrefix)==1 then
 t[e]=r
 end
 end
-for e,r in pairs(n)do
-local e=FDMMTerritory(e,r)if e.type==fdmm.config.enums.TerritoryType.Sea then
+for r,e in pairs(n)do
+local e=FDMMTerritory(r,e)if e.type==fdmm.config.enums.TerritoryType.Sea then
 fdmm.territory.seaTerritories[e.name]=e
 else
 fdmm.territory.landTerritories[e.name]=e
@@ -71,11 +82,16 @@ for i,n in ipairs(mist.getGroupPoints(e))do
 if i>1 then
 local n=fdmm.territory.closestTerritoryToPoint(n,r.type)if n~=nil then
 r:addTerritoryLink(n)else
-env.error("Territory group '"..e.."' failed to find a closest territory at index "..i..'.')end
+env.error("Territory link for group '"..e.."' failed to find a closest territory at index "..i..'.')end
 end
 end
 else
-env.error("Territory group '"..e.."' failed to find territory with same name.")end
+env.error("Territory link for group '"..e.."' failed to find territory with same name.")end
+end
+for e,r in pairs(t)do
+local r=e:sub(#fdmm.config.consts.TerritoryFARPPrefix+1)local r=fdmm.territory.allTerritories[r]if r~=nil then
+r:addFARPPoints(mist.getGroupPoints(e))else
+env.error("Territory FARP for group '"..e.."' failed to find territory with same name.")end
 end
 end
 function fdmm.territory.closestTerritoryToPoint(e,i)local t=mist.utils.makeVec2(e)local r=nil
@@ -88,26 +104,25 @@ e=fdmm.territory.seaTerritories
 else
 e=fdmm.territory.allTerritories
 end
-for e,i in pairs(e)do
-local e=mist.utils.get2DDistSqrd(t,i.centerPoint)if r==nil or e<n then
-r=i
-n=e
+for i,e in pairs(e)do
+local i=mist.utils.get2DDistSqrd(t,e.centerPoint)if r==nil or i<n then
+r=e
+n=i
 end
 end
 return r
 end
-function fdmm.territory.dumpTerritories()env.info('--FDMM Territories Dump--')env.info('  Sea Territories:')for e,r in pairs(fdmm.territory.seaTerritories)do
-env.info('    '..e..':')for e,r in pairs(r.linkedTerritories)do
-env.info("      Linked /w: '"..e.."'.")end
+function fdmm.territory.dumpTerritories()function _envInfoTerritory(r,e)env.info("    '"..r.."':")env.info('      '..'centerPoint: '..fdmm.utils.pos2ToReadableString(e.centerPoint))env.info('      '..'capturePoint: '..fdmm.utils.pos2ToReadableString(e.capturePoint))for e,r in pairs(e.linkedTerritories)do
+env.info('      '.."Linked /w: '"..e.."'.")end
 end
-env.info('  Land Territories:')for e,r in pairs(fdmm.territory.landTerritories)do
-env.info('    '..e..':')for e,r in pairs(r.linkedTerritories)do
-env.info("      Linked /w: '"..e.."'.")end
-end
+env.info('--FDMM Territories Dump--')env.info('  Sea Territories:')for e,r in pairs(fdmm.territory.seaTerritories)do
+_envInfoTerritory(e,r)end
+env.info('  Land Territories:')for r,e in pairs(fdmm.territory.landTerritories)do
+_envInfoTerritory(r,e)end
 end
 end
 env.info('---FDMM_Territory End---')end)__DISTILLER:define("FDMM_Port",function(e)env.info('---FDMM_Port Start---')fdmm.port={}do
 end
-env.info('---FDMM_Port End---')end)__DISTILLER:define("FDMM_MissionStart.lua_distilled",function(e)env.info('---FDMM_MissionStart Start---')env.setErrorMessageBoxEnabled(false)fdmm={}e('FDMM_Config')e('FDMM_MISTAdditions')e('FDMM_MooseAdditions')e('FDMM_Territory')e('FDMM_Port')do
+env.info('---FDMM_Port End---')end)__DISTILLER:define("FDMM_MissionStart.lua_distilled",function(e)env.info('---FDMM_MissionStart Start---')env.setErrorMessageBoxEnabled(false)fdmm={}e('FDMM_Config')e('FDMM_MISTAdditions')e('FDMM_MooseAdditions')e('FDMM_Utils')e('FDMM_Territory')e('FDMM_Port')do
 fdmm.territory.createTerritories()fdmm.territory.dumpTerritories()trigger.action.outText('FDMM Started',10)end
 env.info('---FDMM_MissionStart End---')end)__DISTILLER:exec("FDMM_MissionStart.lua_distilled")
