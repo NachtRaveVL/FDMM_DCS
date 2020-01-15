@@ -1,3 +1,6 @@
+---
+-- FDMM Moose Additions Module.
+-- @module FDMM_MooseAdditions
 env.info('---FDMM_MooseAdditions Start---')
 
 assert(routines, 'Moose not initialized.')

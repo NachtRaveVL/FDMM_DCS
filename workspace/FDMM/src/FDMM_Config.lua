@@ -1,21 +1,32 @@
+---
+-- FDMM Config Module.
+-- @module FDMM_Config
 env.info("---FDMM_Config Start---");
 
-fdmm.config = {}
+--- FDMM enumerations.
+fdmm.enums = {}
+--- FDMM constants.
+fdmm.consts = {}
 
 do --FDMM_Config
 
-  fdmm.config.enums = {}
-
-  fdmm.config.enums.TerritoryType = {
-    Land = 1,
-    Sea = 2
+  --- Territory types.
+  fdmm.enums.TerritoryType = {
+    Land = 'land',
+    Sea = 'sea'
   }
 
-  fdmm.config.consts = {}
+  --- Mission user flags.
+  fdmm.consts.UserFlags = {
+    DebugFlag = '99999'
+  }
 
-  fdmm.config.consts.TerritoryGroupPrefix = 'TERR_'
-  fdmm.config.consts.TerritoryLinkPrefix = 'TLNK_'
-  fdmm.config.consts.TerritoryFARPPrefix = 'TFRP_'
+  --- Territory group name prefixes.
+  fdmm.consts.TerritoryPrefix = {
+    Define = 'TDEF_',
+    Link = 'TLNK_',
+    FARP = 'TFRP_'
+  }
 
 end --FDMM_Config
 

@@ -1,28 +1,36 @@
+---
+-- FDMM Territory Module.
+-- @module FDMM_Territory
 env.info('---FDMM_Territory Start---')
 
+--- FDMM territories module.
 fdmm.territory = {}
 
 do --FDMMTerritory
+
+  --- Territory class that manages and marks territory boundaries, various points, FARP spawn locations, etc.
   FDMMTerritory = {}
   FDMMTerritory.__index = FDMMTerritory
-
   setmetatable(FDMMTerritory, {
     __call = function (cls, ...)
       return cls.new(...)
     end,
   })
 
+  --- Territory constructor.
+  -- @param #string groupName Group name with territory definition prefix ('TDEF_').
+  -- @param #table groupData MIST group data object.
   function FDMMTerritory.new(groupName, groupData)
     local self = setmetatable({}, FDMMTerritory)
 
     self.groupName = groupName
     self.groupData = groupData or mist.DBs.groupsByName[groupName]
 
-    self.name = self.groupName:sub(#fdmm.config.consts.TerritoryGroupPrefix + 1)
-    if self.groupData.category == 'ship' then
-      self.type = fdmm.config.enums.TerritoryType.Sea
+    self.name = self.groupName:sub(#fdmm.consts.TerritoryPrefix.Define + 1)
+    if self.groupData.category == mist.DBs.Category.Ship then
+      self.type = fdmm.enums.TerritoryType.Sea
     else
-      self.type = fdmm.config.enums.TerritoryType.Land
+      self.type = fdmm.enums.TerritoryType.Land
     end
 
     self.polygonPoints = {}
@@ -44,6 +52,8 @@ do --FDMMTerritory
     return self
   end
 
+  --- Add linked territory.
+  -- @param #table otherTerritory Other FDMMTerritory object to link with.
   function FDMMTerritory:addTerritoryLink(otherTerritory)
     if self.name ~= otherTerritory.name then
       self.linkedTerritories[otherTerritory.name] = otherTerritory
@@ -57,6 +67,8 @@ do --FDMMTerritory
     end
   end
 
+  --- Add FARP points.
+  -- @param #list<#table> farpPoints List of vec2 coordinates of FARPs (first of which ignored). 
   function FDMMTerritory:addFARPPoints(farpPoints)
     -- TODO: This is currently a stand-in. Will expand out later. -NR
     for idx, point in ipairs(farpPoints) do
@@ -72,28 +84,36 @@ do --FDMM_Territory
   fdmm.territory.seaTerritories = {}
   fdmm.territory.allTerritories = {}
 
-  function fdmm.territory.createTerritories()
+  --- Clears existing territories.
+  function fdmm.territory.clearTerritories()
     fdmm.territory.landTerritories = {}
     fdmm.territory.seaTerritories = {}
     fdmm.territory.allTerritories = {}
+  end
+
+  --- Creates territories from mission group placement.
+  function fdmm.territory.createTerritories()
+    fdmm.territory.clearTerritories()
     local terrGroups = {}
     local terrLinks = {}
     local terrFARPs = {}
 
     for groupName, groupData in pairs(mist.DBs.groupsByName) do
-      if groupName:find(fdmm.config.consts.TerritoryGroupPrefix) == 1 then
-        terrGroups[groupName] = groupData
-      elseif groupName:find(fdmm.config.consts.TerritoryLinkPrefix) == 1 then
-        terrLinks[groupName] = groupData
-      elseif groupName:find(fdmm.config.consts.TerritoryFARPPrefix) == 1 then
-        terrFARPs[groupName] = groupData
+      if groupName:find('_') ~= nil then -- all prefixes end in _, so if no _ no checks need made
+        if groupName:find(fdmm.consts.TerritoryPrefix.Define) == 1 then
+          terrGroups[groupName] = groupData
+        elseif groupName:find(fdmm.consts.TerritoryPrefix.Link) == 1 then
+          terrLinks[groupName] = groupData
+        elseif groupName:find(fdmm.consts.TerritoryPrefix.FARP) == 1 then
+          terrFARPs[groupName] = groupData
+        end
       end
     end
 
     for groupName, groupData in pairs(terrGroups) do
       local territory = FDMMTerritory(groupName, groupData)
 
-      if territory.type == fdmm.config.enums.TerritoryType.Sea then
+      if territory.type == fdmm.enums.TerritoryType.Sea then
         fdmm.territory.seaTerritories[territory.name] = territory
       else
         fdmm.territory.landTerritories[territory.name] = territory
@@ -102,7 +122,7 @@ do --FDMM_Territory
     end
 
     for groupName, groupData in pairs(terrLinks) do
-      local territoryName = groupName:sub(#fdmm.config.consts.TerritoryLinkPrefix + 1)
+      local territoryName = groupName:sub(#fdmm.consts.TerritoryPrefix.Link + 1)
       local territory = fdmm.territory.allTerritories[territoryName]
 
       if territory ~= nil then
@@ -123,7 +143,7 @@ do --FDMM_Territory
     end
 
     for groupName, groupData in pairs(terrFARPs) do
-      local territoryName = groupName:sub(#fdmm.config.consts.TerritoryFARPPrefix + 1)
+      local territoryName = groupName:sub(#fdmm.consts.TerritoryPrefix.FARP + 1)
       local territory = fdmm.territory.allTerritories[territoryName]
 
       if territory ~= nil then
@@ -134,15 +154,18 @@ do --FDMM_Territory
     end
   end
 
+  --- Calculates closest territory to provided point.
+  -- @param #table point Vec2 position.
+  -- @param #string territoryType Optional territory type filter.
   function fdmm.territory.closestTerritoryToPoint(point, territoryType)
     local point = mist.utils.makeVec2(point)
     local closestTerritory = nil
     local closestDistSqrd = 0
     local territories = nil
 
-    if (territoryType == fdmm.config.enums.TerritoryType.Land) then
+    if (territoryType == fdmm.enums.TerritoryType.Land) then
       territories = fdmm.territory.landTerritories
-    elseif (territoryType == fdmm.config.enums.TerritoryType.Sea) then
+    elseif (territoryType == fdmm.enums.TerritoryType.Sea) then
       territories = fdmm.territory.seaTerritories
     else
       territories = fdmm.territory.allTerritories
@@ -161,11 +184,12 @@ do --FDMM_Territory
     return closestTerritory
   end
 
+  --- Dump territories to debug log.
   function fdmm.territory.dumpTerritories()
     function _envInfoTerritory(territoryName, territory)
       env.info('    \'' .. territoryName .. '\':')
-      env.info('      ' .. 'centerPoint: ' .. fdmm.utils.pos2ToReadableString(territory.centerPoint))
-      env.info('      ' .. 'capturePoint: ' .. fdmm.utils.pos2ToReadableString(territory.capturePoint))
+      env.info('      ' .. 'centerPoint: ' .. fdmm.utils.pos2ToLoggableString(territory.centerPoint))
+      env.info('      ' .. 'capturePoint: ' .. fdmm.utils.pos2ToLoggableString(territory.capturePoint))
       for linkedTerritoryName, linkedTerritory in pairs(territory.linkedTerritories) do
         env.info ('      ' .. 'Linked /w: \'' .. linkedTerritoryName .. '\'.')
       end

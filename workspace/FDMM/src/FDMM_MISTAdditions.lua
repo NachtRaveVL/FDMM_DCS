@@ -1,8 +1,21 @@
+---
+-- FDMM MIST Additions Module.
+-- @module FDMM_MISTAdditions
 env.info('---FDMM_MISTAdditions Start---')
 
 assert(mist, 'MIST not initialized.')
 
 do --FDMM_MISTAdditions
+
+  --- DBs object category enum.
+  mist.DBs.Category = {
+    Vehicle = 'vehicle',
+    Ship = 'ship',
+    Plane = 'plane',
+    Helicopter = 'helicopter',
+    Building = 'building',
+    Unknown = 'unknown'
+  }
 
   --- Returns distance in meters squared between two points.
   -- @tparam Vec2|Vec3 point1 first point

@@ -1,6 +1,10 @@
+---
+-- FDMM Mission Start Module.
+-- @module FDMM_MissionStart
 env.info('---FDMM_MissionStart Start---')
 env.setErrorMessageBoxEnabled(false)
 
+--- FDMM main module.
 fdmm = {}
 
 require('FDMM_Config')
@@ -13,8 +17,7 @@ require('FDMM_Port')
 do --FDMM_MissionStart
 
   fdmm.territory.createTerritories()
-
-  fdmm.territory.dumpTerritories()
+  --fdmm.territory.dumpTerritories()
 
   trigger.action.outText('FDMM Started', 10)
 
