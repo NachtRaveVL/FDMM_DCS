@@ -77,6 +77,34 @@ do --FDMMTerritory
       end
     end
   end
+
+  --- Smokes territory polygon points.
+  -- @param #string smokeColor Smoke color (e.g. SMOKECOLOR.Blue).
+  function FDMMTerritory:smokeBoundaries(smokeColor)
+    local tol = 10000.0 / 25.0
+    local lastPoint3 = nil
+    for idx, point in ipairs(self.polygonPoints) do
+      if idx > 1 then
+        local point3 = mist.utils.makeVec3(point)
+        local diffVec3 = mist.vec.sub(point3, lastPoint3)
+        local distance = mist.vec.mag(diffVec3)
+        local unitVec3 = mist.vec.scalarMult(diffVec3, 1.0 / distance) 
+        local cuts = 1
+        local cutDistance = distance / cuts
+        while cutDistance > tol do
+          cuts = cuts + 1
+          cutDistance = distance / cuts
+        end
+        while cuts >= 0 do
+          local offVec3 = mist.vec.scalarMult(unitVec3, cuts * cutDistance)
+          local smokePoint3 = mist.vec.add(lastPoint3, offVec3);
+          COORDINATE:NewFromVec2(mist.utils.makeVec2(smokePoint3)):Smoke(smokeColor)
+          cuts = cuts - 1
+        end
+      end
+      lastPoint3 = mist.utils.makeVec3(point)
+    end
+  end
 end --FDMMTerritory
 
 do --FDMM_Territory

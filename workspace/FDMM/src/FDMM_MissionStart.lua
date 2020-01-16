@@ -18,6 +18,7 @@ do --FDMM_MissionStart
 
   fdmm.territory.createTerritories()
   --fdmm.territory.dumpTerritories()
+  --fdmm.territory.landTerritories.Tblisi:smokeBoundaries(SMOKECOLOR.Blue)
 
   trigger.action.outText('FDMM Started', 10)
 
