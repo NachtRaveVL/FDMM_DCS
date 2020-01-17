@@ -78,10 +78,10 @@ do --FDMMTerritory
     end
   end
 
-  --- Smokes territory polygon points.
+  --- Smokes territory polygon points (careful).
   -- @param #string smokeColor Smoke color (e.g. SMOKECOLOR.Blue).
   function FDMMTerritory:smokeBoundaries(smokeColor)
-    local tol = 10000.0 / 25.0
+    local tol = 10000.0 / 25.0 -- ~25 flares per ~10000 distance
     local lastPoint3 = nil
     for idx, point in ipairs(self.polygonPoints) do
       if idx > 1 then
@@ -108,50 +108,47 @@ do --FDMMTerritory
 end --FDMMTerritory
 
 do --FDMM_Territory
-  fdmm.territory.landTerritories = {}
-  fdmm.territory.seaTerritories = {}
-  fdmm.territory.allTerritories = {}
 
-  --- Clears existing territories.
-  function fdmm.territory.clearTerritories()
-    fdmm.territory.landTerritories = {}
-    fdmm.territory.seaTerritories = {}
-    fdmm.territory.allTerritories = {}
-  end
-
-  --- Creates territories from mission group placement.
+  -- Group Name Prefixes: TDEF_ TLNK_ TFRP_
+  -- WPList(TDEF_): WP1->centerPoint, WP2-WP(n-1)->polygonPoints, WP(n)->capturePoint
+  --- Creates territories from mission group placements.
   function fdmm.territory.createTerritories()
-    fdmm.territory.clearTerritories()
-    local terrGroups = {}
-    local terrLinks = {}
-    local terrFARPs = {}
+    fdmm.territories = {
+      [fdmm.enums.TerritoryType.Land] = {},
+      [fdmm.enums.TerritoryType.Sea] = {},
+      [fdmm.enums.TerritoryType.All] = {}
+    }
+    local terrGroups = {
+      [fdmm.consts.TerritoryPrefix.Define] = {},
+      [fdmm.consts.TerritoryPrefix.Link] = {},
+      [fdmm.consts.TerritoryPrefix.FARP] = {}
+    }
 
+    -- TODO: Make a common container for these group prefix filters. -NF
     for groupName, groupData in pairs(mist.DBs.groupsByName) do
       if groupName:find('_') ~= nil then -- all prefixes end in _, so if no _ no checks need made
         if groupName:find(fdmm.consts.TerritoryPrefix.Define) == 1 then
-          terrGroups[groupName] = groupData
+          terrGroups[fdmm.consts.TerritoryPrefix.Define][groupName] = groupData
         elseif groupName:find(fdmm.consts.TerritoryPrefix.Link) == 1 then
-          terrLinks[groupName] = groupData
+          terrGroups[fdmm.consts.TerritoryPrefix.Link][groupName] = groupData
         elseif groupName:find(fdmm.consts.TerritoryPrefix.FARP) == 1 then
-          terrFARPs[groupName] = groupData
+          terrGroups[fdmm.consts.TerritoryPrefix.FARP][groupName] = groupData
         end
       end
     end
 
-    for groupName, groupData in pairs(terrGroups) do
+    -- Process TDEF_
+    for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryPrefix.Define]) do
       local territory = FDMMTerritory(groupName, groupData)
 
-      if territory.type == fdmm.enums.TerritoryType.Sea then
-        fdmm.territory.seaTerritories[territory.name] = territory
-      else
-        fdmm.territory.landTerritories[territory.name] = territory
-      end
-      fdmm.territory.allTerritories[territory.name] = territory
+      fdmm.territories[territory.type][territory.name] = territory
+      fdmm.territories.all[territory.name] = territory
     end
 
-    for groupName, groupData in pairs(terrLinks) do
+    -- Process TLNK_
+    for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryPrefix.Link]) do
       local territoryName = groupName:sub(#fdmm.consts.TerritoryPrefix.Link + 1)
-      local territory = fdmm.territory.allTerritories[territoryName]
+      local territory = fdmm.territories.all[territoryName]
 
       if territory ~= nil then
         for idx, point in ipairs(mist.getGroupPoints(groupName)) do
@@ -170,9 +167,10 @@ do --FDMM_Territory
       end
     end
 
-    for groupName, groupData in pairs(terrFARPs) do
+    -- Process TFRP_
+    for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryPrefix.FARP]) do
       local territoryName = groupName:sub(#fdmm.consts.TerritoryPrefix.FARP + 1)
-      local territory = fdmm.territory.allTerritories[territoryName]
+      local territory = fdmm.territories.all[territoryName]
 
       if territory ~= nil then
         territory:addFARPPoints(mist.getGroupPoints(groupName))
@@ -189,15 +187,8 @@ do --FDMM_Territory
     local point = mist.utils.makeVec2(point)
     local closestTerritory = nil
     local closestDistSqrd = 0
-    local territories = nil
-
-    if (territoryType == fdmm.enums.TerritoryType.Land) then
-      territories = fdmm.territory.landTerritories
-    elseif (territoryType == fdmm.enums.TerritoryType.Sea) then
-      territories = fdmm.territory.seaTerritories
-    else
-      territories = fdmm.territory.allTerritories
-    end
+    local territoryType = territoryType or fdmm.enums.TerritoryType.All
+    local territories = fdmm.territories[territoryType]
 
     for territoryName, territory in pairs(territories) do
       -- FIXME: Possible speed trap? I bet this could be sped up via usage of a spacial partitioning tree. -NR
@@ -224,11 +215,11 @@ do --FDMM_Territory
     end
     env.info('--FDMM Territories Dump--')
     env.info('  Sea Territories:')
-    for territoryName, territory in pairs(fdmm.territory.seaTerritories) do
+    for territoryName, territory in pairs(fdmm.territories.sea) do
       _envInfoTerritory(territoryName, territory)
     end
     env.info('  Land Territories:')
-    for territoryName, territory in pairs(fdmm.territory.landTerritories) do
+    for territoryName, territory in pairs(fdmm.territories.land) do
       _envInfoTerritory(territoryName, territory)
     end
   end

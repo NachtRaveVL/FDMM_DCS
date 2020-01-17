@@ -13,12 +13,16 @@ require('FDMM_MooseAdditions')
 require('FDMM_Utils')
 require('FDMM_Territory')
 require('FDMM_Port')
+require('FDMM_CargoRoute')
 
 do --FDMM_MissionStart
 
   fdmm.territory.createTerritories()
   --fdmm.territory.dumpTerritories()
   --fdmm.territory.landTerritories.Tblisi:smokeBoundaries(SMOKECOLOR.Blue)
+
+  fdmm.cargoRoute.createCargoRoutes()
+  --fdmm.cargoRoute.dumpCargoRoutes()
 
   trigger.action.outText('FDMM Started', 10)
 
