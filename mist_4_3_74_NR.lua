@@ -1,4 +1,4 @@
--- NOTICE: This is a library dependency included in FDMM for convenience only.
+-- NOTICE: This is a library dependency included in FDMM and modified for use.
 -- Please refer to this project's homepage for more information on this module.
 
 --[[--
@@ -5999,6 +5999,9 @@ do -- group tasks scope
 
 												for point_num, point in pairs(group_data.route.points) do
 													local routeData = {}
+													if env.mission.version > 7 then -- NachtRaveVL
+														routeData.name = env.getValueDictByKey(point.name)
+													end
 													if not point.point then
 														routeData.x = point.x
 														routeData.y = point.y
