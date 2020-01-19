@@ -7,7 +7,7 @@ env.info('---FDMM_CargoRoute Start---')
 fdmm.cargoRoute = {}
 
 do --FDMMCargoRoute
-  
+
   --- CargoRoute class that manages what spawns and destinations are available per territory for cargo vessels.
   FDMMCargoRoute = {}
   FDMMCargoRoute.__index = FDMMCargoRoute
@@ -18,7 +18,8 @@ do --FDMMCargoRoute
   })
 
   --- CargoRoute constructor.
-  -- @param #table territory object.
+  -- @param #FDMMTerritory territory Territory object.
+  -- @return New instance of FDMMCargoRoute.
   function FDMMCargoRoute.new(territory)
     local self = setmetatable({}, FDMMCargoRoute)
     self.territory = territory
@@ -40,9 +41,10 @@ end --FDMMCargoRoute
 
 do -- FDMM_CargoRoute
 
-  -- Group Name Prefixes: CVIN_ CTIN_ CAIN_ CSIN_ (V=Land, T=Train, A=Air, S=Sea)
-  -- WPList (ALL): WP1->spawnPoint, WP2->ingressPoint, WH_<WHName>->WH dest, C[V|R]LK_<DIR>->TLNK dest
   --- Creates cargo routes from mission group placements.
+  -- Layout:
+  --   GNPrefixes: CVIN_ CTIN_ CAIN_ CSIN_ (V=Land, T=Train, A=Air, S=Sea)
+  --   WPList (ALL): WP1->spawnPoint, WP2->ingressPoint, WH_<WHName>->WH dest, C[V|R]LK_<DIR>->TLNK dest
   function fdmm.cargoRoute.createCargoRoutes()
     fdmm.cargoRoutes = {}
     for territoryName, territory in pairs(fdmm.territories.all) do
@@ -55,40 +57,25 @@ do -- FDMM_CargoRoute
       }
     end
     local routeGroups = {
-      [fdmm.consts.CargoRoutePrefix.Land] = {},
-      [fdmm.consts.CargoRoutePrefix.Train] = {},
-      [fdmm.consts.CargoRoutePrefix.Air] = {},
-      [fdmm.consts.CargoRoutePrefix.Sea] = {}
+      [fdmm.consts.CargoRoutePrefix.Land] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Land] or {},
+      [fdmm.consts.CargoRoutePrefix.Train] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Train] or {},
+      [fdmm.consts.CargoRoutePrefix.Air] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Air] or {},
+      [fdmm.consts.CargoRoutePrefix.Sea] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Sea] or {}
     }
 
-    -- TODO: Make a common container for these group prefix filters. -NF
-    for groupName, groupData in pairs(mist.DBs.groupsByName) do
-      if groupName:find('_') ~= nil then -- all prefixes end in _, so if no _ no checks need made
-        if groupName:find(fdmm.consts.CargoRoutePrefix.Land) == 1 then
-          routeGroups[fdmm.consts.CargoRoutePrefix.Land][groupName] = groupData
-        elseif groupName:find(fdmm.consts.CargoRoutePrefix.Train) == 1 then
-          routeGroups[fdmm.consts.CargoRoutePrefix.Train][groupName] = groupData
-        elseif groupName:find(fdmm.consts.CargoRoutePrefix.Air) == 1 then
-          routeGroups[fdmm.consts.CargoRoutePrefix.Air][groupName] = groupData
-        elseif groupName:find(fdmm.consts.CargoRoutePrefix.Sea) == 1 then
-          routeGroups[fdmm.consts.CargoRoutePrefix.Sea][groupName] = groupData
-        end
-      end
-    end
-
-    -- Process CVIN_
+    -- Process CargoRoutePrefix.Land (CVIN_)
     for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Land]) do
     end
 
-    -- Process CTIN_
+    -- Process CargoRoutePrefix.Train (CTIN_)
     for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Train]) do
     end
 
-    -- Process CAIN_
+    -- Process CargoRoutePrefix.Air (CAIN_)
     for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Air]) do
     end
 
-    -- Process CSIN_
+    -- Process CargoRoutePrefix.Sea (CSIN_)
     for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Sea]) do
     end
   end

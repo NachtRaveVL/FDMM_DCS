@@ -9,24 +9,26 @@ fdmm.territory = {}
 do --FDMMTerritory
 
   --- Territory class that manages and marks territory boundaries, various points, FARP spawn locations, etc.
+  -- @type FDMMTerritory
   FDMMTerritory = {}
   FDMMTerritory.__index = FDMMTerritory
   setmetatable(FDMMTerritory, {
     __call = function (cls, ...)
-      return cls.new(...)
+      return cls.newFromGroup(...)
     end,
   })
 
-  --- Territory constructor.
+  --- Territory constructor from group name/data.
   -- @param #string groupName Group name with territory definition prefix ('TDEF_').
   -- @param #table groupData MIST group data object.
-  function FDMMTerritory.new(groupName, groupData)
+  -- @return New instance of FDMMTerritory.
+  function FDMMTerritory.newFromGroup(groupName, groupData)
     local self = setmetatable({}, FDMMTerritory)
 
     self.groupName = groupName
     self.groupData = groupData or mist.DBs.groupsByName[groupName]
 
-    self.name = self.groupName:sub(#fdmm.consts.TerritoryPrefix.Define + 1)
+    self.name = fdmm.utils.removeGroupingPrefix(groupName)
     if self.groupData.category == mist.DBs.Category.Ship then
       self.type = fdmm.enums.TerritoryType.Sea
     else
@@ -44,16 +46,22 @@ do --FDMMTerritory
         self.capturePoint = point
       end
     end
+    -- Remove last point in polygonPoint if it's too close to first point (typical situation)
+    local cyclicDistSqrd = mist.utils.get2DDist(self.polygonPoints[1], self.polygonPoints[#self.polygonPoints])
+    if cyclicDistSqrd <= 25*25 then
+      table.remove(self.polygonPoints, #self.polygonPoints)
+    end
+
+    self.polygonZone = ZONE_POLYGON:NewFromPoints(self.name, self.polygonPoints)
 
     self.linkedTerritories = {}
     self.linkedTerritoryDistances = {} -- TODO: Make TerritoryLink class and replace. -NR
-    self.farpPoints = {}
 
     return self
   end
 
-  --- Add linked territory.
-  -- @param #table otherTerritory Other FDMMTerritory object to link with.
+  --- Add linked territory to territory.
+  -- @param #FDMMTerritory otherTerritory Other territory object to link with.
   function FDMMTerritory:addTerritoryLink(otherTerritory)
     if self.name ~= otherTerritory.name then
       self.linkedTerritories[otherTerritory.name] = otherTerritory
@@ -67,20 +75,16 @@ do --FDMMTerritory
     end
   end
 
-  --- Add FARP points.
-  -- @param #list<#table> farpPoints List of vec2 coordinates of FARPs (first of which ignored). 
-  function FDMMTerritory:addFARPPoints(farpPoints)
+  --- Add FARP to territory.
+  -- @param #FDMMFARP FARP object. 
+  function FDMMTerritory:addFARP(farp)
     -- TODO: This is currently a stand-in. Will expand out later. -NR
-    for idx, point in ipairs(farpPoints) do
-      if idx > 1 then
-        table.insert(self.farpPoints, point)
-      end
-    end
   end
 
-  --- Smokes territory polygon points (careful).
-  -- @param #string smokeColor Smoke color (e.g. SMOKECOLOR.Blue).
+  --- Smokes territory polygon points (careful - can cause a fair bit of lag for large territories).
+  -- @param Utilities.Utils#SMOKECOLOR smokeColor Optional smoke color, otherwise SMOKECOLOR.Blue.
   function FDMMTerritory:smokeBoundaries(smokeColor)
+    smokeColor = smokeColor or SMOKECOLOR.Blue
     local tol = 10000.0 / 25.0 -- ~25 flares per ~10000 distance
     local lastPoint3 = nil
     for idx, point in ipairs(self.polygonPoints) do
@@ -105,13 +109,15 @@ do --FDMMTerritory
       lastPoint3 = mist.utils.makeVec3(point)
     end
   end
+
 end --FDMMTerritory
 
 do --FDMM_Territory
 
-  -- Group Name Prefixes: TDEF_ TLNK_ TFRP_
-  -- WPList(TDEF_): WP1->centerPoint, WP2-WP(n-1)->polygonPoints, WP(n)->capturePoint
   --- Creates territories from mission group placements.
+  -- Layout:
+  --   GNPrefixes: TDEF_ TLNK_ TFRP_
+  --   WPList(TDEF_): WP1->centerPoint, WP2-WP(n-1)->polygonPoints, WP(n)->capturePoint
   function fdmm.territory.createTerritories()
     fdmm.territories = {
       [fdmm.enums.TerritoryType.Land] = {},
@@ -119,35 +125,22 @@ do --FDMM_Territory
       [fdmm.enums.TerritoryType.All] = {}
     }
     local terrGroups = {
-      [fdmm.consts.TerritoryPrefix.Define] = {},
-      [fdmm.consts.TerritoryPrefix.Link] = {},
-      [fdmm.consts.TerritoryPrefix.FARP] = {}
+      [fdmm.consts.TerritoryPrefix.Define] = fdmm.config.gpCache[fdmm.consts.TerritoryPrefix.Define] or {},
+      [fdmm.consts.TerritoryPrefix.Link] = fdmm.config.gpCache[fdmm.consts.TerritoryPrefix.Link] or {},
+      [fdmm.consts.TerritoryPrefix.FARP] = fdmm.config.gpCache[fdmm.consts.TerritoryPrefix.FARP] or {}
     }
 
-    -- TODO: Make a common container for these group prefix filters. -NF
-    for groupName, groupData in pairs(mist.DBs.groupsByName) do
-      if groupName:find('_') ~= nil then -- all prefixes end in _, so if no _ no checks need made
-        if groupName:find(fdmm.consts.TerritoryPrefix.Define) == 1 then
-          terrGroups[fdmm.consts.TerritoryPrefix.Define][groupName] = groupData
-        elseif groupName:find(fdmm.consts.TerritoryPrefix.Link) == 1 then
-          terrGroups[fdmm.consts.TerritoryPrefix.Link][groupName] = groupData
-        elseif groupName:find(fdmm.consts.TerritoryPrefix.FARP) == 1 then
-          terrGroups[fdmm.consts.TerritoryPrefix.FARP][groupName] = groupData
-        end
-      end
-    end
-
-    -- Process TDEF_
+    -- Process TerritoryPrefix.Define (TDEF_)
     for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryPrefix.Define]) do
-      local territory = FDMMTerritory(groupName, groupData)
+      local territory = FDMMTerritory.newFromGroup(groupName, groupData)
 
       fdmm.territories[territory.type][territory.name] = territory
       fdmm.territories.all[territory.name] = territory
     end
 
-    -- Process TLNK_
+    -- Process TerritoryPrefix.Link (TLNK_)
     for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryPrefix.Link]) do
-      local territoryName = groupName:sub(#fdmm.consts.TerritoryPrefix.Link + 1)
+      local territoryName = fdmm.utils.removeGroupingPrefix(groupName)
       local territory = fdmm.territories.all[territoryName]
 
       if territory ~= nil then
@@ -167,13 +160,15 @@ do --FDMM_Territory
       end
     end
 
-    -- Process TFRP_
+    -- Process TerritoryPrefix.FARP (TFRP_)
     for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryPrefix.FARP]) do
-      local territoryName = groupName:sub(#fdmm.consts.TerritoryPrefix.FARP + 1)
+      local territoryName = fdmm.utils.removeGroupingPrefix(groupName)
       local territory = fdmm.territories.all[territoryName]
 
       if territory ~= nil then
-        territory:addFARPPoints(mist.getGroupPoints(groupName))
+        for idx, point in ipairs(mist.getGroupPoints(groupName)) do
+          -- TODO: me.
+        end
       else
         env.error('Territory FARP for group \'' .. groupName .. '\' failed to find territory with same name.')
       end
@@ -181,8 +176,9 @@ do --FDMM_Territory
   end
 
   --- Calculates closest territory to provided point.
-  -- @param #table point Vec2 position.
-  -- @param #string territoryType Optional territory type filter.
+  -- @param DCS#Vec point Point position.
+  -- @param FDMM#Enum.TerritoryType territoryType Optional territory type filter.
+  -- @return FDMM#FDMMTerritory Closest territory to point.
   function fdmm.territory.closestTerritoryToPoint(point, territoryType)
     local point = mist.utils.makeVec2(point)
     local closestTerritory = nil
@@ -203,7 +199,7 @@ do --FDMM_Territory
     return closestTerritory
   end
 
-  --- Dump territories to debug log.
+  --- Dumps territories to debug log.
   function fdmm.territory.dumpTerritories()
     function _envInfoTerritory(territoryName, territory)
       env.info('    \'' .. territoryName .. '\':')
