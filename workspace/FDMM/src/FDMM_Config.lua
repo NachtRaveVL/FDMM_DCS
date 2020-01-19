@@ -61,7 +61,7 @@ do --FDMM_Config
     Sea = 'CSIN_'
   }
 
-  --- Creates group prefix cache from mission group placements.
+  --- Creates group prefix cache from initial mission group placements.
   function fdmm.config.createGPCache()
     fdmm.config.gpCache = {}
 

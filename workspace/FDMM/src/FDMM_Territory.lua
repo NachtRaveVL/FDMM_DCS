@@ -114,7 +114,7 @@ end --FDMMTerritory
 
 do --FDMM_Territory
 
-  --- Creates territories from mission group placements.
+  --- Creates territories from initial mission group placements.
   -- Layout:
   --   GNPrefixes: TDEF_ TLNK_ TFRP_
   --   WPList(TDEF_): WP1->centerPoint, WP2-WP(n-1)->polygonPoints, WP(n)->capturePoint

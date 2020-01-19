@@ -22,10 +22,13 @@ do --FDMM_MissionStart
   fdmm.config.createGPCache()
   fdmm.territory.createTerritories()
   --fdmm.territory.dumpTerritories()
-  --fdmm.territory.landTerritories.Tblisi:smokeBoundaries(SMOKECOLOR.Blue)
+  --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
 
   fdmm.cargoRoute.createCargoRoutes()
   --fdmm.cargoRoute.dumpCargoRoutes()
+  
+  fdmm.farp.createFARPs()
+  --fdmm.farp.dumpFARPs()
 
   trigger.action.outText('FDMM Started', 10)
 

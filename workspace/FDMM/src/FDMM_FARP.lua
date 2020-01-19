@@ -32,7 +32,7 @@ end --FDMMFARP
 
 do -- FDMM_FARP
 
-  --- Creates FARPs from mission group placements.
+  --- Creates FARPs from initial mission group placements.
   -- Layout:
   --   GNPrefixes: FARP_
   function fdmm.farp.createFARPs()

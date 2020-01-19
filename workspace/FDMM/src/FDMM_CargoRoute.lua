@@ -41,7 +41,7 @@ end --FDMMCargoRoute
 
 do -- FDMM_CargoRoute
 
-  --- Creates cargo routes from mission group placements.
+  --- Creates cargo routes from initial mission group placements.
   -- Layout:
   --   GNPrefixes: CVIN_ CTIN_ CAIN_ CSIN_ (V=Land, T=Train, A=Air, S=Sea)
   --   WPList (ALL): WP1->spawnPoint, WP2->ingressPoint, WH_<WHName>->WH dest, C[V|R]LK_<DIR>->TLNK dest
