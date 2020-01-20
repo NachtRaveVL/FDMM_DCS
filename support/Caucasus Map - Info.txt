@@ -1,0 +1,98 @@
+FDMM_Caucasus Map Info
+
+-------- Background --------
+
+This mission is set place in a fictional 2008 scene around the Russo-Georgian War.
+
+-------- Naval Units --------
+
+Note: The port instances of these ships are for port functions only and do not serve as actual force composition.
+
+---- Red ----
+
+Novorossiysk Naval Base = 1 carrier, 2 cruisers, 7 destroyers, 8 frigates, 6 corvettes
+Gelendzhik Naval Base = WIP
+
+30th Surface Ship Division = Moskva, Deyatelny, Bezukoriznenny, Bezzavetny, Razitelny, Pylkiy, Pytlivyk, Ladny
+4th Independent Submarine Brigade = B-871, B-380, B-498
+
+400th Anti-Submarine Warfare Battalion = MPK-5, MPK-6, MPK-8, MPK-43, MPK-52, MPK-127, MPK-147
+68th Coastal Defense Ship Brigade = Alexandrovets, Suzdalets, Muromets
+184th Coastal Defense Ship Brigade = Povorino, Eysk, Kasimov
+41th Missile Boat Brigade = R-46, R-60, R-109, R-160, R-239, Ivanovets
+
+Russia:
+  TRKR-080 Kalinin                - Cruiser (Override Command, Kalinin, 2006 renamed Admiral Nakhimov, 2006-2022 refit) (H#: 1988=180, 1989=064, 1990=085, 1994=080)
+  TAKR-063 Admiral Kuznetsov      - Carrier (Backup Command, 1990 comm) (H#: 1989=111, 1990=113, ?=082, ?=062, 1995=063)
+  GRKR-121 Moskva                 - Cruiser (Command, 1982 comm as Slava, 1995 renamed Moskva) (H#: 1983=126, 1983=108, 1984=103, 1987=106, 1990=121)
+  BPK-712 Neustrashimy            - Destroyer (ASW, 1990 comm) (H#: 1990=712, 2017=772)
+  DPL-554 В-871 Alrosa            - Sub (1990 comm) (H#: 1990=596, 1993=554)
+  DPL-572 Svyatoi Kniaz Georgy    - Sub (1982 comm as Gorkovsky Komsomolets, 1992 renamed B-380, 2008 renamed Svyatoi Kniaz Georgy, 2016 decomm) (H#: ?=594, 1990=572)
+  DPL-450 B-498                   - Sub (1975 comm, 1995 decomm) (H#: 1989=244, 1991=450)
+  SKR-811 Deyatelny               - Destroyer (ASW, 1975 comm, 1995 decomm) (H#: 1975=193, 1976=192, 1976=533, 1976=196, 1979=800, 1979=801, ?=810, 1984=814, 1986=813, 1992=811)
+  SKR-802 Bezukoriznenny          - Destroyer (ASW, 1979 comm, 1997 transferred to Ukraine as U-133 Nikolaev, 2000 decomm) (H#: 1978=811, 1981=813, 1985=820, 1987=807, 1989=888, 1990=802)
+  SKR-807 Bezzavetny              - Destroyer (ASW, 1977 comm, 1997 transferred to Ukraine as U-134 Dnipropetrovsk, 2000 decomm) (H#: ?=195, 1978=192, 1978=805, 1978=878, 1981=811, 1984=817, 1988=811, 1997=807)
+  SKR-819 Razitelny               - Destroyer (ASW, 1976 comm, 1997 transferred to Ukraine as U-132 Sevastopol, 2004 decomm) (H#: 1976=235, 1977=232, 1977=249, 1978=165, 1978=808, 1979=812, 1980=806, ?=195, ?=801, 1984=804, 1987=821, 1989=807, 1990=819)
+  SKR-702 Pylkiy                  - Destroyer (ASW, 1978 comm, 1993 transferred to Baltic Fleet, 2012 decomm) (H#: 1978=518, 1981=806, ?=810, ?=819, ?=813, 1982=807, 1984=808, 1985=758, 1987=809, 1988=807, 1993=702)
+  SKR-808 Pytlivy                 - Destroyer (ASW, 1981 comm) (H#: 1981=942, ?=916, 1981=751, 1982=759, 1982=888, 1984=826, 1988=889, 1990=808, 2016=868)
+  SKR-801 Ladny                   - Destroyer (ASW, 1981 comm) (H#: ?=802, 1981=815, 1986=824, 1990=801, 2016=861)
+  MPK-072 MPK-5                   - Frigate (ASW, 1970 comm, 1993 decomm) (H#: ?=060, ?=077, 1990=072)
+  MPK-073 MPK-6                   - Frigate (ASW, 1978 comm, 1998 decomm) (H#: 1978=059, 1990=073)
+  MPK-069 MPK-8                   - Frigate (ASW, 1973 comm, 1992 decomm) (H#: 1973=274, 1975=288, 1979=054, 1981=052, 1991=069)
+  MPK-075 MPK-43                  - Frigate (ASW, 1974 comm as MKP-43, 1983 renamed Odesskiy komsomolets, 1992 renamed MKP-43, 1997 transferred to Ukraine as U-210 Kherson, 1999 decomm) (H#: 1975=274, 1976=297, 1979=092, 1981=081, 1983=054, ?=052, 1991=075)
+  MPK-059 Alexandrovets           - Frigate (ASW, 1982 comm as MPK-49, 2004 renamed Alexandrovets) (H#: 1987=057, 1989=082, 1990=059)
+  MPK-068 MPK-52                  - Frigate (ASW, 1971 comm, 1997 transferred to Ukraine as U-209 Sumy, 1999 decomm) (H#: 1973=198, ?=190, ?=057, 1992=068)
+  MPK-071 Suzdalets               - Frigate (ASW, 1983 comm as Komsomolets Moldavii, 1992 renamed MPK-118, 1999 renamed Suzdalets) (H#: 1983=053, 1990=071)
+  MPK-078 MPK-127                 - Frigate (ASW, 1976 comm as MPK-127, 1980 renamed Komsomolets Gruzii, 1992 renamed MPK-127, 2005 decomm) (H#: ?=059, 1989=084, 1990=078)
+  MPK-064 Muromets                - Frigate (ASW, 1982 comm as Kievskiy komsomolets, 1992 renamed MPK-134, 1999 renamed Muromets) (H#: 1983=085, 1985=073, 1987=061, 1989=064)
+  MPK-070 MPK-147                 - Frigate (ASW, 1970 comm, 1994 decomm) (H#: 1971=279, 1973=277, ?=274, ?=287, 1981=061, 1988=071, 1992=070)
+  MPK-055 Kasimov                 - Frigate (ASW, 1986 comm as Komsomolets Armenii, 1992 renamed MPK-199, 2001 renamed Kasimov) (H#: 1990=055)
+  MPK-053 Povorino                - Frigate (ASW, 1989 comm as MPK-207, 1999 renamed Povorino) (H#: 1989=093, 1990=053)
+  MPK-054 Eysk                    - Frigate (ASW, 1989 comm as MPK-217, 1999 renamed Eysk) (H#: 1989=094, 1990=054)
+  RKA-960 R-46                    - Corvette (Missile Boat, 1981 comm, 1994 decomm) (H#: 1984=948, 1986=957, 1990=960)
+  RKA-955 R-60                    - Corvette (Missile Boat, 1987 comm, 2005 refit) (H#: 1988=970, ?=953, 1990=955)
+  RKA-952 R-109                   - Corvette (Missile Boat, 1990 comm) (H#: 1996=952)
+  RKA-054 R-160                   - Corvette (Missile Boat, 1988 comm, 1990 renamed Poltavskiy komsomolets, 1992 renamed R-160, 2018 decomm) (H#: 1987=870, 1988=965, 1991=709, 1997=700, 2004=054)
+  RKA-953 R-239                   - Corvette (Missile Boat, 1992 comm, 2018 renamed R-239 Naberezhnye Chelny) (H#: 1989=973, 1990=953)
+  RKA-954 Ivanovets               - Corvette (Missile Boat, 1989 comm as R-334, 1998 renamed Ivanovets) (H#: 1990=954)
+
+China:
+  WIP
+
+---- Blue ----
+
+Batumi Naval Base = 1 carrier, 1 heli-carrier, 2 cruiser, 7 destroyers
+Boti Naval Base = 1 frigate, 3 corvette
+Hopa Naval Base = 4 destroyer
+Sevastopol Naval Base = 1 destroyer, 2 frigate, 1 corvette
+
+USA:
+  LCC-20 USS Mount Whitney          - Helicopter Carrier (Command)
+  CVN-71 USS Theodore Roosevelt     - Carrier (Backup Command, note: different eras may see different ship names)
+  CG-48 USS Yorktown                - Cruiser (note: availability may be limited to pre-2008)
+  CG-72 USS Vella Gulf              - Cruiser (note: availability may be limited to post-2008)
+  DDG-75 USS Donald Cook            - Destroyer
+  DDG-71 USS Ross                   - Destroyer
+  DDG-64 USS Carney                 - Destroyer
+  DDG-78 USS Porter                 - Destroyer
+  FFG-50 USS Taylor                 - Destroyer
+  AGF-11 USS Coronado               - Frigate (Backup Command, note: availability may be limited to post-2007)
+  AGF-3 USS La Salle                - Frigate (Backup Command, note: availability may be limited to pre-2007)
+
+Georgia:
+  P-303 Dioskuria                   - Frigate (Command, no missiles)
+  P-205 Batumi                      - Corvette (Missile Boat)
+  P-206 Tbilisi                     - Corvette (Missile Boat)
+  P-21 Georgy Toreli                - Corvette (Patrol Boat)
+
+Turkey:
+  F-492 TCG Gemlik                  - Destroyer (Command)
+  F-490 TCG Gaziantep               - Destroyer
+  F-496 TCG Gökova                  - Destroyer
+  F-494 TCG Gökçeada                - Destroyer
+
+Ukraine:
+  U-130 Hetman Sahaydachniy         - Destroyer (Command)
+  U-206 Vinnytsia                   - Frigate
+  U-205 Chernigov                   - Frigate
+  U-153 Pryluky                     - Corvette (Missile Boat)
