@@ -12,7 +12,7 @@ do --FDMM_MOOSEAdditions
   -- Useful for when comparing distances, in which the square root operation isn't necessary.
   -- @param DCS#Vec2 point1 First point.
   -- @param DCS#Vec2 point2 Second point.
-  -- @return Distance in meters squared.
+  -- @return DCS#Distance Distance in meters squared.
   function routines.utils.get2DDistSqrd(point1, point2)
     if point1.z ~= nil then point1 = routines.utils.makeVec2(point1) end
     if point2.z ~= nil then point2 = routines.utils.makeVec2(point2) end
@@ -24,7 +24,7 @@ do --FDMM_MOOSEAdditions
   -- Useful for when comparing distances, in which the square root operation isn't necessary.
   -- @param DCS#Vec3 point1 First point.
   -- @param DCS#Vec3 point2 Second point.
-  -- @return Distance in meters squared.
+  -- @return DCS#Distance Distance in meters squared.
   function routines.utils.get3DDistSqrd(point1, point2)
     if point1.z == nil then point1 = routines.utils.makeVec3(point1) end
     if point2.z == nil then point2 = routines.utils.makeVec3(point2) end
@@ -35,7 +35,7 @@ do --FDMM_MOOSEAdditions
   -- Gets magnitude of vector in meters squared.
   -- Useful for when comparing distances, in which the square root operation isn't necessary.
   -- @param DCS#Vec vec Vector.
-  -- @return Magnitude in meters squared.
+  -- @return DCS#Distance Magnitude in meters squared.
   routines.vec.magSqrd = function(vec)
     return (vec.x * vec.x) + (vec.y * vec.y) + ((vec.z or 0) * (vec.z or 0))
   end

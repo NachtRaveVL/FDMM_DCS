@@ -9,6 +9,7 @@ fdmm = {}
 
 -- Master include listing
 require('FDMM_Config')
+require('FDMM_LuaAdditions')
 require('FDMM_MISTAdditions')
 require('FDMM_MOOSEAdditions')
 require('FDMM_Utils')
@@ -26,7 +27,7 @@ do --FDMM_MissionStart
 
   fdmm.cargoRoute.createCargoRoutes()
   --fdmm.cargoRoute.dumpCargoRoutes()
-  
+
   fdmm.farp.createFARPs()
   --fdmm.farp.dumpFARPs()
 

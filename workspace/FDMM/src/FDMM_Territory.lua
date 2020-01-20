@@ -25,11 +25,8 @@ do --FDMMTerritory
   function FDMMTerritory.newFromGroup(groupName, groupData)
     local self = setmetatable({}, FDMMTerritory)
 
-    self.groupName = groupName
-    self.groupData = groupData or mist.DBs.groupsByName[groupName]
-
     self.name = fdmm.utils.removeGroupingPrefix(groupName)
-    if self.groupData.category == mist.DBs.Category.Ship then
+    if groupData.category == mist.DBs.Category.Ship then
       self.type = fdmm.enums.TerritoryType.Sea
     else
       self.type = fdmm.enums.TerritoryType.Land
@@ -151,12 +148,12 @@ do --FDMM_Territory
             if closestTerritory ~= nil then
               territory:addTerritoryLink(closestTerritory)
             else
-              env.error('Territory link for group \'' .. groupName .. '\' failed to find a closest territory at index ' .. idx .. '.')
+              env.error('Territory linkage group \'' .. groupName .. '\' failed to find a closest territory at WP index ' .. idx .. '.')
             end
           end
         end
       else
-        env.error('Territory link for group \'' .. groupName .. '\' failed to find territory with same name.')
+        env.error('Territory linkage group \'' .. groupName .. '\' failed to find territory with same name.')
       end
     end
 
@@ -170,7 +167,7 @@ do --FDMM_Territory
           -- TODO: me.
         end
       else
-        env.error('Territory FARP for group \'' .. groupName .. '\' failed to find territory with same name.')
+        env.error('Territory FARP group \'' .. groupName .. '\' failed to find territory with same name.')
       end
     end
   end

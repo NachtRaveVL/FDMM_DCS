@@ -24,8 +24,11 @@ do --FDMMFARP
   -- @return New instance of FDMMFARP.
   function FDMMFARP.new(name, territory)
     local self = setmetatable({}, FDMMFARP)
+
     self.name = name
     self.territory = territory
+
+    return self
   end
 
 end --FDMMFARP

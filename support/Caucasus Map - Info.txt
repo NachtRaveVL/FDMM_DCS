@@ -2,7 +2,10 @@ FDMM_Caucasus Map Info
 
 -------- Background --------
 
-This mission is set place in a fictional 2008 scene around the Russo-Georgian War.
+This mission is set place in a fictional 2008 scene around the Russo-Georgian War, although the exact era can be switched.
+
+Eras: WIP
+
 
 -------- Naval Units --------
 
@@ -22,7 +25,7 @@ Gelendzhik Naval Base = WIP
 41th Missile Boat Brigade = R-46, R-60, R-109, R-160, R-239, Ivanovets
 
 Russia:
-  TRKR-080 Kalinin                - Cruiser (Override Command, Kalinin, 2006 renamed Admiral Nakhimov, 2006-2022 refit) (H#: 1988=180, 1989=064, 1990=085, 1994=080)
+  TRKR-080 Kalinin                - Battlecruiser (Override Command, Kalinin, 2006 renamed Admiral Nakhimov, 2006-2022 refit) (H#: 1988=180, 1989=064, 1990=085, 1994=080)
   TAKR-063 Admiral Kuznetsov      - Carrier (Backup Command, 1990 comm) (H#: 1989=111, 1990=113, ?=082, ?=062, 1995=063)
   GRKR-121 Moskva                 - Cruiser (Command, 1982 comm as Slava, 1995 renamed Moskva) (H#: 1983=126, 1983=108, 1984=103, 1987=106, 1990=121)
   BPK-712 Neustrashimy            - Destroyer (ASW, 1990 comm) (H#: 1990=712, 2017=772)
