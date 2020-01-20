@@ -6001,6 +6001,8 @@ do -- group tasks scope
 													local routeData = {}
 													if env.mission.version > 7 then -- NachtRaveVL
 														routeData.name = env.getValueDictByKey(point.name)
+													else
+														routeData.name = point.name
 													end
 													if not point.point then
 														routeData.x = point.x
