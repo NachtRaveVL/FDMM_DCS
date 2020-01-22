@@ -9,7 +9,7 @@ return __DISTILLER.__nativeRequire(e)end,define=function(i,e,n)assert(type(e)=="
 i.FACTORIES[e]=n
 else
 print("[__DISTILLER::define] module "..tostring(e).." is already defined")end
-end,exec=function(e,n)local e=e.FACTORIES[n]assert(e,"missing factory method for id "..tostring(n))e(__DISTILLER.require)end}end
+end,exec=function(n,e)local n=n.FACTORIES[e]assert(n,"missing factory method for id "..tostring(e))n(__DISTILLER.require)end}end
 __DISTILLER:define("FDMM_Config",function(e)env.info("---FDMM_Config Start---");fdmm.majorVersion=0
 fdmm.minorVersion=2
 fdmm.build=1
@@ -53,18 +53,18 @@ return false
 end
 end
 env.info('---FDMM_LuaAdditions End---')end)__DISTILLER:define("FDMM_MISTAdditions",function(e)env.info('---FDMM_MISTAdditions Start---')assert(mist,'MIST not initialized.')do
-mist.DBs.Category={Vehicle='vehicle',Ship='ship',Plane='plane',Helicopter='helicopter',Building='building',Unknown='unknown'}function mist.utils.get2DDistSqrd(n,e)if n.z~=nil then n=mist.utils.makeVec2(n)end
-if e.z~=nil then e=mist.utils.makeVec2(e)end
-return mist.vec.magSqrd({x=n.x-e.x,y=n.y-e.y})end
-function mist.utils.get3DDistSqrd(e,n)if e.z==nil then e=mist.utils.makeVec3(e)end
-if n.z==nil then n=mist.utils.makeVec3(n)end
-return mist.vec.magSqrd({x=e.x-n.x,y=e.y-n.y,z=e.z-n.z})end
+mist.DBs.Category={Vehicle='vehicle',Ship='ship',Plane='plane',Helicopter='helicopter',Building='building',Unknown='unknown'}function mist.utils.get2DDistSqrd(e,n)if e.z~=nil then e=mist.utils.makeVec2(e)end
+if n.z~=nil then n=mist.utils.makeVec2(n)end
+return mist.vec.magSqrd({x=e.x-n.x,y=e.y-n.y})end
+function mist.utils.get3DDistSqrd(n,e)if n.z==nil then n=mist.utils.makeVec3(n)end
+if e.z==nil then e=mist.utils.makeVec3(e)end
+return mist.vec.magSqrd({x=n.x-e.x,y=n.y-e.y,z=n.z-e.z})end
 mist.vec.magSqrd=function(e)return(e.x*e.x)+(e.y*e.y)+((e.z or 0)*(e.z or 0))end
 end
 env.info('---FDMM_MISTAdditions End---')end)__DISTILLER:define("FDMM_MOOSEAdditions",function(e)env.info('---FDMM_MOOSEAdditions Start---')assert(routines,'MOOSE not initialized.')do
-function routines.utils.get2DDistSqrd(n,e)if n.z~=nil then n=routines.utils.makeVec2(n)end
-if e.z~=nil then e=routines.utils.makeVec2(e)end
-return routines.vec.magSqrd({x=n.x-e.x,y=n.y-e.y})end
+function routines.utils.get2DDistSqrd(e,n)if e.z~=nil then e=routines.utils.makeVec2(e)end
+if n.z~=nil then n=routines.utils.makeVec2(n)end
+return routines.vec.magSqrd({x=e.x-n.x,y=e.y-n.y})end
 function routines.utils.get3DDistSqrd(e,n)if e.z==nil then e=routines.utils.makeVec3(e)end
 if n.z==nil then n=routines.utils.makeVec3(n)end
 return routines.vec.magSqrd({x=e.x-n.x,y=e.y-n.y,z=e.z-n.z})end
@@ -100,10 +100,10 @@ end
 end
 return nil
 end
-function fdmm.utils.removeNumericSuffix(n)local e=fdmm.utils.getNumericSuffix(n)if e~=nil then
-return n:sub(1,-#e-1),e
+function fdmm.utils.removeNumericSuffix(e)local n=fdmm.utils.getNumericSuffix(e)if n~=nil then
+return e:sub(1,-#n-1),n
 end
-return n,nil
+return e,nil
 end
 function fdmm.utils.getGroupingSuffix(e)if e then
 local n=e:reverse():find('_')if n~=nil then
@@ -122,10 +122,18 @@ e=fdmm.utils.removeNumericSuffix(e)e,n=fdmm.utils.removeGroupingPrefix(e)e,i=fdm
 end
 return nil,nil,nil
 end
+function fdmm.utils.getGroupingComponentsWithSNC(e,r,t)local i,e,n=fdmm.utils.getGroupingComponents(e)if string.isEmpty(i)and table.contains(r or{},(e..'_'))then
+i=(e..'_')e=nil
+elseif string.isEmpty(n)and table.contains(t or{},('_'..e))then
+n=('_'..e)e=nil
+end
+return i,e,n
+end
+function fdmm.utils.makePos2FromRP(e)return{x=e.x or e.point.x,y=e.y or e.point.y}end
 function fdmm.utils.getFaction(e)if e then
-e=fdmm.utils.removeNumericSuffix(e)for i,n in pairs(fdmm.enums.Faction)do
-if n:lower()==e:lower()then
-return i
+e=fdmm.utils.removeNumericSuffix(e)for n,i in pairs(fdmm.enums.Faction)do
+if i:lower()==e:lower()then
+return n
 end
 end
 end
@@ -167,14 +175,14 @@ local s=10000./25.
 local n=nil
 for e,o in ipairs(self.polygonPoints)do
 if e>1 then
-local e=mist.utils.makeVec3(o)local e=mist.vec.sub(e,n)local t=mist.vec.mag(e)local o=mist.vec.scalarMult(e,1./t)local e=1
-local r=t/e
-while r>s do
+local e=mist.utils.makeVec3(o)local e=mist.vec.sub(e,n)local r=mist.vec.mag(e)local o=mist.vec.scalarMult(e,1./r)local e=1
+local t=r/e
+while t>s do
 e=e+1
-r=t/e
+t=r/e
 end
 while e>=0 do
-local r=mist.vec.scalarMult(o,e*r)local n=mist.vec.add(n,r);COORDINATE:NewFromVec2(mist.utils.makeVec2(n)):Smoke(i)e=e-1
+local r=mist.vec.scalarMult(o,e*t)local n=mist.vec.add(n,r);COORDINATE:NewFromVec2(mist.utils.makeVec2(n)):Smoke(i)e=e-1
 end
 end
 n=mist.utils.makeVec3(o)end
@@ -187,11 +195,11 @@ fdmm.territories.all[e.name]=e
 end
 for e,n in pairs(n[fdmm.consts.TerritoryPrefix.Link])do
 local n=fdmm.utils.removeGroupingPrefix(e)local n=fdmm.territories.all[n]if n~=nil then
-for i,r in ipairs(mist.getGroupPoints(e))do
-if i>1 then
-local r=fdmm.territory.closestTerritoryToPoint(r,n.type)if r~=nil then
-n:addTerritoryLink(r)else
-env.error("Territory linkage group '"..e.."' failed to find a closest territory at WP index "..i..'.')end
+for r,i in ipairs(mist.getGroupPoints(e))do
+if r>1 then
+local i=fdmm.territory.closestTerritoryToPoint(i,n.type)if i~=nil then
+n:addTerritoryLink(i)else
+env.error("Territory linkage group '"..e.."' failed to find a closest territory at WP index "..r..'.')end
 end
 end
 else
@@ -219,10 +227,10 @@ end
 function fdmm.territory.dumpTerritories()function _envInfoTerritory(n,e)env.info("    '"..n.."':")env.info('      '..'centerPoint: '..fdmm.utils.pos2ToLoggableString(e.centerPoint))env.info('      '..'capturePoint: '..fdmm.utils.pos2ToLoggableString(e.capturePoint))for e,n in pairs(e.linkedTerritories)do
 env.info('      '.."Linked /w: '"..e.."'.")end
 end
-env.info('--FDMM Territories Dump--')env.info('  Sea Territories:')for e,n in pairs(fdmm.territories.sea)do
-_envInfoTerritory(e,n)end
-env.info('  Land Territories:')for e,n in pairs(fdmm.territories.land)do
-_envInfoTerritory(e,n)end
+env.info('--FDMM Territories Dump--')env.info('  Sea Territories:')for n,e in pairs(fdmm.territories.sea)do
+_envInfoTerritory(n,e)end
+env.info('  Land Territories:')for n,e in pairs(fdmm.territories.land)do
+_envInfoTerritory(n,e)end
 end
 end
 env.info('---FDMM_Territory End---')end)__DISTILLER:define("FDMM_Port",function(e)env.info('---FDMM_Port Start---')fdmm.port={}do
@@ -243,9 +251,9 @@ setmetatable(FDMMCargoRoute,{__call=function(e,...)return e.new(...)end,})functi
 e.routeType=n
 e.startLocations={}e.warehouseLocations={}e.directionalLinks={}return e
 end
-function FDMMCargoRoute:addStartLocation(n,i,e)table.insert(self.startLocations,{spawnFaction=n,spawnPoint=i,egressPoints=e or{}})end
+function FDMMCargoRoute:addStartLocation(e,n,i)table.insert(self.startLocations,{spawnFaction=e,spawnPoint=n,egressPoints=i or{}})end
 function FDMMCargoRoute:addWarehouseLocation(e,n,i)table.insert(self.warehouseLocations,{warehouseName=e,warehousePoint=n,ingressPoints=i or{}})end
-function FDMMCargoRoute:addDirectionalLink(n,e,i)table.insert(self.directionalLinks,{directionName=n,navigationPoint=e,ingressPoints=i or{}})end
+function FDMMCargoRoute:addDirectionalLink(i,n,e)table.insert(self.directionalLinks,{directionName=i,navigationPoint=n,ingressPoints=e or{}})end
 function FDMMCargoRoute:getOutboundRouteFromSpawn(e)end
 function FDMMCargoRoute:getInboundRouteToWarehouse(e)end
 function FDMMCargoRoute:getOutboundRouteFromWarehouse(e)end
@@ -254,68 +262,61 @@ end
 do
 function fdmm.cargoRoute.createCargoRoutes()fdmm.cargoRoutes={}for e,n in pairs(fdmm.territories.all)do
 fdmm.cargoRoutes[e]={[fdmm.enums.CargoRouteType.Land]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Land),[fdmm.enums.CargoRouteType.Train]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Train),[fdmm.enums.CargoRouteType.Air]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Air),[fdmm.enums.CargoRouteType.Sea]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Sea)}end
-local m={[fdmm.consts.CargoRoutePrefix.Land]=fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Land]or{},[fdmm.consts.CargoRoutePrefix.Train]=fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Train]or{},[fdmm.consts.CargoRoutePrefix.Air]=fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Air]or{},[fdmm.consts.CargoRoutePrefix.Sea]=fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Sea]or{}}function _makePos2FromRP(e)return{x=e.x or e.point.x,y=e.y or e.point.y}end
-function _processGroup(r,e,n,m)local i=fdmm.utils.removeNumericSuffix(fdmm.utils.removeGroupingPrefix(r))local t=fdmm.territories.all[i]if t~=nil then
-local s=fdmm.cargoRoutes[i][n]local u=mist.getGroupRoute(r,false)local f=fdmm.utils.getFaction(string.notEmptyElse(e.units[1].unitName,e.country))local i=nil
-local a={Spawn='spawn',Warehouse='warehouse',Linkage='linkage'}local e,o,t=nil,nil,{}function _updateScanner(d,m)if i~=d or e~=m then
-if i then
-if i==a.Spawn then
-if string.isNotEmpty(f)and o and t then
-s:addStartLocation(f,o,t)else
-env.error('Cargo '..n.." routing group '"..r.."' failed to parse spawn route '"..(e or'<nil>').."'.")end
-elseif i==a.Warehouse then
-if string.isNotEmpty(e)and o and t then
-s:addWarehouseLocation(e,o,t)else
-env.error('Cargo '..n.." routing group '"..r.."' failed to parse warehouse route '"..(e or'<nil>').."'.")end
-elseif i==a.Linkage then
-if string.isNotEmpty(e)and o and t then
-s:addDirectionalLink(e,o,t)else
-env.error('Cargo '..n.." routing group '"..r.."' failed to parse linkage route '"..(e or'<nil>').."'.")end
+local a={[fdmm.consts.CargoRoutePrefix.Land]=fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Land]or{},[fdmm.consts.CargoRoutePrefix.Train]=fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Train]or{},[fdmm.consts.CargoRoutePrefix.Air]=fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Air]or{},[fdmm.consts.CargoRoutePrefix.Sea]=fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Sea]or{}}function _processGroup(i,r,n)local e=fdmm.utils.removeNumericSuffix(fdmm.utils.removeGroupingPrefix(i))local t=fdmm.territories.all[e]if t~=nil then
+local a=fdmm.cargoRoutes[e][n]local u=mist.getGroupRoute(i,false)local f=fdmm.utils.getFaction(string.notEmptyElse(r.units[1].unitName,r.country))local m=n:upperFirst()local s=nil
+local o={Spawn='spawn',Warehouse='warehouse',Linkage='linkage'}local e,t,r=nil,nil,{}function _updateScanner(d,m)if s~=d or e~=m then
+if s then
+if s==o.Spawn then
+if string.isNotEmpty(f)and t and r then
+a:addStartLocation(f,t,r)else
+env.error('Cargo '..n.." routing group '"..i.."' failed to parse spawn route '"..(e or'<nil>').."'.")end
+elseif s==o.Warehouse then
+if string.isNotEmpty(e)and t and r then
+a:addWarehouseLocation(e,t,r)else
+env.error('Cargo '..n.." routing group '"..i.."' failed to parse warehouse route '"..(e or'<nil>').."'.")end
+elseif s==o.Linkage then
+if string.isNotEmpty(e)and t and r then
+a:addDirectionalLink(e,t,r)else
+env.error('Cargo '..n.." routing group '"..i.."' failed to parse linkage route '"..(e or'<nil>').."'.")end
 else
-env.error('Cargo '..n.." routing group '"..r.."' encountered unrecognized scan mode '"..d.."'.")end
-e,o,t=nil,nil,{}end
-i=d
+env.error('Cargo '..n.." routing group '"..i.."' encountered unrecognized scan mode '"..d.."'.")end
+e,t,r=nil,nil,{}end
+s=d
 e=m
 end
 end
-for f,i in ipairs(u)do
-if string.isNotEmpty(i.name)then
-local d,e,s=fdmm.utils.getGroupingComponents(i.name)if string.isEmpty(d)and(e..'_')==fdmm.consts.CargoRoutePrefix[n:upperFirst()]then
-d=(e..'_')e=nil
-elseif string.isEmpty(s)and table.contains(fdmm.consts.RouteSuffix,('_'..e))then
-s=('_'..e)e=nil
-end
-if d==fdmm.consts.CargoRoutePrefix[n:upperFirst()]then
+for a,e in ipairs(u)do
+if string.isNotEmpty(e.name)then
+local f,d,s=fdmm.utils.getGroupingComponentsWithSNC(e.name,fdmm.consts.CargoRoutePrefix,fdmm.consts.RouteSuffix)if f==fdmm.consts.CargoRoutePrefix[m]then
 if s==fdmm.consts.RouteSuffix.SpawnPoint then
-_updateScanner(a.Spawn,e)o=_makePos2FromRP(i)elseif s==fdmm.consts.RouteSuffix.EgressPoint then
-_updateScanner(a.Spawn,e)table.insert(t,_makePos2FromRP(i))elseif string.isEmpty(e)and string.isEmpty(s)then
-else
-env.error('Cargo '..n.." routing group '"..r.."' unknown spawn WP '"..i.name.."' at WP index "..f..'.')end
-elseif d==m.Warehouse then
+_updateScanner(o.Spawn,d)t=fdmm.utils.makePos2FromRP(e)elseif s==fdmm.consts.RouteSuffix.EgressPoint then
+_updateScanner(o.Spawn,d)table.insert(r,fdmm.utils.makePos2FromRP(e))elseif not(string.isEmpty(d)and string.isEmpty(s))then
+env.error('Cargo '..n.." routing group '"..i.."' unknown spawn WP '"..e.name.."' at WP index "..a..'.')end
+elseif f==fdmm.consts.CargoRouteLocPrefix[m].Warehouse then
 if string.isEmpty(s)then
-_updateScanner(a.Warehouse,e)o=_makePos2FromRP(i)elseif s==fdmm.consts.RouteSuffix.IngressPoint then
-_updateScanner(a.Warehouse,e)table.insert(t,_makePos2FromRP(i))else
-env.error('Cargo '..n.." routing group '"..r.."' unknown warehouse WP '"..i.name.."' at WP index "..f..'.')end
-elseif d==m.Linkage then
+_updateScanner(o.Warehouse,d)t=fdmm.utils.makePos2FromRP(e)elseif s==fdmm.consts.RouteSuffix.IngressPoint then
+_updateScanner(o.Warehouse,d)table.insert(r,fdmm.utils.makePos2FromRP(e))elseif not(string.isEmpty(d)and string.isEmpty(s))then
+env.error('Cargo '..n.." routing group '"..i.."' unknown warehouse WP '"..e.name.."' at WP index "..a..'.')end
+elseif f==fdmm.consts.CargoRouteLocPrefix[m].Linkage then
 if string.isEmpty(s)then
-_updateScanner(a.Linkage,e)o=_makePos2FromRP(i)elseif s==fdmm.consts.RouteSuffix.IngressPoint then
-_updateScanner(a.Linkage,e)table.insert(t,_makePos2FromRP(i))else
-env.error('Cargo '..n.." routing group '"..r.."' unknown linkage WP '"..i.name.."' at WP index "..f..'.')end
+_updateScanner(o.Linkage,d)t=fdmm.utils.makePos2FromRP(e)elseif s==fdmm.consts.RouteSuffix.IngressPoint then
+_updateScanner(o.Linkage,d)table.insert(r,fdmm.utils.makePos2FromRP(e))elseif not(string.isEmpty(d)and string.isEmpty(s))then
+env.error('Cargo '..n.." routing group '"..i.."' unknown linkage WP '"..e.name.."' at WP index "..a..'.')end
 else
-env.error('Cargo '..n.." routing group '"..r.."' unknown routing WP '"..i.name.."' at WP index "..f..'.')end
+env.error('Cargo '..n.." routing group '"..i.."' unknown routing WP '"..e.name.."' at WP index "..a..'.')end
 end
 end
 _updateScanner(nil,nil)else
-env.error('Cargo '..n.." routing group '"..r.."' failed to find territory with same name.")end
+env.error('Cargo '..n.." routing group '"..i.."' failed to find territory with same name.")end
 end
-for e,n in pairs(m[fdmm.consts.CargoRoutePrefix.Land])do
-_processGroup(e,n,fdmm.enums.CargoRouteType.Land,fdmm.consts.CargoRouteLocPrefix.Land)end
-for e,n in pairs(m[fdmm.consts.CargoRoutePrefix.Train])do
-_processGroup(e,n,fdmm.enums.CargoRouteType.Train,fdmm.consts.CargoRouteLocPrefix.Train)end
-for n,e in pairs(m[fdmm.consts.CargoRoutePrefix.Air])do
-_processGroup(n,e,fdmm.enums.CargoRouteType.Air,fdmm.consts.CargoRouteLocPrefix.Air)end
-for e,n in pairs(m[fdmm.consts.CargoRoutePrefix.Sea])do
-_processGroup(e,n,fdmm.enums.CargoRouteType.Sea,fdmm.consts.CargoRouteLocPrefix.Sea)end
+for n,e in pairs(a[fdmm.consts.CargoRoutePrefix.Land])do
+_processGroup(n,e,fdmm.enums.CargoRouteType.Land)end
+for n,e in pairs(a[fdmm.consts.CargoRoutePrefix.Train])do
+_processGroup(n,e,fdmm.enums.CargoRouteType.Train)end
+for e,n in pairs(a[fdmm.consts.CargoRoutePrefix.Air])do
+_processGroup(e,n,fdmm.enums.CargoRouteType.Air)end
+for e,n in pairs(a[fdmm.consts.CargoRoutePrefix.Sea])do
+_processGroup(e,n,fdmm.enums.CargoRouteType.Sea)end
 end
 end
 env.info('---FDMM_CargoRoute End---')end)__DISTILLER:define("FDMM_MissionStart.lua_distilled",function(e)env.info('---FDMM_MissionStart Start---')env.setErrorMessageBoxEnabled(false)fdmm={}e('FDMM_Config')e('FDMM_LuaAdditions')e('FDMM_MISTAdditions')e('FDMM_MOOSEAdditions')e('FDMM_Utils')e('FDMM_Territory')e('FDMM_Port')e('FDMM_FARP')e('FDMM_CargoRoute')do

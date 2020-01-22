@@ -117,6 +117,33 @@ do --FDMM_Utils
     return nil, nil, nil
   end
 
+  --- Separates out the FDMM grouping components from a string name (after removing numeric suffix), while also handling short-naming conventions.
+  -- @param #string name Name string.
+  -- @param #table knownPrefixes Table (or list) of known prefixes to handle short-naming for.
+  -- @param #table knownSuffixes Table (or list) of known suffixes to handle short-naming for.
+  -- @return #string,#string,#string Tuple of grouping prefix, stripped name, and grouping suffix.
+  function fdmm.utils.getGroupingComponentsWithSNC(name, knownPrefixes, knownSuffixes)
+    local prefix, name, suffix = fdmm.utils.getGroupingComponents(name)
+
+    -- Check if the name is really a prefix or suffix.
+    if string.isEmpty(prefix) and table.contains(knownPrefixes or {}, (name .. '_')) then
+      prefix = (name .. '_')
+      name = nil
+    elseif string.isEmpty(suffix) and table.contains(knownSuffixes or {}, ('_' .. name)) then
+      suffix = ('_' .. name)
+      name = nil
+    end
+
+    return prefix, name, suffix
+  end
+
+  --- Makes a 2D position vector from a group route point.
+  -- @param DCS#RoutePoint routePoint Route point.
+  -- @return DCS#Vec2 Position vector.
+  function fdmm.utils.makePos2FromRP(routePoint)
+    return { x = routePoint.x or routePoint.point.x, y = routePoint.y or routePoint.point.y }
+  end
+
   --- Gets the faction enum from a string name.
   -- @param #string name Name string.
   -- @return #Enums.Faction Faction enumeration, otherwise Faction.Unused if unable to determine.

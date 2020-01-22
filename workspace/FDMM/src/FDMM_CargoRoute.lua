@@ -116,10 +116,8 @@ do -- FDMM_CargoRoute
       [fdmm.consts.CargoRoutePrefix.Air] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Air] or {},
       [fdmm.consts.CargoRoutePrefix.Sea] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Sea] or {}
     }
-    function _makePos2FromRP(routePoint)
-      return { x = routePoint.x or routePoint.point.x, y = routePoint.y or routePoint.point.y }
-    end
-    function _processGroup(groupName, groupData, routeType, locPrefixes)
+
+    function _processGroup(groupName, groupData, routeType)
       local territoryName = fdmm.utils.removeNumericSuffix(fdmm.utils.removeGroupingPrefix(groupName))
       local territory = fdmm.territories.all[territoryName]
 
@@ -127,6 +125,7 @@ do -- FDMM_CargoRoute
         local cargoRoute = fdmm.cargoRoutes[territoryName][routeType]
         local groupRoute = mist.getGroupRoute(groupName, false)
         local routeFaction = fdmm.utils.getFaction(string.notEmptyElse(groupData.units[1].unitName, groupData.country))
+        local RouteType = routeType:upperFirst()
 
         -- Scanner for parsing WP list
         local scanMode = nil
@@ -168,47 +167,39 @@ do -- FDMM_CargoRoute
 
         for idx, routePoint in ipairs(groupRoute) do
           if string.isNotEmpty(routePoint.name) then -- only worried about named WPs
-            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponents(routePoint.name)
+            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.CargoRoutePrefix, fdmm.consts.RouteSuffix)
 
-            -- Allowing some degree of flexibility here.
-            if string.isEmpty(wpPrefix) and (wpName .. '_') == fdmm.consts.CargoRoutePrefix[routeType:upperFirst()] then
-              wpPrefix = (wpName .. '_')
-              wpName = nil
-            elseif string.isEmpty(wpSuffix) and table.contains(fdmm.consts.RouteSuffix, ('_' .. wpName)) then
-              wpSuffix = ('_' .. wpName)
-              wpName = nil
-            end
-
-            if wpPrefix == fdmm.consts.CargoRoutePrefix[routeType:upperFirst()] then
+            if wpPrefix == fdmm.consts.CargoRoutePrefix[RouteType] then
+              -- WPs /w prefix C[V|T|A|S]RT_
               if wpSuffix == fdmm.consts.RouteSuffix.SpawnPoint then
                 _updateScanner(ScanMode.Spawn, wpName)
-                point = _makePos2FromRP(routePoint)
+                point = fdmm.utils.makePos2FromRP(routePoint)
               elseif wpSuffix == fdmm.consts.RouteSuffix.EgressPoint then
                 _updateScanner(ScanMode.Spawn, wpName)
-                table.insert(pointList, _makePos2FromRP(routePoint))
-              elseif string.isEmpty(wpName) and string.isEmpty(wpSuffix) then
-                -- No spawn point
-              else
+                table.insert(pointList, fdmm.utils.makePos2FromRP(routePoint))
+              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- Not a stand-in WP name
                 env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown spawn WP \'' .. routePoint.name .. '\' at WP index ' .. idx .. '.')
               end
-            elseif wpPrefix == locPrefixes.Warehouse then
+            elseif wpPrefix == fdmm.consts.CargoRouteLocPrefix[RouteType].Warehouse then
+              -- WPs /w prefix C[V|T|A|S]WH_
               if string.isEmpty(wpSuffix) then
                 _updateScanner(ScanMode.Warehouse, wpName)
-                point = _makePos2FromRP(routePoint)
+                point = fdmm.utils.makePos2FromRP(routePoint)
               elseif wpSuffix == fdmm.consts.RouteSuffix.IngressPoint then
                 _updateScanner(ScanMode.Warehouse, wpName)
-                table.insert(pointList, _makePos2FromRP(routePoint))
-              else
+                table.insert(pointList, fdmm.utils.makePos2FromRP(routePoint))
+              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- Not a stand-in WP name
                 env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown warehouse WP \'' .. routePoint.name .. '\' at WP index ' .. idx .. '.')
               end
-            elseif wpPrefix == locPrefixes.Linkage then
+            elseif wpPrefix == fdmm.consts.CargoRouteLocPrefix[RouteType].Linkage then
+              -- WPs /w prefix C[V|T|A|S]LK_
               if string.isEmpty(wpSuffix) then
                 _updateScanner(ScanMode.Linkage, wpName)
-                point = _makePos2FromRP(routePoint)
+                point = fdmm.utils.makePos2FromRP(routePoint)
               elseif wpSuffix == fdmm.consts.RouteSuffix.IngressPoint then
                 _updateScanner(ScanMode.Linkage, wpName)
-                table.insert(pointList, _makePos2FromRP(routePoint))
-              else
+                table.insert(pointList, fdmm.utils.makePos2FromRP(routePoint))
+              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- Not a stand-in WP name
                 env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown linkage WP \'' .. routePoint.name .. '\' at WP index ' .. idx .. '.')
               end
             else
@@ -224,22 +215,22 @@ do -- FDMM_CargoRoute
 
     -- Process CargoRoutePrefix.Land (CVRT_)
     for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Land]) do
-      _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Land, fdmm.consts.CargoRouteLocPrefix.Land)
+      _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Land)
     end
 
     -- Process CargoRoutePrefix.Train (CTRT_)
     for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Train]) do
-      _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Train, fdmm.consts.CargoRouteLocPrefix.Train)
+      _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Train)
     end
 
     -- Process CargoRoutePrefix.Air (CART_)
     for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Air]) do
-      _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Air, fdmm.consts.CargoRouteLocPrefix.Air)
+      _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Air)
     end
 
     -- Process CargoRoutePrefix.Sea (CSRT_)
     for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Sea]) do
-      _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Sea, fdmm.consts.CargoRouteLocPrefix.Sea)
+      _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Sea)
     end
   end
 
