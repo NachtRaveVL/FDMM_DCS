@@ -228,7 +228,7 @@ local e=FDMMPort.new(n,fdmm.utils.makePos2FromRP(e),t)e:buildPort()i:addPort(e)e
 end
 end
 else
-env.error("Territory FARP group '"..n.."' failed to find territory with same name.")end
+env.error("Territory Port group '"..n.."' failed to find territory with same name.")end
 end
 end
 function fdmm.territory.closestTerritoryToPoint(e,n)local r=mist.utils.makeVec2(e)local e=nil

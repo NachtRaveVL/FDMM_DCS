@@ -215,7 +215,7 @@ do --FDMM_Territory
           end
         end
       else
-        env.error('Territory FARP group \'' .. groupName .. '\' failed to find territory with same name.')
+        env.error('Territory Port group \'' .. groupName .. '\' failed to find territory with same name.')
       end
     end
   end
