@@ -20,27 +20,28 @@ do --FDMMFARP
 
   --- FARP constructor.
   -- @param #string name FARP name (typically a relative direction from territory's centerPoint).
-  -- @param #FDMMTerritory territory Territory object.
-  -- @return New instance of FDMMFARP.
-  function FDMMFARP.new(name, territory)
+  -- @param DCS#Vec2 centerPoint Center point of FARP.
+  -- @param #string territoryName Territory name this FARP belongs to.
+  -- @return #FDMMFARP New instance of FDMMFARP.
+  function FDMMFARP.new(name, centerPoint, territoryName)
     local self = setmetatable({}, FDMMFARP)
 
     self.name = name
-    self.territory = territory
+    self.centerPoint = centerPoint
+    self.territoryName = territoryName
 
     return self
+  end
+
+  --- Builds FARP from map coordinates, using any FARP objects in vicinity of centerPoint.
+  function FDMMFARP:buildFARP()
+    -- TODO: me.
   end
 
 end --FDMMFARP
 
 do -- FDMM_FARP
-
-  --- Creates FARPs from initial mission group placements.
-  -- Layout:
-  --   GNPrefixes: FARP_
-  function fdmm.farp.createFARPs()
-  end
-
+  -- TODO: me.
 end -- FDMM_FARP
 
 env.info('---FDMM_FARP End---')

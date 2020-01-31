@@ -53,6 +53,9 @@ do --FDMMTerritory
 
     self.linkedTerritories = {}
     self.linkedTerritoryDistances = {} -- TODO: Make TerritoryLink class and replace. -NR
+    
+    self.farps = {}
+    self.ports = {}
 
     return self
   end
@@ -72,10 +75,18 @@ do --FDMMTerritory
     end
   end
 
-  --- Add FARP to territory.
-  -- @param #FDMMFARP FARP object. 
+  --- Adds FARP to territory.
+  -- @param #FDMMFARP farp FARP object. 
   function FDMMTerritory:addFARP(farp)
-    -- TODO: This is currently a stand-in. Will expand out later. -NR
+    assert(farp.territoryName == self.name, 'Cannot add FARP belonging to different territory.')
+    self.farps[farp.name] = farp
+  end
+
+  --- Adds port to territory.
+  -- @param #FDMMPort port Port object. 
+  function FDMMTerritory:addPort(port)
+    assert(port.territoryName == self.name, 'Cannot add port belonging to different territory.')
+    self.ports[port.name] = port
   end
 
   --- Smokes territory polygon points (careful - can cause a fair bit of lag for large territories).
@@ -124,7 +135,8 @@ do --FDMM_Territory
     local terrGroups = {
       [fdmm.consts.TerritoryPrefix.Define] = fdmm.config.gpCache[fdmm.consts.TerritoryPrefix.Define] or {},
       [fdmm.consts.TerritoryPrefix.Link] = fdmm.config.gpCache[fdmm.consts.TerritoryPrefix.Link] or {},
-      [fdmm.consts.TerritoryPrefix.FARP] = fdmm.config.gpCache[fdmm.consts.TerritoryPrefix.FARP] or {}
+      [fdmm.consts.TerritoryPrefix.FARP] = fdmm.config.gpCache[fdmm.consts.TerritoryPrefix.FARP] or {},
+      [fdmm.consts.TerritoryPrefix.Port] = fdmm.config.gpCache[fdmm.consts.TerritoryPrefix.Port] or {}
     }
 
     -- Process TerritoryPrefix.Define (TDEF_)
@@ -163,8 +175,44 @@ do --FDMM_Territory
       local territory = fdmm.territories.all[territoryName]
 
       if territory ~= nil then
-        for idx, point in ipairs(mist.getGroupPoints(groupName)) do
-          -- TODO: me.
+        local groupRoute = mist.getGroupRoute(groupName, false)
+
+        for idx, routePoint in ipairs(groupRoute) do
+          if string.isNotEmpty(routePoint.name) then -- only worried about named WPs
+            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.TerritoryPrefix, nil)
+
+            if string.isNotEmpty(wpName) then -- only worried about named FARPs
+              local farp = FDMMFARP.new(wpName, fdmm.utils.makePos2FromRP(routePoint), territoryName)
+
+              farp:buildFARP()
+              territory:addFARP(farp)
+            end
+          end
+        end
+      else
+        env.error('Territory FARP group \'' .. groupName .. '\' failed to find territory with same name.')
+      end
+    end
+    
+    -- Process TerritoryPrefix.Port (TPRT_)
+    for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryPrefix.Port]) do
+      local territoryName = fdmm.utils.removeGroupingPrefix(groupName)
+      local territory = fdmm.territories.all[territoryName]
+
+      if territory ~= nil then
+        local groupRoute = mist.getGroupRoute(groupName, false)
+
+        for idx, routePoint in ipairs(groupRoute) do
+          if string.isNotEmpty(routePoint.name) then -- only worried about named WPs
+            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.TerritoryPrefix, nil)
+
+            if string.isNotEmpty(wpName) then -- only worried about named ports
+              local port = FDMMPort.new(wpName, fdmm.utils.makePos2FromRP(routePoint), territoryName)
+
+              port:buildPort()
+              territory:addPort(port)
+            end
+          end
         end
       else
         env.error('Territory FARP group \'' .. groupName .. '\' failed to find territory with same name.')

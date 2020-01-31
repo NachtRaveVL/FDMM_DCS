@@ -74,7 +74,8 @@ do --FDMM_Territory_Defines
   fdmm.consts.TerritoryPrefix = {
     Define = 'TDEF_',
     Link = 'TLNK_',
-    FARP = 'TFRP_'
+    FARP = 'TFRP_',
+    Port = 'TPRT_'
   }
 
 end --FDMM_Territory_Defines

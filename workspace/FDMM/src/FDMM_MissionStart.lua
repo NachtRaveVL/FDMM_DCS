@@ -28,9 +28,6 @@ do --FDMM_MissionStart
   fdmm.cargoRoute.createCargoRoutes()
   --fdmm.cargoRoute.dumpCargoRoutes()
 
-  fdmm.farp.createFARPs()
-  --fdmm.farp.dumpFARPs()
-
   trigger.action.outText('FDMM Started', 10)
 
 end --FDMM_MissionStart
