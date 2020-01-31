@@ -34,7 +34,7 @@ do --FDMM_Common_Defines
   fdmm.enums.Faction = {
     Red = 'Red',
     Blue = 'Blue',
-    Neutral = 'Neutral', -- meant to be un-ownable, usable by any side
+    Neutral = 'Neutral', -- meant to be un-ownable; usable by any side but unclaimable
     USA = 'USA',
     Russia = 'Russia',
     Georgia = 'Georgia',
@@ -43,12 +43,28 @@ do --FDMM_Common_Defines
     Unused = 'Unused' -- no programatic application
   }
 
-  --- Common route suffixes.
-  -- @type Consts.RouteSuffix
-  fdmm.consts.RouteSuffix = {
-    SpawnPoint = '_SP',
-    EgressPoint = '_EP',
-    IngressPoint = '_IP'
+  --- Resource point types.
+  -- @type Enums.RPType
+  fdmm.enums.RPType = {
+    Fuel = 'fuel',
+    Arms = 'arms',
+    Unit = 'unit'
+  }
+
+  --- Resource point amount type.
+  -- @type Enums.RPAmountType
+  fdmm.enums.RPAmountType = {
+    Tons = 'tons',
+    Percent = 'percent'
+  }
+
+  --- Error codes.
+  fdmm.enums.ErrorCodes = {
+    Success = 0,
+    Failure = 1,
+    Cancelled = 2,
+    InvalidParam = 3,
+    ShouldNotBeReached = 4
   }
 
   --- Mission user flags.
@@ -101,28 +117,46 @@ do --FDMM_CargoRoute_Defines
     Sea = 'CSRT_'
   }
 
-  --- Cargo route location prefixes.
-  -- @type Consts.CargoRouteLocPrefix
-  fdmm.consts.CargoRouteLocPrefix = {
+  --- Cargo route WP naming prefixes.
+  -- @type Consts.CargoRouteWPPrefix
+  fdmm.consts.CargoRouteWPPrefix = {
     Land = {
+      Spawn = 'CVSP_',
       Warehouse = 'CVWH_',
       Linkage = 'CVLK_'
     },
     Train = {
+      Spawn = 'CTSP_',
       Warehouse = 'CTWH_',
       Linkage = 'CTLK_'
     },
     Air = {
+      Spawn = 'CASP_',
       Warehouse = 'CAWH_',  -- Only used for helicopters (planes must land at Airbases)
       Linkage = 'CALK_' -- Technically never used, but theoretically could be
     },
     Sea = {
+      Spawn = 'CSSP_',
       Warehouse = 'CSWH_',
       Linkage = 'CSLK_' -- Technically never used, but theoretically could be
     }
   }
 
+  --- Cargo route WP naming suffixes.
+  -- @type Consts.CargoRouteWPSuffix
+  fdmm.consts.CargoRouteWPSuffix = {
+    Egress = '_EP',
+    Ingress = '_IP',
+    Spawn = '_SP',
+    Warehouse = '_WH',
+    Linkage = '_LK'
+  }
+
 end --FDMM_CargoRoute_Defines
+
+do --FDMM_ResourceUnit_Defines
+
+end --FDMM_ResourceUnit_Defines
 
 do --FDMM_Config
 

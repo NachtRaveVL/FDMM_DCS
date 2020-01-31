@@ -20,8 +20,8 @@ do --FDMMFARP
 
   --- FARP constructor.
   -- @param #string name FARP name (typically a relative direction from territory's centerPoint).
-  -- @param DCS#Vec2 centerPoint Center point of FARP.
-  -- @param #string territoryName Territory name this FARP belongs to.
+  -- @param DCS#Vec2 centerPoint Center point of this facility.
+  -- @param #string territoryName Territory name this facility belongs to.
   -- @return #FDMMFARP New instance of FDMMFARP.
   function FDMMFARP.new(name, centerPoint, territoryName)
     local self = setmetatable({}, FDMMFARP)

@@ -54,8 +54,10 @@ do --FDMMTerritory
     self.linkedTerritories = {}
     self.linkedTerritoryDistances = {} -- TODO: Make TerritoryLink class and replace. -NR
 
+    self.bases = {}
     self.farps = {}
     self.ports = {}
+    self.resources = {}
 
     return self
   end
@@ -74,11 +76,15 @@ do --FDMMTerritory
       env.error('Cannot link territory \'' .. self.name .. '\' with itself.')
     end
   end
+  
+  function FDMMTerritory:addBase(base)
+    assert(base.territoryName == self.name, '')
+  end
 
   --- Adds FARP to territory.
   -- @param #FDMMFARP farp FARP object. 
   function FDMMTerritory:addFARP(farp)
-    assert(farp.territoryName == self.name, 'Cannot add FARP belonging to different territory.')
+    assert(farp.__index == FDMMFARP, 'Invalid FARP object')
     self.farps[farp.name] = farp
   end
 
@@ -195,7 +201,7 @@ do --FDMM_Territory
             local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.TerritoryPrefix, nil)
 
             if string.isNotEmpty(wpName) then
-              local farp = FDMMFARP.new(wpName, fdmm.utils.makePos2FromRP(routePoint), territoryName)
+              local farp = FDMMFARP.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
               territory:addFARP(farp)
             end
           end
@@ -218,7 +224,7 @@ do --FDMM_Territory
             local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.TerritoryPrefix, nil)
 
             if string.isNotEmpty(wpName) then
-              local port = FDMMPort.new(wpName, fdmm.utils.makePos2FromRP(routePoint), territoryName)
+              local port = FDMMPort.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
               territory:addPort(port)
             end
           end

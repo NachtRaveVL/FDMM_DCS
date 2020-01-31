@@ -45,7 +45,7 @@ do --FDMM_Utils
   --- Removes the FDMM grouping prefix from a string name.
   -- Note: Grouping prefix strings must be in all uppercase in order to be recognized as such.
   -- @param #string name Name string.
-  -- @return #string,#string Tuple string name with grouping prefix removed, otherwise original string name, and grouping prefix if found, otherwise nil.
+  -- @return #string,#string Tuple: string name with grouping prefix removed, otherwise original string name, and grouping prefix if found, otherwise nil.
   function fdmm.utils.removeGroupingPrefix(name)
     local prefix = fdmm.utils.getGroupingPrefix(name)
     if prefix ~= nil then
@@ -72,7 +72,7 @@ do --FDMM_Utils
 
   --- Removes the FDMM numeric suffix from a string name.
   -- @param #string name Name string.
-  -- @return #string,#string Tuple of string name with numeric suffix removed, otherwise original string name, and numeric suffix if found, otherwise nil.
+  -- @return #string,#string Tuple: string name with numeric suffix removed, otherwise original string name, and numeric suffix if found, otherwise nil.
   function fdmm.utils.removeNumericSuffix(name)
     local suffix = fdmm.utils.getNumericSuffix(name)
     if suffix ~= nil then
@@ -98,7 +98,7 @@ do --FDMM_Utils
   --- Removes the FDMM grouping suffix from a string name.
   -- Note: Unlike grouping prefix strings, grouping suffix strings do not have to be in all uppercase in order to be recognized as such.
   -- @param #string name Name string.
-  -- @return #string,#string Tuple of string name with grouping suffix removed, otherwise original string name, and grouping suffix if found, otherwise nil.
+  -- @return #string,#string Tuple: string name with grouping suffix removed, otherwise original string name, and grouping suffix if found, otherwise nil.
   function fdmm.utils.removeGroupingSuffix(name)
     local suffix = fdmm.utils.getGroupingSuffix(name)
     if suffix ~= nil then
@@ -109,7 +109,7 @@ do --FDMM_Utils
 
   --- Separates out the FDMM grouping components from a string name (after removing numeric suffix).
   -- @param #string name Name string.
-  -- @return #string,#string,#string Tuple of grouping prefix, stripped name, and grouping suffix.
+  -- @return #string,#string,#string Tuple: grouping prefix, stripped name, and grouping suffix.
   function fdmm.utils.getGroupingComponents(name)
     if name then
       local prefix, suffix
@@ -125,7 +125,7 @@ do --FDMM_Utils
   -- @param #string name Name string.
   -- @param #table knownPrefixes Table (or list) of known prefixes to handle short-naming for.
   -- @param #table knownSuffixes Table (or list) of known suffixes to handle short-naming for.
-  -- @return #string,#string,#string Tuple of grouping prefix, stripped name, and grouping suffix.
+  -- @return #string,#string,#string Tuple: grouping prefix, stripped name, and grouping suffix.
   function fdmm.utils.getGroupingComponentsWithSNC(name, knownPrefixes, knownSuffixes)
     local prefix, name, suffix = fdmm.utils.getGroupingComponents(name)
 
@@ -141,11 +141,11 @@ do --FDMM_Utils
     return prefix, name, suffix
   end
 
-  --- Makes a 2D position vector from a group route point.
+  --- Makes a 2D position vector from a group route point (with an internal deep copy of routePoint).
   -- @param DCS#RoutePoint routePoint Route point.
-  -- @return DCS#Vec2 Position vector.
-  function fdmm.utils.makePos2FromRP(routePoint)
-    return { x = routePoint.x or routePoint.point.x, y = routePoint.y or routePoint.point.y }
+  -- @return DCS#Vec2 Position vector (with routePoint copy).
+  function fdmm.utils.rposFromRPoint(routePoint)
+    return { x = routePoint.x or routePoint.point.x, y = routePoint.y or routePoint.point.y, routePoint = mist.utils.deepCopy(routePoint) }
   end
 
   --- Gets the faction enum from a string name.

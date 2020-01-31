@@ -16,6 +16,8 @@ require('FDMM_Utils')
 require('FDMM_Territory')
 require('FDMM_Port')
 require('FDMM_FARP')
+require('FDMM_OilRefinery')
+require('FDMM_ArmsPlant')
 require('FDMM_CargoRoute')
 
 do --FDMM_MissionStart

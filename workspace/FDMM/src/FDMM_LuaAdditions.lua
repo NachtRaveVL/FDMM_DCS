@@ -62,7 +62,7 @@ do --FDMM_LuaAdditions
   --- Table contains value (O(n) time).
   -- @param #table tbl Table.
   -- @param #object value Value (type must implement __eq metamethod).
-  -- @return True if value is found in table, otherwise false.
+  -- @return #boolean True if value is found in table, otherwise false.
   function table.contains(tbl, value)
     for k,v in pairs(tbl) do
       if v == value then

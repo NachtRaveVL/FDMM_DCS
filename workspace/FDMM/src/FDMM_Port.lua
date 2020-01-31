@@ -19,9 +19,9 @@ do --FDMMPort
   })
 
   --- Port constructor.
-  -- @param #string name Port name (typically containing name of port city).
-  -- @param DCS#Vec2 centerPoint Center point of Port.
-  -- @param #string territoryName Territory name this Port belongs to.
+  -- @param #string name Port name (typically containing name of nearby port city).
+  -- @param DCS#Vec2 centerPoint Center point of this facility.
+  -- @param #string territoryName Territory name this facility belongs to.
   -- @return #FDMMPort New instance of FDMMPort.
   function FDMMPort.new(name, centerPoint, territoryName)
     local self = setmetatable({}, FDMMPort)
