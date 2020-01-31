@@ -53,7 +53,7 @@ do --FDMMTerritory
 
     self.linkedTerritories = {}
     self.linkedTerritoryDistances = {} -- TODO: Make TerritoryLink class and replace. -NR
-    
+
     self.farps = {}
     self.ports = {}
 
@@ -83,10 +83,20 @@ do --FDMMTerritory
   end
 
   --- Adds port to territory.
-  -- @param #FDMMPort port Port object. 
+  -- @param #FDMMPort port Port object.
   function FDMMTerritory:addPort(port)
     assert(port.territoryName == self.name, 'Cannot add port belonging to different territory.')
     self.ports[port.name] = port
+  end
+
+  --- Builds associated facilities (FARPs, ports, etc.) in territory.
+  function FDMMTerritory:buildFacilities()
+    for farpName, farp in pairs(self.farps) do
+      farp:buildFARP()
+    end
+    for portName, port in pairs(self.ports) do
+      port:buildPort()
+    end
   end
 
   --- Smokes territory polygon points (careful - can cause a fair bit of lag for large territories).
@@ -124,8 +134,11 @@ do --FDMM_Territory
 
   --- Creates territories from initial mission group placements.
   -- Layout:
-  --   GNPrefixes: TDEF_ TLNK_ TFRP_
-  --   WPList(TDEF_): WP1->centerPoint, WP2-WP(n-1)->polygonPoints, WP(n)->capturePoint
+  --   GNPrefixes: TDEF_ TLNK_ TFRP_ TPRT_
+  --   WPList(TDEF_): WP1->centerPoint, WP(2,n-1)->polygonPoints, WP(n)->capturePoint
+  --   WPList(TLNK_): WP(1,n)->territoryLinkage (via closest territory to point)
+  --   WPList(TFRP_): WP(1,n)->FARP location (centerPoint)
+  --   WPList(TPRT_): WP(1,n)->Port location (centerPoint)
   function fdmm.territory.createTerritories()
     fdmm.territories = {
       [fdmm.enums.TerritoryType.Land] = {},
@@ -181,10 +194,8 @@ do --FDMM_Territory
           if string.isNotEmpty(routePoint.name) then -- only worried about named WPs
             local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.TerritoryPrefix, nil)
 
-            if string.isNotEmpty(wpName) then -- only worried about named FARPs
+            if string.isNotEmpty(wpName) then
               local farp = FDMMFARP.new(wpName, fdmm.utils.makePos2FromRP(routePoint), territoryName)
-
-              farp:buildFARP()
               territory:addFARP(farp)
             end
           end
@@ -193,7 +204,7 @@ do --FDMM_Territory
         env.error('Territory FARP group \'' .. groupName .. '\' failed to find territory with same name.')
       end
     end
-    
+
     -- Process TerritoryPrefix.Port (TPRT_)
     for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryPrefix.Port]) do
       local territoryName = fdmm.utils.removeGroupingPrefix(groupName)
@@ -206,17 +217,22 @@ do --FDMM_Territory
           if string.isNotEmpty(routePoint.name) then -- only worried about named WPs
             local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.TerritoryPrefix, nil)
 
-            if string.isNotEmpty(wpName) then -- only worried about named ports
+            if string.isNotEmpty(wpName) then
               local port = FDMMPort.new(wpName, fdmm.utils.makePos2FromRP(routePoint), territoryName)
-
-              port:buildPort()
               territory:addPort(port)
             end
           end
         end
       else
-        env.error('Territory Port group \'' .. groupName .. '\' failed to find territory with same name.')
+        env.error('Territory port group \'' .. groupName .. '\' failed to find territory with same name.')
       end
+    end
+  end
+
+  --- Builds associated facilities that exist inside territories.
+  function fdmm.territory.buildFacilities()
+    for territoryName, territory in pairs(fdmm.territories.all) do
+      territory:buildFacilities()
     end
   end
 
@@ -232,7 +248,7 @@ do --FDMM_Territory
     local territories = fdmm.territories[territoryType]
 
     for territoryName, territory in pairs(territories) do
-      -- FIXME: Possible speed trap? I bet this could be sped up via usage of a spacial partitioning tree. -NR
+      -- FIXME: Speed trap! Replace with spacial partitioning tree later. -NR
       local distSqrd = mist.utils.get2DDistSqrd(point, territory.centerPoint)
 
       if closestTerritory == nil or distSqrd < closestDistSqrd then

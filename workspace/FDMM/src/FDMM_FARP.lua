@@ -33,7 +33,7 @@ do --FDMMFARP
     return self
   end
 
-  --- Builds FARP from map coordinates, using any FARP objects in vicinity of centerPoint.
+  --- Builds FARP from map coordinates, using any objects in vicinity of centerPoint.
   function FDMMFARP:buildFARP()
     -- TODO: me.
   end

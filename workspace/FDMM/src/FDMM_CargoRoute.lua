@@ -98,7 +98,7 @@ do -- FDMM_CargoRoute
 
   --- Creates cargo routes from initial mission group placements.
   -- Layout:
-  --   GNPrefixes: CVRT_ CTRT_ CART_ CSRT_ (V=Land, T=Train, A=Air, S=Sea)
+  --   GNPrefixes: CVRT_ CTRT_ CART_ CSRT_ (V=Vehicle/Land, T=Train, A=Air, S=Sea)
   --   WPList (ALL): WP1->spawnPoint, WP2->ingressPoint, C[V|T|A|S]WH_<WHName>->WH, C[V|T|A|S]LK_<DirName>->Dir
   function fdmm.cargoRoute.createCargoRoutes()
     fdmm.cargoRoutes = {}

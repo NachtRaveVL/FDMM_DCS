@@ -3,12 +3,12 @@
 -- @module FDMM_Port
 env.info('---FDMM_Port Start---')
 
---- FDMM Port module.
+--- FDMM port module.
 fdmm.port = {}
 
 do --FDMMPort
 
-  --- Port class that manages ports in a territory, being able to manage ships and docking, etc.
+  --- Port class that manages ports in a territory, being able to manage ships, control docking/undocking, refits/repairs, etc.
   -- @type FDMMPort
   FDMMPort = {}
   FDMMPort.__index = FDMMPort
@@ -33,7 +33,7 @@ do --FDMMPort
     return self
   end
 
-  --- Builds Port from map coordinates, using any ship objects in vicinity of centerPoint.
+  --- Builds Port from map coordinates, using any objects in vicinity of centerPoint.
   function FDMMPort:buildPort()
     -- TODO: me.
   end

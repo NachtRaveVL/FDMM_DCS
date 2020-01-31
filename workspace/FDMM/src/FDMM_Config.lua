@@ -129,15 +129,35 @@ do --FDMM_Config
   --- Creates group prefix cache from initial mission group placements.
   function fdmm.config.createGPCache()
     fdmm.config.gpCache = {}
+    local layeredSplits = { 'FARP_', 'PORT_', 'AIRB_' } -- prefixes that will have layered splits
 
     for groupName, groupData in pairs(mist.DBs.groupsByName) do
-      local prefix = fdmm.utils.getGroupingPrefix(groupName)
+      local name, prefix = fdmm.utils.removeGroupingPrefix(groupName)
 
       if prefix ~= nil then
         if not fdmm.config.gpCache[prefix] then
           fdmm.config.gpCache[prefix] = {}
         end
-        fdmm.config.gpCache[prefix][groupName] = groupData
+
+        if table.contains(layeredSplits, prefix) then -- handle layered splitting
+          local uPos = string.find(name, '_')
+
+          if uPos ~= nil then
+            local subName = name:sub(1, uPos - 1)
+
+            if not fdmm.config.gpCache[prefix][subName] then
+              fdmm.config.gpCache[prefix][subName] = {}
+            end
+            fdmm.config.gpCache[prefix][subName][groupName] = groupData
+          else -- else put in all category specified by an _
+            if not fdmm.config.gpCache[prefix]['_'] then
+              fdmm.config.gpCache[prefix]['_'] = {}
+            end
+            fdmm.config.gpCache[prefix]['_'][groupName] = groupData
+          end
+        else -- else standard prefix split
+          fdmm.config.gpCache[prefix][groupName] = groupData
+        end
       end
     end
   end

@@ -26,6 +26,7 @@ do --FDMM_Utils
   end
 
   --- Gets the FDMM grouping prefix of a string name (e.g. 'ABC_Test' -> 'ABC_').
+  -- Note: Grouping prefix strings must be in all uppercase in order to be recognized as such.
   -- @param #string name Name string.
   -- @return #string Grouping prefix (/w '_') from string name, otherwise nil.
   function fdmm.utils.getGroupingPrefix(name)
@@ -42,6 +43,7 @@ do --FDMM_Utils
   end
 
   --- Removes the FDMM grouping prefix from a string name.
+  -- Note: Grouping prefix strings must be in all uppercase in order to be recognized as such.
   -- @param #string name Name string.
   -- @return #string,#string Tuple string name with grouping prefix removed, otherwise original string name, and grouping prefix if found, otherwise nil.
   function fdmm.utils.removeGroupingPrefix(name)
@@ -80,6 +82,7 @@ do --FDMM_Utils
   end
 
   --- Gets the FDMM grouping suffix of a string name (e.g. 'ABC_Test_Me' -> '_Me').
+  -- Note: Unlike grouping prefix strings, grouping suffix strings do not have to be in all uppercase in order to be recognized as such.
   -- @param #string name Name string.
   -- @return #string Grouping suffix (/w '_') from string name, otherwise nil.
   function fdmm.utils.getGroupingSuffix(name)
@@ -93,6 +96,7 @@ do --FDMM_Utils
   end
 
   --- Removes the FDMM grouping suffix from a string name.
+  -- Note: Unlike grouping prefix strings, grouping suffix strings do not have to be in all uppercase in order to be recognized as such.
   -- @param #string name Name string.
   -- @return #string,#string Tuple of string name with grouping suffix removed, otherwise original string name, and grouping suffix if found, otherwise nil.
   function fdmm.utils.removeGroupingSuffix(name)
