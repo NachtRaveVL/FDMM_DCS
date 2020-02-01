@@ -139,6 +139,7 @@ do --FDMM_Territory
       [fdmm.consts.TerritoryGNPrefix.Linkage] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Linkage] or {},
       [fdmm.consts.TerritoryGNPrefix.Facility] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Facility] or {}
     }
+    local knownPrefixes = table.concatedWith(fdmm.consts.TerritoryGNPrefix, fdmm.consts.TerritoryWPFacilityPrefix)
 
     -- Process TerritoryGNPrefix.Define (TDEF_)
     for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryGNPrefix.Define]) do
@@ -178,7 +179,7 @@ do --FDMM_Territory
       if territory ~= nil then
         for idx, routePoint in ipairs(mist.getGroupRoute(groupName, false)) do
           if string.isNotEmpty(routePoint.name) and (routePoint.name .. '_') ~= fdmm.consts.TerritoryGNPrefix.Facility then -- only worried about named WPs
-            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, table.concatedWith(fdmm.consts.TerritoryGNPrefix, fdmm.consts.TerritoryWPFacilityPrefix), nil)
+            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, knownPrefixes, nil)
 
             if wpPrefix == fdmm.consts.TerritoryWPFacilityPrefix.Airbase and string.isNotEmpty(wpName) then
               local airbase = territory.facilities[wpName] or FDMMAirbase.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)

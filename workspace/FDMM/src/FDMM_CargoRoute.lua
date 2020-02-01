@@ -143,6 +143,7 @@ do -- FDMM_CargoRoute
         local groupRoute = mist.getGroupRoute(groupName, false)
         local routeFaction = fdmm.utils.getFaction(string.notEmptyElse(groupData.units[1].unitName, groupData.country))
         local RouteType = routeType:upperFirst()
+        local knownPrefixes = table.concatedWith(fdmm.consts.CargoRouteGNPrefix, fdmm.consts.CargoRouteWPRoutePrefix[RouteType])
 
         -- Scanner for parsing WP list
         local scanMode = nil
@@ -190,7 +191,7 @@ do -- FDMM_CargoRoute
 
         for idx, routePoint in ipairs(groupRoute) do
           if string.isNotEmpty(routePoint.name) and (routePoint.name .. '_') ~= fdmm.consts.CargoRouteGNPrefix[RouteType] then -- only worried about named WPs
-            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.CargoRouteGNPrefix, fdmm.consts.CargoRouteWPRouteSuffix)
+            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, knownPrefixes, fdmm.consts.CargoRouteWPRouteSuffix)
 
             if wpPrefix == fdmm.consts.CargoRouteGNPrefix[RouteType] then
               -- WPs /w prefix C[V|T|A|S]RT_
