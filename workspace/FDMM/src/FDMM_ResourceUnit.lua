@@ -8,7 +8,7 @@ fdmm.resourceUnit = {}
 
 do --FDMMResourceUnit
 
-  --- Resource unit class that manages a set of resource points.
+  --- Resource unit class that stores a set of resource points that can be converted into DCS fuel, equipment, and craft.
   -- @type FDMMResourceUnit
   FDMMResourceUnit = {}
   FDMMResourceUnit.__index = FDMMResourceUnit
@@ -19,7 +19,13 @@ do --FDMMResourceUnit
   })
 
   --- Resource unit constructor.
-  -- @return #FDMMResourceUnit New instance of FDMMResourceUnit.
+  -- @param #number fuelRP Initial fuel resource points.
+  -- @param #number armsRP Initial arms resource points.
+  -- @param #number unitRP Initial unit resource points.
+  -- @param #number maxFuelRP Maximum fuel resource points.
+  -- @param #number maxArmsRP Maximum arms resource points.
+  -- @param #number maxUnitRP Maximum unit resource points.
+  -- @return #FDMMResourceUnit New instance of #FDMMResourceUnit.
   function FDMMResourceUnit.new(fuelRP, armsRP, unitRP, maxFuelRP, maxArmsRP, maxUnitRP)
     local self = setmetatable({}, FDMMResourceUnit)
 
@@ -41,6 +47,7 @@ do --FDMMResourceUnit
   -- @return #bool,#number Tuple: boolean indicating if amount can be transfered or not, and number indicating how long
   --                       such an operation will take (in seconds).
   function FDMMResourceUnit:canTransferTo(otherResUnit, rpType, amount, rpAmountType)
+    
   end
 
   --- Creates an RP transfer from this resource unit to another.
@@ -49,8 +56,9 @@ do --FDMMResourceUnit
   -- @param #number amount Resource point amount. Percentages should use [0.0-1.0].
   -- @param #Enums.RPAmountType rpAmountType Resource point amount type (tons, percent, etc.).
   -- @param #boolean isImmediate True if resources are immediate transfered, otherwise false if transfer is timed.
-  -- @param completionFunc Completion function to be called once transfer completes (with error code). 
+  -- @param completionFunc Completion function to be called once transfer completes (with signature void(errorCode)).
   function FDMMResourceUnit:transferTo(otherResUnit, rpType, amount, rpAmountType, isImmediate, completionFunc)
+    -- TODO: me.
   end
 
 end --FDMMResourceUnit

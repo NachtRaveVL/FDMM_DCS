@@ -3,38 +3,37 @@
 -- @module FDMM_FARP
 env.info('---FDMM_FARP Start---')
 
+require('FDMM_Facility')
+
 --- FDMM FARP module.
 fdmm.farp = {}
 
 do --FDMMFARP
 
-  --- FARP class that manages forward bases in a territory, being able to spawn and manage them, etc.
+  --- FARP class that manages a forward base facility in a territory, which acts as a territory command post, respawn area, and supply point for an army advancing into an enemy held territory.
   -- @type FDMMFARP
   FDMMFARP = {}
   FDMMFARP.__index = FDMMFARP
   setmetatable(FDMMFARP, {
+    __index = FDMMFacility,
     __call = function (cls, ...)
       return cls.new(...)
-    end,
+    end
   })
 
   --- FARP constructor.
-  -- @param #string name FARP name (typically a relative direction from territory's centerPoint).
-  -- @param DCS#Vec2 centerPoint Center point of this facility.
-  -- @param #string territoryName Territory name this facility belongs to.
-  -- @return #FDMMFARP New instance of FDMMFARP.
+  -- @param #string name FARP name.
+  -- @param DCS#Vec2 centerPoint Center point of arms plant.
+  -- @param #string territoryName Territory name this arms plant belongs to.
+  -- @return #FDMMFARP New instance of #FDMMFARP.
   function FDMMFARP.new(name, centerPoint, territoryName)
-    local self = setmetatable({}, FDMMFARP)
-
-    self.name = name
-    self.centerPoint = centerPoint
-    self.territoryName = territoryName
-
+    local self = setmetatable(FDMMFacility.new(name, centerPoint, territoryName), FDMMFARP)
+    -- TODO: me.
     return self
   end
 
-  --- Builds FARP from map coordinates, using any objects in vicinity of centerPoint.
-  function FDMMFARP:buildFARP()
+  --- Builds FARP from initial placement of map elements nearby according to setup parameters.
+  function FDMMFARP:buildFacility()
     -- TODO: me.
   end
 

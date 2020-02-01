@@ -3,7 +3,7 @@
 -- @module FDMM_Config
 env.info("---FDMM_Config Start---");
 
--- don't change these
+-- FDMM versioning
 fdmm.majorVersion = 0
 fdmm.minorVersion = 2
 fdmm.build = 1
@@ -43,28 +43,15 @@ do --FDMM_Common_Defines
     Unused = 'Unused' -- no programatic application
   }
 
-  --- Resource point types.
-  -- @type Enums.RPType
-  fdmm.enums.RPType = {
-    Fuel = 'fuel',
-    Arms = 'arms',
-    Unit = 'unit'
-  }
-
-  --- Resource point amount type.
-  -- @type Enums.RPAmountType
-  fdmm.enums.RPAmountType = {
-    Tons = 'tons',
-    Percent = 'percent'
-  }
-
-  --- Error codes.
+  --- Common error codes.
+  -- @type Enums.ErrorCodes
   fdmm.enums.ErrorCodes = {
     Success = 0,
     Failure = 1,
-    Cancelled = 2,
-    InvalidParam = 3,
-    ShouldNotBeReached = 4
+    Incomplete = 2,
+    Cancelled = 3,
+    InvalidParam = 4,
+    ShouldNotBeReached = 5
   }
 
   --- Mission user flags.
@@ -75,27 +62,6 @@ do --FDMM_Common_Defines
 
 end --FDMM_Common_Defines
 
-do --FDMM_Territory_Defines
-
-  --- Territory types.
-  -- @type Enums.TerritoryType
-  fdmm.enums.TerritoryType = {
-    Land = 'land',
-    Sea = 'sea',
-    All = 'all'
-  }
-
-  --- Territory group name prefixes.
-  -- @type Consts.TerritoryPrefix
-  fdmm.consts.TerritoryPrefix = {
-    Define = 'TDEF_',
-    Link = 'TLNK_',
-    FARP = 'TFRP_',
-    Port = 'TPRT_'
-  }
-
-end --FDMM_Territory_Defines
-
 do --FDMM_CargoRoute_Defines
 
   --- Cargo route types.
@@ -105,65 +71,115 @@ do --FDMM_CargoRoute_Defines
     Train = 'train',
     Air = 'air',
     Sea = 'sea',
-    All = 'all'
+    All = 'all' -- used only in filtering
   }
 
-  --- Cargo route group name prefixes.
-  -- @type Consts.CargoRoutePrefix
-  fdmm.consts.CargoRoutePrefix = {
+  --- Cargo route group naming prefixes.
+  -- @type Consts.CargoRouteGNPrefix
+  fdmm.consts.CargoRouteGNPrefix = {
     Land = 'CVRT_',
     Train = 'CTRT_',
     Air = 'CART_',
     Sea = 'CSRT_'
   }
 
-  --- Cargo route WP naming prefixes.
-  -- @type Consts.CargoRouteWPPrefix
-  fdmm.consts.CargoRouteWPPrefix = {
+  --- Cargo route waypoint naming route prefixes.
+  -- @type Consts.CargoRouteWPRoutePrefix
+  fdmm.consts.CargoRouteWPRoutePrefix = {
     Land = {
       Spawn = 'CVSP_',
-      Warehouse = 'CVWH_',
-      Linkage = 'CVLK_'
+      Linkage = 'CVLK_',
+      Facility = 'CVFC_'
     },
     Train = {
       Spawn = 'CTSP_',
-      Warehouse = 'CTWH_',
-      Linkage = 'CTLK_'
+      Linkage = 'CTLK_',
+      Facility = 'CTFC_'
     },
     Air = {
       Spawn = 'CASP_',
-      Warehouse = 'CAWH_',  -- Only used for helicopters (planes must land at Airbases)
-      Linkage = 'CALK_' -- Technically never used, but theoretically could be
+      Linkage = 'CALK_', -- ignored by planes, only used by helicopters needing to bypass mountainous terrain
+      Facility = 'CAFC_' -- facility must have landing platform available (e.g. helipad for helicopters, runway for planes)
     },
     Sea = {
       Spawn = 'CSSP_',
-      Warehouse = 'CSWH_',
-      Linkage = 'CSLK_' -- Technically never used, but theoretically could be
+      Linkage = 'CSLK_', -- available if needed, but often times unused/unnecessary
+      Facility = 'CSFC_'
     }
   }
 
-  --- Cargo route WP naming suffixes.
-  -- @type Consts.CargoRouteWPSuffix
-  fdmm.consts.CargoRouteWPSuffix = {
-    Egress = '_EP',
-    Ingress = '_IP',
+  --- Cargo route waypoint naming route suffixes.
+  -- @type Consts.CargoRouteWPRouteSuffix
+  fdmm.consts.CargoRouteWPRouteSuffix = {
+    Egress = '_EP', -- generally appears after main route point, valid only for spawn points
+    Ingress = '_IP', -- generally appears before main route point, valid only for facility and linkage points
     Spawn = '_SP',
-    Warehouse = '_WH',
-    Linkage = '_LK'
+    Linkage = '_LK',
+    Facility = '_FC'
   }
 
 end --FDMM_CargoRoute_Defines
 
 do --FDMM_ResourceUnit_Defines
 
+  --- Resource point types.
+  -- @type Enums.RPType
+  fdmm.enums.RPType = {
+    Fuel = 'fuel',
+    Arms = 'arms',
+    Unit = 'unit'
+  }
+
+  --- Resource point amount types.
+  -- @type Enums.RPAmountType
+  fdmm.enums.RPAmountType = {
+    Tons = 'tons', -- specific amount, in tons
+    PercentMaxSelf = 'percent_ms', -- percentage of self's maximum RP, values of [0.0, 1.0], /w 0.0->0%, 1.0->100%
+    PercentMaxOther = 'percent_mo', -- percentage of other's maximum RP, values of [0.0, 1.0], /w 0.0->0%, 1.0->100%
+    PercentCurrSelf = 'percent_cs', -- percentage of self's current RP, values of [0.0, 1.0], /w 0.0->0%, 1.0->100%
+    PercentCurrOther = 'percent_co' -- percentage of other's current RP, values of [0.0, 1.0], /w 0.0->0%, 1.0->100%
+  }
+
 end --FDMM_ResourceUnit_Defines
+
+do --FDMM_Territory_Defines
+
+  --- Territory types.
+  -- @type Enums.TerritoryType
+  fdmm.enums.TerritoryType = {
+    Land = 'land',
+    Sea = 'sea',
+    All = 'all' -- used only in filtering
+  }
+
+  --- Territory group naming prefixes.
+  -- @type Consts.TerritoryGNPrefix
+  fdmm.consts.TerritoryGNPrefix = {
+    Define = 'TDEF_',
+    Linkage = 'TLNK_',
+    Facility = 'TFAC_'
+  }
+
+  --- Territory waypoint naming facility prefixes.
+  -- @type Consts.TerritoryWPFacilityPrefix
+  fdmm.consts.TerritoryWPFacilityPrefix = {
+    Airbase = 'TARB_',
+    ArmsPlant = 'TARM_',
+    CommandCenter = 'TCMD_',
+    FARP = 'TFRP_',
+    OilField = 'TOIL_',
+    Port = 'TPRT_',
+    UnitFactory = 'TUNT_'
+  }
+
+end --FDMM_Territory_Defines
 
 do --FDMM_Config
 
   --- Creates group prefix cache from initial mission group placements.
   function fdmm.config.createGPCache()
     fdmm.config.gpCache = {}
-    local layeredSplits = { 'FARP_', 'PORT_', 'AIRB_' } -- prefixes that will have layered splits
+    local layeredSplits = { 'AIRB_', 'ARMP_', 'CMDC_', 'FARP_', 'OILF_', 'PORT_', 'UNTF_' } -- prefixes that will have layered splits
 
     for groupName, groupData in pairs(mist.DBs.groupsByName) do
       local name, prefix = fdmm.utils.removeGroupingPrefix(groupName)
@@ -178,7 +194,6 @@ do --FDMM_Config
 
           if uPos ~= nil then
             local subName = name:sub(1, uPos - 1)
-
             if not fdmm.config.gpCache[prefix][subName] then
               fdmm.config.gpCache[prefix][subName] = {}
             end

@@ -21,37 +21,37 @@ do --FDMMCargoRoute
   --- Cargo route constructor.
   -- @param #string territoryName Territory name this cargo route belongs to.
   -- @param #Enums.CargoRouteType routeType Cargo route type.
-  -- @return #FDMMCargoRoute New instance of FDMMCargoRoute.
+  -- @return #FDMMCargoRoute New instance of #FDMMCargoRoute.
   function FDMMCargoRoute.new(territoryName, routeType)
     local self = setmetatable({}, FDMMCargoRoute)
 
     self.territoryName = territoryName
     self.routeType = routeType
-    self.startLocations = {}
-    self.warehouseLocations = {}
-    self.directionalLinks = {}
+    self.spawnLocs = {}
+    self.facilityLocs = {}
+    self.dirLinks = {}
 
     return self
   end
 
-  --- Adds spawn point and optional egress points to list of start locations.
+  --- Adds spawn point and optional egress points to list of spawn locations.
   -- @param #Enums.Faction spawnFaction Spawnable faction.
   -- @param DCS#Vec2 spawnPoint Spawn point location.
   -- @param #ListVec2 egressPoints Set of egress points to follow outbound of spawn point (typically to get on a road, navigate through a ship canal, etc.).
-  function FDMMCargoRoute:addStartLocation(spawnFaction, spawnPoint, egressPoints)
-    table.insert(self.startLocations, { spawnFaction = spawnFaction,
-                                        spawnPoint = spawnPoint,
-                                        egressPoints = egressPoints or {} })
+  function FDMMCargoRoute:addSpawnLocation(spawnFaction, spawnPoint, egressPoints)
+    table.insert(self.spawnLocs, { spawnFaction = spawnFaction,
+                                   spawnPoint = spawnPoint,
+                                   egressPoints = egressPoints or {} })
   end
 
-  --- Adds warehouse name, point, and optional ingress points to list of warehouse locations.
-  -- @param #string warehouseName Name of warehouse.
-  -- @param DCS#Vec2 warehousePoint Warehouse location point.
-  -- @param #ListVec2 ingressPoints Set of ingress points to follow inbound to warehouse point (typically to get on a road, navigate through a ship canal, etc.).
-  function FDMMCargoRoute:addWarehouseLocation(warehouseName, warehousePoint, ingressPoints)
-    table.insert(self.warehouseLocations, { warehouseName = warehouseName,
-                                            warehousePoint = warehousePoint,
-                                            ingressPoints = ingressPoints or {} })
+  --- Adds facility name, point, and optional ingress points to list of facility locations.
+  -- @param #string facilityName Name of facility.
+  -- @param DCS#Vec2 facilityPoint Facility location point.
+  -- @param #ListVec2 ingressPoints Set of ingress points to follow inbound to facility point (typically to get on a road, navigate through a ship canal, etc.).
+  function FDMMCargoRoute:addFacilityLocation(facilityName, facilityPoint, ingressPoints)
+    table.insert(self.facilityLocs, { facilityName = facilityName,
+                                      facilityPoint = facilityPoint,
+                                      ingressPoints = ingressPoints or {} })
   end
 
   --- Adds directional linkage to list of directional navigation nodes.
@@ -59,9 +59,9 @@ do --FDMMCargoRoute
   -- @param DCS#Vec2 navigationPoint Navigation node point (typically in vacinity of a FARP). 
   -- @param #ListVec2 ingressPoints Set of ingress points to follow inbound to navigation node point (typically to get on a road, navigate through a ship canal, etc.).
   function FDMMCargoRoute:addDirectionalLink(directionName, navigationPoint, ingressPoints)
-    table.insert(self.directionalLinks, { directionName = directionName,
-                                          navigationPoint = navigationPoint,
-                                          ingressPoints = ingressPoints or {} })
+    table.insert(self.dirLinks, { directionName = directionName,
+                                  navigationPoint = navigationPoint,
+                                  ingressPoints = ingressPoints or {} })
   end
 
   --- Gets a random outbound starting route (along with egress points, if any) from a random spawn point for given faction.
@@ -71,17 +71,17 @@ do --FDMMCargoRoute
     -- TODO: me.
   end
 
-  --- Gets a random inbound warehouse route (along with ingress points, if any) to named warehouse.
-  -- @param #string warehouseName Warehouse facility name.
+  --- Gets a random inbound facility route (along with ingress points, if any) to named facility.
+  -- @param #string facilityName Facility facility name.
   -- @return #ListRoute List of DCS routing entries, otherwise nil if no routes exist.
-  function FDMMCargoRoute:getInboundRouteToWarehouse(warehouseName)
+  function FDMMCargoRoute:getInboundRouteToFacility(facilityName)
     -- TODO: me.
   end
 
-  --- Gets a random outbound warehouse route (along with egress points, if any) from named warehouse.
-  -- @param #string warehouseName Warehouse facility name.
+  --- Gets a random outbound facility route (along with egress points, if any) from named facility.
+  -- @param #string facilityName Facility facility name.
   -- @return #ListRoute List of DCS routing entries, otherwise nil if no routes exist.
-  function FDMMCargoRoute:getOutboundRouteFromWarehouse(warehouseName)
+  function FDMMCargoRoute:getOutboundRouteFromFacility(facilityName)
     -- TODO: me.
   end
 
@@ -102,18 +102,18 @@ do -- FDMM_CargoRoute
   --   WPList (ALL):
   --    WPs that are unnamed, or just contain the GN prefix only (w/o '_'), are skipped/unused.
   --    WP0 is generally named the GN prefix (w/o '_') to identify it as territory's main cargo routing group on map
-  --      editor, or just the GN prefix suffixed with _SP to specify a cargo unit's initial position as a territory
+  --      editor, or simply the GN prefix suffixed with _SP to specify a cargo unit's initial position as a territory
   --      spawn point.
   --    WPs are named such that successive WPs create 'routes' of waypoints that then link to one of the types of route
   --      creation methods:
-  --      - All WPs for a particular route type may use either #Consts.CargoRoutePrefix and a required
-  --        #Consts.CargoRouteWPSuffix, or #Consts.CargoRouteWPPrefix and an applicable #Consts.CargoRouteWPSuffix if
-  --        required, along with resource target or linkage direction name if required.
-  --      - Point locations get specified using the name of the resource target or linkage direction (with corresponding
-  --        suffix iff required). Consider this the primary point a route is attempting to reach/leave.
-  --      - Warehouse and linkage direction can specify ingress points, which describe navigating-towards a location,
+  --      - All WPs for a particular route subset must contain the referenced point location name and use either:
+  --          1) #Consts.CargoRouteGNPrefix and a required #Consts.CargoRouteWPRouteSuffix, or
+  --          2) #Consts.CargoRouteWPRoutePrefix and any optional/applicable #Consts.CargoRouteWPRouteSuffix iff needed
+  --      - Point locations get specified using the name of the facility or linkage direction (with corresponding
+  --        prefix/suffix iff required). Consider this the primary point a route is attempting to reach/leave.
+  --      - Facility and linkage direction can specify ingress points, which describe navigating-towards the location,
   --        via suffix _IP, typically appearing in the WP list before the point location WP.
-  --      - Spawn points can specify egress points, which describe navigating-away-from a location, via suffix _EP,
+  --      - Spawn points can specify egress points, which describe navigating-away-from the location, via suffix _EP,
   --        typically appearing in the WP list after the point location WP.
   --      - When routes are requested, any ingress/egress points will be properly reversed to supply assisted routing
   --        into/out-of a location from/to territory's main navigation grid.
@@ -128,10 +128,10 @@ do -- FDMM_CargoRoute
       }
     end
     local routeGroups = {
-      [fdmm.consts.CargoRoutePrefix.Land] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Land] or {},
-      [fdmm.consts.CargoRoutePrefix.Train] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Train] or {},
-      [fdmm.consts.CargoRoutePrefix.Air] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Air] or {},
-      [fdmm.consts.CargoRoutePrefix.Sea] = fdmm.config.gpCache[fdmm.consts.CargoRoutePrefix.Sea] or {}
+      [fdmm.consts.CargoRouteGNPrefix.Land] = fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Land] or {},
+      [fdmm.consts.CargoRouteGNPrefix.Train] = fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Train] or {},
+      [fdmm.consts.CargoRouteGNPrefix.Air] = fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Air] or {},
+      [fdmm.consts.CargoRouteGNPrefix.Sea] = fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Sea] or {}
     }
 
     function _processGroup(groupName, groupData, routeType)
@@ -146,7 +146,7 @@ do -- FDMM_CargoRoute
 
         -- Scanner for parsing WP list
         local scanMode = nil
-        local ScanMode = { Spawn = 'spawn', Warehouse = 'warehouse', Linkage = 'linkage', TBD = '_' }
+        local ScanMode = { Spawn = 'spawn', Linkage = 'linkage', Facility = 'facility', TBD = '_' }
         local name, point, pointList = nil, nil, {}
 
         function _updateScanner(nextScanMode, nextName)
@@ -160,21 +160,21 @@ do -- FDMM_CargoRoute
             if scanMode then -- take care of last scan
               if scanMode == ScanMode.Spawn then
                 if string.isNotEmpty(routeFaction) and point and pointList then
-                  cargoRoute:addStartLocation(routeFaction, point, pointList)
+                  cargoRoute:addSpawnLocation(routeFaction, point, pointList)
                 else
                   env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' failed to parse spawn route \'' .. (name or '<nil>') .. '\'.')
-                end
-              elseif scanMode == ScanMode.Warehouse then
-                if string.isNotEmpty(name) and point and pointList then
-                  cargoRoute:addWarehouseLocation(name, point, pointList)
-                else
-                  env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' failed to parse warehouse route \'' .. (name or '<nil>') .. '\'.')
                 end
               elseif scanMode == ScanMode.Linkage then
                 if string.isNotEmpty(name) and point and pointList then
                   cargoRoute:addDirectionalLink(name, point, pointList)
                 else
                   env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' failed to parse linkage route \'' .. (name or '<nil>') .. '\'.')
+                end
+              elseif scanMode == ScanMode.Facility then
+                if string.isNotEmpty(name) and point and pointList then
+                  cargoRoute:addFacilityLocation(name, point, pointList)
+                else
+                  env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' failed to parse facility route \'' .. (name or '<nil>') .. '\'.')
                 end
               elseif scanMode ~= ScanMode.TBD then
                 env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' encountered unrecognized scan mode \'' .. (nextScanMode or '<nil>') .. '\'.')
@@ -189,59 +189,59 @@ do -- FDMM_CargoRoute
         end
 
         for idx, routePoint in ipairs(groupRoute) do
-          if string.isNotEmpty(routePoint.name) then -- only worried about named WPs
-            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.CargoRoutePrefix, fdmm.consts.CargoRouteWPSuffix)
+          if string.isNotEmpty(routePoint.name) and (routePoint.name .. '_') ~= fdmm.consts.CargoRouteGNPrefix[RouteType] then -- only worried about named WPs
+            local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, fdmm.consts.CargoRouteGNPrefix, fdmm.consts.CargoRouteWPRouteSuffix)
 
-            if wpPrefix == fdmm.consts.CargoRoutePrefix[RouteType] then
+            if wpPrefix == fdmm.consts.CargoRouteGNPrefix[RouteType] then
               -- WPs /w prefix C[V|T|A|S]RT_
-              if wpSuffix == fdmm.consts.CargoRouteWPSuffix.Egress or
-                 wpSuffix == fdmm.consts.CargoRouteWPSuffix.Ingress then
+              if wpSuffix == fdmm.consts.CargoRouteWPRouteSuffix.Egress or
+                 wpSuffix == fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
                 _updateScanner(ScanMode.TBD, wpName)
                 table.insert(pointList, fdmm.utils.rposFromRPoint(routePoint))
-              elseif wpSuffix == fdmm.consts.CargoRouteWPSuffix.Spawn then
+              elseif wpSuffix == fdmm.consts.CargoRouteWPRouteSuffix.Spawn then
                 _updateScanner(ScanMode.Spawn, wpName)
                 point = fdmm.utils.rposFromRPoint(routePoint)
-              elseif wpSuffix == fdmm.consts.CargoRouteWPSuffix.Warehouse then
-                _updateScanner(ScanMode.Warehouse, wpName)
-                point = fdmm.utils.rposFromRPoint(routePoint)
-              elseif wpSuffix == fdmm.consts.CargoRouteWPSuffix.Linkage then
+              elseif wpSuffix == fdmm.consts.CargoRouteWPRouteSuffix.Linkage then
                 _updateScanner(ScanMode.Linkage, wpName)
                 point = fdmm.utils.rposFromRPoint(routePoint)
-              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- Not a stand-in WP name
+              elseif wpSuffix == fdmm.consts.CargoRouteWPRouteSuffix.Facility then
+                _updateScanner(ScanMode.Facility, wpName)
+                point = fdmm.utils.rposFromRPoint(routePoint)
+              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- not a stand-in WP name
                 env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown WP \'' .. (routePoint.name or '<nil>') .. '\' at WP index ' .. idx .. '.')
               end
-            elseif wpPrefix == fdmm.consts.CargoRouteWPPrefix[RouteType].Spawn then
+            elseif wpPrefix == fdmm.consts.CargoRouteWPRoutePrefix[RouteType].Spawn then
               -- WPs /w prefix C[V|T|A|S]SP_
               if string.isEmpty(wpSuffix) then
                 _updateScanner(ScanMode.Spawn, wpName)
                 point = fdmm.utils.rposFromRPoint(routePoint)
-              elseif wpSuffix == fdmm.consts.CargoRouteWPSuffix.EgressPoint then
+              elseif wpSuffix == fdmm.consts.CargoRouteWPRouteSuffix.Egress then
                 _updateScanner(ScanMode.Spawn, wpName)
                 table.insert(pointList, fdmm.utils.rposFromRPoint(routePoint))
-              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- Not a stand-in WP name
+              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- not a stand-in WP name
                 env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown spawn WP \'' .. (routePoint.name or '<nil>') .. '\' at WP index ' .. idx .. '.')
               end
-            elseif wpPrefix == fdmm.consts.CargoRouteWPPrefix[RouteType].Warehouse then
-              -- WPs /w prefix C[V|T|A|S]WH_
-              if string.isEmpty(wpSuffix) then
-                _updateScanner(ScanMode.Warehouse, wpName)
-                point = fdmm.utils.rposFromRPoint(routePoint)
-              elseif wpSuffix == fdmm.consts.CargoRouteWPSuffix.IngressPoint then
-                _updateScanner(ScanMode.Warehouse, wpName)
-                table.insert(pointList, fdmm.utils.rposFromRPoint(routePoint))
-              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- Not a stand-in WP name
-                env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown warehouse WP \'' .. (routePoint.name or '<nil>') .. '\' at WP index ' .. idx .. '.')
-              end
-            elseif wpPrefix == fdmm.consts.CargoRouteWPPrefix[RouteType].Linkage then
+            elseif wpPrefix == fdmm.consts.CargoRouteWPRoutePrefix[RouteType].Linkage then
               -- WPs /w prefix C[V|T|A|S]LK_
               if string.isEmpty(wpSuffix) then
                 _updateScanner(ScanMode.Linkage, wpName)
                 point = fdmm.utils.rposFromRPoint(routePoint)
-              elseif wpSuffix == fdmm.consts.CargoRouteWPSuffix.IngressPoint then
+              elseif wpSuffix == fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
                 _updateScanner(ScanMode.Linkage, wpName)
                 table.insert(pointList, fdmm.utils.rposFromRPoint(routePoint))
-              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- Not a stand-in WP name
+              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- not a stand-in WP name
                 env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown linkage WP \'' .. (routePoint.name or '<nil>') .. '\' at WP index ' .. idx .. '.')
+              end
+            elseif wpPrefix == fdmm.consts.CargoRouteWPRoutePrefix[RouteType].Facility then
+              -- WPs /w prefix C[V|T|A|S]FC_
+              if string.isEmpty(wpSuffix) then
+                _updateScanner(ScanMode.Facility, wpName)
+                point = fdmm.utils.rposFromRPoint(routePoint)
+              elseif wpSuffix == fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
+                _updateScanner(ScanMode.Facility, wpName)
+                table.insert(pointList, fdmm.utils.rposFromRPoint(routePoint))
+              elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- not a stand-in WP name
+                env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown facility WP \'' .. (routePoint.name or '<nil>') .. '\' at WP index ' .. idx .. '.')
               end
             else
               env.error('Cargo ' .. routeType .. ' routing group \'' .. groupName .. '\' unknown routing WP \'' .. (routePoint.name or '<nil>') .. '\' at WP index ' .. idx .. '.')
@@ -254,23 +254,23 @@ do -- FDMM_CargoRoute
       end
     end
 
-    -- Process CargoRoutePrefix.Land (CVRT_)
-    for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Land]) do
+    -- Process CargoRouteGNPrefix.Land (CVRT_)
+    for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRouteGNPrefix.Land]) do
       _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Land)
     end
 
-    -- Process CargoRoutePrefix.Train (CTRT_)
-    for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Train]) do
+    -- Process CargoRouteGNPrefix.Train (CTRT_)
+    for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRouteGNPrefix.Train]) do
       _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Train)
     end
 
-    -- Process CargoRoutePrefix.Air (CART_)
-    for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Air]) do
+    -- Process CargoRouteGNPrefix.Air (CART_)
+    for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRouteGNPrefix.Air]) do
       _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Air)
     end
 
-    -- Process CargoRoutePrefix.Sea (CSRT_)
-    for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRoutePrefix.Sea]) do
+    -- Process CargoRouteGNPrefix.Sea (CSRT_)
+    for groupName, groupData in pairs(routeGroups[fdmm.consts.CargoRouteGNPrefix.Sea]) do
       _processGroup(groupName, groupData, fdmm.enums.CargoRouteType.Sea)
     end
   end

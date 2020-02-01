@@ -3,38 +3,37 @@
 -- @module FDMM_Port
 env.info('---FDMM_Port Start---')
 
+require('FDMM_Facility')
+
 --- FDMM port module.
 fdmm.port = {}
 
 do --FDMMPort
 
-  --- Port class that manages ports in a territory, being able to manage ships, control docking/undocking, refits/repairs, etc.
+  --- Port class that manages a unit manufacturing factory facility in a territory, which acts as an RPType.Unit manufacturer.
   -- @type FDMMPort
   FDMMPort = {}
   FDMMPort.__index = FDMMPort
   setmetatable(FDMMPort, {
+    __index = FDMMFacility,
     __call = function (cls, ...)
       return cls.new(...)
-    end,
+    end
   })
 
   --- Port constructor.
-  -- @param #string name Port name (typically containing name of nearby port city).
-  -- @param DCS#Vec2 centerPoint Center point of this facility.
-  -- @param #string territoryName Territory name this facility belongs to.
-  -- @return #FDMMPort New instance of FDMMPort.
+  -- @param #string name Port name.
+  -- @param DCS#Vec2 centerPoint Center point of port.
+  -- @param #string territoryName Territory name this port belongs to.
+  -- @return #FDMMPort New instance of #FDMMPort.
   function FDMMPort.new(name, centerPoint, territoryName)
-    local self = setmetatable({}, FDMMPort)
-
-    self.name = name
-    self.centerPoint = centerPoint
-    self.territoryName = territoryName
-
+    local self = setmetatable(FDMMFacility.new(name, centerPoint, territoryName), FDMMPort)
+    -- TODO: me.
     return self
   end
 
-  --- Builds Port from map coordinates, using any objects in vicinity of centerPoint.
-  function FDMMPort:buildPort()
+  --- Builds port from initial placement of map elements nearby according to setup parameters.
+  function FDMMPort:buildFacility()
     -- TODO: me.
   end
 

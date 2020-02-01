@@ -3,38 +3,37 @@
 -- @module FDMM_ArmsPlant
 env.info('---FDMM_ArmsPlant Start---')
 
+require('FDMM_Facility')
+
 --- FDMM arms plant module.
 fdmm.armsPlant = {}
 
 do --FDMMArmsPlant
 
-  --- Arms plant class that manages manufacturing plants in a territory, which acts as an equipment manufacturing resource.
+  --- Arms plant class that manages an arms manufacturing plant facility in a territory, which acts as an RPType.Arms manufacturer.
   -- @type FDMMArmsPlant
   FDMMArmsPlant = {}
   FDMMArmsPlant.__index = FDMMArmsPlant
   setmetatable(FDMMArmsPlant, {
+    __index = FDMMFacility,
     __call = function (cls, ...)
       return cls.new(...)
-    end,
+    end
   })
 
   --- Arms plant constructor.
-  -- @param #string name Arms plant name (typically containing name of nearby city).
-  -- @param DCS#Vec2 centerPoint Center point of this facility.
-  -- @param #string territoryName Territory name this facility belongs to.
-  -- @return #FDMMArmsPlant New instance of FDMMArmsPlant.
+  -- @param #string name Arms plant name.
+  -- @param DCS#Vec2 centerPoint Center point of arms plant.
+  -- @param #string territoryName Territory name this arms plant belongs to.
+  -- @return #FDMMArmsPlant New instance of #FDMMArmsPlant.
   function FDMMArmsPlant.new(name, centerPoint, territoryName)
-    local self = setmetatable({}, FDMMArmsPlant)
-
-    self.name = name
-    self.centerPoint = centerPoint
-    self.territoryName = territoryName
-
+    local self = setmetatable(FDMMFacility.new(name, centerPoint, territoryName), FDMMArmsPlant)
+    -- TODO: me.
     return self
   end
 
-  --- Builds arms plant from map coordinates, using any objects in vicinity of centerPoint.
-  function FDMMArmsPlant:buildArmsPlant()
+  --- Builds arms plant from initial placement of map elements nearby according to setup parameters.
+  function FDMMArmsPlant:buildFacility()
     -- TODO: me.
   end
 

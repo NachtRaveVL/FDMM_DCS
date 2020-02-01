@@ -72,6 +72,52 @@ do --FDMM_LuaAdditions
     return false
   end
 
+  --- Table concatination.
+  -- Concatenates two tables into a new single table.
+  -- @param #table tbl1 First table.
+  -- @param #table tbl2 Second table.
+  -- @return #table First and second table merged.
+  function table.concatedWith(tbl1, tbl2)
+    local retVal = nil
+    if tbl1 or tbl2 then
+      retVal = {}
+      if tbl1 then
+        for k,v in pairs(tbl1) do
+          retVal[k] = v
+        end
+      end
+      if tbl2 then
+        for k,v in pairs(tbl2) do
+          retVal[k] = v
+        end
+      end
+    end
+    return retVal
+  end
+
+  --- Table concatination (indexed).
+  -- Concatenates two indexed tables into a new single indexed table.
+  -- @param #table tbl1 First indexed table.
+  -- @param #table tbl2 Second indexed table.
+  -- @return #table First and second indexed tables merged.
+  function table.concatedWithi(tbl1, tbl2)
+    local retVal = nil
+    if tbl1 or tbl2 then
+      retVal = {}
+      if tbl1 then
+        for idx,v in ipairs(tbl1) do
+          table.insert(retVal, v)
+        end
+      end
+      if tbl2 then
+        for idx,v in ipairs(tbl2) do
+          table.insert(retVal, v)
+        end
+      end
+    end
+    return retVal
+  end
+
 end --FDMM_LuaAdditions
 
 env.info('---FDMM_LuaAdditions End---')
