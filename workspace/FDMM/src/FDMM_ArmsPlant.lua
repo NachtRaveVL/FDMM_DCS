@@ -37,6 +37,12 @@ do --FDMMArmsPlant
     -- TODO: me.
   end
 
+  --- Gets facility type of arms plant.
+  -- @return #Enums.FacilityType Arms plant facility type.
+  function FDMMArmsPlant:getFacilityType()
+    return fdmm.enums.FacilityType.ArmsPlant
+  end
+
 end --FDMMArmsPlant
 
 do -- FDMM_ArmsPlant

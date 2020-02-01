@@ -37,6 +37,12 @@ do --FDMMCommandCenter
     -- TODO: me.
   end
 
+  --- Gets facility type of command center.
+  -- @return #Enums.FacilityType Command center facility type.
+  function FDMMCommandCenter:getFacilityType()
+    return fdmm.enums.FacilityType.CommandCenter
+  end
+
 end --FDMMCommandCenter
 
 do -- FDMM_CommandCenter

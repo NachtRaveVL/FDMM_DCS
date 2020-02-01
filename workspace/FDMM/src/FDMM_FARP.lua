@@ -37,6 +37,12 @@ do --FDMMFARP
     -- TODO: me.
   end
 
+  --- Gets facility type of FARP.
+  -- @return #Enums.FacilityType FARP facility type.
+  function FDMMFARP:getFacilityType()
+    return fdmm.enums.FacilityType.FARP
+  end
+
 end --FDMMFARP
 
 do -- FDMM_FARP

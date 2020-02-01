@@ -37,6 +37,12 @@ do --FDMMOilField
     -- TODO: me.
   end
 
+  --- Gets facility type of oil field.
+  -- @return #Enums.FacilityType Oil field facility type.
+  function FDMMOilField:getFacilityType()
+    return fdmm.enums.FacilityType.OilField
+  end
+
 end --FDMMOilField
 
 do -- FDMM_OilField

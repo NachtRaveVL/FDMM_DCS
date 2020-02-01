@@ -134,6 +134,16 @@ do --FDMM_Territory
       [fdmm.enums.TerritoryType.Sea] = {},
       [fdmm.enums.TerritoryType.All] = {}
     }
+    fdmm.facilities = {
+      [fdmm.enums.FacilityType.Airbase] = {},
+      [fdmm.enums.FacilityType.ArmsPlant] = {},
+      [fdmm.enums.FacilityType.CommandCenter] = {},
+      [fdmm.enums.FacilityType.FARP] = {},
+      [fdmm.enums.FacilityType.OilField] = {},
+      [fdmm.enums.FacilityType.Port] = {},
+      [fdmm.enums.FacilityType.UnitFactory] = {},
+      [fdmm.enums.FacilityType.All] = {}
+    }
     local terrGroups = {
       [fdmm.consts.TerritoryGNPrefix.Define] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Define] or {},
       [fdmm.consts.TerritoryGNPrefix.Linkage] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Linkage] or {},
@@ -182,25 +192,39 @@ do --FDMM_Territory
             local wpPrefix, wpName, wpSuffix = fdmm.utils.getGroupingComponentsWithSNC(routePoint.name, knownPrefixes, nil)
 
             if wpPrefix == fdmm.consts.TerritoryWPFacilityPrefix.Airbase and string.isNotEmpty(wpName) then
-              local airbase = territory.facilities[wpName] or FDMMAirbase.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              local airbase = fdmm.facilities.all[wpName] or FDMMAirbase.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              fdmm.facilities.airbase[airbase.name] = airbase
+              fdmm.facilities.all[airbase.name] = airbase
               territory:addFacility(airbase)
             elseif wpPrefix == fdmm.consts.TerritoryWPFacilityPrefix.ArmsPlant and string.isNotEmpty(wpName) then
-              local armsPlant = territory.facilities[wpName] or FDMMArmsPlant.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              local armsPlant = fdmm.facilities.all[wpName] or FDMMArmsPlant.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              fdmm.facilities.armsPlant[armsPlant.name] = armsPlant
+              fdmm.facilities.all[armsPlant.name] = armsPlant
               territory:addFacility(armsPlant)
             elseif wpPrefix == fdmm.consts.TerritoryWPFacilityPrefix.CommandCenter and string.isNotEmpty(wpName) then
-              local commandCenter = territory.facilities[wpName] or FDMMCommandCenter.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              local commandCenter = fdmm.facilities.all[wpName] or FDMMCommandCenter.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              fdmm.facilities.commandCenter[commandCenter.name] = commandCenter
+              fdmm.facilities.all[commandCenter.name] = commandCenter
               territory:addFacility(commandCenter)
             elseif wpPrefix == fdmm.consts.TerritoryWPFacilityPrefix.FARP and string.isNotEmpty(wpName) then
-              local farp = territory.facilities[wpName] or FDMMFARP.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              local farp = fdmm.facilities.all[wpName] or FDMMFARP.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              fdmm.facilities.farp[farp.name] = farp
+              fdmm.facilities.all[farp.name] = farp
               territory:addFacility(farp)
             elseif wpPrefix == fdmm.consts.TerritoryWPFacilityPrefix.OilField and string.isNotEmpty(wpName) then
-              local oilField = territory.facilities[wpName] or FDMMOilField.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              local oilField = fdmm.facilities.all[wpName] or FDMMOilField.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              fdmm.facilities.oilField[oilField.name] = oilField
+              fdmm.facilities.all[oilField.name] = oilField
               territory:addFacility(oilField)
             elseif wpPrefix == fdmm.consts.TerritoryWPFacilityPrefix.Port and string.isNotEmpty(wpName) then
-              local port = territory.facilities[wpName] or FDMMPort.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              local port = fdmm.facilities.all[wpName] or FDMMPort.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              fdmm.facilities.port[port.name] = port
+              fdmm.facilities.all[port.name] = port
               territory:addFacility(port)
             elseif wpPrefix == fdmm.consts.TerritoryWPFacilityPrefix.UnitFactory and string.isNotEmpty(wpName) then
-              local unitFactory = territory.facilities[wpName] or FDMMUnitFactory.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              local unitFactory = fdmm.facilities.all[wpName] or FDMMUnitFactory.new(wpName, fdmm.utils.rposFromRPoint(routePoint), territoryName)
+              fdmm.facilities.unitFactory[unitFactory.name] = unitFactory
+              fdmm.facilities.all[unitFactory.name] = unitFactory
               territory:addFacility(unitFactory)
             elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- not a stand-in WP name
               env.error('Territory group \'' .. groupName .. '\' unknown facility WP \'' .. (routePoint.name or '<nil>') .. '\' at WP index ' .. idx .. '.')

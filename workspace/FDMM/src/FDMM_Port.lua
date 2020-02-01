@@ -37,6 +37,12 @@ do --FDMMPort
     -- TODO: me.
   end
 
+  --- Gets facility type of port.
+  -- @return #Enums.FacilityType Port facility type.
+  function FDMMPort:getFacilityType()
+    return fdmm.enums.FacilityType.Port
+  end
+
 end --FDMMPort
 
 do -- FDMM_Port

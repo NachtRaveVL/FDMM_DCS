@@ -37,6 +37,12 @@ do --FDMMAirbase
     -- TODO: me.
   end
 
+  --- Gets facility type of airbase.
+  -- @return #Enums.FacilityType Airbase facility type.
+  function FDMMAirbase:getFacilityType()
+    return fdmm.enums.FacilityType.Airbase
+  end
+
 end --FDMMAirbase
 
 do -- FDMM_Airbase

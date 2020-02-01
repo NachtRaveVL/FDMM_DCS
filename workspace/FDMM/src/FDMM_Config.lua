@@ -120,6 +120,23 @@ do --FDMM_CargoRoute_Defines
 
 end --FDMM_CargoRoute_Defines
 
+do --FDMM_Facility_Defines
+
+  --- Facility types.
+  -- @type Enums.FacilityType
+  fdmm.enums.FacilityType = {
+    Airbase = 'airbase',
+    ArmsPlant = 'armsPlant',
+    CommandCenter = 'commandCenter',
+    FARP = 'farp',
+    OilField = 'oilField',
+    Port = 'port',
+    UnitFactory = 'unitFactory',
+    All = 'all' -- used only in filtering
+  }
+
+end --FDMM_Facility_Defines
+
 do --FDMM_ResourceUnit_Defines
 
   --- Resource point types.

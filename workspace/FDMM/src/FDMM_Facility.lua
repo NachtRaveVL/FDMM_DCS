@@ -38,6 +38,13 @@ do --FDMMFacility
     -- meant to be overridden by derived classes
   end
 
+  --- Gets facility type of facility.
+  -- @return #Enums.FacilityType Facility type.
+  function FDMMFacility:getFacilityType()
+    -- meant to be overridden by derived classes
+    return nil
+  end
+
 end --FDMMFacility
 
 do -- FDMM_Facility

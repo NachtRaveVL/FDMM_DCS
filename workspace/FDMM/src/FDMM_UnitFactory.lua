@@ -37,6 +37,12 @@ do --FDMMUnitFactory
     -- TODO: me.
   end
 
+  --- Gets facility type of unit factory.
+  -- @return #Enums.FacilityType Unit factory facility type.
+  function FDMMUnitFactory:getFacilityType()
+    return fdmm.enums.FacilityType.UnitFactory
+  end
+
 end --FDMMUnitFactory
 
 do -- FDMM_UnitFactory
