@@ -29,6 +29,7 @@ do --FDMM_MissionStart
 
   fdmm.config.createGPCache()
   fdmm.territory.createTerritories()
+  fdmm.territory.createFacilities()
   fdmm.cargoRoute.createCargoRoutes()
 
   fdmm.territory.buildFacilities()

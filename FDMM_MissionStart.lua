@@ -24,13 +24,13 @@ fdmm.enums.RPType={Fuel='fuel',Arms='arms',Unit='unit'}fdmm.enums.RPAmountType={
 do
 fdmm.enums.TerritoryType={Land='land',Sea='sea',All='all'}fdmm.consts.TerritoryGNPrefix={Define='TDEF_',Linkage='TLNK_',Facility='TFAC_'}fdmm.consts.TerritoryWPFacilityPrefix={Airbase='TARB_',ArmsPlant='TARM_',CommandCenter='TCMD_',FARP='TFRP_',OilField='TOIL_',Port='TPRT_',UnitFactory='TUNT_'}end
 do
-function fdmm.config.createGPCache()fdmm.config.gpCache={}local r={'AIRB_','ARMP_','CMDC_','FARP_','OILF_','PORT_','UNTF_'}for n,t in pairs(mist.DBs.groupsByName)do
-local i,e=fdmm.utils.removeGroupingPrefix(n)if e~=nil then
+function fdmm.config.createGPCache()fdmm.config.gpCache={}local i={'AIRB_','ARMP_','CMDC_','FARP_','OILF_','PORT_','UNTF_'}for n,t in pairs(mist.DBs.groupsByName)do
+local r,e=fdmm.utils.removeGroupingPrefix(n)if e~=nil then
 if not fdmm.config.gpCache[e]then
 fdmm.config.gpCache[e]={}end
-if table.contains(r,e)then
-local r=string.find(i,'_')if r~=nil then
-local i=i:sub(1,r-1)if not fdmm.config.gpCache[e][i]then
+if table.contains(i,e)then
+local i=string.find(r,'_')if i~=nil then
+local i=r:sub(1,i-1)if not fdmm.config.gpCache[e][i]then
 fdmm.config.gpCache[e][i]={}end
 fdmm.config.gpCache[e][i][n]=t
 else
@@ -67,15 +67,15 @@ end
 end
 return false
 end
-function table.concatedWith(n,i)local e=nil
-if n or i then
-e={}if n then
-for n,i in pairs(n)do
+function table.concatedWith(i,n)local e=nil
+if i or n then
+e={}if i then
+for n,i in pairs(i)do
 e[n]=i
 end
 end
-if i then
-for i,n in pairs(i)do
+if n then
+for i,n in pairs(n)do
 e[i]=n
 end
 end
@@ -106,9 +106,9 @@ return mist.vec.magSqrd({x=n.x-e.x,y=n.y-e.y,z=n.z-e.z})end
 mist.vec.magSqrd=function(e)return(e.x*e.x)+(e.y*e.y)+((e.z or 0)*(e.z or 0))end
 end
 env.info('---FDMM_MISTAdditions End---')end)__DISTILLER:define("FDMM_MOOSEAdditions",function(e)env.info('---FDMM_MOOSEAdditions Start---')assert(routines,'MOOSE not initialized.')do
-function routines.utils.get2DDistSqrd(n,e)if n.z~=nil then n=routines.utils.makeVec2(n)end
-if e.z~=nil then e=routines.utils.makeVec2(e)end
-return routines.vec.magSqrd({x=n.x-e.x,y=n.y-e.y})end
+function routines.utils.get2DDistSqrd(e,n)if e.z~=nil then e=routines.utils.makeVec2(e)end
+if n.z~=nil then n=routines.utils.makeVec2(n)end
+return routines.vec.magSqrd({x=e.x-n.x,y=e.y-n.y})end
 function routines.utils.get3DDistSqrd(e,n)if e.z==nil then e=routines.utils.makeVec3(e)end
 if n.z==nil then n=routines.utils.makeVec3(n)end
 return routines.vec.magSqrd({x=e.x-n.x,y=e.y-n.y,z=e.z-n.z})end
@@ -161,8 +161,8 @@ end
 return n,nil
 end
 function fdmm.utils.getGroupingComponents(e)if e then
-local i,n
-e=fdmm.utils.removeNumericSuffix(e)e,i=fdmm.utils.removeGroupingPrefix(e)e,n=fdmm.utils.removeGroupingSuffix(e)return i,e,n
+local n,i
+e=fdmm.utils.removeNumericSuffix(e)e,n=fdmm.utils.removeGroupingPrefix(e)e,i=fdmm.utils.removeGroupingSuffix(e)return n,e,i
 end
 return nil,nil,nil
 end
@@ -233,31 +233,31 @@ end
 function FDMMTerritory:buildFacilities()for n,e in pairs(self.facilities)do
 e:buildFacility()end
 end
-function FDMMTerritory:smokeBoundaries(t)t=t or SMOKECOLOR.Blue
+function FDMMTerritory:smokeBoundaries(r)r=r or SMOKECOLOR.Blue
 local a=10000./25.
-local n=nil
+local t=nil
 for e,o in ipairs(self.polygonPoints)do
 if e>1 then
-local e=mist.utils.makeVec3(o)local e=mist.vec.sub(e,n)local r=mist.vec.mag(e)local o=mist.vec.scalarMult(e,1./r)local e=1
-local i=r/e
-while i>a do
+local e=mist.utils.makeVec3(o)local e=mist.vec.sub(e,t)local i=mist.vec.mag(e)local o=mist.vec.scalarMult(e,1./i)local e=1
+local n=i/e
+while n>a do
 e=e+1
-i=r/e
+n=i/e
 end
 while e>=0 do
-local i=mist.vec.scalarMult(o,e*i)local n=mist.vec.add(n,i);COORDINATE:NewFromVec2(mist.utils.makeVec2(n)):Smoke(t)e=e-1
+local n=mist.vec.scalarMult(o,e*n)local n=mist.vec.add(t,n);COORDINATE:NewFromVec2(mist.utils.makeVec2(n)):Smoke(r)e=e-1
 end
 end
-n=mist.utils.makeVec3(o)end
+t=mist.utils.makeVec3(o)end
 end
 end
 do
-function fdmm.territory.createTerritories()fdmm.territories={[fdmm.enums.TerritoryType.Land]={},[fdmm.enums.TerritoryType.Sea]={},[fdmm.enums.TerritoryType.All]={}}fdmm.facilities={[fdmm.enums.FacilityType.Airbase]={},[fdmm.enums.FacilityType.ArmsPlant]={},[fdmm.enums.FacilityType.CommandCenter]={},[fdmm.enums.FacilityType.FARP]={},[fdmm.enums.FacilityType.OilField]={},[fdmm.enums.FacilityType.Port]={},[fdmm.enums.FacilityType.UnitFactory]={},[fdmm.enums.FacilityType.All]={}}local n={[fdmm.consts.TerritoryGNPrefix.Define]=fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Define]or{},[fdmm.consts.TerritoryGNPrefix.Linkage]=fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Linkage]or{},[fdmm.consts.TerritoryGNPrefix.Facility]=fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Facility]or{}}local r=table.concatedWith(fdmm.consts.TerritoryGNPrefix,fdmm.consts.TerritoryWPFacilityPrefix)for e,n in pairs(n[fdmm.consts.TerritoryGNPrefix.Define])do
-local e=FDMMTerritory.newFromGroup(e,n)fdmm.territories[e.type][e.name]=e
+function fdmm.territory.createTerritories()fdmm.territories={[fdmm.enums.TerritoryType.Land]={},[fdmm.enums.TerritoryType.Sea]={},[fdmm.enums.TerritoryType.All]={}}local n={[fdmm.consts.TerritoryGNPrefix.Define]=fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Define]or{},[fdmm.consts.TerritoryGNPrefix.Linkage]=fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Linkage]or{}}for n,e in pairs(n[fdmm.consts.TerritoryGNPrefix.Define])do
+local e=FDMMTerritory.newFromGroup(n,e)fdmm.territories[e.type][e.name]=e
 fdmm.territories.all[e.name]=e
 end
 for e,n in pairs(n[fdmm.consts.TerritoryGNPrefix.Linkage])do
-local t=fdmm.utils.removeGroupingPrefix(e)local n=fdmm.territories.all[t]if n~=nil then
+local i=fdmm.utils.removeGroupingPrefix(e)local n=fdmm.territories.all[i]if n~=nil then
 for t,i in ipairs(mist.getGroupRoute(e,false))do
 if string.isEmpty(i.name)then
 local i=fdmm.territory.closestTerritoryToPoint(fdmm.utils.rposFromRPoint(i),n.type)if i~=nil then
@@ -266,13 +266,14 @@ env.error("Territory linkage group '"..e.."' failed to find a closest territory 
 end
 end
 else
-env.error("Territory linkage group '"..e.."' failed to find territory named '"..t.."'.")end
+env.error("Territory linkage group '"..e.."' failed to find territory named '"..i.."'.")end
 end
-for o,e in pairs(n[fdmm.consts.TerritoryGNPrefix.Facility])do
+end
+function fdmm.territory.createFacilities()fdmm.facilities={[fdmm.enums.FacilityType.Airbase]={},[fdmm.enums.FacilityType.ArmsPlant]={},[fdmm.enums.FacilityType.CommandCenter]={},[fdmm.enums.FacilityType.FARP]={},[fdmm.enums.FacilityType.OilField]={},[fdmm.enums.FacilityType.Port]={},[fdmm.enums.FacilityType.UnitFactory]={},[fdmm.enums.FacilityType.All]={}}local n={[fdmm.consts.TerritoryGNPrefix.Facility]=fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Facility]or{}}local e=table.concatedWith(fdmm.consts.TerritoryGNPrefix,fdmm.consts.TerritoryWPFacilityPrefix)for o,n in pairs(n[fdmm.consts.TerritoryGNPrefix.Facility])do
 local i=fdmm.utils.removeGroupingPrefix(o)local t=fdmm.territories.all[i]if t~=nil then
 for d,n in ipairs(mist.getGroupRoute(o,false))do
 if string.isNotEmpty(n.name)and(n.name..'_')~=fdmm.consts.TerritoryGNPrefix.Facility then
-local r,e,a=fdmm.utils.getGroupingComponentsWithSNC(n.name,r,nil)if r==fdmm.consts.TerritoryWPFacilityPrefix.Airbase and string.isNotEmpty(e)then
+local r,e,a=fdmm.utils.getGroupingComponentsWithSNC(n.name,e,nil)if r==fdmm.consts.TerritoryWPFacilityPrefix.Airbase and string.isNotEmpty(e)then
 local e=fdmm.facilities.all[e]or FDMMAirbase.new(e,fdmm.utils.rposFromRPoint(n),i)fdmm.facilities.airbase[e.name]=e
 fdmm.facilities.all[e.name]=e
 t:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.ArmsPlant and string.isNotEmpty(e)then
@@ -304,13 +305,13 @@ end
 function fdmm.territory.buildFacilities()for n,e in pairs(fdmm.territories.all)do
 e:buildFacilities()end
 end
-function fdmm.territory.closestTerritoryToPoint(e,n)local i=mist.utils.makeVec2(e)local e=nil
-local t=0
-local n=n or fdmm.enums.TerritoryType.All
-local n=fdmm.territories[n]for r,n in pairs(n)do
-local i=mist.utils.get2DDistSqrd(i,n.centerPoint)if e==nil or i<t then
-e=n
-t=i
+function fdmm.territory.closestTerritoryToPoint(e,i)local t=mist.utils.makeVec2(e)local e=nil
+local n=0
+local i=i or fdmm.enums.TerritoryType.All
+local i=fdmm.territories[i]for r,i in pairs(i)do
+local t=mist.utils.get2DDistSqrd(t,i.centerPoint)if e==nil or t<n then
+e=i
+n=t
 end
 end
 return e
@@ -330,9 +331,9 @@ setmetatable(FDMMCargoRoute,{__call=function(e,...)return e.new(...)end,})functi
 e.routeType=i
 e.spawnLocs={}e.facilityLocs={}e.dirLinks={}return e
 end
-function FDMMCargoRoute:addSpawnLocation(i,e,n)table.insert(self.spawnLocs,{spawnFaction=i,spawnPoint=e,egressPoints=n or{}})end
-function FDMMCargoRoute:addFacilityLocation(e,n,i)table.insert(self.facilityLocs,{facilityName=e,facilityPoint=n,ingressPoints=i or{}})end
-function FDMMCargoRoute:addDirectionalLink(e,n,i)table.insert(self.dirLinks,{directionName=e,navigationPoint=n,ingressPoints=i or{}})end
+function FDMMCargoRoute:addSpawnLocation(e,n,i)table.insert(self.spawnLocs,{spawnFaction=e,spawnPoint=n,egressPoints=i or{}})end
+function FDMMCargoRoute:addFacilityLocation(i,n,e)table.insert(self.facilityLocs,{facilityName=i,facilityPoint=n,ingressPoints=e or{}})end
+function FDMMCargoRoute:addDirectionalLink(i,e,n)table.insert(self.dirLinks,{directionName=i,navigationPoint=e,ingressPoints=n or{}})end
 function FDMMCargoRoute:getOutboundRouteFromStart(e)end
 function FDMMCargoRoute:getInboundRouteToFacility(e)end
 function FDMMCargoRoute:getOutboundRouteFromFacility(e)end
@@ -341,8 +342,8 @@ end
 do
 function fdmm.cargoRoute.createCargoRoutes()fdmm.cargoRoutes={}for e,n in pairs(fdmm.territories.all)do
 fdmm.cargoRoutes[e]={[fdmm.enums.CargoRouteType.Land]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Land),[fdmm.enums.CargoRouteType.Train]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Train),[fdmm.enums.CargoRouteType.Air]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Air),[fdmm.enums.CargoRouteType.Sea]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Sea)}end
-local l={[fdmm.consts.CargoRouteGNPrefix.Land]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Land]or{},[fdmm.consts.CargoRouteGNPrefix.Train]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Train]or{},[fdmm.consts.CargoRouteGNPrefix.Air]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Air]or{},[fdmm.consts.CargoRouteGNPrefix.Sea]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Sea]or{}}function _processGroup(o,n,a)local e=fdmm.utils.removeNumericSuffix(fdmm.utils.removeGroupingPrefix(o))local i=fdmm.territories.all[e]if i~=nil then
-local s=fdmm.cargoRoutes[e][a]local f=mist.getGroupRoute(o,false)local l=fdmm.utils.getFaction(string.notEmptyElse(n.units[1].unitName,n.country))local m=a:upperFirst()local u=table.concatedWith(fdmm.consts.CargoRouteGNPrefix,fdmm.consts.CargoRouteWPRoutePrefix[m])local n=nil
+local l={[fdmm.consts.CargoRouteGNPrefix.Land]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Land]or{},[fdmm.consts.CargoRouteGNPrefix.Train]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Train]or{},[fdmm.consts.CargoRouteGNPrefix.Air]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Air]or{},[fdmm.consts.CargoRouteGNPrefix.Sea]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Sea]or{}}function _processGroup(o,e,a)local n=fdmm.utils.removeNumericSuffix(fdmm.utils.removeGroupingPrefix(o))local i=fdmm.territories.all[n]if i~=nil then
+local s=fdmm.cargoRoutes[n][a]local f=mist.getGroupRoute(o,false)local l=fdmm.utils.getFaction(string.notEmptyElse(e.units[1].unitName,e.country))local m=a:upperFirst()local u=table.concatedWith(fdmm.consts.CargoRouteGNPrefix,fdmm.consts.CargoRouteWPRoutePrefix[m])local n=nil
 local e={Spawn='spawn',Linkage='linkage',Facility='facility',TBD='_'}local i,r,d=nil,nil,{}function _updateScanner(t,m)if n==e.TBD and t~=nil and t~=e.TBD then
 n=t
 elseif n~=nil and n~=e.TBD and t==e.TBD then
@@ -405,16 +406,16 @@ for e,n in pairs(l[fdmm.consts.CargoRouteGNPrefix.Land])do
 _processGroup(e,n,fdmm.enums.CargoRouteType.Land)end
 for e,n in pairs(l[fdmm.consts.CargoRouteGNPrefix.Train])do
 _processGroup(e,n,fdmm.enums.CargoRouteType.Train)end
-for n,e in pairs(l[fdmm.consts.CargoRouteGNPrefix.Air])do
-_processGroup(n,e,fdmm.enums.CargoRouteType.Air)end
-for e,n in pairs(l[fdmm.consts.CargoRouteGNPrefix.Sea])do
-_processGroup(e,n,fdmm.enums.CargoRouteType.Sea)end
+for e,n in pairs(l[fdmm.consts.CargoRouteGNPrefix.Air])do
+_processGroup(e,n,fdmm.enums.CargoRouteType.Air)end
+for n,e in pairs(l[fdmm.consts.CargoRouteGNPrefix.Sea])do
+_processGroup(n,e,fdmm.enums.CargoRouteType.Sea)end
 end
 end
 env.info('---FDMM_CargoRoute End---')end)__DISTILLER:define("FDMM_Facility",function(e)env.info('---FDMM_Facility Start---')fdmm.facility={}do
 FDMMFacility={}FDMMFacility.__index=FDMMFacility
-setmetatable(FDMMFacility,{__call=function(e,...)return e.new(...)end})function FDMMFacility.new(i,n,t)local e=setmetatable({},FDMMFacility)e.name=i
-e.centerPoint=n
+setmetatable(FDMMFacility,{__call=function(e,...)return e.new(...)end})function FDMMFacility.new(n,i,t)local e=setmetatable({},FDMMFacility)e.name=n
+e.centerPoint=i
 e.territoryName=t
 return e
 end
@@ -426,7 +427,7 @@ do
 end
 env.info('---FDMM_Facility End---')end)__DISTILLER:define("FDMM_Airbase",function(e)env.info('---FDMM_Airbase Start---')e('FDMM_Facility')fdmm.airbase={}do
 FDMMAirbase={}FDMMAirbase.__index=FDMMAirbase
-setmetatable(FDMMAirbase,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMAirbase.new(n,e,i)local e=setmetatable(FDMMFacility.new(n,e,i),FDMMAirbase)return e
+setmetatable(FDMMAirbase,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMAirbase.new(e,n,i)local e=setmetatable(FDMMFacility.new(e,n,i),FDMMAirbase)return e
 end
 function FDMMAirbase:buildFacility()end
 function FDMMAirbase:getFacilityType()return fdmm.enums.FacilityType.Airbase
@@ -436,7 +437,7 @@ do
 end
 env.info('---FDMM_Airbase End---')end)__DISTILLER:define("FDMM_ArmsPlant",function(e)env.info('---FDMM_ArmsPlant Start---')e('FDMM_Facility')fdmm.armsPlant={}do
 FDMMArmsPlant={}FDMMArmsPlant.__index=FDMMArmsPlant
-setmetatable(FDMMArmsPlant,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMArmsPlant.new(e,i,n)local e=setmetatable(FDMMFacility.new(e,i,n),FDMMArmsPlant)return e
+setmetatable(FDMMArmsPlant,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMArmsPlant.new(i,n,e)local e=setmetatable(FDMMFacility.new(i,n,e),FDMMArmsPlant)return e
 end
 function FDMMArmsPlant:buildFacility()end
 function FDMMArmsPlant:getFacilityType()return fdmm.enums.FacilityType.ArmsPlant
@@ -446,7 +447,7 @@ do
 end
 env.info('---FDMM_ArmsPlant End---')end)__DISTILLER:define("FDMM_CommandCenter",function(e)env.info('---FDMM_CommandCenter Start---')e('FDMM_Facility')fdmm.commandCenter={}do
 FDMMCommandCenter={}FDMMCommandCenter.__index=FDMMCommandCenter
-setmetatable(FDMMCommandCenter,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMCommandCenter.new(n,i,e)local e=setmetatable(FDMMFacility.new(n,i,e),FDMMCommandCenter)return e
+setmetatable(FDMMCommandCenter,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMCommandCenter.new(i,n,e)local e=setmetatable(FDMMFacility.new(i,n,e),FDMMCommandCenter)return e
 end
 function FDMMCommandCenter:buildFacility()end
 function FDMMCommandCenter:getFacilityType()return fdmm.enums.FacilityType.CommandCenter
@@ -466,7 +467,7 @@ do
 end
 env.info('---FDMM_FARP End---')end)__DISTILLER:define("FDMM_OilField",function(e)env.info('---FDMM_OilField Start---')e('FDMM_Facility')fdmm.oilField={}do
 FDMMOilField={}FDMMOilField.__index=FDMMOilField
-setmetatable(FDMMOilField,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMOilField.new(e,n,i)local e=setmetatable(FDMMFacility.new(e,n,i),FDMMOilField)return e
+setmetatable(FDMMOilField,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMOilField.new(n,e,i)local e=setmetatable(FDMMFacility.new(n,e,i),FDMMOilField)return e
 end
 function FDMMOilField:buildFacility()end
 function FDMMOilField:getFacilityType()return fdmm.enums.FacilityType.OilField
@@ -486,7 +487,7 @@ do
 end
 env.info('---FDMM_Port End---')end)__DISTILLER:define("FDMM_UnitFactory",function(e)env.info('---FDMM_UnitFactory Start---')e('FDMM_Facility')fdmm.unitFactory={}do
 FDMMUnitFactory={}FDMMUnitFactory.__index=FDMMUnitFactory
-setmetatable(FDMMUnitFactory,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMUnitFactory.new(e,n,i)local e=setmetatable(FDMMFacility.new(e,n,i),FDMMUnitFactory)return e
+setmetatable(FDMMUnitFactory,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMUnitFactory.new(n,e,i)local e=setmetatable(FDMMFacility.new(n,e,i),FDMMUnitFactory)return e
 end
 function FDMMUnitFactory:buildFacility()end
 function FDMMUnitFactory:getFacilityType()return fdmm.enums.FacilityType.UnitFactory
@@ -495,5 +496,5 @@ end
 do
 end
 env.info('---FDMM_UnitFactory End---')end)__DISTILLER:define("FDMM_MissionStart.lua_distilled",function(e)env.info('---FDMM_MissionStart Start---')env.setErrorMessageBoxEnabled(false)fdmm={}e('FDMM_Config')e('FDMM_LuaAdditions')e('FDMM_MISTAdditions')e('FDMM_MOOSEAdditions')e('FDMM_Utils')e('FDMM_ResourceUnit')e('FDMM_Territory')e('FDMM_CargoRoute')e('FDMM_Facility')e('FDMM_Airbase')e('FDMM_ArmsPlant')e('FDMM_CommandCenter')e('FDMM_FARP')e('FDMM_OilField')e('FDMM_Port')e('FDMM_UnitFactory')do
-fdmm.config.createGPCache()fdmm.territory.createTerritories()fdmm.cargoRoute.createCargoRoutes()fdmm.territory.buildFacilities()trigger.action.outText('FDMM Started',10)end
+fdmm.config.createGPCache()fdmm.territory.createTerritories()fdmm.territory.createFacilities()fdmm.cargoRoute.createCargoRoutes()fdmm.territory.buildFacilities()trigger.action.outText('FDMM Started',10)end
 env.info('---FDMM_MissionStart End---')end)__DISTILLER:exec("FDMM_MissionStart.lua_distilled")

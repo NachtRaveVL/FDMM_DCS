@@ -122,34 +122,20 @@ do --FDMM_Territory
 
   --- Creates territories from initial mission group placements.
   -- Layout:
-  --   GNPrefixes: TDEF_ TLNK_ TFAC
+  --   GNPrefixes: TDEF_ TLNK_
   --   WPList(TDEF_): WP0->centerPoint, WP(1,n-1)->polygonPoints, WP(n)->capturePoint
   --   WPList(TLNK_): WP0->typically unused/named TLNK for map editor visibility
   --                  WP(1,n)->unnamed WPs provide territory linkage (via closest territory centerPoint to routePoint)
-  --   WPList(TFAC_): WP0->typically unused/named TFAC for map editor visibility
-  --                  WP(1,n)->Named WPs with #Consts.TerritoryWPFacilityPrefix provide facility type and centerPoint
   function fdmm.territory.createTerritories()
     fdmm.territories = {
       [fdmm.enums.TerritoryType.Land] = {},
       [fdmm.enums.TerritoryType.Sea] = {},
       [fdmm.enums.TerritoryType.All] = {}
     }
-    fdmm.facilities = {
-      [fdmm.enums.FacilityType.Airbase] = {},
-      [fdmm.enums.FacilityType.ArmsPlant] = {},
-      [fdmm.enums.FacilityType.CommandCenter] = {},
-      [fdmm.enums.FacilityType.FARP] = {},
-      [fdmm.enums.FacilityType.OilField] = {},
-      [fdmm.enums.FacilityType.Port] = {},
-      [fdmm.enums.FacilityType.UnitFactory] = {},
-      [fdmm.enums.FacilityType.All] = {}
-    }
     local terrGroups = {
       [fdmm.consts.TerritoryGNPrefix.Define] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Define] or {},
-      [fdmm.consts.TerritoryGNPrefix.Linkage] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Linkage] or {},
-      [fdmm.consts.TerritoryGNPrefix.Facility] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Facility] or {}
+      [fdmm.consts.TerritoryGNPrefix.Linkage] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Linkage] or {}
     }
-    local knownPrefixes = table.concatedWith(fdmm.consts.TerritoryGNPrefix, fdmm.consts.TerritoryWPFacilityPrefix)
 
     -- Process TerritoryGNPrefix.Define (TDEF_)
     for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryGNPrefix.Define]) do
@@ -180,6 +166,28 @@ do --FDMM_Territory
         env.error('Territory linkage group \'' .. groupName .. '\' failed to find territory named \'' .. territoryName .. '\'.')
       end
     end
+  end
+
+  --- Creates facilities from initial mission group placements.
+  -- Layout:
+  --   GNPrefixes: TFAC_
+  --   WPList(TFAC_): WP0->typically unused/named TFAC for map editor visibility
+  --                  WP(1,n)->Named WPs with #Consts.TerritoryWPFacilityPrefix provide facility type and centerPoint
+  function fdmm.territory.createFacilities()
+    fdmm.facilities = {
+      [fdmm.enums.FacilityType.Airbase] = {},
+      [fdmm.enums.FacilityType.ArmsPlant] = {},
+      [fdmm.enums.FacilityType.CommandCenter] = {},
+      [fdmm.enums.FacilityType.FARP] = {},
+      [fdmm.enums.FacilityType.OilField] = {},
+      [fdmm.enums.FacilityType.Port] = {},
+      [fdmm.enums.FacilityType.UnitFactory] = {},
+      [fdmm.enums.FacilityType.All] = {}
+    }
+    local terrGroups = {
+      [fdmm.consts.TerritoryGNPrefix.Facility] = fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Facility] or {}
+    }
+    local knownPrefixes = table.concatedWith(fdmm.consts.TerritoryGNPrefix, fdmm.consts.TerritoryWPFacilityPrefix)
 
     -- Process TerritoryGNPrefix.Facility (TFAC_)
     for groupName, groupData in pairs(terrGroups[fdmm.consts.TerritoryGNPrefix.Facility]) do
