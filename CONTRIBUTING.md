@@ -6,13 +6,13 @@ Please feel free to reach out to NR before contributing.
 
 ### Downloading
 
-Make sure to clone this repository into a "Saved Games/DCS/Missions/FDMM" folder so that you can dynamically debug scripts out-of-the-box, or at the very least make a symlink of some kind from this location to the folder you're using for development.
+Make sure to clone this repository into the "Saved Games/DCS/Missions/FDMM" folder so that you can dynamically debug scripts out-of-the-box, or at the very least make a symlink of some kind from this location to the folder you're using for development.
 
 ### Getting LDT's 'Build All' to work
 
 While ability to 'Build All' isn't required for development, here's how you can make yours work.
 
-Since DCS users love keeping things to the book, it follows common practice to compile all our various Lua sript files down into one master script file for release. While we accomplish this, we do so with some added complexity.
+Since DCS users love keeping things to the book, it follows common practice to compile all our various Lua script files down into one master script file for release. While we do accomplish this, we do so with some added complexity.
 
 The building of all of FDMM's various Lua scripts, combined, down into one master file is currently being handled by [node-lua-distiller](https://github.com/yi/node-lua-distiller), which is a CoffeeScript script that accomplishes this task rather nicely.
 
@@ -26,7 +26,7 @@ While CoffeeScript is easiest installed via npm, node-lua-distiller and luasrcdi
 
 Since we don't get require() natively in DCS scripts we take full advantage of repurposing it. This has a lot of advantages, the primary one being that we can introduce our own debug/release mechanics.
 
-In a dynamically loaded, and thus debugging-enabled (essentially what we devs use 90% of the time), environment the require() method acts much like it does in proper Lua: behind a guarded dofile() call, with check to ensure dofile() isn't called on any particular module/file 'required' more than once (copy of this code exists in "support/Dynamic Mission Start Script.lua", and is placed into our debug mode load script).
+In a dynamically loaded, and thus debugging-enabled (essentially what we devs use 90% of the time), environment the require() method acts much like it does in proper Lua: behind a guarded dofile() call, with check to ensure dofile() isn't called on any particular module/file require()'ed more than once (copy of this code exists in "support/Dynamic Mission Start Script.lua", and is placed into our debug mode load script).
 
 While this is nice, DCS scripts have a CWD natively as the "Saved Games/DCS/" folder, which our replacement then adds "/Missions/FDMM/workspace/FDMM/src/" to so that our require() calls treat FDMM's main src folder as the CWD. This keeps our require() methods short and tidy, but also allows us to use those require() calls in our build process.
 
@@ -37,8 +37,6 @@ We have it set up such that the mission files in the main development branch are
 #### Note: LDT environment build path libraries use absolute pathing
 
 I would be so happy if LDT made it so that we could specify build path libraries using environment variables, but it would appear as if such is not supported. Please feel free to add new build path library entries to the project that correspond with your own DCS Scripts and MissionEditor folder locations, and just leave the ones that don't resolve correctly alone as a curtosey to other devs. (I would love to see someone fix this)
-
-#### Note: 
 
 ## Debugging
 
