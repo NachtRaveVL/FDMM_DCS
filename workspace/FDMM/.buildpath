@@ -2,6 +2,6 @@
 <buildpath>
 	<buildpathentry kind="con" path="org.eclipse.ldt.ExecutionEnvironmentContainer/lua/5.1"/>
 	<buildpathentry external="true" kind="lib" path="U:/SteamLibrary/steamapps/common/DCSWorld/Scripts"/>
-	<buildpathentry external="true" kind="lib" path="C:/Users/MsNightvale/Saved Games/DCS/Scripts"/>
+	<buildpathentry external="true" kind="lib" path="U:/SteamLibrary/steamapps/common/DCSWorld/MissionEditor"/>
 	<buildpathentry kind="src" path="src"/>
 </buildpath>
