@@ -29,4 +29,26 @@
 	<natures>
 		<nature>org.eclipse.ldt.nature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>DCS - MissionEditor</name>
+			<type>2</type>
+			<locationURI>DCS_MISSIONEDITOR_LOC</locationURI>
+		</link>
+		<link>
+			<name>DCS - Scripts</name>
+			<type>2</type>
+			<locationURI>DCS_SCRIPTS_LOC</locationURI>
+		</link>
+		<link>
+			<name>DCS - User MissionEditor</name>
+			<type>2</type>
+			<locationURI>USER_DCS_MISSIONEDITOR_LOC</locationURI>
+		</link>
+		<link>
+			<name>DCS - User Scripts</name>
+			<type>2</type>
+			<locationURI>USER_DCS_SCRIPTS_LOC</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -2,11 +2,31 @@
 
 Please feel free to reach out to NR before contributing.
 
-## Building
+## Environment Setup
 
 ### Downloading
 
 Make sure to clone this repository into the "Saved Games/DCS/Missions/FDMM" folder so that you can dynamically debug scripts out-of-the-box, or at the very least make a symlink of some kind from this location to the folder you're using for development.
+
+### LDT workspace / path setup
+
+LDT really loves using absolute pathing, and (outside of custom batch files) doesn't respect %ENV% variables. We instead have to offload user-specific path strings onto LDT's general workspace linked resources variables and LDT's run/debug string substitution variables (via Window->Preferences). For new workspace setups, you will have to set these variables up manually, which are listed below:
+
+General -> Workspace -> Linked Resources:
+
+| Variable Name | Typical Value | Notes |
+| --- | --- | --- |
+| DCS_MISSIONEDITOR_LOC | <steamapps/common>/DCSWorld/MissionEditor | Main DCS installation MissionEditor folder. |
+| DCS_SCRIPTS_LOC | <steamapps/common>/DCSWorld/Scripts | Main DCS installation Scripts folder. |
+| USER_DCS_MISSIONEDITOR_LOC | %USERPROFILE%/Saved Games/DCS/MissionEditor | User saved games DCS MissionEditor folder. |
+| USER_DCS_SCRIPTS_LOC | %USERPROFILE%/Saved Games/DCS/Scripts | User saved games DCS Scripts folder. |
+
+Run/Debug -> String Substitution:
+
+| Variable Name | Typical Value | Notes |
+| --- | --- | --- |
+| npm_loc | %APPDATA%/npm | Location of npm (only used in Build All script). |
+
 
 ### Getting LDT's 'Build All' to work
 
@@ -22,7 +42,7 @@ While CoffeeScript is easiest installed via npm (node package manager), node-lua
 
 Lastly, you will have to add the location of npm (commonly "%APPDATA%/npm") to an "npm_loc" string subsitution variable in LDT's string substituion preference panel (via Window->Preferences).
 
-### Note: require() rewiring
+### Understanding require() rewiring
 
 Since we don't get require() natively in DCS scripts we take full advantage of repurposing it. This has a lot of advantages, the primary one being that we can introduce our own debug/release mechanics.
 
@@ -34,23 +54,14 @@ In a dynamically loaded, and thus debugging-enabled (essentially what we devs us
 
 However, this means that require()'ed files in FDMM cannot actually return anything (as it is in proper Lua), and thus should utilize the global namespace.
 
-Additionally, scripts being loaded into DCS via dofile() also require use of absolute file location to function. FDMM handles this by first starting, via lfs.writedir(), at the "Saved Games/DCS" folder. Our require() replacement then adds "/Missions/FDMM/workspace/FDMM/src/" to the line so that our require() calls treat FDMM's main src folder as the main lookup folder path. This keeps our require() methods short and tidy, while also allowing us to use those same require() calls in our build process.
+Additionally, scripts being loaded into DCS via dofile() also require use of absolute file location to function. FDMM handles this by first starting, via lfs.writedir(), at the Windows user's "Saved Games/DCS" folder. Our require() replacement then adds "/Missions/FDMM/workspace/FDMM/src/" to the line so that our require() calls treat FDMM's main src folder as the main lookup folder path. This keeps our require() methods short and tidy, while also allowing us to use those same require() calls in our build process.
 
-This however also means that FDMM's require() calls should always be treated as starting the file path from FDMM's main src folder, never the folder the file may exist inside of, and by convention never to a file existing outside of FDMM's main src folder hierarchy - in which case we probably want to have that file added to the Lua environment in DCS via the LoadDeps do-script-file mission start trigger in the mission editor.
+This however also means that FDMM's require() calls should always be treated as starting the file path from FDMM's main src folder, never the folder the file may exist inside of, and by convention never to a file existing outside of FDMM's main src folder hierarchy - in which case we probably want to have that file added to the Lua environment in DCS through dependency linkage, via the LoadDeps do-script-file mission start trigger in the mission editor.
 
 #### Statically loaded / non-debuggable environment
 
 At the same time, in a statically loaded, and thus release, environment the require() method is rewired via lua-src-diet, which does a great job of wrapping each require()'ed file in a single clojure that then gets called when needed in the final mission file.
 
-### Note: Absolute pathing & why LDT build path libraries may not resolve
-
-LDT really loves using absolute pathing in the worst of places, and (outside of custom batch files) doesn't seem to allow the use of %ENV% variables in path strings. While we've tried to offload as many user-specific path strings into LDT's string substitution panel, just to keep them out of the main checked-in project files (and thus able to instead possibly use LDT's native ${string_sub} variables, if supported), there are seemingly still limitations.
-
-One of those limitations seem to be with project build path libraries, and how we try to link up our source parser into DCS's Scripts and MissionEditor folders.
-
-We would be so happy if LDT made it so that we could specify build path libraries using %ENV% or ${string_sub} variables, but it would appear as if such doesn't work. For the time being, please feel free to add new build path library entries to the project that resolve correctly with your own DCS installation Scripts and MissionEditor folder locations, and just leave the ones that don't resolve correctly alone as a courtesy to other devs.
-
-(Note: I would love for someone to fix this)
 
 ## Debugging
 

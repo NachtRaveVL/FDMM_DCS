@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
 	<buildpathentry kind="con" path="org.eclipse.ldt.ExecutionEnvironmentContainer/lua/5.1"/>
-	<buildpathentry external="true" kind="lib" path="U:/SteamLibrary/steamapps/common/DCSWorld/Scripts"/>
-	<buildpathentry external="true" kind="lib" path="U:/SteamLibrary/steamapps/common/DCSWorld/MissionEditor"/>
+	<buildpathentry kind="src" path="DCS - Scripts"/>
+	<buildpathentry kind="src" path="DCS - MissionEditor"/>
+	<buildpathentry kind="src" path="DCS - User Scripts"/>
+	<buildpathentry kind="src" path="DCS - User MissionEditor"/>
 	<buildpathentry kind="src" path="src"/>
 </buildpath>
