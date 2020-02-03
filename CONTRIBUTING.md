@@ -38,7 +38,7 @@ We have it set up such that the mission files in the main development branch are
 
 #### Note: LDT environment build path libraries use absolute pathing
 
-I would be so happy if LDT made it so that we could specify build path libraries using environment variables, but it would appear as if such is not supported. Please feel free to add new build path library entries to the project that correspond with your own DCS Scripts and MissionEditor folder locations, and just leave the ones that don't resolve correctly alone as a curtosey to other devs. (Note: I would love for someone to fix this)
+I would be so happy if LDT made it so that we could specify build path libraries using environment variables, but it would appear as if such is not supported. Please feel free to add new build path library entries to the project that correspond with your own DCS Scripts and MissionEditor folder locations, and just leave the ones that don't resolve correctly alone as a courtesy to other devs. (Note: I would love for someone to fix this)
 
 ## Debugging
 
