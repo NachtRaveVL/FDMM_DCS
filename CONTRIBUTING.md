@@ -37,11 +37,11 @@ Run/Debug -> String Substitution:
 
 While ability to 'Build All' isn't exactly required for development, here's how it works.
 
-We follow the common practice of compiling all of our various Lua script files down into one master script file for release. While we do accomplish this with the master script file "FDMM_MissionStart.lua", we do so with some added complexity.
+We follow the common practice of compiling all of our various Lua script files down into one master mission script file for release. While we do accomplish this with the master mission script file "FDMM_MissionStart.lua", we do so with some added complexity.
 
-The building of all of FDMM's various Lua scripts down into one master script file is currently being handled by [node-lua-distiller](https://github.com/yi/node-lua-distiller), which is a CoffeeScript script that accomplishes this task rather nicely. As well, we also run the optionally recommended luasrcdiet after compilation - which is a performance enhancing stripper (or at least, that's the idea - jury is still out on its usefulness) and clojure-based require() function replacer.
+The building of all of FDMM's various Lua scripts down into one master mission script file is currently being handled by [node-lua-distiller](https://github.com/yi/node-lua-distiller), which is a CoffeeScript script that accomplishes this task rather nicely. As well, we also run the optionally recommended luasrcdiet after compilation - which is a performance enhancing stripper/obfuscator of sorts (or at least, that's the idea - jury is still out on its usefulness).
 
-However, due to how this process works, require() call captures are limited to the require() hierarchy parsed out of the master script file we use to compile down with. We thus have to ensure that all FDMM source files are included, hierarchially, from our master script file (read as: any new files/modules added to FDMM will need a require() hierarchy pathway linking them into the master script file for them to be properly included into the compiled-down static output file for release). Thus, for all intents and purposes, "FDMM_MissionStart.lua" can be treated as both a master include as well as the mission start script.
+However, due to how this process works, require() call captures are limited to the require() hierarchy parsed out of the master mission script file we use to compile down with. We thus have to ensure that all FDMM source files are included, hierarchially, from our master mission script file (read as: any new files/modules added to FDMM will need a require() hierarchy pathway linking them into the master mission script file for them to be properly included into the compiled-down static output file for release). Thus, for all intents and purposes, "FDMM_MissionStart.lua" can be treated as both a master include as well as the mission start script.
 
 While CoffeeScript is easiest installed via npm (node package manager), node-lua-distiller and luasrcdiet are easiest to install via LuaRocks, a popular Lua package manager. However, one caveat to watch out for: be sure to keep LuaRocks out of your Windows environment variables since you can mess up your DCS installation if you try to globally rewire Lua to not allow DCS to use the Lua binaries it natively ships with (don't quote me on that, though - but if your DCS install stops loading up and bails out at launch, never getting to the main menu, like it did some of us, that's probably why).
 
@@ -65,7 +65,7 @@ This however also means that FDMM's require() calls should always be treated as 
 
 ##### Statically loaded / non-debuggable environment
 
-At the same time, in a statically loaded, and thus release, environment the require() method is rewired via lua-src-diet, which does a great job of wrapping each require()'ed file in a single clojure that then gets called when needed in the final mission file.
+At the same time, in a statically loaded, and thus release, environment the require() method is rewired via node-lua-distiller, which does a great job of wrapping each require()'ed file in a single clojure that then gets called when needed in the final static master mission script file.
 
 ### Debugger setup
 
