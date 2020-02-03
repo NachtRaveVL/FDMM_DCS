@@ -42,11 +42,15 @@ This however also means that FDMM's require() calls should always be treated as 
 
 At the same time, in a statically loaded, and thus release, environment the require() method is rewired via lua-src-diet, which does a great job of wrapping each require()'ed file in a single clojure that then gets called when needed in the final mission file.
 
-### Note: LDT build path libraries may not resolve
+### Note: Absolute pathing & why LDT build path libraries may not resolve
 
-LDT really wants us to be using absolute pathing as often as possible it seems, and doesn't do a very good job of letting us use %ENV% variables in our path strings, so we've tried to offload as many user-specific path strings into LDT's string substitution panel, mainly just to keep them out of the main checked-in project files.
+LDT really loves using absolute pathing in the worst of places, and (outside of custom batch files) doesn't seem to allow the use of %ENV% variables in path strings. While we've tried to offload as many user-specific path strings into LDT's string substitution panel, just to keep them out of the main checked-in project files (and thus able to instead possibly use LDT's native ${string_sub} variables, if supported), there are seemingly still limitations.
 
-We would be so happy if LDT made it so that we could specify build path libraries using these %ENV% variables, but it would appear as if such is not supported. Please feel free to add new build path library entries to the project that correspond with your own DCS Scripts and MissionEditor folder locations, and just leave the ones that don't resolve correctly alone as a courtesy to other devs. (Note: I would love for someone to fix this)
+One of those limitations seem to be with project build path libraries, and how we try to link up our source parser into DCS's Scripts and MissionEditor folders.
+
+We would be so happy if LDT made it so that we could specify build path libraries using %ENV% or ${string_sub} variables, but it would appear as if such doesn't work. For the time being, please feel free to add new build path library entries to the project that resolve correctly with your own DCS installation Scripts and MissionEditor folder locations, and just leave the ones that don't resolve correctly alone as a courtesy to other devs.
+
+(Note: I would love for someone to fix this)
 
 ## Debugging
 
