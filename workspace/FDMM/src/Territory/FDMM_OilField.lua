@@ -3,7 +3,7 @@
 -- @module FDMM_OilField
 env.info('---FDMM_OilField Start---')
 
-require('FDMM_Facility')
+require('Territory/FDMM_Facility')
 
 --- FDMM oil field module.
 fdmm.oilField = {}
@@ -12,6 +12,7 @@ do --FDMMOilField
 
   --- Oil field class that manages an oil extraction and refinery facility in a territory, which acts as an RPType.Fuel manufacturer.
   -- @type FDMMOilField
+  -- @extends FDMMFacility
   FDMMOilField = {}
   FDMMOilField.__index = FDMMOilField
   setmetatable(FDMMOilField, {

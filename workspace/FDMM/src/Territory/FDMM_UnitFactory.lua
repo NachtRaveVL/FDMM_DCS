@@ -3,7 +3,7 @@
 -- @module FDMM_UnitFactory
 env.info('---FDMM_UnitFactory Start---')
 
-require('FDMM_Facility')
+require('Territory/FDMM_Facility')
 
 --- FDMM unit factory module.
 fdmm.unitFactory = {}
@@ -12,6 +12,7 @@ do --FDMMUnitFactory
 
   --- Unit factory class that manages a unit manufacturing factory facility in a territory, which acts as an RPType.Unit manufacturer.
   -- @type FDMMUnitFactory
+  -- @extends FDMMFacility
   FDMMUnitFactory = {}
   FDMMUnitFactory.__index = FDMMUnitFactory
   setmetatable(FDMMUnitFactory, {

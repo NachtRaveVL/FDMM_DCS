@@ -3,7 +3,7 @@
 -- @module FDMM_CommandCenter
 env.info('---FDMM_CommandCenter Start---')
 
-require('FDMM_Facility')
+require('Territory/FDMM_Facility')
 
 --- FDMM command center module.
 fdmm.commandCenter = {}
@@ -12,6 +12,7 @@ do --FDMMCommandCenter
 
   --- Command center class that manages an command center facility in a territory, which acts as faction command post.
   -- @type FDMMCommandCenter
+  -- @extends FDMMFacility
   FDMMCommandCenter = {}
   FDMMCommandCenter.__index = FDMMCommandCenter
   setmetatable(FDMMCommandCenter, {

@@ -14,29 +14,31 @@ While ability to 'Build All' isn't required for development, here's how you can 
 
 Since pilots love keeping things to the book, it follows common practice to compile all our various Lua script files down into one master script file for release. While we do accomplish this, we do so with some added complexity.
 
-The building of all of FDMM's various Lua scripts, combined, down into one master file is currently being handled by [node-lua-distiller](https://github.com/yi/node-lua-distiller), which is a CoffeeScript script that accomplishes this task rather nicely.
+The building of all of FDMM's various Lua scripts, combined, down into one master file is currently being handled by [node-lua-distiller](https://github.com/yi/node-lua-distiller), which is a CoffeeScript script that accomplishes this task rather nicely. As well, we also run the optionally recommended luasrcdiet after compilation - which is a performance enhancing stripper (or at least, that's the idea - jury is still out on its usefulness) and clojure-based require() function replacer.
 
-Unfortunately, due to how this process works, it is limited to only the require()'s it finds in a single file. Thus we have to place the entire list of require()-able FDMM files into the master include "FDMM_MissionsStart.lua" (read as: any new files/modules added to FDMM will also need a require() call for them placed into "FDMM_MissionStart.lua").
+However, due to how this process works, require() call captures are limited to the require() hierarchy parsed out of the master file we wish to compile-down. Thus we have to ensure that all FDMM source files are included, hierarchially, from the master file "FDMM_MissionStart.lua" (read as: any new files/modules added to FDMM will need a require() hierarchy pathway linking them from this master file for them to be properly included into the compiled-down static output file for release). Thus, for all intents and purposes, "FDMM_MissionStart.lua" can be treated as the master include as well as the mission start script.
 
-As well, we also run the optionally recommended luasrcdiet afterwards - which is a performance enhancing stripper (or at least, that's the idea) and clojure-based require() function replacer.
+While CoffeeScript is easiest installed via npm (node package manager), node-lua-distiller and luasrcdiet are easiest to install via LuaRocks, a popular Lua package manager. However, one caveat to watch out for: be sure to keep LuaRocks out of your Windows environment variables since you can mess up your DCS installation if you try to globally rewire Lua to not allow DCS to use the one it natively ships with (don't quote me on that, though - but if your DCS install stops loading up and bails out at launch, never getting to the main menu, like it did me, that's probably why).
 
-While CoffeeScript is easiest installed via npm, node-lua-distiller and luasrcdiet are easiest to install via LuaRocks, a popular Lua package manager. However, one caveat: be sure to keep LuaRocks out of your Windows environment variables since you can mess up your DCS install if you try to globally rewire Lua to not be the one DCS natively ships with (don't quote me on that, though - but if your DCS install stops loading up and bails out at launch, never getting to the main menu, like it did me, that's probably why).
+Lastly, you will have to add the location of npm (commonly "%APPDATA%/npm") to an "npm_loc" string subsitution variable in LDT's string substituion preference panel (via Window->Preferences). LDT really wants us to be using absolute pathing as often as possible it seems, and doesn't do a very good job of letting us use %ENV_VARS% in our path strings, so we've tried to offload as many user-specific path strings into LDT's string substitution panel, mainly just to keep them out of the main checked-in project files.
 
 #### Note: require() re-routing
 
 Since we don't get require() natively in DCS scripts we take full advantage of repurposing it. This has a lot of advantages, the primary one being that we can introduce our own debug/release mechanics.
 
-In a dynamically loaded, and thus debugging-enabled (essentially what we devs use 90% of the time), environment the require() method acts much like it does in proper Lua: behind a guarded dofile() call, with check to ensure dofile() isn't called on any particular module/file require()'ed more than once (copy of this code exists in "support/Dynamic Mission Start Script.lua", and is placed into our debug mode load script).
+In a dynamically loaded, and thus debugging-enabled (essentially what we devs use 90% of the time), environment the require() method acts much like it does in proper Lua: behind a guarded dofile() call, with checks to ensure dofile() isn't called on any particular module/file require()'ed more than once (copy of this code exists in "support/Dynamic Mission Start Script.lua", and is placed into our debug mode load script).
 
-While this is nice, DCS scripts use a CWD (via lfs.writedir()) as the "Saved Games/DCS" folder, which our replacement then adds "/Missions/FDMM/workspace/FDMM/src/" to so that our require() calls treat FDMM's main src folder as the CWD. This keeps our require() methods short and tidy, and also allows us to use those require() calls in our build process.
+While this is nice, DCS scripts, via lfs.writedir(), essentially will have their CWD as the "Saved Games/DCS" folder, which our require() replacement then adds "/Missions/FDMM/workspace/FDMM/src/" to so that our require() calls treat FDMM's main src folder as the initial CWD. This keeps our require() methods short and tidy, and also allows us to use those require() calls in our build process.
 
-At the same time, in a statically loaded, and thus release, environment the require() method is rewired via lua-src-diet, which does a great job of wrapping each require()'ed file in a clojure that then gets called when needed in the final mission file.
+This however also means that require() should be treated as always starting its CWD from FDMM's main src folder, never the folder the file may exist inside of, and by convention never to a file existing outside of FDMM's main src folder hierarchy (in which case we probably want to have that file added to the Lua environment in DCS, before FDMM loads, via a static do-script in the mission editor upon mission start - as we do with MIST, MOOSE, etc.).
+
+At the same time, in a statically loaded, and thus release, environment the require() method is rewired via lua-src-diet, which does a great job of wrapping each require()'ed file in a single clojure that then gets called when needed in the final mission file.
 
 We have it set up such that the mission files in the main development branch are in debug/dynamic load mode, while it's planned to have mission files in release branches in release/static load mode.
 
 #### Note: LDT environment build path libraries use absolute pathing
 
-I would be so happy if LDT made it so that we could specify build path libraries using environment variables, but it would appear as if such is not supported. Please feel free to add new build path library entries to the project that correspond with your own DCS Scripts and MissionEditor folder locations, and just leave the ones that don't resolve correctly alone as a curtosey to other devs. (I would love to see someone fix this)
+I would be so happy if LDT made it so that we could specify build path libraries using environment variables, but it would appear as if such is not supported. Please feel free to add new build path library entries to the project that correspond with your own DCS Scripts and MissionEditor folder locations, and just leave the ones that don't resolve correctly alone as a curtosey to other devs. (Note: I would love for someone to fix this)
 
 ## Debugging
 

@@ -3,7 +3,7 @@
 -- @module FDMM_Port
 env.info('---FDMM_Port Start---')
 
-require('FDMM_Facility')
+require('Territory/FDMM_Facility')
 
 --- FDMM port module.
 fdmm.port = {}
@@ -12,6 +12,7 @@ do --FDMMPort
 
   --- Port class that manages a unit manufacturing factory facility in a territory, which acts as an RPType.Unit manufacturer.
   -- @type FDMMPort
+  -- @extends FDMMFacility
   FDMMPort = {}
   FDMMPort.__index = FDMMPort
   setmetatable(FDMMPort, {
