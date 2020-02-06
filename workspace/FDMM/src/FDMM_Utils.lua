@@ -164,8 +164,8 @@ do --FDMM_Utils
   end
 
   --- Determines if the user flag is set true in mission user flags.
-  -- @param flag Flag.
-  -- @return True if non-0, non-false, and non-no element is set, otherwise false.
+  -- @param #string flag Flag.
+  -- @return #boolean True if non-0, non-false, and non-no element is set, otherwise false.
   function fdmm.utils.isUserFlagSet(flag)
     local flag = trigger.misc.getUserFlag(flag)
     return (type(flag) == 'number' and flag ~= 0) or
@@ -175,9 +175,15 @@ do --FDMM_Utils
   end
 
   --- Determines if the debug flag is set true in mission user flags.
-  -- @return True if debug flag set, otherwise false.
+  -- @return #boolean True if debug flag set, otherwise false.
   function fdmm.utils.isDebugFlagSet()
     return fdmm.utils.isUserFlagSet(fdmm.consts.UserFlags.DebugFlag)
+  end
+
+  --- Determines if current theatre map is a desert-based map or not.
+  -- @return #boolean True if on desert-based map, otherwise false. 
+  function fdmm.utils.isDesertMap()
+    return env.mission.theatre == DCSMAP.NTTR or env.mission.theatre == DCSMAP.PersianGulf
   end
 
 end --FDMM_Utils

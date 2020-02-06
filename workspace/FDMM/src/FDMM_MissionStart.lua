@@ -7,9 +7,15 @@ env.setErrorMessageBoxEnabled(false)
 --- FDMM main module.
 fdmm = {}
 
+fdmm.ScriptType = {
+  Both = 'Both', Setup = 'Setup', Runnable = 'Runable'
+}
+fdmm.scriptType = fdmm.ScriptType.Both -- will change later
+
 -- Master include listing
 require('FDMM_Config')
 require('FDMM_Utils')
+require('FDMM_UnitTypes')
 require('Additions/FDMM_LuaAdditions')
 require('Additions/FDMM_MISTAdditions')
 require('Additions/FDMM_MOOSEAdditions')
@@ -25,20 +31,27 @@ require('Territory/FDMM_Port')
 require('Territory/FDMM_UnitFactory')
 
 do --FDMM_MissionStart
+  trigger.action.outText('FDMM Starting...', 10)
 
+  fdmm.unitTypes.processEntries()
   fdmm.config.createGPCache()
+
+  -- Create territories, facilities, routes, etc. from groups placed on map.
   fdmm.territory.createTerritories()
   fdmm.territory.createFacilities()
   fdmm.cargoRoute.createCargoRoutes()
 
+  -- Build facilities as a separate task because it can be a bit much to do. Might wrap in an async task, later.
+  -- On the one hand, it's tearing things down in the setup mission.
+  -- On the other hand, it's building facilities in the play mission, as their display quantity requested. 
   fdmm.territory.buildFacilities()
 
+  -- Optional to uncomment, dumps to env.info
   --fdmm.territory.dumpTerritories()
   --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
-  --fdmm.cargoRoute.dumpCargoRoutes()
+  --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, will get around to later
 
   trigger.action.outText('FDMM Started', 10)
-
 end --FDMM_MissionStart
 
 env.info('---FDMM_MissionStart End---')
