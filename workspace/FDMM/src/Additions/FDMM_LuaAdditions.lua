@@ -21,12 +21,38 @@ do --FDMM_LuaAdditions
     return string.sub(str, 1, #prefix) == prefix
   end
 
+  --- Determines if string has any of the specified prefixes.
+  -- @param #string str String.
+  -- @param <#string> prefixList Prefix list.
+  -- @return #boolean True if str has any prefix from prefixList, otherwise false.
+  function string.hasAnyPrefix(str, prefixList)
+    for _, prefix in pairs(prefixList) do
+      if string.hasPrefix(str, prefix) then
+        return true
+      end
+    end
+    return false
+  end
+
   --- Determines if string has specified suffix.
   -- @param #string str String.
   -- @param #string suffix Suffix.
   -- @return #boolean True if str has suffix as its suffix, otherwise false.
   function string.hasSuffix(str, suffix)
-    return sring.sub(str, -#suffix) == suffix
+    return string.sub(str, -#suffix) == suffix
+  end
+
+  --- Determines if string has any of the specified suffixes.
+  -- @param #string str String.
+  -- @param <#string> suffixList Suffix list.
+  -- @return #boolean True if str has any suffix from suffixList, otherwise false.
+  function string.hasAnySuffix(str, suffixList)
+    for _, suffix in pairs(suffixList) do
+      if string.hasSuffix(str, suffix) then
+        return true
+      end
+    end
+    return false
   end
 
   --- Determines if string is nil or empty.
@@ -48,7 +74,9 @@ do --FDMM_LuaAdditions
   -- @param #string elseStr Else string to return if str is nil or empty.
   -- @return #string Returns str if not nil nor empty, otherwise returns elseStr.
   function string.notEmptyElse(str, elseStr)
-    if str ~= nil and #str then return str end
+    if str ~= nil and #str then
+      return str
+    end
     return elseStr
   end
 
@@ -64,7 +92,7 @@ do --FDMM_LuaAdditions
   -- @param #object value Value (type must implement __eq metamethod).
   -- @return #boolean True if value is found in table, otherwise false.
   function table.contains(tbl, value)
-    for k,v in pairs(tbl) do
+    for _,v in pairs(tbl) do
       if v == value then
         return true
       end
@@ -105,12 +133,12 @@ do --FDMM_LuaAdditions
     if tbl1 or tbl2 then
       retVal = {}
       if tbl1 then
-        for idx,v in ipairs(tbl1) do
+        for _,v in ipairs(tbl1) do
           table.insert(retVal, v)
         end
       end
       if tbl2 then
-        for idx,v in ipairs(tbl2) do
+        for _,v in ipairs(tbl2) do
           table.insert(retVal, v)
         end
       end

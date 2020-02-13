@@ -124,9 +124,6 @@ do --FDMM_UnitTypes
         Tactical = {
           An26B = 'An-26B',
           C130 = 'C-130'
-        },
-        Civilian = {
-          Yak40 = 'Yak-40'
         }
       },
       Trainer = {
@@ -140,6 +137,9 @@ do --FDMM_UnitTypes
           TF51D = 'TF-51D',
           Yak52 = 'Yak-52'
         }
+      },
+      Civilian = {
+        Yak40 = 'Yak-40'
       },
       Aerobatic = {
         CEII = 'Christen Eagle II'
@@ -444,8 +444,8 @@ do --FDMM_UnitTypes
               HQ7LN = 'HQ-7_LN_SP'
             }
           },
-          Patriot = { -- also has stationary components
-            _HasStationaryComps = true,
+          Patriot = { -- also has portable components
+            _HasPortableComps = true,
             HQ = {
               PatriotECS_ANMSQ104 = 'Patriot ECS'
             },
@@ -459,16 +459,16 @@ do --FDMM_UnitTypes
               PatriotAMG_ANMRC137 = 'Patriot AMG'
             }
           },
-          SA3S125 = { -- also has stationary components
-            _HasStationaryComps = true,
+          SA3S125 = { -- also has portable components
+            _HasPortableComps = true,
             SearchRadar = {
               SA3S125SR_P19 = 'p-19 s-125 sr'
             }
           },
           SA8Osa_9A33 = 'Osa 9A33 ln',
           SA9Strela1_9P31 = 'Strela-1 9P31',
-          SA10S300PS = { -- also has stationary components
-            _HasStationaryComps = true,
+          SA10S300PS = { -- also has portable components
+            _HasPortableComps = true,
             HQ = {
               SA10S300PSCP_54K6 = 'S-300PS 54K6 cp'
             },
@@ -532,7 +532,10 @@ do --FDMM_UnitTypes
           UAZ469 = 'UAZ-469'
         }
       },
-      Stationary = {
+      Portable = {
+        Beacon = {
+          TACANBeacon_TTS3030 = 'TACAN_beacon'
+        },
         DroneCommand = {
           HQ = {
             PreadtorGCS = 'Predator GCS'
@@ -704,6 +707,16 @@ do --FDMM_UnitTypes
           }
         }
       },
+      Fort = {
+        Barracks = 'house1arm',
+        House = 'houseA_arm',
+        HillsideBunker = 'Sandbox',
+        PillboxBunker = 'Bunker',
+        Outpost = 'outpost',
+        RoadOutpost = 'outpost_road',
+        WatchTower = 'house2arm',
+        WarningBoard = 'warning_board_a'
+      },
       Civilian = {
         Trailer = {
           MAZ6303 = 'MAZ-6303'
@@ -786,53 +799,251 @@ do --FDMM_UnitTypes
     },
     Ship = {
       Carrier = {
+        KuznetsovClass_AdmiralKuznetsov = 'KUZNECOW', -- 1143.5
+        NimitzClass_CVN74JohnCStennis = 'Stennis',
+        NimitzClass_CVN70CarlVinson = 'VINSON'
       },
       HeliCarrier = {
+        TarawaClass_LHA1Tarawa = 'LHA_Tarawa'
+      },
+      BattleCruiser = {
+        KirovClass_PyotrVelikiy = 'PIOTR' -- 1144.2
       },
       Cruiser = {
+        SlavaClass_Moskva = 'MOSCOW', -- 1164
+        TiconderogaClass = 'TICONDEROG'
       },
       Destroyer = {
+        NeustrashimyClass_Neustrashimy = 'NEUSTRASH', -- 1154.0
+        OliverHazardPerryClass = 'PERRY',
+        Type052B = '052B',
+        Type052C = '052C'
       },
       Frigate = {
+        KrivakIIClass_Rezky = 'REZKY', -- 1135M
+        GrishaVClass = 'ALBATROS', -- 1124.4
+        Type054A = '054A'
       },
       Corvette = {
+        TarantulIIIClass = 'MOLNIYA' -- 1241.1MP
+      },
+      Gunboat = {
+        Speedboat = 'speedboat' 
       },
       Submarine = {
+        KiloClass = 'KILO', -- 877
+        TangoClass = 'SOM', -- 641B
       },
       Transport = {
+        BulkCargo_Yakushev = 'Dry-cargo ship-1',
+        DryCargo_Ivanov = 'Dry-cargo ship-2',
+        Tanker_Elnya160 = 'ELNYA'
       },
       Civilian = {
+        Yacht_Zvezdny = 'ZWEZDNY'
       },
-      All = {}, -- resolved on startup processing
+      NATOReporting = {
+        ['KUZNECOW'] = 'Kuznetsov',
+        ['PIOTR'] = 'Kirov',
+        ['MOSCOW'] = 'Slava',
+        ['NEUSTRASH'] = 'Neustrashimy',
+        ['REZKY'] = 'Krivak II',
+        ['ALBATROS'] = 'Grisha V',
+        ['MOLNIYA'] = 'Tarantul III',
+        ['KILO'] = 'Kilo',
+        ['SOM'] = 'Tango'
+      },
       ChassisNaming = {
+        ['KUZNECOW'] = 'Project 1143.5 Orel',
+        ['PIOTR'] = 'Project 1144.2 Orlan',
+        ['MOSCOW'] = 'Project 1164 Atlant',
+        ['NEUSTRASH'] = 'Project 1154.0 Yastreb',
+        ['REZKY'] = 'Project 1135M Burevestnik',
+        ['ALBATROS'] = 'Project 1124.4 Albatros',
+        ['MOLNIYA'] = 'Project 1241.1MP Molniya',
+        ['KILO'] = 'Project 877 Paltus',
+        ['SOM'] = 'Project 641B Som'
       },
-      ChassisNicknaming = {
-      }
+      All = {} -- resolved on startup processing
     },
     Train = {
       Transport = {
         Locomotive = {
+          UnionPacificES44AH = 'ES44AH',
+          RedStarCHME3T = 'Locomotive'
         },
-        Closed = {
-        },
-        Open = {
-        },
-        Flatbed = {
-        },
-        Fuel = {
-        },
+        Wagon = {
+          BoxCar = 'Boxcartrinity',
+          FlatCar = 'Coach a platform',
+          Gondola = 'Coach cargo open',
+          StockCar = 'Coach cargo',
+          TankCarBlackLg = 'Tankcartrinity',
+          TankCarBlueSh = 'Coach a tank blue',
+          TankCarYellowSh = 'Coach a tank yellow',
+          WellCar = 'Wellcarnsc'
+        }
       },
       Civilian = {
         Locomotive = {
+          ElectricVL80 = 'Electric locomotive'
         },
-        Passenger = {
+        Wagon = {
+          PassengerCar = 'Coach a passenger'
         }
       },
-      All = {}, -- resolved on startup processing
-      ChassisNaming = {
+      All = {} -- resolved on startup processing
+    },
+    Static = { -- values are in format "category:shape_name:type"
+      Airbase = {
+        AirshowCrowd = 'Fortifications:Crowd1:Airshow_Crowd',
+        AirshowCone = 'Fortifications:Comp_cone:Airshow_Cone',
+        DugInFuelTank = 'Fortifications:toplivo-bak:Fuel tank',
+        HangarA = 'Fortifications:angar_a:Hangar A',
+        HangarB = 'Fortifications:angar_b:Hangar B',
+        HangarShelter = 'Fortifications:ukrytie:Shelter',
+        StorageShelter = 'Fortifications:ukrytie_b:Shelter B',
+        RepairWorkshop = 'Fortifications:tech:Repair workshop',
+        Windsock = 'Fortifications:H-Windsock_RW:Windsock'
       },
-      ChassisNicknaming = {
-      }
+      Barrier = {
+        RoadBarrier = 'Cargos:f_bar_cargo:f_bar_cargo',
+        Tetrapod = 'Cargos:tetrapod_cargo:tetrapod_cargo',
+        LogBarrierLg = 'Cargos:trunks_long_cargo:trunks_long_cargo',
+        LogBarrierSh = 'Cargos:trunks_small_cargo:trunks_small_cargo'
+      },
+      Cargo = {
+        AmmoBox = 'Cargos:ammo_box_cargo:ammo_cargo',
+        Barrels = 'Cargos:barrels_cargo:barrels_cargo',
+        Container = 'Cargos:bw_container_cargo:container_cargo',
+        FuelTank = 'Cargos:fueltank_cargo:fueltank_cargo',
+        ISOContainerLg = 'Cargos:iso_container_cargo:iso_container',
+        ISOContainerSm = 'Cargos:iso_container_small_cargo:iso_container_small',
+        M117Bombs = 'Cargos:m117_cargo:m117_cargo',
+        OilTank = 'Cargos:oiltank_cargo:oiltank_cargo',
+        UH1HCargo = 'Cargos:ab-212_cargo:uh1h_cargo'
+      },
+      Effect = {
+        BigSmoke = 'Effects::big_smoke',
+        BigSmokePresets = { SmallSmokeAndFire = 1, MediumSmokeAndFire = 2, LargeSmokeAndFire = 3, HugeSmokeAndFire = 4,
+                            SmallSmoke = 5, MediumSmoke = 6, LargeSmoke = 7, HugeSmoke = 8 }, -- effectPreset
+        DustSmoke = 'Effects::dust_smoke',
+        DustSmokePresets = { test1 = 1, test2 = 2, test3 = 3 }, -- effectPreset
+        SmokingLine = 'Effects::smoking_line',
+        SmokingLinePresets = { test1 = 1, test2 = 2, test3 = 3 }, -- effectPreset
+        SmokyMarker = 'Effects::smoky_marker',
+        SmokyMarkerPresets = { test1 = 1, test2 = 2, test3 = 3 } -- effectPreset
+      },
+      Factory = {
+        ChemicalTank = 'Fortifications:him_bak_a:Chemical tank A',
+        TechCombine = 'Fortifications:kombinat:Tech combine',
+        TechHangar = 'Fortifications:ceh_ang_a:Tech hangar A',
+        Workshop = 'Fortifications:tec_a:Workshop A'
+      },
+      FARP = {
+        AmmoStorage = 'Fortifications:SetkaKP:FARP Ammo Dump Coating',
+        CommandPost = 'Fortifications:kp_ug:FARP CP Blindage',
+        FuelDepot = 'Fortifications:GSM Rus:FARP Fuel Depot',
+        Tent = 'Fortifications:PalatkaB:FARP Tent',
+        HeliportLg = 'Heliports:FARPS:FARP',
+        HeliportSg = 'Heliports:FARP:SINGLE_HELIPAD',
+        HeliportCallsigns = { London = 1, Dallas = 2, Paris = 3, Moscow = 4, Berlin = 5, Rome = 6, Madrid = 7, Warsaw = 8, Dublin = 9, Perth = 10 } -- heliport_callsign_id
+      },
+      Fort = {
+        Barracks1 = 'Fortifications::house1arm',
+        Barracks2 = 'Fortifications:kazarma2:Barracks 2',
+        HillsideBunker = 'Fortifications::Sandbox',
+        PillboxBunker = 'Fortifications::Bunker',
+        CommandCenter = 'Fortifications:ComCenter:.Command Center',
+        Generators = 'Fortifications:GeneratorF:GeneratorF',
+        House = 'Fortifications::houseA_arm',
+        Landmine = 'Fortifications:landmine:Landmine',
+        Latrine = 'Fortifications:WC:WC',
+        Outpost = 'Fortifications::outpost',
+        RoadOutpost = 'Fortifications::outpost_road',
+        StaffBuilding = 'Fortifications:aviashtab:Military staff',
+        WatchTower = 'Fortifications::house2arm'
+      },
+      Marker = {
+        RedFlag = 'Fortifications:H-flag_R:Red_Flag',
+        WhiteFlag = 'Fortifications:H-Flag_W:White_Flag',
+        BlackTire = 'Fortifications:H-tyre_B:Black_Tyre',
+        WhiteTire = 'Fortifications:H-tyre_W:White_Tyre',
+        BlackTireRedFlag = 'Fortifications:H-tyre_B_RF:Black_Tyre_RF',
+        BlackTireWhiteFlag = 'Fortifications:H-tyre_B_WF:Black_Tyre_WF'
+      },
+      OilField = {
+        OilDerrick = 'Fortifications:neftevyshka:Oil derrick',
+        OilPlatform = 'Fortifications:plavbaza:Oil platform',
+        OilPumpStation = 'Fortifications:nasos:Pump station',
+        OilPipesLg = 'Cargos:pipes_big_cargo:pipes_big_cargo',
+        OilPipesSm = 'Cargos:pipes_small_cargo:pipes_small_cargo'
+      },
+      Railway = {
+        RailwayCrossingA = 'Fortifications:pereezd_big:Railway crossing A',
+        RailwayCrossingB = 'Fortifications:pereezd_small:Railway crossing B',
+        RailwayStation = 'Fortifications:r_vok_sd:Railway station'
+      },
+      SeaShelf = {
+        GasPlatform = 'Heliports:gas_platform:Gas platform',
+        OilRigPlatform = 'Heliports:oil_platform:Oil rig'
+      },
+      Tower = {
+        CommsTower = 'Fortifications:tele_bash_m:Comms tower M',
+        TVTower = 'Fortifications:tele_bash:TV tower'
+      },
+      Warehouse = {
+        AmmunitionDepot = 'Warehouses:SkladC:.Ammunition depot',
+        Tank1 = 'Warehouses:bak:Tank',
+        Tank2 = 'Warehouses:airbase_tbilisi_tank_01:Tank 2',
+        Tank3 = 'Warehouses:airbase_tbilisi_tank_02:Tank 3',
+        Warehouse = 'Warehouses:sklad:Warehouse'
+      },
+      Civilian = {
+        BoilerHouse = 'Fortifications:kotelnaya_a:Boiler-house A',
+        Cafe = 'Fortifications:stolovaya:Cafe',
+        ContainerBrown = 'Fortifications:konteiner_brown:Container brown',
+        ContainerRed1 = 'Fortifications:konteiner_red1:Container red 1',
+        ContainerRed2 = 'Fortifications:konteiner_red2:Container red 2',
+        ContainerRed3 = 'Fortifications:konteiner_red3:Container red 3',
+        ContainerWhite = 'Fortifications:konteiner_white:Container white',
+        ElectricPowerBox = 'Fortifications:tr_budka:Electric power box',
+        FarmA = 'Fortifications:ferma_a:Farm A',
+        FarmB = 'Fortifications:ferma_b:Farm B',
+        GarageA = 'Fortifications:garage_a:Garage A',
+        GarageB = 'Fortifications:garage_b:Garage B',
+        GarageSmA = 'Fortifications:garagh-small-a:Garage small A',
+        GarageSmB = 'Fortifications:garagh-small-b:Garage small B',
+        Restaurant = 'Fortifications:restoran1:Restaurant 1',
+        Shop = 'Fortifications:magazin:Shop',
+        HouseSmA = 'Fortifications:domik1a:Small house 1A',
+        HouseSmAEnclosed = 'Fortifications:domik1a-all:Small house 1A area',
+        HouseSmB = 'Fortifications:domik1b:Small house 1B',
+        HouseSmBEnclosed = 'Fortifications:domik1b-all:Small house 1B area',
+        HouseSmC = 'Fortifications:dom2c:Small house 2C',
+        HouseSmCEnclosed = 'Fortifications:dom2c-all:Small house 1C area',
+        WarehouseSm1 = 'Fortifications:s1:Small werehouse 1',
+        WarehouseSm2 = 'Fortifications:s2:Small werehouse 2',
+        WarehouseSm3 = 'Fortifications:s3:Small werehouse 3',
+        WarehouseSm4 = 'Fortifications:s4:Small werehouse 4',
+        SubsidiarySt1 = 'Fortifications:hozdomik1:Subsidiary structure 1',
+        SubsidiarySt2 = 'Fortifications:hozdomik2:Subsidiary structure 2',
+        SubsidiarySt3 = 'Fortifications:hozdomik3:Subsidiary structure 3',
+        SubsidiaryStA = 'Fortifications:saray-a:Subsidiary structure A',
+        SubsidiaryStB = 'Fortifications:saray-b:Subsidiary structure B',
+        SubsidiaryStC = 'Fortifications:saray-c:Subsidiary structure C',
+        SubsidiaryStD = 'Fortifications:saray-d:Subsidiary structure D',
+        SubsidiaryStE = 'Fortifications:saray-e:Subsidiary structure E',
+        SubsidiaryStF = 'Fortifications:saray-f:Subsidiary structure F',
+        SubsidiaryStG = 'Fortifications:saray-g:Subsidiary structure G',
+        Supermarket = 'Fortifications:uniwersam_a:Supermarket A',
+        WaterTower = 'Fortifications:wodokachka_a:Water tower A'
+      },
+      All = {}, -- resolved on startup processing
+      Plane = {}, -- resolved on startup processing (category: Planes)
+      Helicopter = {}, -- resolved on startup processing (category: Helicopters)
+      Ground = {}, -- resolved on startup processing (category: Unarmed)
+      Ship = {}, -- resolved on startup processing (category: Ships)
+      Train = {} -- resolved on startup processing (category: Unarmed)
     }
   }
 
@@ -843,9 +1054,11 @@ do --FDMM_UnitTypes
     end
 
     local keyFilter = { 'All', 'PlayerControllable', 'CarrierBorne', 'HeavyWheeled', 'NATOReporting', 'ChassisNaming', 'ChassisNicknaming' }
+    local prefixFilter = { '_' }
+    local suffixFilter = { 'Presets', 'Callsigns', 'Liveries' }
     local function createAll_recurse(node, allList)
       for key, value in pairs(node) do
-        if not (string.hasPrefix(key, '_') or table.contains(keyFilter, key)) then -- filter out keys
+        if not (string.hasAnyPrefix(key, prefixFilter) or table.contains(keyFilter, key) or string.hasAnySuffix(key, suffixFilter)) then -- filter out keys
           if type(value) == 'table' then
             createAll_recurse(value, allList) -- recurse, b/c table
           elseif type(value) == 'string' then -- valid value
@@ -859,13 +1072,28 @@ do --FDMM_UnitTypes
       end
     end
 
+    local categoryOverrides = { ['house1arm'] = 'Fortifications', ['houseA_arm'] = 'Fortifications', ['Sandbox'] = 'Fortifications',
+                                ['Bunker'] = 'Fortifications', ['outpost'] = 'Fortifications', ['outpost_road'] = 'Fortifications',
+                                ['house2arm'] = 'Fortifications', ['TACAN_beacon'] = 'Fortifications' }
+    local function copyAllToStatic(staticList, category, allList)
+      for key, value in pairs(allList) do
+        staticList[key] = (categoryOverrides[value] or category) .. '::' .. value
+      end
+    end
+
     createAll_recurse(fdmm.consts.UnitType.Plane, fdmm.consts.UnitType.Plane.All)
     createAll_recurse(fdmm.consts.UnitType.Helicopter, fdmm.consts.UnitType.Helicopter.All)
     createAll_recurse(fdmm.consts.UnitType.Ground, fdmm.consts.UnitType.Ground.All)
     createAll_recurse(fdmm.consts.UnitType.Ship, fdmm.consts.UnitType.Ship.All)
     createAll_recurse(fdmm.consts.UnitType.Train, fdmm.consts.UnitType.Train.All)
-    -- createAll_recurse(fdmm.consts.UnitType.Fortification, fdmm.consts.UnitType.Fortification.All)
-    -- createAll_recurse(fdmm.consts.UnitType.Static, fdmm.consts.UnitType.Fortification.Static)
+
+    copyAllToStatic(fdmm.consts.UnitType.Static.Plane, 'Planes', fdmm.consts.UnitType.Plane.All)
+    copyAllToStatic(fdmm.consts.UnitType.Static.Helicopter, 'Helicopters', fdmm.consts.UnitType.Helicopter.All)
+    copyAllToStatic(fdmm.consts.UnitType.Static.Ground, 'Unarmed', fdmm.consts.UnitType.Ground.All)
+    copyAllToStatic(fdmm.consts.UnitType.Static.Ship, 'Ships', fdmm.consts.UnitType.Ship.All)
+    copyAllToStatic(fdmm.consts.UnitType.Static.Train, 'Unarmed', fdmm.consts.UnitType.Train.All)
+
+    createAll_recurse(fdmm.consts.UnitType.Static, fdmm.consts.UnitType.Static.All)
   end
 
   function fdmm.unitTypes.isCarrierBorne(unitType)
