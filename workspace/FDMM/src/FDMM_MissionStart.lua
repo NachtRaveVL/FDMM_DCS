@@ -6,11 +6,13 @@ env.setErrorMessageBoxEnabled(false)
 
 --- FDMM main module.
 fdmm = {}
+fdmm_path = fdmm_path or "/Scripts/FDMM/"
+fdmm.fullPath = lfs.normpath(lfs.writedir() .. fdmm_path)
 
-fdmm.ScriptType = {
-  Both = 'Both', Setup = 'Setup', Runnable = 'Runable'
+fdmm.MapKind = {
+  Both = 'Both', Setup = 'Setup', Runable = 'Runable'
 }
-fdmm.scriptType = fdmm.ScriptType.Both -- will change later
+fdmm.mapKind = fdmm.MapKind.Both -- may change later
 
 -- Master include listing
 require('FDMM_Config')
@@ -34,6 +36,7 @@ do --FDMM_MissionStart
   trigger.action.outText('FDMM Starting...', 10)
 
   fdmm.unitTypes.processEntries()
+
   fdmm.config.createGPCache()
 
   -- Create territories, facilities, routes, etc. from groups placed on map.
@@ -49,7 +52,7 @@ do --FDMM_MissionStart
   -- Optional to uncomment, dumps to env.info
   --fdmm.territory.dumpTerritories()
   --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
-  --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, will get around to later
+  --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
 
   trigger.action.outText('FDMM Started', 10)
 end --FDMM_MissionStart

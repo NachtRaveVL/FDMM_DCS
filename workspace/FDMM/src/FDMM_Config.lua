@@ -193,6 +193,12 @@ end --FDMM_Territory_Defines
 
 do --FDMM_Config
 
+  --- Runs user setup script, as modified by user.
+  function fdmm.config.runUserSetupScript()
+    -- FIXME: not sure what the best way is to do this?
+    dofile(fdmm.fullPath .. "FDMM_Setup.lua")
+  end
+
   --- Creates group prefix cache from initial mission group placements.
   function fdmm.config.createGPCache()
     fdmm.config.gpCache = {}
@@ -229,5 +235,7 @@ do --FDMM_Config
   end
 
 end --FDMM_Config
+
+fdmm.config.runUserSetupScript()
 
 env.info("---FDMM_Config End---");

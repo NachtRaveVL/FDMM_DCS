@@ -6,7 +6,7 @@ Please feel free to reach out to NR before contributing.
 
 ### Clone FDMM
 
-Clone the FDMM repository into the "%USERPROFILE%/Saved Games/DCS/Missions/FDMM" folder so that you can dynamically debug scripts out-of-the-box, or at the very least make a symlink of some kind from this location to the folder you're using for development.
+Clone the FDMM repository into the "%USERPROFILE%/Saved Games/DCS/Missions/FDMM" folder so that you can dynamically debug scripts out-of-the-box. If you want to use a different folder it is recommended to create a symlink from this folder, as opening the FDMM_Caucasus.miz mission file in the Mission Editor and updating the fdmm_path variable in the Setup triggers to point at the correct folder location also makes it so that you cannot as easily check binary miz file changes in.
 
 ### MissionScripting.lua setup
 
