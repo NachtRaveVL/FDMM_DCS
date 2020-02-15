@@ -10,7 +10,7 @@ Clone the FDMM repository into the "%USERPROFILE%/Saved Games/DCS/Missions/FDMM"
 
 ### MissionScripting.lua setup
 
-As per regular FDMM server installation instructions, be sure to edit your "DCSWorld/Scripts/MissionScripting.lua" file to ensure that, nearer to the bottom of the file, the sanitizeModule('io') and sanitizeModule('lfs') lines are commented-out. This will make it so your installation of FDMM can access the io and lfs Lua modules, which we use in various parts of FDMM.
+As per regular FDMM server installation instructions, be sure to edit your "<DCSWorldMainFolder>/Scripts/MissionScripting.lua" file to ensure that, nearer to the bottom of the file, the sanitizeModule('io'), sanitizeModule('lfs'), and 'require = nil' lines are commented-out. This will make it so your installation of FDMM can access the io and lfs Lua modules, which we use in various parts of FDMM.
 
 This file will also get modified later on in the debugger setup section.
 
@@ -59,9 +59,9 @@ In a dynamically loaded, and thus debugging-enabled (essentially what we devs us
 
 However, this means that require()'ed files in FDMM cannot actually return anything (as it is in proper Lua), and thus should utilize the global namespace.
 
-Additionally, scripts being loaded into DCS via dofile() also require use of absolute file location to function. FDMM handles this by first starting, via lfs.writedir(), at the "%USERPROFILE%/Saved Games/DCS" folder. Our require() replacement then adds "/Missions/FDMM/workspace/FDMM/src/" to the line so that our require() calls treat FDMM's main src folder as the initial file lookup folder path. This keeps our require() methods short and tidy, while also allowing us to use those same require() calls in our build process.
+Additionally, scripts being loaded into DCS via dofile() also require use of absolute file location to function. FDMM handles this by first starting, via lfs.writedir(), at the "%USERPROFILE%/Saved Games/DCS" folder. Our require() replacement then adds "<fdmmPath/>workspace/FDMM/src/" to the line so that our require() calls treat FDMM's main src folder as the initial file lookup folder path. This keeps our require() methods short and tidy, while also allowing us to use those same require() calls in our build process.
 
-This however also means that FDMM's require() calls should always be treated as starting the file path from FDMM's main src folder, never the folder the file may exist inside of, and by convention never to a file existing outside of FDMM's main src folder hierarchy - in which case we probably want to have that file added to the Lua environment in DCS through dependency linkage, via the LoadDeps do-script-file mission start trigger in the mission editor.
+This however also means that FDMM's require() calls should always be treated as starting from the file path from FDMM's main src folder. If that path doesn't resolve, then the native require() call is used instead.
 
 ##### Statically loaded / non-debuggable environment
 
