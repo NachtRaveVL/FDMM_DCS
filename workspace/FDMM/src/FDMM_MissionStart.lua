@@ -1,7 +1,7 @@
 ---
 -- FDMM Mission Start Module.
 -- @module FDMM_MissionStart
-env.info('---FDMM_MissionStart Start---')
+env.info("---FDMM_MissionStart Start---")
 env.setErrorMessageBoxEnabled(false)
 
 --- FDMM main module.
@@ -33,13 +33,18 @@ require('Territory/FDMM_Port')
 require('Territory/FDMM_UnitFactory')
 
 do --FDMM_MissionStart
-  trigger.action.outText('FDMM Starting...', 10)
+  trigger.action.outText("FDMM Starting...", 10)
 
+  -- Load unit and regiment type entries.
   fdmm.unitTypes.processEntries()
-
-  fdmm.config.createGPCache()
+  --fdmm.regimentTypes.processEntries()
+  if fdmm_loadDB and db then
+    fdmm.unitTypes.crossRefEntries()
+  end
+  fdmm.unitTypes.dumpUnitReportNames()
 
   -- Create territories, facilities, routes, etc. from groups placed on map.
+  fdmm.config.createGPCache()
   fdmm.territory.createTerritories()
   fdmm.territory.createFacilities()
   fdmm.cargoRoute.createCargoRoutes()
@@ -54,7 +59,7 @@ do --FDMM_MissionStart
   --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
   --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
 
-  trigger.action.outText('FDMM Started', 10)
+  trigger.action.outText("FDMM Started", 10)
 end --FDMM_MissionStart
 
-env.info('---FDMM_MissionStart End---')
+env.info("---FDMM_MissionStart End---")

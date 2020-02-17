@@ -163,6 +163,50 @@ do --FDMM_Utils
     return fdmm.enums.Faction.Unused
   end
 
+  --- Builds reversed dictionary where keys/values are reversed.
+  -- @note Values that map to different keys will map to a sequence of keys.
+  -- @note Only string and number types for keys and values are permitted.
+  -- @param #table table Table.
+  -- @return #table New table with reversed key/value entries.
+  function fdmm.utils.reversedDict(table)
+    local rev = {}
+    for k,v in pairs(table) do
+      if (type(k) == 'string' or type(k) == 'number') and (type(v) == 'string' or type(v) == 'number') then
+        if not rev[v] then
+          rev[v] = k
+        elseif rev[v] ~= k then
+          if type(rev[v]) ~= 'table' then
+            rev[v] = { rev[v] }
+          end
+          if not table.contains(rev[v], k) then
+            table.insert(rev[v], k)
+          end
+        end
+      end
+    end
+    return rev
+  end
+
+  --- Splits strings in doub:let format, returning two elements.
+  -- @param #string doubletString String with one:two elements in doublet form.
+  -- @return #string,#string Tuple: first and second elements, otherwise nil if not in correct format.  
+  function fdmm.utils.splitDoublet(doubletString)
+    if doubletString then
+      return doubletString:match("([^:]*):([^:]*)")
+    end
+    return nil, nil
+  end
+
+  --- Splits strings in tri:p:let format, returning three elements.
+  -- @param #string tripletString String with one:two:three elements in triplet form.
+  -- @return #string,#string,#string Tuple: first, second, and third elements, otherwise nil if not in correct format.
+  function fdmm.utils.splitTriplet(tripletString)
+    if tripletString then
+      return tripletString:match("([^:]*):([^:]*):([^:]*)")
+    end
+    return nil, nil, nil
+  end
+
   --- Determines if the user flag is set true in mission user flags.
   -- @param #string flag Flag.
   -- @return #boolean True if non-0, non-false, and non-no element is set, otherwise false.

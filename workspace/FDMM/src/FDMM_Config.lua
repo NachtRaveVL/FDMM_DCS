@@ -3,10 +3,9 @@
 -- @module FDMM_Config
 env.info("---FDMM_Config Start---");
 
--- FDMM versioning
+-- FDMM versioning.
 fdmm.majorVersion = 0
 fdmm.minorVersion = 2
-fdmm.build = 1
 
 --- FDMM enumerations.
 fdmm.enums = {}
@@ -14,6 +13,8 @@ fdmm.enums = {}
 fdmm.consts = {}
 --- FDMM config.
 fdmm.config = {}
+--- FDMM setup.
+fdmm.setup = {}
 
 --- A 2D points array.
 -- @type ListVec2
@@ -191,11 +192,24 @@ do --FDMM_Territory_Defines
 
 end --FDMM_Territory_Defines
 
+do --FDMM_UnitType_Defines
+
+  fdmm.enums.UnitType = {
+    Plane = 'plane',
+    Helicopter = 'helicopter',
+    Ground = 'ground',
+    Train = 'train',
+    Ship = 'ship',
+    Static = 'static'
+  }
+
+end
+
 do --FDMM_Config
 
   --- Runs user setup script, as modified by user.
   function fdmm.config.runUserSetupScript()
-    -- FIXME: not sure what the best way is to do this?
+    fdmm.setup = {} -- clear
     dofile(fdmm.fullPath .. "FDMM_Setup.lua")
   end
 
