@@ -179,35 +179,35 @@ do --FDMM_UnitTypes
       },
       All = {}, -- resolved on startup processing
       NATOReporting = {
-        ['A-50'] = ':Mainstay',
-        ['An-26B'] = ':Curl',
-        ['An-30M'] = ':Clank',
-        ['IL-76MD'] = ':Candid',
-        ['IL-78M'] = ':Midas',
-        ['J-11A'] = ':Flanker-L',
-        ['KJ-2000'] = ':Mainring',
-        ['MiG-15bis'] = ':Fagot',
-        ['MiG-19P'] = ':Farmer-B',
-        ['MiG-21Bis'] = ':Fishbed-L/N',
-        ['MiG-23MLD'] = ':Flogger-K',
-        ['MiG-25RBT'] = ':Foxbat-B', ['MiG-25PD'] = ':Foxbat-E',
-        ['MiG-27K'] = ':Flogger-J2',
-        ['MiG-29A'] = ':Fulcrum-A', ['MiG-29K'] = ':Fulcrum-D', ['MiG-29S'] = ':Fulcrum-C',
-        ['MiG-31'] = ':Foxhound',
-        ['Su-17M4'] = ':Fitter-K',
-        ['Su-24M'] = ':Fencer-D', ['Su-24MR'] = ':Fencer-E',
-        ['Su-25'] = ':Frogfoot', ['Su-25T'] = ':Frogfoot', ['Su-25TM'] = ':Frogfoot',
-        ['Su-27'] = ':Flanker', ['Su-30'] = ':Flanker-C', ['Su-33'] = ':Flanker-D',
-        ['Su-34'] = ':Fullback',
-        ['Tu-22M3'] = ':Backfire-C',
-        ['Tu-95MS'] = ':Bear-H',
-        ['Tu-142'] = ':Bear-F/J',
-        ['Tu-160'] = ':Blackjack',
-        ['Yak-40'] = ':Codling'
+        ['A-50'] = ':\'Mainstay\'',
+        ['An-26B'] = ':\'Curl\'',
+        ['An-30M'] = ':\'Clank\'',
+        ['IL-76MD'] = ':\'Candid\'',
+        ['IL-78M'] = ':\'Midas\'',
+        ['J-11A'] = ':\'Flanker-L\'',
+        ['KJ-2000'] = ':\'Mainring\'',
+        ['MiG-15bis'] = ':\'Fagot\'',
+        ['MiG-19P'] = ':\'Farmer-B\'',
+        ['MiG-21Bis'] = ':\'Fishbed-L/N\'',
+        ['MiG-23MLD'] = ':\'Flogger-K\'',
+        ['MiG-25RBT'] = ':\'Foxbat-B\'', ['MiG-25PD'] = ':\'Foxbat-E\'',
+        ['MiG-27K'] = ':\'Flogger-J2\'',
+        ['MiG-29A'] = ':\'Fulcrum-A\'', ['MiG-29K'] = ':\'Fulcrum-D\'', ['MiG-29S'] = ':\'Fulcrum-C\'',
+        ['MiG-31'] = ':\'Foxhound\'',
+        ['Su-17M4'] = ':\'Fitter-K\'',
+        ['Su-24M'] = ':\'Fencer-D\'', ['Su-24MR'] = ':\'Fencer-E\'',
+        ['Su-25'] = ':\'Frogfoot\'', ['Su-25T'] = ':\'Frogfoot\'', ['Su-25TM'] = ':\'Frogfoot\'',
+        ['Su-27'] = ':\'Flanker\'', ['Su-30'] = ':\'Flanker-C\'', ['Su-33'] = ':\'Flanker-D\'',
+        ['Su-34'] = ':\'Fullback\'',
+        ['Tu-22M3'] = ':\'Backfire-C\'',
+        ['Tu-95MS'] = ':\'Bear-H\'',
+        ['Tu-142'] = ':\'Bear-F/J\'',
+        ['Tu-160'] = ':\'Blackjack\'',
+        ['Yak-40'] = ':\'Codling\''
       },
       ReportNaming = {
         ['AJS37'] = 'AJS 37',
-        ['AV8BNA'] = 'AV-8B(NA)',
+        ['AV8BNA'] = 'AV-8B N/A',
         ['B1-B'] = 'B-1B',
         ['F-16C_50'] = 'F-16CM bl.50',
         ['FA-18C_hornet'] = 'F/A-18C l.20',
@@ -294,24 +294,31 @@ do --FDMM_UnitTypes
         SH60B = 'SH-60B'
       },
       CarrierBorne = {
+        AH1W = 'AH-1W',
         CH53E = 'CH-53E',
         Ka27 = 'Ka-27',
         SH60B = 'SH-60B'
       },
+      PlayerControllable = {
+        Ka50 = 'Ka-50',
+        SA342L = 'SA342L', SA342M = 'SA342M', SA342Mg = 'SA342Minigun', SA342Ms = 'SA342Mistral',
+        UH1H = 'UH-1H',
+        Mi8MTV2 = 'Mi-8MT'
+      },
       All = {}, -- resolved on startup processing
       NATOReporting = {
-        ['Ka-27'] = ':Helix',
-        ['Ka-50'] = ':Hokum-A',
-        ['Mi-8MT'] = ':Hip',
-        ['Mi-24V'] = ':Hind-E',
-        ['Mi-26'] = ':Halo',
-        ['Mi-28N'] = ':Havoc'
+        ['Ka-27'] = ':\'Helix\'',
+        ['Ka-50'] = ':\'Hokum-A\'',
+        ['Mi-8MT'] = ':\'Hip\'',
+        ['Mi-24V'] = ':\'Hind-E\'',
+        ['Mi-26'] = ':\'Halo\'',
+        ['Mi-28N'] = ':\'Havoc\''
       },
       ReportNaming = {
         ['SA342L'] = 'SA 342L',
         ['SA342M'] = 'SA 342M', 
-        ['SA342Minigun'] = 'SA 342(Mg)',
-        ['SA342Mistral'] = 'SA 342(Ms)'
+        ['SA342Minigun'] = 'SA 342 Mg',
+        ['SA342Mistral'] = 'SA 342 Ms'
       },
       ProperNaming = {
         ['AH-1W'] = 'SuperCobra',
@@ -326,7 +333,8 @@ do --FDMM_UnitTypes
         ['UH-60A'] = 'Black Hawk'
       },
       Nicknaming = {
-        ['Mi-24V'] = 'Crocodile',
+        ['AH-1W'] = 'HueyCobra',
+        ['Mi-24V'] = 'Crocodile'
       }
     },
     Ground = {
@@ -417,7 +425,7 @@ do --FDMM_UnitTypes
           SA19Tunguska_2S6 = '2S6 Tunguska'
         },
         AAA = {
-          Gepard1A2 = 'Gepard',
+          FlakPzGepard1A2 = 'Gepard',
           ZSU234Shilka = 'ZSU-23-4 Shilka',
           M163Vulcan = 'Vulcan'
         }
@@ -671,16 +679,16 @@ do --FDMM_UnitTypes
         SAM = {
           SA18 = {
             Soldier = {
-              Comms = {
-                SA18IGLAComms = 'SA-18 Igla comm'
+              Comm = {
+                SA18IGLAComm = 'SA-18 Igla comm'
               },
               Launcher = {
                 SA18IGLAMANPAD = 'SA-18 Igla manpad'
               }
             },
             Insurgent = {
-              Comms = {
-                SA18IGLAComms = 'SA-18 Igla comm'
+              Comm = {
+                SA18IGLAComm = 'SA-18 Igla comm'
               },
               Launcher = {
                 SA18IGLAMANPAD_Insurgent = 'Igla manpad INS'
@@ -688,17 +696,17 @@ do --FDMM_UnitTypes
             }
           },
           SA24 = {
-            Comms = {
-              SA24IGLASComms = 'SA-18 Igla-S comm'
+            Comm = {
+              SA24IGLASComm = 'SA-18 Igla-S comm'
             },
             Launcher = {
               SA24IGLASMANPAD = 'SA-18 Igla-S manpad'
             }
           },
           Stinger = {
-            Comms = {
-              StingerComms = 'Stinger comm',
-              StingerComms_ISR = 'Stinger comm dsr', -- Israeli
+            Comm = {
+              StingerComm = 'Stinger comm',
+              StingerComm_ISR = 'Stinger comm dsr', -- Israeli
             },
             Launcher = {
               StingerMANPAD = 'Soldier stinger'
@@ -801,54 +809,54 @@ do --FDMM_UnitTypes
       },
       All = {}, -- resolved on startup processing
       NATOReporting = {
-        ['Dog Ear radar'] = 'PPRU-M1:Dog Ear',
+        ['Dog Ear radar'] = 'PPRU-M1 \'Dog Ear\' (Sborka):\'Dog Ear\'',
         ['SAU 2-C9'] = 'SAU:(2S9)', -- no NATO designation?
         ['SAU Akatsia'] = 'SAU:(M1973)',
         ['SAU Gvozdika'] = 'SAU:(M1974)',
         ['SAU Msta'] = 'SAU:(M1990)',
-        ['55G6 EWR'] = 'P-14 Tall Rack:Tall Rack',
-        ['1L13 EWR'] = 'P-18 Spoon Rest D:Spoon Rest D',
-        ['Scud_B'] = 'SS-1C Scud-B (R-17/MAZ-543):Scud-B',
-        ['Silkworm_SR'] = 'CSS-C-2 Silkworm:Silkworm',
-        ['hy_launcher'] = 'CSS-C-2 Silkworm:Silkworm',
+        ['55G6 EWR'] = 'P-14 \'Tall Rack\' (Nebo):\'Tall Rack\'',
+        ['1L13 EWR'] = 'P-18 \'Spoon Rest D\' (Nebo-SV):\'Spoon Rest D\'',
+        ['Scud_B'] = 'SS-1C \'Scud B\' (R-17/MAZ-543):\'Scud B\'',
+        ['Silkworm_SR'] = 'CSS-C-2 \'Silkworm\':\'Silkworm\'',
+        ['hy_launcher'] = 'CSS-C-2 \'Silkworm\':\'Silkworm\'',
         ['Grad-URAL'] = 'BM-21:(M1964)',
         ['Uragan_BM-27'] = 'BM-27:(M1977)',
         ['Smerch'] = 'BM-30:(M1983)',
-        ['S_75M_Volhov'] = 'SA-2D Guideline m.3 (S-75M) SM-90:Guideline m.3',
-        ['SNR_75V'] = 'SA-2D Fan Song E (SNR-75Z):Fan Song E',
-        ['5p73 s-125 ln'] = 'SA-3 Goa (S-125):Goa',
-        ['p-19 s-125 sr'] = 'SA-3 Flat Face B (S-125) P-19:Flat Face B',
-        ['snr s-125 tr'] = 'SA-3 Low Blow (SNR-125):Low Blow',
-        ['Kub 1S91 str'] = 'SA-6 Straight Flush (Kub):Straight Flush',
-        ['Kub 2P25 ln'] = 'SA-6 Gainful (Kub):Gainful',
-        ['Osa 9A33 ln'] = 'SA-8 Gecko (Osa):Gecko',
-        ['Strela-1 9P31'] = 'SA-9 Gaskin (Strela-1):Gaskin',
-        ['S-300PS 40B6M tr'] = 'SA-10B Flap Lid A (S-300PS):Flap Lid A',
-        ['S-300PS 40B6MD sr'] = 'SA-10B Clam Shell (S-300PS):Clam Shell',
-        ['S-300PS 54K6 cp'] = 'SA-10B Grumble B (S-300PS):Grumble B',
-        ['S-300PS 5P85C ln'] = 'SA-10B Grumble B (S-300PS):Grumble B',
-        ['S-300PS 5P85D ln'] = 'SA-10B Grumble B (S-300PS):Grumble B',
-        ['S-300PS 64H6E sr'] = 'SA-10B Big Bird (S-300PS):Big Bird',
-        ['SA-11 Buk CC 9S470M1'] = 'SA-11 Gadfly (Buk):Gadfly',
-        ['SA-11 Buk LN 9A310M1'] = 'SA-11 Gadfly (Buk):Gadfly',
-        ['SA-11 Buk SR 9S18M1'] = 'SA-11 Tube Arm (Buk):Tube Arm',
-        ['Strela-10M3'] = 'SA-13 Gopher (Strela-10M3):Gopher',
-        ['Tor 9A331'] = 'SA-15 Gauntley (Tor):Gauntlet',
-        ['Igla manpad INS'] = 'SA-18 Grouse (Igla):Grouse',
-        ['SA-18 Igla comm'] = 'SA-18 Grouse (Igla):Grouse',
-        ['SA-18 Igla manpad'] = 'SA-18 Grouse (Igla):Grouse',
-        ['2S6 Tunguska'] = 'SA-19 Grison (Tunguska):Grison',
-        ['SA-18 Igla-S comm'] = 'SA-24 Grinch (Igla-S):Grinch',
-        ['SA-18 Igla-S manpad'] = 'SA-24 Grinch (Igla-S):Grinch',
+        ['S_75M_Volhov'] = 'SA-2D \'Guideline m.3\' (S-75M) SM-90:\'Guideline m.3\'',
+        ['SNR_75V'] = 'SA-2D \'Fan Song E\' (SNR-75V):\'Fan Song E\'',
+        ['5p73 s-125 ln'] = 'SA-3 \'Goa\' (S-125):\'Goa\'',
+        ['p-19 s-125 sr'] = 'SA-3 \'Flat Face B\' (S-125/P-19):\'Flat Face B\'',
+        ['snr s-125 tr'] = 'SA-3 \'Low Blow\' (SNR-125):\'Low Blow\'',
+        ['Kub 1S91 str'] = 'SA-6 \'Straight Flush\' (Kub):\'Straight Flush\'',
+        ['Kub 2P25 ln'] = 'SA-6 \'Gainful\' (Kub):\'Gainful\'',
+        ['Osa 9A33 ln'] = 'SA-8 \'Gecko\' (Osa):\'Gecko\'',
+        ['Strela-1 9P31'] = 'SA-9 \'Gaskin\' (Strela-1):\'Gaskin\'',
+        ['S-300PS 40B6M tr'] = 'SA-10B \'Flap Lid A\' (S-300PS):\'Flap Lid A\'',
+        ['S-300PS 40B6MD sr'] = 'SA-10B \'Clam Shell\' (S-300PS):\'Clam Shell\'',
+        ['S-300PS 54K6 cp'] = 'SA-10B \'Grumble B\' (S-300PS):\'Grumble B\'',
+        ['S-300PS 5P85C ln'] = 'SA-10B \'Grumble B\' (S-300PS):\'Grumble B\'',
+        ['S-300PS 5P85D ln'] = 'SA-10B \'Grumble B\' (S-300PS):\'Grumble B\'',
+        ['S-300PS 64H6E sr'] = 'SA-10B \'Big Bird\' (S-300PS):\'Big Bird\'',
+        ['SA-11 Buk CC 9S470M1'] = 'SA-11 \'Gadfly\' (Buk):\'Gadfly\'',
+        ['SA-11 Buk LN 9A310M1'] = 'SA-11 \'Gadfly\' (Buk):\'Gadfly\'',
+        ['SA-11 Buk SR 9S18M1'] = 'SA-11 \'Tube Arm\' (Buk):\'Tube Arm\'',
+        ['Strela-10M3'] = 'SA-13 \'Gopher\' (Strela-10M3):\'Gopher\'',
+        ['Tor 9A331'] = 'SA-15 \'Gauntlet\' (Tor):\'Gauntlet\'',
+        ['Igla manpad INS'] = 'SA-18 \'Grouse\' (Igla):\'Grouse\'',
+        ['SA-18 Igla comm'] = 'SA-18 \'Grouse\' (Igla):\'Grouse\'',
+        ['SA-18 Igla manpad'] = 'SA-18 \'Grouse\' (Igla):\'Grouse\'',
+        ['2S6 Tunguska'] = 'SA-19 \'Grison\' (Tunguska):\'Grison\'',
+        ['SA-18 Igla-S comm'] = 'SA-24 \'Grinch\' (Igla-S):\'Grinch\'',
+        ['SA-18 Igla-S manpad'] = 'SA-24 \'Grinch\' (Igla-S):\'Grinch\' ',
       },
       WTOReporting = {
-        ['Dog Ear radar'] = '9S80M1:',
+        ['Dog Ear radar'] = '9S80M1 Sborka:',
         ['SAU 2-C9'] = '2S9:(SO.120)',
         ['SAU Akatsia'] = '2S3:(SO.152)',
         ['SAU Gvozdika'] = '2S1:(SAU.122)',
         ['SAU Msta'] = '2S19:(SP.152)',
-        ['55G6 EWR'] = '55G6:',
-        ['1L13 EWR'] = '1L13:',
+        ['55G6 EWR'] = '55G6 Nebo:(P-14)',
+        ['1L13 EWR'] = '1L13 Nebo-SV:(P-18)',
         ['Scud_B'] = '9K72 R-17 Elbrus:(9P117)',
         ['Silkworm_SR'] = 'HY-1A:',
         ['hy_launcher'] = 'HY-1A:',
@@ -858,7 +866,7 @@ do --FDMM_UnitTypes
         ['S_75M_Volhov'] = 'S-75M SM-90:',
         ['SNR_75V'] = 'S-75M SNR-75V:',
         ['5p73 s-125 ln'] = 'S-125 5P73:',
-        ['p-19 s-125 sr'] = 'S-125 1RL134:',
+        ['p-19 s-125 sr'] = 'S-125 1RL134:(P-19)',
         ['snr s-125 tr'] = 'S-125 SNR-125:',
         ['Kub 1S91 str'] = '2K12 Kub 1S91:',
         ['Kub 2P25 ln'] = '2K12 Kub 2P25:',
@@ -873,7 +881,7 @@ do --FDMM_UnitTypes
         ['SA-11 Buk CC 9S470M1'] = '9K37 Buk 9S470M1:',
         ['SA-11 Buk LN 9A310M1'] = '9K37 Buk 9A310M1:',
         ['SA-11 Buk SR 9S18M1'] = '9K37 Buk 9S18M1:',
-        ['Strela-10M3'] = '9K35M Strela-10 9A35M3:',
+        ['Strela-10M3'] = '9K35M Strela-10M3 9A35M3:',
         ['Tor 9A331'] = '9K330 Tor 9A331:',
         ['Igla manpad INS'] = '9K38 Igla:',
         ['SA-18 Igla comm'] = '9K38 Igla:',
@@ -884,8 +892,8 @@ do --FDMM_UnitTypes
       },
       ReportNaming = {
         -- HQ
-        ['Dog Ear radar'] = '%R Sborka',
-        ['Land_Rover_101_FC'] = 'Land Rover 101FC',
+        ['Dog Ear radar'] = '%R',
+        ['Land_Rover_101_FC'] = 'Land Rover 101 FC',
         ['Predator TrojanSpirit'] = 'Predator TS',
         ['SKP-11'] = 'SKP-11 ATC MCP',
         ['ZIL-131 KUNG'] = 'ZiL-131 KUNG',
@@ -919,13 +927,13 @@ do --FDMM_UnitTypes
         ['AAV7'] = 'AAV-7',
         ['BTR_D'] = 'BTR-D',
         ['Cobra'] = 'Cobra BMT-2',
-        ['M1043 HMMWV Armament'] = 'M1043 HMMWV (Mg)',
+        ['M1043 HMMWV Armament'] = 'M1043 HMMWV Mg',
         ['M1126 Stryker ICV'] = 'M1126 Stryker ICV',
         ['MTLB'] = 'MT-LB',
         ['TPZ'] = 'TPz Fuchs',
         -- EWR
-        ['55G6 EWR'] = '%R Nebo EWR',
-        ['1L13 EWR'] = '%R Nebo-SV EWR',
+        ['55G6 EWR'] = '%R EWR',
+        ['1L13 EWR'] = '%R EWR',
         ['Roland Radar'] = 'Roland EWR',
         -- SSM
         ['Scud_B'] = '%R LN',
@@ -951,7 +959,7 @@ do --FDMM_UnitTypes
         ['Patriot EPP'] = 'Patriot EPP-III',
         ['Patriot ln'] = 'Patriot M901 LN',
         ['Patriot str'] = 'Patriot AN/MPQ-53 STR',
-        ['rapier_fsa_blindfire_radar'] = 'Rapier FSA Bf TR',
+        ['rapier_fsa_blindfire_radar'] = 'Rapier FSA Blindfire TR',
         ['rapier_fsa_launcher'] = 'Rapier FSA LN',
         ['rapier_fsa_optical_tracker_unit'] = 'Rapier FSA OT',
         ['S_75M_Volhov'] = '%R LN',
@@ -975,16 +983,16 @@ do --FDMM_UnitTypes
         ['Strela-10M3'] = '%R',
         ['Tor 9A331'] = '%R',
         ['Igla manpad INS'] = 'Insurgent %R MANPAD',
-        ['SA-18 Igla comm'] = '%R Comms',
+        ['SA-18 Igla comm'] = '%R Comm',
         ['SA-18 Igla manpad'] = '%R MANPAD',
         ['2S6 Tunguska'] = '%R',
-        ['SA-18 Igla-S comm'] = '%R Comms',
+        ['SA-18 Igla-S comm'] = '%R Comm',
         ['SA-18 Igla-S manpad'] = '%R MANPAD',
-        ['Stinger comm'] = 'Stinger Comms',
-        ['Stinger comm dsr'] = 'ISR Stinger Comms',
+        ['Stinger comm'] = 'Stinger Comm',
+        ['Stinger comm dsr'] = 'Israeli Stinger Comm',
         ['Soldier stinger'] = 'Stinger MANPAD',
         -- AAA
-        ['Gepard'] = 'Flakpanzer Gepard 1A2',
+        ['Gepard'] = 'FlakPz Gepard 1A2',
         ['Vulcan'] = 'M163 Vulcan',
         ['Ural-375 ZU-23'] = 'ZU-23/Ural-375',
         ['Ural-375 ZU-23 Insurgent'] = 'Insurgent ZU-23/Ural-375',
@@ -1007,9 +1015,9 @@ do --FDMM_UnitTypes
         ['Hummer'] = 'M1025 HMMWV',
         ['KAMAZ Truck'] = 'KamAZ-43101',
         ['KrAZ6322'] = 'KrAZ-6322',
-        ['Land_Rover_109_S3'] = 'Land Rover 109S3',
+        ['Land_Rover_109_S3'] = 'Land Rover 109 S3',
         ['M 818'] = 'M818',
-        ['Tigr_233036'] = 'GAZ Tigr',
+        ['Tigr_233036'] = 'GAZ-233036 Tigr',
         -- Fort
         ['Bunker'] = 'Pillbox bunker',
         ['Sandbox'] = 'Hillside bunker',
@@ -1025,8 +1033,6 @@ do --FDMM_UnitTypes
         ['Trolley bus'] = 'ZIU-9',
         ['VAZ Car'] = 'VAZ-2109',
         ['ZIL-4331'] = 'ZiL-4331'
-      },
-      ProperNaming = {
       },
       Nicknaming = {
         ['Hummer'] = 'Humvee', ['M1043 HMMWV Armament'] = 'Humvee', ['M1045 HMMWV TOW'] = 'Humvee'
@@ -1131,20 +1137,20 @@ do --FDMM_UnitTypes
         ['SOM'] = 'Tango:'
       },
       WTOReporting = {
-        ['KUZNECOW'] = 'P.1143.5 Orel:',
-        ['PIOTR'] = 'P.1144.2 Orlan:',
-        ['MOSCOW'] = 'P.1164 Atlant:',
-        ['NEUSTRASH'] = 'P.1154.0 Yastreb:',
-        ['REZKY'] = 'P.1135M Burevestnik M:',
-        ['ALBATROS'] = 'P.1124.4 Albatros:',
-        ['MOLNIYA'] = 'P.1241.1MP Molniya:',
-        ['KILO'] = 'P.877 Paltus:',
-        ['SOM'] = 'P.641B Som:'
+        ['KUZNECOW'] = 'Orel:(1143.5)',
+        ['PIOTR'] = 'Orlan:(1144.2)',
+        ['MOSCOW'] = 'Atlant:(1164)',
+        ['NEUSTRASH'] = 'Yastreb:(1154.0)',
+        ['REZKY'] = 'Burevestnik M:(1135M)',
+        ['ALBATROS'] = 'Albatros:(1124.4)',
+        ['MOLNIYA'] = 'Molniya:(1241.1MP)',
+        ['KILO'] = 'Paltus:(877)',
+        ['SOM'] = 'Som:(641B)'
       },
       ReportNaming = {
         ['KUZNECOW'] = '%R-class carrier',
-        ['Stennis'] = 'Nimitz (late)-class carrier',
-        ['VINSON'] = 'Nimitz (early)-class carrier',
+        ['Stennis'] = 'Nimitz-class (late) carrier',
+        ['VINSON'] = 'Nimitz-class (early) carrier',
         ['LHA_Tarawa'] = 'Tarawa-class assault ship',
         ['PIOTR'] = '%R-class battlecruiser',
         ['MOSCOW'] = '%R-class cruiser',
@@ -1334,96 +1340,147 @@ do --FDMM_UnitTypes
                                 ['outpost'] = 'Fortifications', ['outpost_road'] = 'Fortifications',
                                 ['house2arm'] = 'Fortifications', ['TACAN_beacon'] = 'Fortifications' }
 
-    local function createAll(unitTypeGroup)
-      local function createAll_recurse(node, allList)
+    local function createGroupAll(unitTypeGroup)
+      local function createGroupAll_recurse(node, groupAllList)
         for key, value in pairs(node) do
           if not (string.hasAnyPrefix(key, prefixFilter) or
                   table.contains(keyFilter, key) or
                   string.hasAnySuffix(key, suffixFilter)) then -- filter out keys
             if type(value) == 'table' then
-              createAll_recurse(value, allList) -- recurse, b/c table
+              createGroupAll_recurse(value, groupAllList) -- recurse, b/c table
             elseif type(value) == 'string' then -- valid value
-              if not allList[key] then -- not yet found
-                allList[key] = value
+              local fdmmUnitType = key
+              local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
+              unitType = unitType or value
 
-                if not allList._rev[value] then
-                  allList._rev[value] = key
-                elseif allList._rev[value] ~= key then -- different reverse entry
-                  env.error("All list reverse discrepancy for value=\'" .. value .. "\', allList._rev[value]=\'" ..
-                            allList._rev[value] .. "\' ~= key=\'" .. key .. "\'.")
+              if not groupAllList[fdmmUnitType] then -- not yet found
+                groupAllList[fdmmUnitType] = value
+
+                if string.isNotEmpty(unitType) then
+                  if not groupAllList._rev then groupAllList._rev = {} end
+                  if not groupAllList._rev[unitType] then
+                    groupAllList._rev[unitType] = fdmmUnitType
+                  elseif groupAllList._rev[unitType] ~= fdmmUnitType then -- different reverse entry
+                    env.error("Group all list reverse discrepancy for unitType=\'" .. unitType ..
+                              "\', groupAllList._rev[unitType]=\'" .. groupAllList._rev[unitType] ..
+                              "\' ~= fdmmUnitType=\'" .. fdmmUnitType .. "\'.")
+                  end
                 end
 
-                local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
-                if string.isNotEmpty(shapeName) then allList._rev[shapeName] = key end
-                if string.isNotEmpty(unitType) then allList._rev[unitType] = key end
-              elseif allList[key] ~= value then -- different than what we have
-                env.error("All list discrepancy for key=\'" .. key .. "\', allList[key]=\'" .. allList[key] ..
+                if string.isNotEmpty(shapeName) then
+                  if not groupAllList._revShape then groupAllList._revShape = {} end
+                  if not groupAllList._revShape[shapeName] then
+                    groupAllList._revShape[shapeName] = fdmmUnitType
+                  elseif groupAllList._revShape[shapeName] ~= fdmmUnitType then -- different reverse entry
+                    env.error("Group all list shape reverse discrepancy for shapeName=\'" .. shapeName ..
+                              "\', groupAllList._revShape[shapeName]=\'" .. groupAllList._revShape[shapeName] ..
+                              "\' ~= fdmmUnitType=\'" .. fdmmUnitType .. "\'.")
+                  end
+                end
+              elseif groupAllList[fdmmUnitType] ~= value then -- different than what we have
+                env.error("Group all list discrepancy for fdmmUnitType=\'" .. fdmmUnitType ..
+                          "\', groupAllList[fdmmUnitType]=\'" .. groupAllList[fdmmUnitType] ..
                           "\' ~= value=\'" .. value .. "\'.")
               end
             end
           end
         end
       end
-      unitTypeGroup.All._rev = {}
-      createAll_recurse(unitTypeGroup, unitTypeGroup.All)
+      createGroupAll_recurse(unitTypeGroup, unitTypeGroup.All)
     end
 
-    local function copyAllToStatic(staticList, category, allList)
-      for key, value in pairs(allList) do
-        if not string.hasAnyPrefix(key, prefixFilter) then
-          staticList[key] = (categoryOverrides[value] or category) .. '::' .. value
+    local function copyGroupAllToStaticAll(groupAllList, staticAllList, category)
+      for fdmmUnitType, unitType in pairs(groupAllList) do
+        if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
+          staticAllList[fdmmUnitType] = (categoryOverrides[unitType] or category) .. '::' .. unitType
         end
       end
     end
 
-    local function copyStaticToAll(staticList, allList)
-      for key, value in pairs(staticList) do
-        if not string.hasAnyPrefix(key, prefixFilter) then
+    local function copyStaticAllToMasterAll(staticAllList, masterAllList)
+      for fdmmUnitType, value in pairs(staticAllList) do
+        if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
           local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
           unitType = unitType or value
 
-          if not allList[key] then
-            allList[key] = unitType
-          elseif allList[key] ~= unitType then -- different entry
-            env.error("All list discrepancy for key=\'" .. key .. "\', allList[key]=\'" .. allList[key] ..
+          if not masterAllList[fdmmUnitType] then
+            masterAllList[fdmmUnitType] = unitType
+          elseif masterAllList[fdmmUnitType] ~= unitType then -- different entry
+            env.error("Master all list discrepancy for fdmmUnitType=\'" .. fdmmUnitType ..
+                      "\', masterAllList[fdmmUnitType]=\'" .. masterAllList[fdmmUnitType] ..
                       "\' ~= unitType=\'" .. unitType .. "\'.")
           end
         end
       end
     end
 
-    local function fillInReportNaming(unitTypeGroup, defFromKeyNotVal)
-      for key, value in pairs(unitTypeGroup.All) do
-        if not string.hasAnyPrefix(key, prefixFilter) and not unitTypeGroup.ReportNaming[value] then
-          if not defFromKeyNotVal then
-            unitTypeGroup.ReportNaming[value] = value
-          else
-            unitTypeGroup.ReportNaming[value] = key
+    local function createGroupNamingIfNeeded(unitTypeGroup)
+      if not unitTypeGroup.NATOReporting then unitTypeGroup.NATOReporting = {} end
+      if not unitTypeGroup.WTOReporting then unitTypeGroup.WTOReporting = {} end
+      if not unitTypeGroup.ReportNaming then unitTypeGroup.ReportNaming = {} end
+      if not unitTypeGroup.ProperNaming then unitTypeGroup.ProperNaming = {} end
+      if not unitTypeGroup.Nicknaming then unitTypeGroup.Nicknaming = {} end
+    end
+
+    local function copyGroupReportingToStaticReporting(unitTypeGroup, staticUnitTypeGroup)
+      local function copyGroupNamingToStaticNaming(groupReportNaming, staticReportNaming)
+        for unitType, reportNaming in pairs(groupReportNaming) do
+          if not string.hasAnyPrefix(unitType, prefixFilter) then
+            if not staticReportNaming[unitType] then
+              staticReportNaming[unitType] = reportNaming
+            elseif staticReportNaming[unitType] ~= reportNaming then -- different entry
+              env.error("Static report naming discrepancy for unitType=\'" .. unitType ..
+                        "\', staticReportNaming[unitType]=\'" .. staticReportNaming[unitType] ..
+                        "\' ~= reportNaming=\'" .. reportNaming .. "\'.")
+            end
+          end
+        end
+      end
+      copyGroupNamingToStaticNaming(unitTypeGroup.NATOReporting, staticUnitTypeGroup.NATOReporting)
+      copyGroupNamingToStaticNaming(unitTypeGroup.WTOReporting, staticUnitTypeGroup.WTOReporting)
+      copyGroupNamingToStaticNaming(unitTypeGroup.ReportNaming, staticUnitTypeGroup.ReportNaming)
+      copyGroupNamingToStaticNaming(unitTypeGroup.ProperNaming, staticUnitTypeGroup.ProperNaming)
+      copyGroupNamingToStaticNaming(unitTypeGroup.Nicknaming, staticUnitTypeGroup.Nicknaming)
+    end
+
+    local function fillInReportNaming(unitTypeGroup, defFromFDMMUnitType)
+      for fdmmUnitType, value in pairs(unitTypeGroup.All) do
+        if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
+          local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
+          unitType = unitType or value
+
+          if not unitTypeGroup.ReportNaming[unitType] then
+            if not defFromFDMMUnitType then
+              unitTypeGroup.ReportNaming[unitType] = unitType
+            else
+              unitTypeGroup.ReportNaming[unitType] = fdmmUnitType
+            end
           end
         end
       end
     end
 
-    createAll(fdmm.consts.UnitType.Plane)
-    createAll(fdmm.consts.UnitType.Helicopter)
-    createAll(fdmm.consts.UnitType.Ground)
-    createAll(fdmm.consts.UnitType.Ship)
-    createAll(fdmm.consts.UnitType.Train)
+    createGroupAll(fdmm.consts.UnitType.Plane)
+    createGroupAll(fdmm.consts.UnitType.Helicopter)
+    createGroupAll(fdmm.consts.UnitType.Ground)
+    createGroupAll(fdmm.consts.UnitType.Ship)
+    createGroupAll(fdmm.consts.UnitType.Train)
 
-    copyAllToStatic(fdmm.consts.UnitType.Static.Plane, 'Planes', fdmm.consts.UnitType.Plane.All)
-    copyAllToStatic(fdmm.consts.UnitType.Static.Helicopter, 'Helicopters', fdmm.consts.UnitType.Helicopter.All)
-    copyAllToStatic(fdmm.consts.UnitType.Static.Ground, 'Unarmed', fdmm.consts.UnitType.Ground.All)
-    copyAllToStatic(fdmm.consts.UnitType.Static.Train, 'Unarmed', fdmm.consts.UnitType.Train.All)
-    copyAllToStatic(fdmm.consts.UnitType.Static.Ship, 'Ships', fdmm.consts.UnitType.Ship.All)
+    copyGroupAllToStaticAll(fdmm.consts.UnitType.Plane.All, fdmm.consts.UnitType.Static.Plane, 'Planes')
+    copyGroupAllToStaticAll(fdmm.consts.UnitType.Helicopter.All, fdmm.consts.UnitType.Static.Helicopter, 'Helicopters')
+    copyGroupAllToStaticAll(fdmm.consts.UnitType.Ground.All, fdmm.consts.UnitType.Static.Ground, 'Unarmed')
+    copyGroupAllToStaticAll(fdmm.consts.UnitType.Train.All, fdmm.consts.UnitType.Static.Train, 'Unarmed')
+    copyGroupAllToStaticAll(fdmm.consts.UnitType.Ship.All, fdmm.consts.UnitType.Static.Ship, 'Ships')
 
-    createAll(fdmm.consts.UnitType.Static)
+    createGroupAll(fdmm.consts.UnitType.Static)
 
     table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Plane.All)
     table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Helicopter.All)
     table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Ground.All)
     table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Train.All)
     table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Ship.All)
-    copyStaticToAll(fdmm.consts.UnitType.Static.All, fdmm.consts.UnitType.All)
+
+    copyStaticAllToMasterAll(fdmm.consts.UnitType.Static.All, fdmm.consts.UnitType.All)
 
     fdmm.consts.UnitType.All._rev = {}
     table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Plane.All._rev)
@@ -1433,9 +1490,32 @@ do --FDMM_UnitTypes
     table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Ship.All._rev)
     table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Static.All._rev)
 
+    fdmm.consts.UnitType.Plane.CarrierBorne._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Plane.CarrierBorne)
+    fdmm.consts.UnitType.Plane.PlayerControllable._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Plane.PlayerControllable)
+    fdmm.consts.UnitType.Helicopter.CarrierBorne._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Helicopter.CarrierBorne)
+    fdmm.consts.UnitType.Helicopter.PlayerControllable._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Helicopter.PlayerControllable)
+    fdmm.consts.UnitType.Ground.Amphibious._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Ground.Amphibious)
+    fdmm.consts.UnitType.Ground.HeavyWheeled._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Ground.HeavyWheeled)
+
+    createGroupNamingIfNeeded(fdmm.consts.UnitType.Plane)
+    createGroupNamingIfNeeded(fdmm.consts.UnitType.Helicopter)
+    createGroupNamingIfNeeded(fdmm.consts.UnitType.Ground)
+    createGroupNamingIfNeeded(fdmm.consts.UnitType.Ship)
+    createGroupNamingIfNeeded(fdmm.consts.UnitType.Train)
+    createGroupNamingIfNeeded(fdmm.consts.UnitType.Static)
+
     fillInReportNaming(fdmm.consts.UnitType.Plane, false)
     fillInReportNaming(fdmm.consts.UnitType.Helicopter, false)
     fillInReportNaming(fdmm.consts.UnitType.Ground, false)
+    fillInReportNaming(fdmm.consts.UnitType.Ship, false)
+    fillInReportNaming(fdmm.consts.UnitType.Train, false)
+
+    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Plane, fdmm.consts.UnitType.Static)
+    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Helicopter, fdmm.consts.UnitType.Static)
+    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Ground, fdmm.consts.UnitType.Static)
+    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Ship, fdmm.consts.UnitType.Static)
+    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Train, fdmm.consts.UnitType.Static)
+
     fillInReportNaming(fdmm.consts.UnitType.Static, true)
   end
 
@@ -1476,13 +1556,15 @@ do --FDMM_UnitTypes
 
   function fdmm.unitTypes.getNATOUnitReportName(unitType, unitTypeGroup)
     local unitTypeGroup = unitTypeGroup or fdmm.unitTypes.getUnitTypeGroup(unitType)
-    local natoReporting = unitTypeGroup.NATOReporting[unitType]
+    local natoReporting = nil
+    if unitTypeGroup.NATOReporting then
+      natoReporting = unitTypeGroup.NATOReporting[unitType]
+    end
     local reportName = unitTypeGroup.ReportNaming[unitType] or natoReporting
     local natoReportingFront, natoReportingBack = fdmm.utils.splitDoublet(natoReporting)
     natoReportingFront = natoReportingFront or natoReporting
 
-    if string.isNotEmpty(reportName) and string.isNotEmpty(natoReportingFront) and
-       string.contains(reportName, '%%R') then
+    if string.isNotEmpty(reportName) and string.isNotEmpty(natoReportingFront) and string.contains(reportName, '%R') then
       reportName = reportName:gsub('%%R', natoReportingFront)
     end
 
@@ -1495,12 +1577,15 @@ do --FDMM_UnitTypes
 
   function fdmm.unitTypes.getWTOUnitReportName(unitType, unitTypeGroup)
     local unitTypeGroup = unitTypeGroup or fdmm.unitTypes.getUnitTypeGroup(unitType)
-    local wtoReporting = unitTypeGroup.WTOReporting[unitType]
+    local wtoReporting = nil
+    if unitTypeGroup.WTOReporting then
+      wtoReporting = unitTypeGroup.WTOReporting[unitType]
+    end
     local reportName = unitTypeGroup.ReportNaming[unitType] or wtoReporting
     local wtoReportingFront, wtoReportingBack = fdmm.utils.splitDoublet(wtoReporting)
     wtoReportingFront = wtoReportingFront or wtoReporting
 
-    if string.isNotEmpty(reportName) and string.contains(reportName, '%%R') then
+    if string.isNotEmpty(reportName) and string.contains(reportName, '%R') then
       reportName = reportName:gsub('%%R', wtoReportingFront)
     end
 
@@ -1513,15 +1598,18 @@ do --FDMM_UnitTypes
 
   function fdmm.unitTypes.dumpUnitReportNames()
     local function dumpAll(unitTypeGroup)
-      for unitKey, unitType in pairs(unitTypeGroup.All) do
-        if not string.hasPrefix(unitKey, '_') then
-          env.info('  [\'' .. unitKey .. '\'] = \'' .. unitType .. '\':')
+      for _,fdmmUnitType in pairs(table.sortedKeysList(unitTypeGroup.All)) do
+        if not string.hasPrefix(fdmmUnitType, '_') then
+          local value = unitTypeGroup.All[fdmmUnitType]
+          local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
+          unitType = unitType or value
+          env.info('  [\'' .. fdmmUnitType .. '\'] = \'' .. unitType .. '\':')
           env.info('    NATO: ' .. fdmm.unitTypes.getNATOUnitReportName(unitType, unitTypeGroup))
           env.info('    WTO : ' .. fdmm.unitTypes.getWTOUnitReportName(unitType, unitTypeGroup))
         end
       end
     end
-    dumpAll(fdmm.consts.UnitType.Ground)   
+    dumpAll(fdmm.consts.UnitType.Static)
   end
 
 end --FDMM_UnitTypes

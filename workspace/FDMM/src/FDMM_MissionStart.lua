@@ -41,7 +41,6 @@ do --FDMM_MissionStart
   if fdmm_loadDB and db then
     fdmm.unitTypes.crossRefEntries()
   end
-  fdmm.unitTypes.dumpUnitReportNames()
 
   -- Create territories, facilities, routes, etc. from groups placed on map.
   fdmm.config.createGPCache()
@@ -58,6 +57,7 @@ do --FDMM_MissionStart
   --fdmm.territory.dumpTerritories()
   --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
   --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
+  fdmm.unitTypes.dumpUnitReportNames()
 
   trigger.action.outText("FDMM Started", 10)
 end --FDMM_MissionStart

@@ -7,10 +7,10 @@ do --FDMM_LuaAdditions
 
   --- Determines if string contains other string.
   -- @param #string str String.
-  -- @param #string otherStr Other string.
+  -- @param #string otherStr Other string (non-pattern).
   -- @return #boolean True if otherStr is found in str, otherwise false.
   function string.contains(str, otherStr)
-    return string.find(str, otherStr) ~= nil
+    return string.find(str, otherStr, 0, true) ~= nil
   end
 
   --- Determines if string has specified prefix.
@@ -170,6 +170,28 @@ do --FDMM_LuaAdditions
         table.insert(tbl1, v)
       end
     end
+  end
+
+  --- Table keys list.
+  -- Produces sequence of keys from provided table.
+  -- @param #table tbl Table.
+  -- @return <#string> Keys sequence.
+  function table.keysList(tbl)
+    local retVal = {}
+    for k,_ in pairs(tbl) do
+      table.insert(retVal, k)
+    end
+    return retVal
+  end
+
+  --- Table sorted keys list.
+  -- Produces sorted sequence of keys from provided table.
+  -- @param #table tbl Table.
+  -- @return <#string> Sorted keys sequence.
+  function table.sortedKeysList(tbl)
+    local retVal = table.keysList(tbl)
+    table.sort(retVal)
+    return retVal
   end
 
 end --FDMM_LuaAdditions
