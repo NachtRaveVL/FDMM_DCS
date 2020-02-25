@@ -1534,7 +1534,7 @@ do --FDMM_UnitTypes
   function fdmm.unitTypes.isListedUnder(unitType, listedTypesDict)
   end
 
-  function fdmm.unitTypes.sortedByCombatRating(unitTypeDict)
+  function fdmm.unitTypes.sortedListByCombatRating(unitTypeDict)
   end
 
   function fdmm.unitTypes.getUnitTypeGroup(unitType)

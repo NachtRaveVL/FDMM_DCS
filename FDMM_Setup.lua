@@ -1,7 +1,6 @@
 -- FDMM Server Setup Script
 -- Please edit this script to your liking to control your FDMM installation.
 
-
 -- Server name, visible to players connecting.
 -- (not yet implemented)
 fdmm.setup.serverName = "FDMM Server"
@@ -58,15 +57,3 @@ fdmm.setup.movingUnitsCap = 128
 -- case you should let us know so we can try to make them better).
 -- (not yet implemented)
 fdmm.setup.disabledMissionTypes = {}
-
-
--- Ignore below this.
-do
-  if fdmm and fdmm_loadDB then
-    __DCS_VERSION__ = '2.5' -- doesn't matter
-    require('./Scripts/Database/db_scan')
-    require('./Scripts/Database/db_main')
-    require('./Scripts/Database/db_years')
-    __DCS_VERSION__ = nil
-  end
-end

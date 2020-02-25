@@ -308,7 +308,7 @@ function fdmm.unitTypes.anyAvailableToFaction(e,e)end
 function fdmm.unitTypes.isAvailabeToFaction(e,e)end
 function fdmm.unitTypes.anyListedUnder(e,e)end
 function fdmm.unitTypes.isListedUnder(e,e)end
-function fdmm.unitTypes.sortedByCombatRating(e)end
+function fdmm.unitTypes.sortedListByCombatRating(e)end
 function fdmm.unitTypes.getUnitTypeGroup(e)if fdmm.consts.UnitType.Plane.All._rev[e]then
 return fdmm.consts.UnitType.Plane
 elseif fdmm.consts.UnitType.Helicopter.All._rev[e]then
