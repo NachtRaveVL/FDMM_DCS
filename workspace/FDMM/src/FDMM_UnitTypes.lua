@@ -1385,7 +1385,7 @@ do --FDMM_UnitTypes
         ['FARP CP Blindage'] = 'Command Post',
         ['FARP Fuel Depot'] = 'Fuel depot',
         ['FARP Tent'] = 'Tent',
-        ['FARP'] = 'HeliPort',
+        ['FARP'] = 'Heliport',
         ['SINGLE_HELIPAD'] = 'Helipad',
         -- Fort
         ['Barracks 2'] = 'Barracks dormitory',

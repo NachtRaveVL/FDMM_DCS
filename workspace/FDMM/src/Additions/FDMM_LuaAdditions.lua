@@ -18,7 +18,7 @@ do --FDMM_LuaAdditions
   -- @param #string otherStr Other string (pattern).
   -- @return #number Number of times otherStr occurs in str. 
   function string.occurrences(str, otherStr)
-    return select(2, str:gsub(otherStr, ""))
+    return select(2, str:gsub(otherStr, ''))
   end
 
   --- Determines if string has specified prefix.
