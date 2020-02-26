@@ -30,6 +30,13 @@ fdmm.setup = {}
 
 do --FDMM_Common_Defines
 
+  --- Common alliances.
+  -- @type Enums.Alliance
+  fdmm.enums.Alliance = {
+    NATO = 'NATO',
+    WTO = 'WTO'
+  }
+
   --- Common factions.
   -- @type Enums.Faction
   fdmm.enums.Faction = {
@@ -45,8 +52,8 @@ do --FDMM_Common_Defines
   }
 
   --- Common error codes.
-  -- @type Enums.ErrorCodes
-  fdmm.enums.ErrorCodes = {
+  -- @type Enums.ErrorCode
+  fdmm.enums.ErrorCode = {
     Success = 0,
     Failure = 1,
     Incomplete = 2,
@@ -56,8 +63,8 @@ do --FDMM_Common_Defines
   }
 
   --- Mission user flags.
-  -- @type Consts.UserFlags
-  fdmm.consts.UserFlags = {
+  -- @type Consts.UserFlag
+  fdmm.consts.UserFlag = {
     DebugFlag = '99999'
   }
 

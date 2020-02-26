@@ -13,6 +13,14 @@ do --FDMM_LuaAdditions
     return string.find(str, otherStr, 0, true) ~= nil
   end
 
+  --- Counts number of times in string that other string occurs.
+  -- @param #string str String.
+  -- @param #string otherStr Other string (pattern).
+  -- @return #number Number of times otherStr occurs in str. 
+  function string.occurrences(str, otherStr)
+    return select(2, str:gsub(otherStr, ""))
+  end
+
   --- Determines if string has specified prefix.
   -- @param #string str String.
   -- @param #string prefix Prefix.

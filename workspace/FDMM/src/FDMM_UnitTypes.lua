@@ -425,7 +425,7 @@ do --FDMM_UnitTypes
           SA19Tunguska_2S6 = '2S6 Tunguska'
         },
         AAA = {
-          FlakPzGepard1A2 = 'Gepard',
+          FlaKPzGepard1A2 = 'Gepard',
           ZSU234Shilka = 'ZSU-23-4 Shilka',
           M163Vulcan = 'Vulcan'
         }
@@ -472,7 +472,7 @@ do --FDMM_UnitTypes
           P181L13 = '1L13 EWR'
         },
         SAM = {
-          AvengerM1097 = 'M1097 Avenger',
+          M1097Avenger = 'M1097 Avenger',
           HQ7 = {
             SearchTrackRadar = {
               HQ7SPSTR = 'HQ-7_STR_SP'
@@ -481,8 +481,8 @@ do --FDMM_UnitTypes
               HQ7SPLN = 'HQ-7_LN_SP'
             }
           },
-          Patriot = { -- also has portable components
-            _HasPortableComps = true,
+          Patriot = { -- also has towed components
+            _HasTowedComps = true,
             HQ = {
               PatriotECS_ANMSQ104 = 'Patriot ECS'
             },
@@ -496,16 +496,16 @@ do --FDMM_UnitTypes
               PatriotAMG_ANMRC137 = 'Patriot AMG'
             }
           },
-          SA3S125 = { -- also has portable components
-            _HasPortableComps = true,
+          SA3S125 = { -- also has towed components
+            _HasTowedComps = true,
             SearchRadar = {
               SA3S125SR_P19 = 'p-19 s-125 sr'
             }
           },
           SA8Osa_9A33 = 'Osa 9A33 ln',
           SA9Strela1_9P31 = 'Strela-1 9P31',
-          SA10S300PS = { -- also has portable components
-            _HasPortableComps = true,
+          SA10S300PS = { -- also has towed components
+            _HasTowedComps = true,
             HQ = {
               SA10S300PSCP_54K6 = 'S-300PS 54K6 cp'
             },
@@ -521,11 +521,13 @@ do --FDMM_UnitTypes
           }
         },
         AAA = {
-          Soldier = {
-            ZU23Ural375 = 'Ural-375 ZU-23'
-          },
-          Insurgent = {
-            ZU23Ural375_Insurgent = 'Ural-375 ZU-23 Insurgent'
+          ZU23Ural375 = {
+            Soldier = {
+              ZU23Ural375 = 'Ural-375 ZU-23'
+            },
+            Insurgent = {
+              ZU23Ural375_Insurgent = 'Ural-375 ZU-23 Insurgent'
+            }
           }
         },
         Power = {
@@ -546,7 +548,7 @@ do --FDMM_UnitTypes
           },
           Covered = {
             GAZ3308 = 'GAZ-3308',
-            KAMAZ43101 = 'KAMAZ Truck',
+            KamAZ43101 = 'KAMAZ Truck',
             KrAZ6322 = 'KrAZ6322',
             M818 = 'M 818',
             Ural4320T = 'Ural-4320T'
@@ -566,7 +568,7 @@ do --FDMM_UnitTypes
           UAZ469 = 'UAZ-469'
         }
       },
-      Portable = {
+      Towed = {
         DroneCommand = {
           HQ = {
             PreadtorGCS = 'Predator GCS'
@@ -651,20 +653,22 @@ do --FDMM_UnitTypes
           }
         },
         AAA = {
-          Soldier = {
-            Fortified = {
-              ZU23Closed = 'ZU-23 Emplacement Closed'
+          ZU23 = {
+            Soldier = {
+              Fortified = {
+                ZU23Closed = 'ZU-23 Emplacement Closed'
+              },
+              Emplacement = {
+                ZU23 = 'ZU-23 Emplacement'
+              }
             },
-            Emplacement = {
-              ZU23 = 'ZU-23 Emplacement'
-            }
-          },
-          Insurgent = {
-            Fortified = {
-              ZU23Closed_Insurgent = 'ZU-23 Closed Insurgent'
-            },
-            Emplacement = {
-              ZU23_Insurgent = 'ZU-23 Insurgent'
+            Insurgent = {
+              Fortified = {
+                ZU23Closed_Insurgent = 'ZU-23 Closed Insurgent'
+              },
+              Emplacement = {
+                ZU23_Insurgent = 'ZU-23 Insurgent'
+              }
             }
           }
         }
@@ -706,7 +710,7 @@ do --FDMM_UnitTypes
           Stinger = {
             Comm = {
               StingerComm = 'Stinger comm',
-              StingerComm_ISR = 'Stinger comm dsr', -- Israeli
+              IsraeliStingerComm = 'Stinger comm dsr',
             },
             Launcher = {
               StingerMANPAD = 'Soldier stinger'
@@ -745,7 +749,7 @@ do --FDMM_UnitTypes
         }
       },
       Fort = {
-        Barracks1 = 'house1arm',
+        Barracks = 'house1arm',
         House = 'houseA_arm',
         HillsideBunker = 'Sandbox',
         PillboxBunker = 'Bunker',
@@ -878,11 +882,11 @@ do --FDMM_UnitTypes
         ['S-300PS 5P85C ln'] = 'S-300PS 5P85C:',
         ['S-300PS 5P85D ln'] = 'S-300PS 5P85D:',
         ['S-300PS 64H6E sr'] = 'S-300PS 64H6E:',
-        ['SA-11 Buk CC 9S470M1'] = '9K37 Buk 9S470M1:',
-        ['SA-11 Buk LN 9A310M1'] = '9K37 Buk 9A310M1:',
-        ['SA-11 Buk SR 9S18M1'] = '9K37 Buk 9S18M1:',
-        ['Strela-10M3'] = '9K35M Strela-10M3 9A35M3:',
-        ['Tor 9A331'] = '9K330 Tor 9A331:',
+        ['SA-11 Buk CC 9S470M1'] = '9K37 Buk:(9S470M1)',
+        ['SA-11 Buk LN 9A310M1'] = '9K37 Buk:(9A310M1)',
+        ['SA-11 Buk SR 9S18M1'] = '9K37 Buk:(9S18M1)',
+        ['Strela-10M3'] = '9K35M Strela-10M3:(9A35M3)',
+        ['Tor 9A331'] = '9K330 Tor:(9A331)',
         ['Igla manpad INS'] = '9K38 Igla:',
         ['SA-18 Igla comm'] = '9K38 Igla:',
         ['SA-18 Igla manpad'] = '9K38 Igla:',
@@ -928,7 +932,8 @@ do --FDMM_UnitTypes
         ['BTR_D'] = 'BTR-D',
         ['Cobra'] = 'Cobra BMT-2',
         ['M1043 HMMWV Armament'] = 'M1043 HMMWV Mg',
-        ['M1126 Stryker ICV'] = 'M1126 Stryker ICV',
+        ['M1126 Stryker ICV'] = 'M1126 Stryker ICV', 
+        ['M-113'] = 'M113 APC',
         ['MTLB'] = 'MT-LB',
         ['TPZ'] = 'TPz Fuchs',
         -- EWR
@@ -992,16 +997,16 @@ do --FDMM_UnitTypes
         ['Stinger comm dsr'] = 'Israeli Stinger Comm',
         ['Soldier stinger'] = 'Stinger MANPAD',
         -- AAA
-        ['Gepard'] = 'FlakPz Gepard 1A2',
+        ['Gepard'] = 'FlaKPz Gepard 1A2',
         ['Vulcan'] = 'M163 Vulcan',
         ['Ural-375 ZU-23'] = 'ZU-23/Ural-375',
         ['Ural-375 ZU-23 Insurgent'] = 'Insurgent ZU-23/Ural-375',
-        ['ZU-23 Emplacement Closed'] = 'ZU-23 (Closed)',
-        ['ZU-23 Closed Insurgent'] = 'Insurgent ZU-23 (Closed)',
+        ['ZU-23 Emplacement Closed'] = 'ZU-23 (fortified)',
+        ['ZU-23 Closed Insurgent'] = 'Insurgent ZU-23 (fortified)',
         ['ZU-23 Emplacement'] = 'ZU-23',
         ['ZU-23 Insurgent'] = 'Insurgent ZU-23',
         -- Infantry
-        ['TACAN_beacon'] = 'TACAN Beacon (TTS3030)',
+        ['TACAN_beacon'] = 'TTS3030 TACAN Beacon',
         ['2B11 mortar'] = '2B11 Mortar',
         ['Soldier M4 GRG'] = 'Georgian Soldier M4',
         ['Infantry AK Ins'] = 'Insurgent AK',
@@ -1013,26 +1018,26 @@ do --FDMM_UnitTypes
         ['HEMTT TFFT'] = 'M1142 HEMTT TFFT',
         -- Transport
         ['Hummer'] = 'M1025 HMMWV',
-        ['KAMAZ Truck'] = 'KamAZ-43101',
-        ['KrAZ6322'] = 'KrAZ-6322',
+        ['KAMAZ Truck'] = 'KamAZ-43101 truck',
+        ['KrAZ6322'] = 'KrAZ-6322 truck',
         ['Land_Rover_109_S3'] = 'Land Rover 109 S3',
-        ['M 818'] = 'M818',
+        ['M 818'] = 'M818 truck',
         ['Tigr_233036'] = 'GAZ-233036 Tigr',
-        -- Fort
+        -- Fort (armed)
         ['Bunker'] = 'Pillbox bunker',
         ['Sandbox'] = 'Hillside bunker',
-        ['house1arm'] = 'Military barracks',
+        ['house1arm'] = 'Barracks',
         ['house2arm'] = 'Watch tower',
-        ['houseA_arm'] = 'Military house',
+        ['houseA_arm'] = 'Holdout',
         ['outpost'] = 'Outpost',
         ['outpost_road'] = 'Road outpost',
         ['warning_board_a'] = 'Warning board',
         -- Civilian
-        ['IKARUS Bus'] = 'IKARUS-280',
-        ['LAZ Bus'] = 'LAZ-695',
-        ['Trolley bus'] = 'ZIU-9',
-        ['VAZ Car'] = 'VAZ-2109',
-        ['ZIL-4331'] = 'ZiL-4331'
+        ['IKARUS Bus'] = 'IKARUS-280 bus',
+        ['LAZ Bus'] = 'LAZ-695 bus',
+        ['Trolley bus'] = 'ZIU-9 bus',
+        ['VAZ Car'] = 'VAZ-2109 car',
+        ['ZIL-4331'] = 'ZiL-4331 truck'
       },
       Nicknaming = {
         ['Hummer'] = 'Humvee', ['M1043 HMMWV Armament'] = 'Humvee', ['M1045 HMMWV TOW'] = 'Humvee'
@@ -1072,8 +1077,8 @@ do --FDMM_UnitTypes
         ['Coach cargo open'] = 'Gondola car',
         ['Coach cargo'] = 'Stock car',
         ['Tankcartrinity'] = 'Large tank car',
-        ['Coach a tank blue'] = 'Tank car',
-        ['Coach a tank yellow'] = 'Tank car',
+        ['Coach a tank blue'] = 'Short tank car (blue)',
+        ['Coach a tank yellow'] = 'Short tank car (yellow)',
         ['Wellcarnsc'] = 'Well car',
         ['Electric locomotive'] = 'VL80 locomotive',
         ['Coach a passenger'] = 'Passenger car'
@@ -1112,14 +1117,15 @@ do --FDMM_UnitTypes
       Submarine = {
         Kilo = 'KILO', -- 877
         Tango = 'SOM', -- 641B
+        Type093 = 'Type 093'
       },
       Gunboat = {
         Speedboat = 'speedboat' 
       },
       Transport = {
-        BulkCargo_Yakushev = 'Dry-cargo ship-1', -- Bulk carrier ship
-        DryCargo_Ivanov = 'Dry-cargo ship-2', -- Container ship
-        Tanker_Elnya160 = 'ELNYA'
+        BulkCarrier_Yakushev = 'Dry-cargo ship-1',
+        ContainerShip_Ivanov = 'Dry-cargo ship-2',
+        Tanker_Elnya = 'ELNYA'
       },
       Civilian = {
         Yacht_Zvezdny = 'ZWEZDNY'
@@ -1130,56 +1136,70 @@ do --FDMM_UnitTypes
         ['PIOTR'] = 'Kirov:',
         ['MOSCOW'] = 'Slava:',
         ['NEUSTRASH'] = 'Neustrashimy:',
+        ['052B'] = 'Luyang I:',
+        ['052C'] = 'Luyang II:',
         ['REZKY'] = 'Krivak II:',
         ['ALBATROS'] = 'Grisha V:',
+        ['054A'] = 'Jiangkai II:',
         ['MOLNIYA'] = 'Tarantul III:',
         ['KILO'] = 'Kilo:',
-        ['SOM'] = 'Tango:'
+        ['SOM'] = 'Tango:',
+        ['Type 093'] = 'Shang:',
+        ['ELNYA'] = 'Altay::Tanker'
       },
       WTOReporting = {
         ['KUZNECOW'] = 'Orel:(1143.5)',
         ['PIOTR'] = 'Orlan:(1144.2)',
         ['MOSCOW'] = 'Atlant:(1164)',
         ['NEUSTRASH'] = 'Yastreb:(1154.0)',
+        ['052B'] = 'Guangzhou:',
+        ['052C'] = 'Lanzhou:',
         ['REZKY'] = 'Burevestnik M:(1135M)',
         ['ALBATROS'] = 'Albatros:(1124.4)',
+        ['054A'] = 'Xuzhou:',
         ['MOLNIYA'] = 'Molniya:(1241.1MP)',
         ['KILO'] = 'Paltus:(877)',
-        ['SOM'] = 'Som:(641B)'
+        ['SOM'] = 'Som:(641B)',
+        ['Type 093'] = '09-III:',
+        ['ELNYA'] = 'Altay:(160):Oiler'
       },
       ReportNaming = {
-        ['KUZNECOW'] = '%R-class carrier',
-        ['Stennis'] = 'Nimitz-class (late) carrier',
-        ['VINSON'] = 'Nimitz-class (early) carrier',
-        ['LHA_Tarawa'] = 'Tarawa-class assault ship',
-        ['PIOTR'] = '%R-class battlecruiser',
-        ['MOSCOW'] = '%R-class cruiser',
-        ['TICONDEROG'] = 'Ticonderoga-class cruiser',
-        ['NEUSTRASH'] = '%R-class destroyer',
-        ['PERRY'] = 'Oliver Hazard Perry-class destroyer',
-        ['052B'] = 'Type 052B destroyer',
-        ['052C'] = 'Type 052C destroyer',
-        ['REZKY'] = '%R-class frigate',
-        ['ALBATROS'] = '%R-class frigate',
-        ['054A'] = 'Type 054A frigate',
-        ['MOLNIYA'] = '%R-class corvette',
-        ['KILO'] = '%R-class submarine',
-        ['SOM'] = '%R-class submarine',
+        ['KUZNECOW'] = '%R-class Carrier',
+        ['Stennis'] = 'Nimitz-class (late) Carrier',
+        ['VINSON'] = 'Nimitz-class (early) Carrier',
+        ['LHA_Tarawa'] = 'Tarawa-class Assault Ship',
+        ['PIOTR'] = '%R-class BattleCruiser',
+        ['MOSCOW'] = '%R-class Cruiser',
+        ['TICONDEROG'] = 'Ticonderoga-class Cruiser',
+        ['NEUSTRASH'] = '%R-class Destroyer',
+        ['PERRY'] = 'Oliver Hazard Perry-class Destroyer',
+        ['052B'] = 'Type 052B (%R-class) Destroyer',
+        ['052C'] = 'Type 052C (%R-class) Destroyer',
+        ['REZKY'] = '%R-class Frigate',
+        ['ALBATROS'] = '%R-class Frigate',
+        ['054A'] = 'Type 054A (%R-class) Frigate',
+        ['MOLNIYA'] = '%R-class Corvette',
+        ['KILO'] = '%R-class Submarine',
+        ['SOM'] = '%R-class Submarine',
+        ['Type 093'] = 'Type 093 (%R-class) Submarine',
         ['speedboat'] = 'Speedboat',
-        ['Dry-cargo ship-1'] = 'Bulk carrier ship',
-        ['Dry-cargo ship-2'] = 'Container ship',
-        ['ELNYA'] = 'Tanker ship',
-        ['ZWEZDNY'] = 'Civilian yacht'
+        ['Dry-cargo ship-1'] = 'Bulk carrier Ship',
+        ['Dry-cargo ship-2'] = 'Container Ship',
+        ['ELNYA'] = '%R-class %N',
+        ['ZWEZDNY'] = 'Civilian Yacht'
+      },
+      Nicknaming = {
+        ['052C'] = 'Chinese Aegis'
       }
     },
     Static = { -- values are in format "category:shape_name:type"
       Airbase = {
         AirshowCrowd = 'Fortifications:Crowd1:Airshow_Crowd',
         AirshowCone = 'Fortifications:Comp_cone:Airshow_Cone',
-        DugInFuelTank = 'Fortifications:toplivo-bak:Fuel tank',
+        FuelStorageTank = 'Fortifications:toplivo-bak:Fuel tank',
         HangarA = 'Fortifications:angar_a:Hangar A',
         HangarB = 'Fortifications:angar_b:Hangar B',
-        HangarShelter = 'Fortifications:ukrytie:Shelter',
+        ReinforcedHangar = 'Fortifications:ukrytie:Shelter',
         StorageShelter = 'Fortifications:ukrytie_b:Shelter B',
         RepairWorkshop = 'Fortifications:tech:Repair workshop',
         Windsock = 'Fortifications:H-Windsock_RW:Windsock'
@@ -1187,8 +1207,10 @@ do --FDMM_UnitTypes
       Barrier = {
         RoadBarrier = 'Cargos:f_bar_cargo:f_bar_cargo',
         Tetrapod = 'Cargos:tetrapod_cargo:tetrapod_cargo',
-        LogBarrierLg = 'Cargos:trunks_long_cargo:trunks_long_cargo',
-        LogBarrierSh = 'Cargos:trunks_small_cargo:trunks_small_cargo'
+        LogsLg = 'Cargos:trunks_long_cargo:trunks_long_cargo',
+        LogsSh = 'Cargos:trunks_small_cargo:trunks_small_cargo',
+        PipesLg = 'Cargos:pipes_big_cargo:pipes_big_cargo',
+        PipesSh = 'Cargos:pipes_small_cargo:pipes_small_cargo'
       },
       Cargo = {
         AmmoBox = 'Cargos:ammo_box_cargo:ammo_cargo',
@@ -1199,7 +1221,7 @@ do --FDMM_UnitTypes
         ISOContainerSm = 'Cargos:iso_container_small_cargo:iso_container_small',
         M117Bombs = 'Cargos:m117_cargo:m117_cargo',
         OilTank = 'Cargos:oiltank_cargo:oiltank_cargo',
-        UH1HCargo = 'Cargos:ab-212_cargo:uh1h_cargo'
+        SlungCargo = 'Cargos:ab-212_cargo:uh1h_cargo'
       },
       Effect = {
         BigSmoke = 'Effects::big_smoke',
@@ -1214,23 +1236,23 @@ do --FDMM_UnitTypes
       },
       Factory = {
         ChemicalTank = 'Fortifications:him_bak_a:Chemical tank A',
-        TechCombine = 'Fortifications:kombinat:Tech combine',
-        TechHangar = 'Fortifications:ceh_ang_a:Tech hangar A',
-        Workshop = 'Fortifications:tec_a:Workshop A'
+        ManufacturingPlant = 'Fortifications:kombinat:Tech combine',
+        EquipmentHangar = 'Fortifications:ceh_ang_a:Tech hangar A',
+        FactoryWorkshop = 'Fortifications:tec_a:Workshop A'
       },
       FARP = {
         AmmoStorage = 'Fortifications:SetkaKP:FARP Ammo Dump Coating',
         CommandPost = 'Fortifications:kp_ug:FARP CP Blindage',
         FuelDepot = 'Fortifications:GSM Rus:FARP Fuel Depot',
         Tent = 'Fortifications:PalatkaB:FARP Tent',
-        HeliportLg = 'Heliports:FARPS:FARP',
-        HeliportSg = 'Heliports:FARP:SINGLE_HELIPAD',
+        Heliport = 'Heliports:FARPS:FARP',
+        Helipad = 'Heliports:FARP:SINGLE_HELIPAD',
         HeliportCallsigns = { London = 1, Dallas = 2, Paris = 3, Moscow = 4, Berlin = 5, Rome = 6, Madrid = 7,
                               Warsaw = 8, Dublin = 9, Perth = 10 } -- heliport_callsign_id
       },
       Fort = {
-        Barracks1 = 'Fortifications::house1arm',
-        Barracks2 = 'Fortifications:kazarma2:Barracks 2',
+        Barracks = 'Fortifications::house1arm',
+        Dormitory = 'Fortifications:kazarma2:Barracks 2',
         HillsideBunker = 'Fortifications::Sandbox',
         PillboxBunker = 'Fortifications::Bunker',
         CommandCenter = 'Fortifications:ComCenter:.Command Center',
@@ -1255,8 +1277,6 @@ do --FDMM_UnitTypes
         OilDerrick = 'Fortifications:neftevyshka:Oil derrick',
         OilPlatform = 'Fortifications:plavbaza:Oil platform',
         OilPumpStation = 'Fortifications:nasos:Pump station',
-        OilPipesLg = 'Cargos:pipes_big_cargo:pipes_big_cargo',
-        OilPipesSm = 'Cargos:pipes_small_cargo:pipes_small_cargo'
       },
       Railway = {
         RailwayCrossingA = 'Fortifications:pereezd_big:Railway crossing A',
@@ -1267,9 +1287,9 @@ do --FDMM_UnitTypes
         GasPlatform = 'Heliports:gas_platform:Gas platform',
         OilRigPlatform = 'Heliports:oil_platform:Oil rig'
       },
-      Tower = {
+      Telecom = {
         CommsTower = 'Fortifications:tele_bash_m:Comms tower M',
-        TVTower = 'Fortifications:tele_bash:TV tower'
+        BroadcastTower = 'Fortifications:tele_bash:TV tower'
       },
       Warehouse = {
         AmmunitionDepot = 'Warehouses:SkladC:.Ammunition depot',
@@ -1296,11 +1316,11 @@ do --FDMM_UnitTypes
         Restaurant = 'Fortifications:restoran1:Restaurant 1',
         Shop = 'Fortifications:magazin:Shop',
         HouseSmA = 'Fortifications:domik1a:Small house 1A',
-        HouseSmAEnclosed = 'Fortifications:domik1a-all:Small house 1A area',
         HouseSmB = 'Fortifications:domik1b:Small house 1B',
-        HouseSmBEnclosed = 'Fortifications:domik1b-all:Small house 1B area',
         HouseSmC = 'Fortifications:dom2c:Small house 2C',
-        HouseSmCEnclosed = 'Fortifications:dom2c-all:Small house 1C area',
+        HouseFnA = 'Fortifications:domik1a-all:Small house 1A area',
+        HouseFnB = 'Fortifications:domik1b-all:Small house 1B area',
+        HouseFnC = 'Fortifications:dom2c-all:Small house 1C area',
         WarehouseSm1 = 'Fortifications:s1:Small werehouse 1',
         WarehouseSm2 = 'Fortifications:s2:Small werehouse 2',
         WarehouseSm3 = 'Fortifications:s3:Small werehouse 3',
@@ -1325,9 +1345,118 @@ do --FDMM_UnitTypes
       Ship = {}, -- resolved on startup processing
       Train = {}, -- resolved on startup processing
       ReportNaming = {
+        -- Airbase
+        ['Airshow_Crowd'] = 'Airshow crowd',
+        ['Airshow_Cone'] = 'Airshow cone',
+        ['Fuel tank'] = 'Fuel storage tank',
+        ['Hangar A'] = 'Hangar (A)',
+        ['Hangar B'] = 'Hangar (B)',
+        ['Shelter'] = 'Reinforced hangar',
+        ['Shelter B'] = 'Storage shelter',
+        -- Barrier
+        ['f_bar_cargo'] = 'Road barrier',
+        ['tetrapod_cargo'] = 'Tetrapod',
+        ['trunks_long_cargo'] = 'Long logs',
+        ['trunks_small_cargo'] = 'Short logs',
+        ['pipes_big_cargo'] = 'Long pipes',
+        ['pipes_small_cargo'] = 'Short pipes',
+        -- Cargo
+        ['ammo_cargo'] = 'Ammo box',
+        ['barrels_cargo'] = 'Barrels',
+        ['container_cargo'] = 'Container',
+        ['fueltank_cargo'] = 'Fuel tank',
+        ['iso_container'] = 'Large ISO container',
+        ['iso_container_small'] = 'Small ISO container',
+        ['m117_cargo'] = 'M117 bombs',
+        ['oiltank_cargo'] = 'Oil tank',
+        ['uh1h_cargo'] = 'Slung cargo',
+        -- Effect
+        ['big_smoke'] = 'Big smoke',
+        ['dust_smoke'] = 'Dust smoke',
+        ['smoking_line'] = 'Smoking line',
+        ['smoky_marker'] = 'Smoky marker',
+        -- Factory
+        ['Chemical tank A'] = 'Chemical tank',
+        ['Tech combine'] = 'Manufacturing plant',
+        ['Tech hangar A'] = 'Equipment hangar',
+        ['Workshop A'] = 'Factory workshop',
+        -- FARP
+        ['FARP Ammo Dump Coating'] = 'Ammo storage',
+        ['FARP CP Blindage'] = 'Command Post',
+        ['FARP Fuel Depot'] = 'Fuel depot',
+        ['FARP Tent'] = 'Tent',
+        ['FARP'] = 'HeliPort',
+        ['SINGLE_HELIPAD'] = 'Helipad',
+        -- Fort
+        ['Barracks 2'] = 'Barracks dormitory',
+        ['.Command Center'] = 'Command Center',
+        ['GeneratorF'] = 'Generators',
+        ['WC'] = 'Latrine',
+        ['Military staff'] = 'Staff building',
+        -- Marker
+        ['Red_Flag'] = 'Red flag',
+        ['White_Flag'] = 'White flag',
+        ['Black_Tyre'] = 'Black tire',
+        ['White_Tyre'] = 'White tire',
+        ['Black_Tyre_RF'] = 'Black tire/Red flag',
+        ['Black_Tyre_WF'] = 'Black tire/White flag',
+        -- OilField
+        ['Pump station'] = 'Oil pump station',
+        -- Railway
+        ['Railway crossing A'] = 'Railway crossing (A)',
+        ['Railway crossing B'] = 'Railway crossing (B)',
+        -- SeaShelf
+        ['Oil rig'] = 'Oil rig platform',
+        -- Telecom
+        ['Comms tower M'] = 'Communications tower',
+        ['TV tower'] = 'Broadcasting tower',
+        -- Warehouse
+        ['.Ammunition depot'] = 'Ammunition depot',
+        ['Tank'] = 'Storage tank (1)',
+        ['Tank 2'] = 'Storage tank (2)',
+        ['Tank 3'] = 'Storage tank (3)',
+        -- Civilian
+        ['Boiler-house A'] = 'Boiler house',
+        ['Container brown'] = 'Container (brown)',
+        ['Container red 1'] = 'Container (red 1)',
+        ['Container red 2'] = 'Container (red 2)',
+        ['Container red 3'] = 'Container (red 3)',
+        ['Container white'] = 'Container (white)',
+        ['Farm A'] = 'Farm (A)',
+        ['Farm B'] = 'Farm (B)',
+        ['Garage A'] = 'Garage (A)',
+        ['Garage B'] = 'Garage (B)',
+        ['Garage small A'] = 'Small garage (A)',
+        ['Garage small B'] = 'Small garage (B)',
+        ['Restaurant 1'] = 'Restaurant',
+        ['Small house 1A'] = 'Small house (A)',
+        ['Small house 1B'] = 'Small house (B)',
+        ['Small house 2C'] = 'Small house (C)',
+        ['Small house 1A area'] = 'Fenced house (A)',
+        ['Small house 1B area'] = 'Fenced house (B)',
+        ['Small house 1C area'] = 'Fenced house (C)',
+        ['Small werehouse 1'] = 'Small warehouse (1)',
+        ['Small werehouse 2'] = 'Small warehouse (2)',
+        ['Small werehouse 3'] = 'Small warehouse (3)',
+        ['Small werehouse 4'] = 'Small warehouse (4)',
+        ['Subsidiary structure 1'] = 'Subsidiary structure (1)',
+        ['Subsidiary structure 2'] = 'Subsidiary structure (2)',
+        ['Subsidiary structure 3'] = 'Subsidiary structure (3)',
+        ['Subsidiary structure A'] = 'Subsidiary structure (A)',
+        ['Subsidiary structure B'] = 'Subsidiary structure (B)',
+        ['Subsidiary structure C'] = 'Subsidiary structure (C)',
+        ['Subsidiary structure D'] = 'Subsidiary structure (D)',
+        ['Subsidiary structure E'] = 'Subsidiary structure (E)',
+        ['Subsidiary structure F'] = 'Subsidiary structure (F)',
+        ['Subsidiary structure G'] = 'Subsidiary structure (G)',
+        ['Supermarket A'] = 'Supermarket',
+        ['Water tower A'] = 'Water tower'
       }
     },
-    All = {} -- resolved on startup processing
+    All = {}, -- resolved on startup processing
+    NATOReporting = {}, -- resolved on startup processing
+    WTOReporting = {}, -- resolved on startup processing
+    Nicknaming = {} -- resolved on startup processing
   }
 
   function fdmm.unitTypes.processEntries()
@@ -1350,7 +1479,7 @@ do --FDMM_UnitTypes
               createGroupAll_recurse(value, groupAllList) -- recurse, b/c table
             elseif type(value) == 'string' then -- valid value
               local fdmmUnitType = key
-              local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
+              local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
               unitType = unitType or value
 
               if not groupAllList[fdmmUnitType] then -- not yet found
@@ -1392,6 +1521,7 @@ do --FDMM_UnitTypes
     local function copyGroupAllToStaticAll(groupAllList, staticAllList, category)
       for fdmmUnitType, unitType in pairs(groupAllList) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
+          -- possible todo: determine shape name?
           staticAllList[fdmmUnitType] = (categoryOverrides[unitType] or category) .. '::' .. unitType
         end
       end
@@ -1400,7 +1530,7 @@ do --FDMM_UnitTypes
     local function copyStaticAllToMasterAll(staticAllList, masterAllList)
       for fdmmUnitType, value in pairs(staticAllList) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
-          local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
+          local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
           unitType = unitType or value
 
           if not masterAllList[fdmmUnitType] then
@@ -1443,18 +1573,14 @@ do --FDMM_UnitTypes
       copyGroupNamingToStaticNaming(unitTypeGroup.Nicknaming, staticUnitTypeGroup.Nicknaming)
     end
 
-    local function fillInReportNaming(unitTypeGroup, defFromFDMMUnitType)
+    local function fillInReportNaming(unitTypeGroup)
       for fdmmUnitType, value in pairs(unitTypeGroup.All) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
-          local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
+          local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
           unitType = unitType or value
 
           if not unitTypeGroup.ReportNaming[unitType] then
-            if not defFromFDMMUnitType then
-              unitTypeGroup.ReportNaming[unitType] = unitType
-            else
-              unitTypeGroup.ReportNaming[unitType] = fdmmUnitType
-            end
+            unitTypeGroup.ReportNaming[unitType] = unitType
           end
         end
       end
@@ -1504,11 +1630,11 @@ do --FDMM_UnitTypes
     createGroupNamingIfNeeded(fdmm.consts.UnitType.Train)
     createGroupNamingIfNeeded(fdmm.consts.UnitType.Static)
 
-    fillInReportNaming(fdmm.consts.UnitType.Plane, false)
-    fillInReportNaming(fdmm.consts.UnitType.Helicopter, false)
-    fillInReportNaming(fdmm.consts.UnitType.Ground, false)
-    fillInReportNaming(fdmm.consts.UnitType.Ship, false)
-    fillInReportNaming(fdmm.consts.UnitType.Train, false)
+    fillInReportNaming(fdmm.consts.UnitType.Plane)
+    fillInReportNaming(fdmm.consts.UnitType.Helicopter)
+    fillInReportNaming(fdmm.consts.UnitType.Ground)
+    fillInReportNaming(fdmm.consts.UnitType.Ship)
+    fillInReportNaming(fdmm.consts.UnitType.Train)
 
     copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Plane, fdmm.consts.UnitType.Static)
     copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Helicopter, fdmm.consts.UnitType.Static)
@@ -1516,7 +1642,14 @@ do --FDMM_UnitTypes
     copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Ship, fdmm.consts.UnitType.Static)
     copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Train, fdmm.consts.UnitType.Static)
 
-    fillInReportNaming(fdmm.consts.UnitType.Static, true)
+    fillInReportNaming(fdmm.consts.UnitType.Static)
+
+    table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Plane.Nicknaming)
+    table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Helicopter.Nicknaming)
+    table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Ground.Nicknaming)
+    table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Train.Nicknaming)
+    table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Ship.Nicknaming)
+    table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Static.Nicknaming)
   end
 
   function fdmm.unitTypes.crossRefEntries()
@@ -1554,46 +1687,44 @@ do --FDMM_UnitTypes
     return nil
   end
 
-  function fdmm.unitTypes.getNATOUnitReportName(unitType, unitTypeGroup)
-    local unitTypeGroup = unitTypeGroup or fdmm.unitTypes.getUnitTypeGroup(unitType)
-    local natoReporting = nil
-    if unitTypeGroup.NATOReporting then
-      natoReporting = unitTypeGroup.NATOReporting[unitType]
-    end
-    local reportName = unitTypeGroup.ReportNaming[unitType] or natoReporting
-    local natoReportingFront, natoReportingBack = fdmm.utils.splitDoublet(natoReporting)
-    natoReportingFront = natoReportingFront or natoReporting
+  function fdmm.unitTypes.getUnitReportName(allianceType, unitType, unitTypeGroup)
+    local allianceReportingKey = allianceType .. 'Reporting'
+    local reportName = fdmm.consts.UnitType[allianceReportingKey][unitType]
+    if string.isEmpty(reportName) then
+      local unitTypeGroup = unitTypeGroup or fdmm.unitTypes.getUnitTypeGroup(unitType)
+      local allianceReporting = unitTypeGroup[allianceReportingKey][unitType]
+      local reportingFront, reportingBack, accessoryName = fdmm.utils.splitTuple(allianceReporting)
+      reportingFront = reportingFront or allianceReporting
+      reportName = unitTypeGroup.ReportNaming[unitType]
+      local properName = unitTypeGroup.ProperNaming[unitType]
 
-    if string.isNotEmpty(reportName) and string.isNotEmpty(natoReportingFront) and string.contains(reportName, '%R') then
-      reportName = reportName:gsub('%%R', natoReportingFront)
-    end
+      if string.isNotEmpty(reportingFront) and string.contains(reportName, '%R') then
+        reportName = reportName:gsub('%%R', reportingFront)
+      end
 
-    if string.isNotEmpty(natoReportingBack) and not string.contains(reportName, natoReportingBack) then
-      reportName = reportName .. ' ' .. natoReportingBack
-    end
+      if string.isNotEmpty(accessoryName) and string.contains(reportName, '%N') then
+        reportName = reportName:gsub('%%N', accessoryName)
+      end
 
+      if string.isNotEmpty(properName) and not string.contains(reportName, properName) then
+        reportName = reportName .. ' ' .. properName
+      end
+
+      if string.isNotEmpty(reportingBack) and not string.contains(reportName, reportingBack) then
+        reportName = reportName .. ' ' .. reportingBack
+      end
+
+      fdmm.consts.UnitType[allianceReportingKey][unitType] = reportName
+    end
     return reportName
   end
 
+  function fdmm.unitTypes.getNATOUnitReportName(unitType, unitTypeGroup)
+    return fdmm.unitTypes.getUnitReportName(fdmm.enums.Alliance.NATO, unitType, unitTypeGroup)
+  end
+
   function fdmm.unitTypes.getWTOUnitReportName(unitType, unitTypeGroup)
-    local unitTypeGroup = unitTypeGroup or fdmm.unitTypes.getUnitTypeGroup(unitType)
-    local wtoReporting = nil
-    if unitTypeGroup.WTOReporting then
-      wtoReporting = unitTypeGroup.WTOReporting[unitType]
-    end
-    local reportName = unitTypeGroup.ReportNaming[unitType] or wtoReporting
-    local wtoReportingFront, wtoReportingBack = fdmm.utils.splitDoublet(wtoReporting)
-    wtoReportingFront = wtoReportingFront or wtoReporting
-
-    if string.isNotEmpty(reportName) and string.contains(reportName, '%R') then
-      reportName = reportName:gsub('%%R', wtoReportingFront)
-    end
-
-    if string.isNotEmpty(wtoReportingBack) and not string.contains(reportName, wtoReportingBack) then
-      reportName = reportName .. ' ' .. wtoReportingBack
-    end
-
-    return reportName
+    return fdmm.unitTypes.getUnitReportName(fdmm.enums.Alliance.WTO, unitType, unitTypeGroup)
   end
 
   function fdmm.unitTypes.dumpUnitReportNames()
@@ -1601,7 +1732,7 @@ do --FDMM_UnitTypes
       for _,fdmmUnitType in pairs(table.sortedKeysList(unitTypeGroup.All)) do
         if not string.hasPrefix(fdmmUnitType, '_') then
           local value = unitTypeGroup.All[fdmmUnitType]
-          local unitCategory, shapeName, unitType = fdmm.utils.splitTriplet(value)
+          local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
           unitType = unitType or value
           env.info('  [\'' .. fdmmUnitType .. '\'] = \'' .. unitType .. '\':')
           env.info('    NATO: ' .. fdmm.unitTypes.getNATOUnitReportName(unitType, unitTypeGroup))

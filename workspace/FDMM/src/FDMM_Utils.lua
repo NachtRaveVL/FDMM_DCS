@@ -111,14 +111,12 @@ do --FDMM_Utils
   -- @param #string name Name string.
   -- @return #string,#string,#string Tuple: grouping prefix, stripped name, and grouping suffix.
   function fdmm.utils.getGroupingComponents(name)
-    if name then
-      local prefix, suffix
-      name = fdmm.utils.removeNumericSuffix(name)
-      name, prefix = fdmm.utils.removeGroupingPrefix(name)
-      name, suffix = fdmm.utils.removeGroupingSuffix(name)
-      return prefix, name, suffix
-    end
-    return nil, nil, nil
+    assert(name, 'Nonnull parameter: name')
+    local prefix, suffix
+    name = fdmm.utils.removeNumericSuffix(name)
+    name, prefix = fdmm.utils.removeGroupingPrefix(name)
+    name, suffix = fdmm.utils.removeGroupingSuffix(name)
+    return prefix, name, suffix
   end
 
   --- Separates out the FDMM grouping components from a string name (after removing numeric suffix), while also handling short-naming conventions.
@@ -152,12 +150,11 @@ do --FDMM_Utils
   -- @param #string name Name string.
   -- @return #Enums.Faction Faction enumeration, otherwise Faction.Unused if unable to determine.
   function fdmm.utils.getFaction(name)
-    if name then
-      name = fdmm.utils.removeNumericSuffix(name)
-      for enum, value in pairs(fdmm.enums.Faction) do
-        if value:lower() == name:lower() then
-          return enum
-        end
+    assert(name, 'Nonnull parameter: name')
+    name = fdmm.utils.removeNumericSuffix(name)
+    for enum, value in pairs(fdmm.enums.Faction) do
+      if value:lower() == name:lower() then
+        return enum
       end
     end
     return fdmm.enums.Faction.Unused
@@ -166,11 +163,12 @@ do --FDMM_Utils
   --- Builds reversed dictionary where keys/values are reversed.
   -- @note Values that map to different keys will map to a sequence of keys.
   -- @note Only string and number types for keys and values are permitted.
-  -- @param #table table Table.
+  -- @param #table tbl Table.
   -- @return #table New table with reversed key/value entries.
-  function fdmm.utils.reversedDict(table)
+  function fdmm.utils.reversedDict(tbl)
+    assert(tbl, 'Nonnull parameter: tbl')
     local rev = {}
-    for k,v in pairs(table) do
+    for k,v in pairs(tbl) do
       if (type(k) == 'string' or type(k) == 'number') and (type(v) == 'string' or type(v) == 'number') then
         if not rev[v] then
           rev[v] = k
@@ -187,24 +185,49 @@ do --FDMM_Utils
     return rev
   end
 
+  --- Splits strings in tuple format, returning their individual elements.
+  -- @param #string tupleString String with elements:in:tuple:form.
+  -- @return #string,#string,#string,#string Tuple: Separated elements, otherwise nil,nil,nil,nil.
+  function fdmm.utils.splitTuple(tupleString)
+    if string.isNotEmpty(tupleString) then
+      local colonCount = string.occurrences(tupleString, ':')
+      if colonCount == 0 then
+        return tupleString
+      elseif colonCount == 1 then
+        return fdmm.utils.splitDoublet(tupleString)
+      elseif colonCount == 2 then
+        return fdmm.utils.splitTriplet(tupleString)
+      elseif colonCount == 3 then
+        return fdmm.utils.splitQuadlet(tupleString)
+      else
+        assert(false, 'Not reachable')
+      end
+    end
+    return nil, nil, nil, nil
+  end
+
   --- Splits strings in doub:let format, returning two elements.
   -- @param #string doubletString String with one:two elements in doublet form.
-  -- @return #string,#string Tuple: first and second elements, otherwise nil if not in correct format.  
+  -- @return #string,#string Tuple: first and second elements, otherwise nil,nil.  
   function fdmm.utils.splitDoublet(doubletString)
-    if doubletString then
-      return doubletString:match("([^:]*):([^:]*)")
-    end
-    return nil, nil
+    assert(doubletString, 'Nonnull parameter: doubletString')
+    return doubletString:match("([^:]*):([^:]*)")
   end
 
   --- Splits strings in tri:p:let format, returning three elements.
   -- @param #string tripletString String with one:two:three elements in triplet form.
-  -- @return #string,#string,#string Tuple: first, second, and third elements, otherwise nil if not in correct format.
+  -- @return #string,#string,#string Tuple: first, second, and third elements, otherwise nil,nil,nil.
   function fdmm.utils.splitTriplet(tripletString)
-    if tripletString then
-      return tripletString:match("([^:]*):([^:]*):([^:]*)")
-    end
-    return nil, nil, nil
+    assert(tripletString, 'Nonnull parameter: tripletString')
+    return tripletString:match("([^:]*):([^:]*):([^:]*)")
+  end
+
+  --- Splits strings in qu:ad:le:t format, returning four elements.
+  -- @param #string quadletString String with one:two:three:four elements in quadlet form.
+  -- @return #string,#string,#string Tuple: first, second, third, and fourth elements, otherwise nil,nil,nil,nil.
+  function fdmm.utils.splitQuadlet(quadletString)
+    assert(quadletString, 'Nonnull parameter: quadletString')
+    return quadletString:match("([^:]*):([^:]*):([^:]*):([^:]*)")
   end
 
   --- Determines if the user flag is set true in mission user flags.
@@ -221,13 +244,19 @@ do --FDMM_Utils
   --- Determines if the debug flag is set true in mission user flags.
   -- @return #boolean True if debug flag set, otherwise false.
   function fdmm.utils.isDebugFlagSet()
-    return fdmm.utils.isUserFlagSet(fdmm.consts.UserFlags.DebugFlag)
+    return fdmm.utils.isUserFlagSet(fdmm.consts.UserFlag.DebugFlag)
   end
 
-  --- Determines if current theatre map is a desert-based map or not.
-  -- @return #boolean True if on desert-based map, otherwise false. 
+  --- Determines if current theatre map is a desert-based map or not (for heat effects).
+  -- @return #boolean True if on desert-based map, otherwise false.
   function fdmm.utils.isDesertMap()
     return env.mission.theatre == DCSMAP.NTTR or env.mission.theatre == DCSMAP.PersianGulf
+  end
+
+  --- Determines if current theatre map is a rainy map or not (for mud effects).
+  -- @return #boolean True if on rainy map, otherwise false.
+  function fdmm.utils.isRainyMap()
+    return env.mission.theatre == DCSMAP.Caucasus or env.mission.theatre == DCSMAP.Normandy 
   end
 
 end --FDMM_Utils
