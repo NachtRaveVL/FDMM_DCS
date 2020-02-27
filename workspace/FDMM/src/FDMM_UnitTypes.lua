@@ -10,6 +10,10 @@ fdmm.unitTypes = {}
 
 do --FDMM_UnitTypes
 
+  --- Unit type table.
+  -- A ridiculous structure mapping fdmmUnitTypes to dcsUnitTypes.
+  -- Also contains a lot of categorization that FDMM relies upon.
+  -- @type Consts.UnitType
   fdmm.consts.UnitType = {
     Plane = {
       Fighter = {
@@ -20,14 +24,14 @@ do --FDMM_UnitTypes
           J11A = 'J-11A',
           MiG29A = 'MiG-29A', MiG29G = 'MiG-29G', MiG29S = 'MiG-29S',
           Su27 = 'Su-27',
-          Su33 = 'Su-33'
+          Su33 = 'Su-33',
         },
         Interceptor = {
           F14A = 'F-14A', F14B = 'F-14B',
           F4E = 'F-4E',
           MiG21b = 'MiG-21Bis',
           MiG25PD = 'MiG-25PD',
-          MiG31 = 'MiG-31'
+          MiG31 = 'MiG-31',
         },
         Strike = {
           AJS37 = 'AJS37',
@@ -35,7 +39,7 @@ do --FDMM_UnitTypes
           FA18A = 'F/A-18A', FA18C = 'F/A-18C', FA18Cl20 = 'FA-18C_hornet',
           Su17M4 = 'Su-17M4',
           Su34 = 'Su-34',
-          TornadoGR4 = 'Tornado GR4', TornadoIDS = 'Tornado IDS'
+          TornadoGR4 = 'Tornado GR4', TornadoIDS = 'Tornado IDS',
         },
         Multirole = {
           AJS37 = 'AJS37',
@@ -52,13 +56,13 @@ do --FDMM_UnitTypes
           Su27 = 'Su-27',
           Su30 = 'Su-30',
           Su33 = 'Su-33',
-          TornadoGR4 = 'Tornado GR4', TornadoIDS = 'Tornado IDS'
+          TornadoGR4 = 'Tornado GR4', TornadoIDS = 'Tornado IDS',
         },
         Light = {
           F5E = 'F-5E', F5E3 = 'F-5E-3',
           F86F = 'F-86F Sabre',
           MiG15b = 'MiG-15bis',
-          MiG19P = 'MiG-19P'
+          MiG19P = 'MiG-19P',
         },
       },
       Bomber = {
@@ -66,85 +70,85 @@ do --FDMM_UnitTypes
           B1B = 'B1-B',
           B52H = 'B-52H',
           Tu95MS = 'Tu-95MS',
-          Tu160 = 'Tu-160'
+          Tu160 = 'Tu-160',
         },
         Tactical = {
-          Tu22M3 = 'Tu-22M3'
+          Tu22M3 = 'Tu-22M3',
         },
         Attack = {
           A10A = 'A-10A', A10C = 'A-10C',
           AV8BNA = 'AV8BNA',
           MiG27K = 'MiG-27K',
           Su24M = 'Su-24M',
-          Su25 = 'Su-25', Su25T = 'Su-25T', Su25TM = 'Su-25TM'
+          Su25 = 'Su-25', Su25T = 'Su-25T', Su25TM = 'Su-25TM',
         },
         Stealth = {
-          F117A = 'F-117A'
+          F117A = 'F-117A',
         },
         Light = {
           C101CC = 'C-101CC',
-          L39ZA = 'L-39ZA'
+          L39ZA = 'L-39ZA',
         },
         ASW = {
           S3B = 'S-3B',
-          Tu142 = 'Tu-142'
+          Tu142 = 'Tu-142',
         },
       },
       Reconnaissance = {
         Arial = {
           An30M = 'An-30M',
-          Tu142 = 'Tu-142'
+          Tu142 = 'Tu-142',
         },
         Bomber = {
           MiG25RBT = 'MiG-25RBT',
-          Su24MR = 'Su-24MR'
+          Su24MR = 'Su-24MR',
         },
         Drone = {
           MQ9 = 'MQ-9 Reaper',
-          RQ1A = 'RQ-1A Predator'
-        }
+          RQ1A = 'RQ-1A Predator',
+        },
       },
       AWACS = {
         A50 = 'A-50',
         E2C = 'E-2C',
         E3A = 'E-3A',
-        KJ2000 = 'KJ-2000'
+        KJ2000 = 'KJ-2000',
       },
       Refueling = {
         IL78M = 'IL-78M',
         KC130 = 'KC130',
         KC135 = 'KC-135', KC135MPRS = 'KC135MPRS',
-        S3BTanker = 'S-3B Tanker'
+        S3BTanker = 'S-3B Tanker',
       },
       Transport = {
         Strategic = {
           C17A = 'C-17A',
-          IL76MD = 'IL-76MD'
+          IL76MD = 'IL-76MD',
         },
         Tactical = {
           An26B = 'An-26B',
-          C130 = 'C-130'
-        }
+          C130 = 'C-130',
+        },
       },
       Trainer = {
         Jet = {
           C101EB = 'C-101EB',
           F16AMLU = 'F-16A MLU',
           HawkT1A = 'Hawk',
-          L39C = 'L-39C'
+          L39C = 'L-39C',
         },
         Prop = {
           TF51D = 'TF-51D',
-          Yak52 = 'Yak-52'
-        }
+          Yak52 = 'Yak-52',
+        },
       },
       Civilian = {
         Aerobatic = {
-         CEII = 'Christen Eagle II'
+         CEII = 'Christen Eagle II',
         },
         Transport = {
-          Yak40 = 'Yak-40'
-        }
+          Yak40 = 'Yak-40',
+        },
       },
       CarrierBorne = {
         AV8BNA = 'AV8BNA',
@@ -153,7 +157,7 @@ do --FDMM_UnitTypes
         FA18A = 'F/A-18A', FA18C = 'F/A-18C', FA18Cl20 = 'FA-18C_hornet',
         MiG29K = 'MiG-29K',
         S3B = 'S-3B', S3BTanker = 'S-3B Tanker',
-        Su33 = 'Su-33'
+        Su33 = 'Su-33',
       },
       PlayerControllable = {
         A10A = 'A-10A', A10C = 'A-10C',
@@ -175,10 +179,11 @@ do --FDMM_UnitTypes
         L39C = 'L-39C', L39ZA = 'L-39ZA',
         TF51D = 'TF-51D',
         Yak52 = 'Yak-52',
-        CEII = 'Christen Eagle II'
+        CEII = 'Christen Eagle II',
       },
       All = {}, -- resolved on startup processing
       NATOReporting = {
+        ['AV8BNA'] = ':(N/A)',
         ['A-50'] = ':\'Mainstay\'',
         ['An-26B'] = ':\'Curl\'',
         ['An-30M'] = ':\'Clank\'',
@@ -203,11 +208,14 @@ do --FDMM_UnitTypes
         ['Tu-95MS'] = ':\'Bear-H\'',
         ['Tu-142'] = ':\'Bear-F/J\'',
         ['Tu-160'] = ':\'Blackjack\'',
-        ['Yak-40'] = ':\'Codling\''
+        ['Yak-40'] = ':\'Codling\'',
+      },
+      WTOReporting = {
+        ['AV8BNA'] = ':(N/A)',
       },
       ReportNaming = {
         ['AJS37'] = 'AJS 37',
-        ['AV8BNA'] = 'AV-8B N/A',
+        ['AV8BNA'] = 'AV-8B',
         ['B1-B'] = 'B-1B',
         ['F-16C_50'] = 'F-16CM bl.50',
         ['FA-18C_hornet'] = 'F/A-18C l.20',
@@ -246,13 +254,13 @@ do --FDMM_UnitTypes
         ['MQ-9 Reaper'] = 'Reaper',
         ['RQ-1A Predator'] = 'Predator',
         ['S-3B'] = 'Viking', ['S-3B Tanker'] = 'Viking',
-        ['TF-51D'] = 'Mustang'
+        ['TF-51D'] = 'Mustang',
       },
       Nicknaming = {
         ['A-10A'] = 'Warthog', ['A-10C'] = 'Warthog',
         ['F-16A'] = 'Viper', ['F-16A MLU'] = 'Viper',
-        ['F-16C bl.50'] = 'Viper', ['F-16C_50'] = 'Viper', ['F-16C bl.52d'] = 'Viper'
-      }
+        ['F-16C bl.50'] = 'Viper', ['F-16C_50'] = 'Viper', ['F-16C bl.52d'] = 'Viper',
+      },
     },
     Helicopter = {
       Attack = {
@@ -260,7 +268,7 @@ do --FDMM_UnitTypes
         AH64A = 'AH-64A', AH64D = 'AH-64D',
         Ka50 = 'Ka-50',
         Mi24V = 'Mi-24V',
-        Mi28N = 'Mi-28N'
+        Mi28N = 'Mi-28N',
       },
       Reconnaissance = {
         OH58D = 'OH-58D',
@@ -268,13 +276,13 @@ do --FDMM_UnitTypes
       },
       Light = {
         SA342L = 'SA342L', SA342M = 'SA342M', SA342Mg = 'SA342Minigun', SA342Ms = 'SA342Mistral',
-        UH1H = 'UH-1H'
+        UH1H = 'UH-1H',
       },
       Transport = {
         Strategic = {
           CH47D = 'CH-47D',
           CH53E = 'CH-53E',
-          Mi26 = 'Mi-26'
+          Mi26 = 'Mi-26',
         },
         Tactical = {
           Mi8MTV2 = 'Mi-8MT',
@@ -286,24 +294,24 @@ do --FDMM_UnitTypes
           Mi24V = 'Mi-24V',
           SH60B = 'SH-60B',
           UH1H = 'UH-1H',
-          UH60A = 'UH-60A'
-        }
+          UH60A = 'UH-60A',
+        },
       },
       ASW = { -- Helicopters available for ASW duty
         Ka27 = 'Ka-27',
-        SH60B = 'SH-60B'
+        SH60B = 'SH-60B',
       },
       CarrierBorne = {
         AH1W = 'AH-1W',
         CH53E = 'CH-53E',
         Ka27 = 'Ka-27',
-        SH60B = 'SH-60B'
+        SH60B = 'SH-60B',
       },
       PlayerControllable = {
         Ka50 = 'Ka-50',
         SA342L = 'SA342L', SA342M = 'SA342M', SA342Mg = 'SA342Minigun', SA342Ms = 'SA342Mistral',
         UH1H = 'UH-1H',
-        Mi8MTV2 = 'Mi-8MT'
+        Mi8MTV2 = 'Mi-8MT',
       },
       All = {}, -- resolved on startup processing
       NATOReporting = {
@@ -312,13 +320,13 @@ do --FDMM_UnitTypes
         ['Mi-8MT'] = ':\'Hip\'',
         ['Mi-24V'] = ':\'Hind-E\'',
         ['Mi-26'] = ':\'Halo\'',
-        ['Mi-28N'] = ':\'Havoc\''
+        ['Mi-28N'] = ':\'Havoc\'',
       },
       ReportNaming = {
         ['SA342L'] = 'SA 342L',
         ['SA342M'] = 'SA 342M', 
         ['SA342Minigun'] = 'SA 342 Mg',
-        ['SA342Mistral'] = 'SA 342 Ms'
+        ['SA342Mistral'] = 'SA 342 Ms',
       },
       ProperNaming = {
         ['AH-1W'] = 'SuperCobra',
@@ -330,17 +338,17 @@ do --FDMM_UnitTypes
         ['SA342L'] = 'Gazelle', ['SA342M'] = 'Gazelle', ['SA342Minigun'] = 'Gazelle', ['SA342Mistral'] = 'Gazelle',
         ['SH-60B'] = 'Seahawk',
         ['UH-1H'] = 'Huey',
-        ['UH-60A'] = 'Black Hawk'
+        ['UH-60A'] = 'Black Hawk',
       },
       Nicknaming = {
         ['AH-1W'] = 'HueyCobra',
-        ['Mi-24V'] = 'Crocodile'
-      }
+        ['Mi-24V'] = 'Crocodile',
+      },
     },
     Ground = {
       Tracked = {
         HQ = {
-          Sborka9S80M1 = 'Dog Ear radar'
+          Sborka9S80M1 = 'Dog Ear radar',
         },
         MBT = {
           ChallengerII = 'Challenger2',
@@ -354,7 +362,7 @@ do --FDMM_UnitTypes
           T72B = 'T-72B',
           T80U = 'T-80UD',
           T90 = 'T-90',
-          ZTZ96B = 'ZTZ96B'
+          ZTZ96B = 'ZTZ96B',
         },
         IFV = {
           BMD1 = 'BMD-1',
@@ -364,38 +372,38 @@ do --FDMM_UnitTypes
           M2A2Bradley = 'M-2 Bradley',
           Marder1A3 = 'Marder',
           MCV80 = 'MCV-80',
-          ZBD04A = 'ZBD04A'
+          ZBD04A = 'ZBD04A',
         },
         ARV = {
           BRDM2 = 'BRDM-2',
           BTRRD = 'BTR_D', -- airborne
-          MTLBuBoman = 'Boman'
+          MTLBuBoman = 'Boman',
         },
         APC = {
           AAV7 = 'AAV7', -- marines
           M1043HMMWVMg = 'M1043 HMMWV Armament',
           M1126StrykerICV = 'M1126 Stryker ICV',
           M113 = 'M-113',
-          MTLB = 'MTLB'
+          MTLB = 'MTLB',
         },
         MLRS = {
           M270 = { -- also has wheeled components
             _HasWheeledComps = true,
             Launcher = {
-              M270MLRSLN = 'MLRS'
-            }
-          }
+              M270MLRSLN = 'MLRS',
+            },
+          },
         },
         SPH = {
           M109Paladin = 'M-109',
           Gvozdika2S1 = 'SAU Gvozdika',
           Msta2S19 = 'SAU Msta',
           Akatsia2S3 = 'SAU Akatsia',
-          Nona2S9 = 'SAU 2-C9', -- airborne
-          SpGHDana = 'SpGH_Dana'
+          NonaS2S9 = 'SAU 2-C9', -- airborne
+          SpGHDana = 'SpGH_Dana',
         },
         EWR = {
-          RolandEWR = 'Roland Radar'
+          RolandEWR = 'Roland Radar',
         },
         SAM = {
           M48Chaparral = 'M48 Chaparral',
@@ -403,58 +411,58 @@ do --FDMM_UnitTypes
           RolandADS = 'Roland ADS',
           SA6 = {
             SearchTrackRadar = {
-              SA6KubSTR_1S91 = 'Kub 1S91 str'
+              SA6KubSTR_1S91 = 'Kub 1S91 str',
             },
             Launcher = {
-              SA6KubLN_2P25 = 'Kub 2P25 ln'
-            }
+              SA6KubLN_2P25 = 'Kub 2P25 ln',
+            },
           },
           SA11 = {
             HQ = {
-              SA11BukCC_9S470M1 = 'SA-11 Buk CC 9S470M1'
+              SA11BukCC_9S470M1 = 'SA-11 Buk CC 9S470M1',
             },
             SearchRadar = {
-              SA11BukSR_9S18M1 = 'SA-11 Buk SR 9S18M1'
+              SA11BukSR_9S18M1 = 'SA-11 Buk SR 9S18M1',
             },
             Launcher = {
-              SA11BukLN_9A310M1 = 'SA-11 Buk LN 9A310M1'
-            }
+              SA11BukLN_9A310M1 = 'SA-11 Buk LN 9A310M1',
+            },
           },
           SA13Strela10M3_9A35M3 = 'Strela-10M3',
           SA15Tor_9A331 = 'Tor 9A331',
-          SA19Tunguska_2S6 = '2S6 Tunguska'
+          SA19Tunguska_2S6 = '2S6 Tunguska',
         },
         AAA = {
           FlaKPzGepard1A2 = 'Gepard',
           ZSU234Shilka = 'ZSU-23-4 Shilka',
-          M163Vulcan = 'Vulcan'
-        }
+          M163Vulcan = 'Vulcan',
+        },
       },
       Wheeled = {
         HQ = {
           LandRover101FC = 'Land_Rover_101_FC',
           SKP11ATCMCP = 'SKP-11',
           Ural375PBU = 'Ural-375 PBU',
-          ZiL131KUNG = 'ZIL-131 KUNG'
+          ZiL131KUNG = 'ZIL-131 KUNG',
         },
         SPG = {
-          M1128StrykerMGS = 'M1128 Stryker MGS'
+          M1128StrykerMGS = 'M1128 Stryker MGS',
         },
         ATGM = {
           M1024HMMWVTOW = 'M1045 HMMWV TOW',
-          M1134StrykerATGM = 'M1134 Stryker ATGM'
+          M1134StrykerATGM = 'M1134 Stryker ATGM',
         },
         ARV = {
-          LAV25 = 'LAV-25' -- marines
+          LAV25 = 'LAV-25', -- marines
         },
         APC = {
           BMT2Cobra = 'Cobra',
           BTR80 = 'BTR-80',
           M1025HMMWV = 'Hummer',
-          TPzFuchs = 'TPZ'
+          TPzFuchs = 'TPZ',
         },
         SSM = {
-          SS1CScudBLN = 'Scud_B'
+          SS1CScudBLN = 'Scud_B',
         },
         MLRS = {
           BM21Grad = 'Grad-URAL',
@@ -463,249 +471,249 @@ do --FDMM_UnitTypes
           M270 = { -- also has tracked components
             _HasTrackedComps = true,
             FireControl = {
-              M270MLRSFDDM = 'MLRS FDDM'
-            }
-          }
+              M270MLRSFDDM = 'MLRS FDDM',
+            },
+          },
         },
         EWR = {
           P1455G6 = '55G6 EWR',
-          P181L13 = '1L13 EWR'
+          P181L13 = '1L13 EWR',
         },
         SAM = {
           M1097Avenger = 'M1097 Avenger',
           HQ7 = {
             SearchTrackRadar = {
-              HQ7SPSTR = 'HQ-7_STR_SP'
+              HQ7SPSTR = 'HQ-7_STR_SP',
             },
             Launcher = {
-              HQ7SPLN = 'HQ-7_LN_SP'
-            }
+              HQ7SPLN = 'HQ-7_LN_SP',
+            },
           },
           Patriot = { -- also has towed components
             _HasTowedComps = true,
             HQ = {
-              PatriotECS_ANMSQ104 = 'Patriot ECS'
+              PatriotECS_ANMSQ104 = 'Patriot ECS',
             },
             DataProcessing = {
-              PatriotICC = 'Patriot cp'
+              PatriotICC = 'Patriot cp',
             },
             Power = {
-              PatriotEPPIII = 'Patriot EPP'
+              PatriotEPPIII = 'Patriot EPP',
             },
-            Antenna = {
-              PatriotAMG_ANMRC137 = 'Patriot AMG'
-            }
+            RadarArray = {
+              PatriotAMG_ANMRC137 = 'Patriot AMG',
+            },
           },
           SA3S125 = { -- also has towed components
             _HasTowedComps = true,
             SearchRadar = {
-              SA3S125SR_P19 = 'p-19 s-125 sr'
-            }
+              SA3S125SR_P19 = 'p-19 s-125 sr',
+            },
           },
           SA8Osa_9A33 = 'Osa 9A33 ln',
           SA9Strela1_9P31 = 'Strela-1 9P31',
           SA10S300PS = { -- also has towed components
             _HasTowedComps = true,
             HQ = {
-              SA10S300PSCP_54K6 = 'S-300PS 54K6 cp'
+              SA10S300PSCP_54K6 = 'S-300PS 54K6 cp',
             },
             SearchRadar = {
-              SA10S300PSSR_64H6E = 'S-300PS 64H6E sr'
+              SA10S300PSSR_64H6E = 'S-300PS 64H6E sr',
             },
             MasterLauncher = {
-              SA10S300PSLN_5P85C = 'S-300PS 5P85C ln'
+              SA10S300PSLN_5P85C = 'S-300PS 5P85C ln',
             },
             SlaveLauncher = {
-              SA10S300PSLN_5P85D = 'S-300PS 5P85D ln'
-            }
-          }
+              SA10S300PSLN_5P85D = 'S-300PS 5P85D ln',
+            },
+          },
         },
         AAA = {
           ZU23Ural375 = {
             Soldier = {
-              ZU23Ural375 = 'Ural-375 ZU-23'
+              ZU23Ural375 = 'Ural-375 ZU-23',
             },
             Insurgent = {
-              ZU23Ural375_Insurgent = 'Ural-375 ZU-23 Insurgent'
-            }
-          }
+              ZU23Ural375_Insurgent = 'Ural-375 ZU-23 Insurgent',
+            },
+          },
         },
         Power = {
           APA5D_Ural4320 = 'Ural-4320 APA-5D',
-          APA80_ZiL131 = 'ZiL-131 APA-80'
+          APA80_ZiL131 = 'ZiL-131 APA-80',
         },
         Fire = {
           M1142HEMTTTFFT = 'HEMTT TFFT',
-          UralATsP6 = 'Ural ATsP-6'
+          UralATsP6 = 'Ural ATsP-6',
         },
         Transport = {
           Armored = {
-            Ural432031A = 'Ural-4320-31'
+            Ural432031A = 'Ural-4320-31',
           },
           Open = {
             GAZ66 = 'GAZ-66',
-            Ural375 = 'Ural-375'
+            Ural375 = 'Ural-375',
           },
           Covered = {
             GAZ3308 = 'GAZ-3308',
             KamAZ43101 = 'KAMAZ Truck',
             KrAZ6322 = 'KrAZ6322',
             M818 = 'M 818',
-            Ural4320T = 'Ural-4320T'
+            Ural4320T = 'Ural-4320T',
           },
           Lubricant = {
-            ATMZ5 = 'ATMZ-5'
+            ATMZ5 = 'ATMZ-5',
           },
           Fuel = {
             ATZ10 = 'ATZ-10',
-            M978HEMTTTanker = 'M978 HEMTT Tanker'
-          }
+            M978HEMTTTanker = 'M978 HEMTT Tanker',
+          },
         },
         Car = {
           M1025HMMWV = 'Hummer',
           LandRover109S3 = 'Land_Rover_109_S3',
           Tigr_233036 = 'Tigr_233036',
-          UAZ469 = 'UAZ-469'
-        }
+          UAZ469 = 'UAZ-469',
+        },
       },
       Towed = {
         DroneCommand = {
           HQ = {
-            PreadtorGCS = 'Predator GCS'
+            PreadtorGCS = 'Predator GCS',
           },
-          Dish = {
-            PredatorTS = 'Predator TrojanSpirit'
-          }
+          Repeater = {
+            PredatorTS = 'Predator TrojanSpirit',
+          },
         },
         SSM = {
           CSSC2 = { -- anti-ship
             SearchRadar = {
-              CSSC2SilkwormSR = 'Silkworm_SR'
+              CSSC2SilkwormSR = 'Silkworm_SR',
             },
             Launcher = {
-              CSSC2SilkwormLN = 'hy_launcher'
-            }
-          }
+              CSSC2SilkwormLN = 'hy_launcher',
+            },
+          },
         },
         SAM = {
           Hawk = {
             HQ = {
-              HawkPCP = 'Hawk pcp'
+              HawkPCP = 'Hawk pcp',
             },
             ContWaveAcqRadar = {
-              HawkCWAR_ANMPQ55 = 'Hawk cwar'
+              HawkCWAR_ANMPQ55 = 'Hawk cwar',
             },
             SearchRadar = {
-              HawkSR_ANMPQ50 = 'Hawk sr'
+              HawkSR_ANMPQ50 = 'Hawk sr',
             },
             TrackRadar = {
-              HawkTR_ANMPQ46 = 'Hawk tr'
+              HawkTR_ANMPQ46 = 'Hawk tr',
             },
             Launcher = {
-              HawkLN_M192 = 'Hawk ln'
-            }
+              HawkLN_M192 = 'Hawk ln',
+            },
           },
           Patriot = { -- also has wheeled components
             _HasWheeledComps = true,
             Launcher = {
-              PatriotLN_M901 = 'Patriot ln'
+              PatriotLN_M901 = 'Patriot ln',
             },
             SearchTrackRadar = {
-              PatriotSTR_ANMPQ53 = 'Patriot str'
-            }
+              PatriotSTR_ANMPQ53 = 'Patriot str',
+            },
           },
           Rapier = {
             TrackRadar = {
-              RapierFSATR = 'rapier_fsa_blindfire_radar'
+              RapierFSATR = 'rapier_fsa_blindfire_radar',
             },
             TrackOptical = {
-              RapierFSATO = 'rapier_fsa_optical_tracker_unit'
+              RapierFSATO = 'rapier_fsa_optical_tracker_unit',
             },
             Launcher = {
-              RapierFSALN = 'rapier_fsa_launcher'
-            }
+              RapierFSALN = 'rapier_fsa_launcher',
+            },
           },
           SA2S75 = {
             TrackRadar = {
-              SA2S75TR_SNR75 = 'SNR_75V'
+              SA2S75TR_SNR75 = 'SNR_75V',
             },
             Launcher = {
-              SA2S75LN_SM90 = 'S_75M_Volhov'
-            }
+              SA2S75LN_SM90 = 'S_75M_Volhov',
+            },
           },
           SA3S125 = { -- also has wheeled components
             _HasWheeledComps = true,
             TrackRadar = {
-              SA3S125TR_SNR = 'snr s-125 tr'
+              SA3S125TR_SNR = 'snr s-125 tr',
             },
             Launcher = {
-              SA3S125LN_5P73 = '5p73 s-125 ln'
-            }
+              SA3S125LN_5P73 = '5p73 s-125 ln',
+            },
           },
           SA10S300PS = { -- also has wheeled components
             _HasWheeledComps = true,
             SearchRadar = {
-              SA10S300PSSR_5N66M = 'S-300PS 40B6MD sr'
+              SA10S300PSSR_5N66M = 'S-300PS 40B6MD sr',
             },
             TrackRadar = {
-              SA10S300PSTR_30N6 = 'S-300PS 40B6M tr'
-            }
-          }
+              SA10S300PSTR_30N6 = 'S-300PS 40B6M tr',
+            },
+          },
         },
         AAA = {
           ZU23 = {
             Soldier = {
               Fortified = {
-                ZU23Closed = 'ZU-23 Emplacement Closed'
+                ZU23Closed = 'ZU-23 Emplacement Closed',
               },
               Emplacement = {
-                ZU23 = 'ZU-23 Emplacement'
-              }
+                ZU23 = 'ZU-23 Emplacement',
+              },
             },
             Insurgent = {
               Fortified = {
-                ZU23Closed_Insurgent = 'ZU-23 Closed Insurgent'
+                ZU23Closed_Insurgent = 'ZU-23 Closed Insurgent',
               },
               Emplacement = {
-                ZU23_Insurgent = 'ZU-23 Insurgent'
-              }
-            }
-          }
-        }
+                ZU23_Insurgent = 'ZU-23 Insurgent',
+              },
+            },
+          },
+        },
       },
       Infantry = {
         Beacon = {
-          TACANBeacon_TTS3030 = 'TACAN_beacon'
+          TACANBeacon_TTS3030 = 'TACAN_beacon',
         },
         Mortar = {
-          M2B11 = '2B11 mortar'
+          M2B11 = '2B11 mortar',
         },
         SAM = {
           SA18 = {
             Soldier = {
               Comm = {
-                SA18IGLAComm = 'SA-18 Igla comm'
+                SA18IGLAComm = 'SA-18 Igla comm',
               },
               Launcher = {
-                SA18IGLAMANPAD = 'SA-18 Igla manpad'
-              }
+                SA18IGLAMANPAD = 'SA-18 Igla manpad',
+              },
             },
             Insurgent = {
               Comm = {
-                SA18IGLAComm = 'SA-18 Igla comm'
+                SA18IGLAComm = 'SA-18 Igla comm',
               },
               Launcher = {
-                SA18IGLAMANPAD_Insurgent = 'Igla manpad INS'
-              }
-            }
+                SA18IGLAMANPAD_Insurgent = 'Igla manpad INS',
+              },
+            },
           },
           SA24 = {
             Comm = {
-              SA24IGLASComm = 'SA-18 Igla-S comm'
+              SA24IGLASComm = 'SA-18 Igla-S comm',
             },
             Launcher = {
-              SA24IGLASMANPAD = 'SA-18 Igla-S manpad'
-            }
+              SA24IGLASMANPAD = 'SA-18 Igla-S manpad',
+            },
           },
           Stinger = {
             Comm = {
@@ -713,40 +721,40 @@ do --FDMM_UnitTypes
               IsraeliStingerComm = 'Stinger comm dsr',
             },
             Launcher = {
-              StingerMANPAD = 'Soldier stinger'
-            }
-          }
+              StingerMANPAD = 'Soldier stinger',
+            },
+          },
         },
         MG = {
           Soldier = {
-            SoldierM249 = 'Soldier M249'
-          }
+            SoldierM249 = 'Soldier M249',
+          },
         },
         Rifle = {
           Soldier = {
             GeorgianM4 = 'Soldier M4 GRG',
             SoldierM4 = 'Soldier M4',
             RussianAK = 'Infantry AK',
-            SoldierAK = 'Soldier AK'
+            SoldierAK = 'Soldier AK',
           },
           Insurgent = {
-            InsurgentAK = 'Infantry AK Ins'
+            InsurgentAK = 'Infantry AK Ins',
           },
           Paratrooper = {
-            ParatroopAKS74 = 'Paratrooper AKS-74'
-          }
+            ParatroopAKS74 = 'Paratrooper AKS-74',
+          },
         },
         RPG = {
           Soldier = {
-            SoldierRPG = 'Soldier RPG'
+            SoldierRPG = 'Soldier RPG',
           },
           Insurgent = {
-            SoldierRPG = 'Soldier RPG'
+            SoldierRPG = 'Soldier RPG',
           },
           Paratrooper = {
-            ParatroopRPG16 = 'Paratrooper RPG-16'
-          }
-        }
+            ParatroopRPG16 = 'Paratrooper RPG-16',
+          },
+        },
       },
       Fort = {
         Barracks = 'house1arm',
@@ -756,36 +764,35 @@ do --FDMM_UnitTypes
         Outpost = 'outpost',
         RoadOutpost = 'outpost_road',
         WatchTower = 'house2arm',
-        WarningBoard = 'warning_board_a'
+        WarningBoard = 'warning_board_a',
       },
       Civilian = {
         Trailer = {
-          MAZ6303 = 'MAZ-6303'
+          MAZ6303 = 'MAZ-6303',
         },
-        Truck = {
-          Fire = {
-            UralATsP6 = 'Ural ATsP-6'
+        Fire = {
+          M1142HEMTTTFFT = 'HEMTT TFFT',
+          UralATsP6 = 'Ural ATsP-6',
+        },
+        Transport = {
+          Open = {
+            ZiL4331 = 'ZIL-4331',
           },
-          Transport = {
-            Open = {
-              ZiL4331 = 'ZIL-4331'
-            },
-            Covered = {
-              GAZ3307 = 'GAZ-3307'
-            }
-          }
+          Covered = {
+            GAZ3307 = 'GAZ-3307',
+          },
         },
         Bus = {
           Double = {
-            IKARUS280 = 'IKARUS Bus'
+            IKARUS280 = 'IKARUS Bus',
           },
           Single = {
             LAZ695 = 'LAZ Bus',
-            ZIU9 = 'Trolley bus'
-          }
+            ZIU9 = 'Trolley bus',
+          },
         },
         Car = {
-          VAZ2109 = 'VAZ Car'
+          VAZ2109 = 'VAZ Car',
         },
       },
       Amphibious = { -- vehicles that can float on water (not just ford rivers)
@@ -799,7 +806,7 @@ do --FDMM_UnitTypes
         MTLBuBoman = 'Boman',
         SA8Osa_9A33 = 'Osa 9A33 ln',
         Gvozdika2S1 = 'SAU Gvozdika',
-        Nona2S9 = 'SAU 2-C9'
+        NonaS2S9 = 'SAU 2-C9',
       },
       HeavyWheeled = { -- wheeled vehicles less likely to get stuck in the mud
         M1142HEMTTTFFT = 'HEMTT TFFT',
@@ -809,54 +816,54 @@ do --FDMM_UnitTypes
         SA10S300PSLN_5P85C = 'S-300PS 5P85C ln',
         SA10S300PSLN_5P85D = 'S-300PS 5P85D ln',
         SS1CScudBLN = 'Scud_B',
-        TPzFuchs = 'TPZ'
+        TPzFuchs = 'TPZ',
       },
       All = {}, -- resolved on startup processing
       NATOReporting = {
         -- HQ
         ['Dog Ear radar'] = 'PPRU-M1 \'Dog Ear\' (Sborka-M1):\'Dog Ear\'',
         -- IFV
-        ['BMD-1'] = ':', -- no NATO designation?
-        ['BMP-1'] = ':(BMP M1970)',
-        ['BMP-2'] = ':', -- no NATO designation?
-        ['BMP-3'] = ':(BMP M1990/1)',
+        ['BMD-1'] = ':(M1970)',
+        ['BMP-1'] = ':(M1970)',
+        ['BMP-2'] = ':(M1981)',
+        ['BMP-3'] = ':(M1990/1)',
         -- ARV
-        ['BRDM-2'] = ':', -- no NATO designation?
-        ['BTR_D'] = ':(BMD M1979)',
-        ['Boman'] = ':', -- no NATO designation?
+        ['BRDM-2'] = ':(M1966)',
+        ['BTR_D'] = ':(M1979)',
+        ['Boman'] = ':(M1974)',
         -- APC
-        ['MTLB'] = ':', -- no NATO designation?
+        ['MTLB'] = ':(M1970)',
         -- SPH
-        ['SAU 2-C9'] = 'SAU:(2S9)', -- no NATO designation?
-        ['SAU Akatsia'] = 'SAU:(M1973)',
-        ['SAU Gvozdika'] = 'SAU:(M1974)',
-        ['SAU Msta'] = 'SAU:(M1990)',
+        ['SAU 2-C9'] = 'SAU-120:(M1985)',
+        ['SAU Akatsia'] = 'SAU-152:(M1973)',
+        ['SAU Gvozdika'] = 'SAU-122:(M1974)',
+        ['SAU Msta'] = 'SAU-152:(M1990)',
         -- MLRS
         ['Grad-URAL'] = 'BM-21:(M1964)',
         ['Uragan_BM-27'] = 'BM-27:(M1977)',
         ['Smerch'] = 'BM-30:(M1983)',
         -- SSM
-        ['Scud_B'] = 'SS-1C \'Scud B\' (R-17/MAZ-543):\'Scud B\'',
+        ['Scud_B'] = 'SS-1C \'Scud-B\' (R-17/MAZ-543):\'Scud-B\'',
         ['Silkworm_SR'] = 'CSS-C-2 \'Silkworm\':\'Silkworm\'',
         ['hy_launcher'] = 'CSS-C-2 \'Silkworm\':\'Silkworm\'',
         -- EWR
         ['55G6 EWR'] = 'P-14 \'Tall Rack\' (Nebo):\'Tall Rack\'',
-        ['1L13 EWR'] = 'P-18 \'Spoon Rest D\' (Nebo-SV):\'Spoon Rest D\'',
+        ['1L13 EWR'] = 'P-18 \'Spoon Rest-D\' (Nebo-SV):\'Spoon Rest-D\'',
         -- SAM
-        ['S_75M_Volhov'] = 'SA-2D \'Guideline m.3\' (S-75M) SM-90:\'Guideline m.3\'',
-        ['SNR_75V'] = 'SA-2D \'Fan Song E\' (SNR-75V):\'Fan Song E\'',
+        ['S_75M_Volhov'] = 'SA-2D \'Guideline m.3\' (S-75M/SM-90):\'Guideline m.3\'',
+        ['SNR_75V'] = 'SA-2D \'Fan Song-E\' (SNR-75V):\'Fan Song-E\'',
         ['5p73 s-125 ln'] = 'SA-3 \'Goa\' (S-125):\'Goa\'',
-        ['p-19 s-125 sr'] = 'SA-3 \'Flat Face B\' (S-125/P-19):\'Flat Face B\'',
+        ['p-19 s-125 sr'] = 'SA-3 \'Flat Face-B\' (S-125/P-19):\'Flat Face-B\'',
         ['snr s-125 tr'] = 'SA-3 \'Low Blow\' (SNR-125):\'Low Blow\'',
         ['Kub 1S91 str'] = 'SA-6 \'Straight Flush\' (Kub):\'Straight Flush\'',
         ['Kub 2P25 ln'] = 'SA-6 \'Gainful\' (Kub):\'Gainful\'',
         ['Osa 9A33 ln'] = 'SA-8 \'Gecko\' (Osa):\'Gecko\'',
         ['Strela-1 9P31'] = 'SA-9 \'Gaskin\' (Strela-1):\'Gaskin\'',
-        ['S-300PS 40B6M tr'] = 'SA-10B \'Flap Lid A\' (S-300PS):\'Flap Lid A\'',
+        ['S-300PS 40B6M tr'] = 'SA-10B \'Flap Lid-A\' (S-300PS):\'Flap Lid-A\'',
         ['S-300PS 40B6MD sr'] = 'SA-10B \'Clam Shell\' (S-300PS):\'Clam Shell\'',
-        ['S-300PS 54K6 cp'] = 'SA-10B \'Grumble B\' (S-300PS):\'Grumble B\'',
-        ['S-300PS 5P85C ln'] = 'SA-10B \'Grumble B\' (S-300PS):\'Grumble B\'',
-        ['S-300PS 5P85D ln'] = 'SA-10B \'Grumble B\' (S-300PS):\'Grumble B\'',
+        ['S-300PS 54K6 cp'] = 'SA-10B \'Grumble-B\' (S-300PS):\'Grumble-B\'',
+        ['S-300PS 5P85C ln'] = 'SA-10B \'Grumble-B\' (S-300PS):\'Grumble-B\'',
+        ['S-300PS 5P85D ln'] = 'SA-10B \'Grumble-B\' (S-300PS):\'Grumble-B\'',
         ['S-300PS 64H6E sr'] = 'SA-10B \'Big Bird\' (S-300PS):\'Big Bird\'',
         ['SA-11 Buk CC 9S470M1'] = 'SA-11 \'Gadfly\' (Buk):\'Gadfly\'',
         ['SA-11 Buk LN 9A310M1'] = 'SA-11 \'Gadfly\' (Buk):\'Gadfly\'',
@@ -875,16 +882,16 @@ do --FDMM_UnitTypes
         -- HQ
         ['Dog Ear radar'] = '9S80M1 Sborka-M1:(PPRU-M1)',
         -- IFV
-        ['BMD-1'] = ':', -- no Obyekt designation?
+        ['BMD-1'] = ':(O.915)',
         ['BMP-1'] = ':(O.765Sp2)',
         ['BMP-2'] = ':(O.675)',
-        ['BMP-3'] = ':', -- no Obyekt designation?
+        ['BMP-3'] = ':(O.688M)',
         -- ARV
-        ['BRDM-2'] = ':', -- no Obyekt designation?
-        ['BTR_D'] = ':', -- no Obyekt designation?
+        ['BRDM-2'] = ':(BTR-40P-2)',
+        ['BTR_D'] = ':(O.925)',
         ['Boman'] = ':(O.10)',
         -- APC
-        ['MTLB'] = ':', -- no Obyekt designation?
+        ['MTLB'] = ':(O.6)',
         -- SPH
         ['SAU 2-C9'] = '2S9:(SO.120)',
         ['SAU Akatsia'] = '2S3:(SO.152)',
@@ -1083,17 +1090,17 @@ do --FDMM_UnitTypes
         ['LAZ Bus'] = 'LAZ-695 bus',
         ['Trolley bus'] = 'ZIU-9 bus',
         ['VAZ Car'] = 'VAZ-2109 car',
-        ['ZIL-4331'] = 'ZiL-4331 truck'
+        ['ZIL-4331'] = 'ZiL-4331 truck',
       },
       Nicknaming = {
-        ['Hummer'] = 'Humvee', ['M1043 HMMWV Armament'] = 'Humvee', ['M1045 HMMWV TOW'] = 'Humvee'
-      }
+        ['Hummer'] = 'Humvee', ['M1043 HMMWV Armament'] = 'Humvee', ['M1045 HMMWV TOW'] = 'Humvee',
+      },
     },
     Train = {
       Transport = {
         Locomotive = {
           UnionPacificES44AH = 'ES44AH',
-          RedStarCHME3T = 'Locomotive'
+          RedStarCHME3T = 'Locomotive',
         },
         Wagon = {
           BoxCar = 'Boxcartrinity',
@@ -1103,16 +1110,16 @@ do --FDMM_UnitTypes
           TankCarBlackLg = 'Tankcartrinity',
           TankCarBlueSh = 'Coach a tank blue',
           TankCarYellowSh = 'Coach a tank yellow',
-          WellCar = 'Wellcarnsc'
-        }
+          WellCar = 'Wellcarnsc',
+        },
       },
       Civilian = {
         Locomotive = {
-          ElectricVL80 = 'Electric locomotive'
+          ElectricVL80 = 'Electric locomotive',
         },
         Wagon = {
-          PassengerCar = 'Coach a passenger'
-        }
+          PassengerCar = 'Coach a passenger',
+        },
       },
       All = {}, -- resolved on startup processing
       ReportNaming = {
@@ -1127,54 +1134,60 @@ do --FDMM_UnitTypes
         ['Coach a tank yellow'] = 'Short tank car (yellow)',
         ['Wellcarnsc'] = 'Well car',
         ['Electric locomotive'] = 'VL80 locomotive',
-        ['Coach a passenger'] = 'Passenger car'
-      }
+        ['Coach a passenger'] = 'Passenger car',
+      },
     },
     Ship = {
       Carrier = {
         Kuznetsov_AdmiralKuznetsov = 'KUZNECOW', -- 1143.5
         Nimitz_CVN74JohnCStennis = 'Stennis',
-        Nimitz_CVN70CarlVinson = 'VINSON'
+        Nimitz_CVN70CarlVinson = 'VINSON',
       },
       HeliCarrier = {
-        Tarawa_LHA1Tarawa = 'LHA_Tarawa'
+        Tarawa_LHA1Tarawa = 'LHA_Tarawa',
       },
       BattleCruiser = {
-        Kirov_PyotrVelikiy = 'PIOTR' -- 1144.2
+        Kirov_PyotrVelikiy = 'PIOTR', -- 1144.2
       },
       Cruiser = {
         Slava_Moskva = 'MOSCOW', -- 1164
-        Ticonderoga = 'TICONDEROG'
+        Ticonderoga = 'TICONDEROG',
       },
       Destroyer = {
         Neustrashimy_Neustrashimy = 'NEUSTRASH', -- 1154.0
         OliverHazardPerry = 'PERRY',
         Type052B = '052B',
-        Type052C = '052C'
+        Type052C = '052C',
       },
       Frigate = {
         KrivakII_Rezky = 'REZKY', -- 1135M
         GrishaV = 'ALBATROS', -- 1124.4
-        Type054A = '054A'
+        Type054A = '054A',
       },
       Corvette = {
-        TarantulIII = 'MOLNIYA' -- 1241.1MP
+        TarantulIII = 'MOLNIYA', -- 1241.1MP
       },
       Submarine = {
         Kilo = 'KILO', -- 877
         Tango = 'SOM', -- 641B
-        Type093 = 'Type 093'
+        Type093 = 'Type 093',
       },
       Gunboat = {
-        Speedboat = 'speedboat' 
+        Speedboat = 'speedboat' ,
       },
       Transport = {
-        BulkCarrier_Yakushev = 'Dry-cargo ship-1',
-        ContainerShip_Ivanov = 'Dry-cargo ship-2',
-        Tanker_Elnya = 'ELNYA'
+        BulkCargo = {
+          BulkCarrier_Yakushev = 'Dry-cargo ship-1',
+        },
+        ISOCargo = {
+          ContainerShip_Ivanov = 'Dry-cargo ship-2',
+        },
+        Refueler = {
+          Tanker_Elnya = 'ELNYA',
+        },
       },
       Civilian = {
-        Yacht_Zvezdny = 'ZWEZDNY'
+        Yacht_Zvezdny = 'ZWEZDNY',
       },
       All = {}, -- resolved on startup processing
       NATOReporting = {
@@ -1191,7 +1204,7 @@ do --FDMM_UnitTypes
         ['KILO'] = 'Kilo:',
         ['SOM'] = 'Tango:',
         ['Type 093'] = 'Shang:',
-        ['ELNYA'] = 'Altay::Tanker'
+        ['ELNYA'] = 'Altay::Tanker',
       },
       WTOReporting = {
         ['KUZNECOW'] = 'Orel:(P.1143.5)',
@@ -1207,7 +1220,7 @@ do --FDMM_UnitTypes
         ['KILO'] = 'Paltus:(P.877)',
         ['SOM'] = 'Som:(P.641B)',
         ['Type 093'] = '09-III:',
-        ['ELNYA'] = 'Altay:(P.160):Oiler'
+        ['ELNYA'] = 'Altay:(P.160):Oiler',
       },
       ReportNaming = {
         ['KUZNECOW'] = '%R-class Carrier',
@@ -1232,11 +1245,11 @@ do --FDMM_UnitTypes
         ['Dry-cargo ship-1'] = 'Bulk carrier Ship',
         ['Dry-cargo ship-2'] = 'Container Ship',
         ['ELNYA'] = '%R-class %N',
-        ['ZWEZDNY'] = 'Civilian Yacht'
+        ['ZWEZDNY'] = 'Civilian Yacht',
       },
       Nicknaming = {
-        ['052C'] = 'Chinese Aegis'
-      }
+        ['052C'] = 'Chinese Aegis',
+      },
     },
     Static = { -- values are in format "category:shape_name:type"
       Airbase = {
@@ -1248,7 +1261,7 @@ do --FDMM_UnitTypes
         ReinforcedHangar = 'Fortifications:ukrytie:Shelter',
         StorageShelter = 'Fortifications:ukrytie_b:Shelter B',
         RepairWorkshop = 'Fortifications:tech:Repair workshop',
-        Windsock = 'Fortifications:H-Windsock_RW:Windsock'
+        Windsock = 'Fortifications:H-Windsock_RW:Windsock',
       },
       Barrier = {
         RoadBarrier = 'Cargos:f_bar_cargo:f_bar_cargo',
@@ -1256,7 +1269,7 @@ do --FDMM_UnitTypes
         LogsLg = 'Cargos:trunks_long_cargo:trunks_long_cargo',
         LogsSh = 'Cargos:trunks_small_cargo:trunks_small_cargo',
         PipesLg = 'Cargos:pipes_big_cargo:pipes_big_cargo',
-        PipesSh = 'Cargos:pipes_small_cargo:pipes_small_cargo'
+        PipesSh = 'Cargos:pipes_small_cargo:pipes_small_cargo',
       },
       Cargo = {
         AmmoBox = 'Cargos:ammo_box_cargo:ammo_cargo',
@@ -1267,7 +1280,7 @@ do --FDMM_UnitTypes
         ISOContainerSm = 'Cargos:iso_container_small_cargo:iso_container_small',
         M117Bombs = 'Cargos:m117_cargo:m117_cargo',
         OilTank = 'Cargos:oiltank_cargo:oiltank_cargo',
-        SlungCargo = 'Cargos:ab-212_cargo:uh1h_cargo'
+        SlungCargo = 'Cargos:ab-212_cargo:uh1h_cargo',
       },
       Effect = {
         BigSmoke = 'Effects::big_smoke',
@@ -1278,13 +1291,13 @@ do --FDMM_UnitTypes
         SmokingLine = 'Effects::smoking_line',
         SmokingLinePresets = { test1 = 1, test2 = 2, test3 = 3 }, -- effectPreset
         SmokyMarker = 'Effects::smoky_marker',
-        SmokyMarkerPresets = { test1 = 1, test2 = 2, test3 = 3 } -- effectPreset
+        SmokyMarkerPresets = { test1 = 1, test2 = 2, test3 = 3 }, -- effectPreset
       },
       Factory = {
         ChemicalTank = 'Fortifications:him_bak_a:Chemical tank A',
         ManufacturingPlant = 'Fortifications:kombinat:Tech combine',
         EquipmentHangar = 'Fortifications:ceh_ang_a:Tech hangar A',
-        FactoryWorkshop = 'Fortifications:tec_a:Workshop A'
+        FactoryWorkshop = 'Fortifications:tec_a:Workshop A',
       },
       FARP = {
         AmmoStorage = 'Fortifications:SetkaKP:FARP Ammo Dump Coating',
@@ -1294,7 +1307,7 @@ do --FDMM_UnitTypes
         Heliport = 'Heliports:FARPS:FARP',
         Helipad = 'Heliports:FARP:SINGLE_HELIPAD',
         HeliportCallsigns = { London = 1, Dallas = 2, Paris = 3, Moscow = 4, Berlin = 5, Rome = 6, Madrid = 7,
-                              Warsaw = 8, Dublin = 9, Perth = 10 } -- heliport_callsign_id
+                              Warsaw = 8, Dublin = 9, Perth = 10 }, -- heliport_callsign_id
       },
       Fort = {
         Barracks = 'Fortifications::house1arm',
@@ -1309,7 +1322,7 @@ do --FDMM_UnitTypes
         Outpost = 'Fortifications::outpost',
         RoadOutpost = 'Fortifications::outpost_road',
         StaffBuilding = 'Fortifications:aviashtab:Military staff',
-        WatchTower = 'Fortifications::house2arm'
+        WatchTower = 'Fortifications::house2arm',
       },
       Marker = {
         RedFlag = 'Fortifications:H-flag_R:Red_Flag',
@@ -1317,7 +1330,7 @@ do --FDMM_UnitTypes
         BlackTire = 'Fortifications:H-tyre_B:Black_Tyre',
         WhiteTire = 'Fortifications:H-tyre_W:White_Tyre',
         BlackTireRedFlag = 'Fortifications:H-tyre_B_RF:Black_Tyre_RF',
-        BlackTireWhiteFlag = 'Fortifications:H-tyre_B_WF:Black_Tyre_WF'
+        BlackTireWhiteFlag = 'Fortifications:H-tyre_B_WF:Black_Tyre_WF',
       },
       OilField = {
         OilDerrick = 'Fortifications:neftevyshka:Oil derrick',
@@ -1327,22 +1340,22 @@ do --FDMM_UnitTypes
       Railway = {
         RailwayCrossingA = 'Fortifications:pereezd_big:Railway crossing A',
         RailwayCrossingB = 'Fortifications:pereezd_small:Railway crossing B',
-        RailwayStation = 'Fortifications:r_vok_sd:Railway station'
+        RailwayStation = 'Fortifications:r_vok_sd:Railway station',
       },
       SeaShelf = {
         GasPlatform = 'Heliports:gas_platform:Gas platform',
-        OilRigPlatform = 'Heliports:oil_platform:Oil rig'
+        OilRigPlatform = 'Heliports:oil_platform:Oil rig',
       },
       Telecom = {
         CommsTower = 'Fortifications:tele_bash_m:Comms tower M',
-        BroadcastTower = 'Fortifications:tele_bash:TV tower'
+        BroadcastTower = 'Fortifications:tele_bash:TV tower',
       },
       Warehouse = {
         AmmunitionDepot = 'Warehouses:SkladC:.Ammunition depot',
         Tank1 = 'Warehouses:bak:Tank',
         Tank2 = 'Warehouses:airbase_tbilisi_tank_01:Tank 2',
         Tank3 = 'Warehouses:airbase_tbilisi_tank_02:Tank 3',
-        Warehouse = 'Warehouses:sklad:Warehouse'
+        Warehouse = 'Warehouses:sklad:Warehouse',
       },
       Civilian = {
         BoilerHouse = 'Fortifications:kotelnaya_a:Boiler-house A',
@@ -1382,7 +1395,7 @@ do --FDMM_UnitTypes
         SubsidiaryStF = 'Fortifications:saray-f:Subsidiary structure F',
         SubsidiaryStG = 'Fortifications:saray-g:Subsidiary structure G',
         Supermarket = 'Fortifications:uniwersam_a:Supermarket A',
-        WaterTower = 'Fortifications:wodokachka_a:Water tower A'
+        WaterTower = 'Fortifications:wodokachka_a:Water tower A',
       },
       All = {}, -- resolved on startup processing
       Plane = {}, -- resolved on startup processing
@@ -1496,13 +1509,13 @@ do --FDMM_UnitTypes
         ['Subsidiary structure F'] = 'Subsidiary structure (F)',
         ['Subsidiary structure G'] = 'Subsidiary structure (G)',
         ['Supermarket A'] = 'Supermarket',
-        ['Water tower A'] = 'Water tower'
-      }
+        ['Water tower A'] = 'Water tower',
+      },
     },
     All = {}, -- resolved on startup processing
     NATOReporting = {}, -- resolved on startup processing
     WTOReporting = {}, -- resolved on startup processing
-    Nicknaming = {} -- resolved on startup processing
+    Nicknaming = {}, -- resolved on startup processing
   }
 
   function fdmm.unitTypes.processEntries()
