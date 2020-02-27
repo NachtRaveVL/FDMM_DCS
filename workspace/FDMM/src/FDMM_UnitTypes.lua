@@ -197,7 +197,7 @@ do --FDMM_UnitTypes
         ['Su-17M4'] = ':\'Fitter-K\'',
         ['Su-24M'] = ':\'Fencer-D\'', ['Su-24MR'] = ':\'Fencer-E\'',
         ['Su-25'] = ':\'Frogfoot\'', ['Su-25T'] = ':\'Frogfoot\'', ['Su-25TM'] = ':\'Frogfoot\'',
-        ['Su-27'] = ':\'Flanker\'', ['Su-30'] = ':\'Flanker-C\'', ['Su-33'] = ':\'Flanker-D\'',
+        ['Su-27'] = ':\'Flanker-B\'', ['Su-30'] = ':\'Flanker-C\'', ['Su-33'] = ':\'Flanker-D\'',
         ['Su-34'] = ':\'Fullback\'',
         ['Tu-22M3'] = ':\'Backfire-C\'',
         ['Tu-95MS'] = ':\'Bear-H\'',
@@ -384,7 +384,7 @@ do --FDMM_UnitTypes
             Launcher = {
               M270MLRSLN = 'MLRS'
             }
-          },
+          }
         },
         SPH = {
           M109Paladin = 'M-109',
@@ -454,7 +454,7 @@ do --FDMM_UnitTypes
           TPzFuchs = 'TPZ'
         },
         SSM = {
-          ScudBLauncher = 'Scud_B'
+          SS1CScudBLN = 'Scud_B'
         },
         MLRS = {
           BM21Grad = 'Grad-URAL',
@@ -462,7 +462,7 @@ do --FDMM_UnitTypes
           BM30Smerch_9A52 = 'Smerch',
           M270 = { -- also has tracked components
             _HasTrackedComps = true,
-            HQ = {
+            FireControl = {
               M270MLRSFDDM = 'MLRS FDDM'
             }
           }
@@ -808,24 +808,41 @@ do --FDMM_UnitTypes
         SA10S300PSSR_64H6E = 'S-300PS 64H6E sr',
         SA10S300PSLN_5P85C = 'S-300PS 5P85C ln',
         SA10S300PSLN_5P85D = 'S-300PS 5P85D ln',
-        ScudBLauncher = 'Scud_B',
+        SS1CScudBLN = 'Scud_B',
         TPzFuchs = 'TPZ'
       },
       All = {}, -- resolved on startup processing
       NATOReporting = {
-        ['Dog Ear radar'] = 'PPRU-M1 \'Dog Ear\' (Sborka):\'Dog Ear\'',
+        -- HQ
+        ['Dog Ear radar'] = 'PPRU-M1 \'Dog Ear\' (Sborka-M1):\'Dog Ear\'',
+        -- IFV
+        ['BMD-1'] = ':', -- no NATO designation?
+        ['BMP-1'] = ':(BMP M1970)',
+        ['BMP-2'] = ':', -- no NATO designation?
+        ['BMP-3'] = ':(BMP M1990/1)',
+        -- ARV
+        ['BRDM-2'] = ':', -- no NATO designation?
+        ['BTR_D'] = ':(BMD M1979)',
+        ['Boman'] = ':', -- no NATO designation?
+        -- APC
+        ['MTLB'] = ':', -- no NATO designation?
+        -- SPH
         ['SAU 2-C9'] = 'SAU:(2S9)', -- no NATO designation?
         ['SAU Akatsia'] = 'SAU:(M1973)',
         ['SAU Gvozdika'] = 'SAU:(M1974)',
         ['SAU Msta'] = 'SAU:(M1990)',
-        ['55G6 EWR'] = 'P-14 \'Tall Rack\' (Nebo):\'Tall Rack\'',
-        ['1L13 EWR'] = 'P-18 \'Spoon Rest D\' (Nebo-SV):\'Spoon Rest D\'',
-        ['Scud_B'] = 'SS-1C \'Scud B\' (R-17/MAZ-543):\'Scud B\'',
-        ['Silkworm_SR'] = 'CSS-C-2 \'Silkworm\':\'Silkworm\'',
-        ['hy_launcher'] = 'CSS-C-2 \'Silkworm\':\'Silkworm\'',
+        -- MLRS
         ['Grad-URAL'] = 'BM-21:(M1964)',
         ['Uragan_BM-27'] = 'BM-27:(M1977)',
         ['Smerch'] = 'BM-30:(M1983)',
+        -- SSM
+        ['Scud_B'] = 'SS-1C \'Scud B\' (R-17/MAZ-543):\'Scud B\'',
+        ['Silkworm_SR'] = 'CSS-C-2 \'Silkworm\':\'Silkworm\'',
+        ['hy_launcher'] = 'CSS-C-2 \'Silkworm\':\'Silkworm\'',
+        -- EWR
+        ['55G6 EWR'] = 'P-14 \'Tall Rack\' (Nebo):\'Tall Rack\'',
+        ['1L13 EWR'] = 'P-18 \'Spoon Rest D\' (Nebo-SV):\'Spoon Rest D\'',
+        -- SAM
         ['S_75M_Volhov'] = 'SA-2D \'Guideline m.3\' (S-75M) SM-90:\'Guideline m.3\'',
         ['SNR_75V'] = 'SA-2D \'Fan Song E\' (SNR-75V):\'Fan Song E\'',
         ['5p73 s-125 ln'] = 'SA-3 \'Goa\' (S-125):\'Goa\'',
@@ -846,27 +863,45 @@ do --FDMM_UnitTypes
         ['SA-11 Buk SR 9S18M1'] = 'SA-11 \'Tube Arm\' (Buk):\'Tube Arm\'',
         ['Strela-10M3'] = 'SA-13 \'Gopher\' (Strela-10M3):\'Gopher\'',
         ['Tor 9A331'] = 'SA-15 \'Gauntlet\' (Tor):\'Gauntlet\'',
+        ['2S6 Tunguska'] = 'SA-19 \'Grison\' (Tunguska):\'Grison\'',
+        -- SAM (Infantry)
         ['Igla manpad INS'] = 'SA-18 \'Grouse\' (Igla):\'Grouse\'',
         ['SA-18 Igla comm'] = 'SA-18 \'Grouse\' (Igla):\'Grouse\'',
         ['SA-18 Igla manpad'] = 'SA-18 \'Grouse\' (Igla):\'Grouse\'',
-        ['2S6 Tunguska'] = 'SA-19 \'Grison\' (Tunguska):\'Grison\'',
         ['SA-18 Igla-S comm'] = 'SA-24 \'Grinch\' (Igla-S):\'Grinch\'',
         ['SA-18 Igla-S manpad'] = 'SA-24 \'Grinch\' (Igla-S):\'Grinch\' ',
       },
       WTOReporting = {
-        ['Dog Ear radar'] = '9S80M1 Sborka:',
+        -- HQ
+        ['Dog Ear radar'] = '9S80M1 Sborka-M1:(PPRU-M1)',
+        -- IFV
+        ['BMD-1'] = ':', -- no Obyekt designation?
+        ['BMP-1'] = ':(O.765Sp2)',
+        ['BMP-2'] = ':(O.675)',
+        ['BMP-3'] = ':', -- no Obyekt designation?
+        -- ARV
+        ['BRDM-2'] = ':', -- no Obyekt designation?
+        ['BTR_D'] = ':', -- no Obyekt designation?
+        ['Boman'] = ':(O.10)',
+        -- APC
+        ['MTLB'] = ':', -- no Obyekt designation?
+        -- SPH
         ['SAU 2-C9'] = '2S9:(SO.120)',
         ['SAU Akatsia'] = '2S3:(SO.152)',
         ['SAU Gvozdika'] = '2S1:(SAU.122)',
         ['SAU Msta'] = '2S19:(SP.152)',
-        ['55G6 EWR'] = '55G6 Nebo:(P-14)',
-        ['1L13 EWR'] = '1L13 Nebo-SV:(P-18)',
-        ['Scud_B'] = '9K72 R-17 Elbrus:(9P117)',
-        ['Silkworm_SR'] = 'HY-1A:',
-        ['hy_launcher'] = 'HY-1A:',
+        -- MLRS
         ['Grad-URAL'] = '9K51 BM-21:',
         ['Uragan_BM-27'] = '9K57 BM-27:(9P140)',
         ['Smerch'] = '9K58 BM-30:',
+        -- SSM
+        ['Scud_B'] = '9K72 R-17 Elbrus:(9P117M)',
+        ['Silkworm_SR'] = 'HY-1A:',
+        ['hy_launcher'] = 'HY-1A:',
+        -- EWR
+        ['55G6 EWR'] = '55G6 Nebo:(P-14)',
+        ['1L13 EWR'] = '1L13 Nebo-SV:(P-18)',
+        -- SAM
         ['S_75M_Volhov'] = 'S-75M SM-90:',
         ['SNR_75V'] = 'S-75M SNR-75V:',
         ['5p73 s-125 ln'] = 'S-125 5P73:',
@@ -887,10 +922,11 @@ do --FDMM_UnitTypes
         ['SA-11 Buk SR 9S18M1'] = '9K37 Buk:(9S18M1)',
         ['Strela-10M3'] = '9K35M Strela-10M3:(9A35M3)',
         ['Tor 9A331'] = '9K330 Tor:(9A331)',
+        ['2S6 Tunguska'] = '2S6 Tunguska:',
+        -- SAM (Infantry)
         ['Igla manpad INS'] = '9K38 Igla:',
         ['SA-18 Igla comm'] = '9K38 Igla:',
         ['SA-18 Igla manpad'] = '9K38 Igla:',
-        ['2S6 Tunguska'] = '2S6 Tunguska:',
         ['SA-18 Igla-S comm'] = '9K338 Igla-S:',
         ['SA-18 Igla-S manpad'] = '9K338 Igla-S:',
       },
@@ -913,11 +949,23 @@ do --FDMM_UnitTypes
         -- IFV
         ['M-2 Bradley'] = 'M2A2 Bradley',
         ['Marder'] = 'Marder 1A3',
+        ['MCV-80'] = 'MCV-80 Warrior',
         ['ZBD04A'] = 'ZBD-04A',
         -- SPG/ATGM
         ['M1045 HMMWV TOW'] = 'M1045 HMMWV TOW',
         ['M1128 Stryker MGS'] = 'M1128 Stryker MGS',
         ['M1134 Stryker ATGM'] = 'M1134 Stryker ATGM',
+        -- ARV
+        ['BTR_D'] = 'BTR-RD',
+        ['Boman'] = 'MT-LBu Boman',
+        -- APC
+        ['AAV7'] = 'AAV-7',
+        ['Cobra'] = 'Cobra BMT-2',
+        ['M1043 HMMWV Armament'] = 'M1043 HMMWV Mg',
+        ['M1126 Stryker ICV'] = 'M1126 Stryker ICV', 
+        ['M-113'] = 'M113 APC',
+        ['MTLB'] = 'MT-LB',
+        ['TPZ'] = 'TPz Fuchs',
         -- SPH
         ['SAU 2-C9'] = '%R Nona-S',
         ['SAU Akatsia'] = '%R Akatsia',
@@ -925,31 +973,20 @@ do --FDMM_UnitTypes
         ['SAU Msta'] = '%R Msta-S',
         ['M-109'] = 'M109 Paladin',
         ['SpGH_Dana'] = 'SpGH Dana',
-        -- ARV
-        ['Boman'] = 'MT-LBu Boman',
-        -- APC
-        ['AAV7'] = 'AAV-7',
-        ['BTR_D'] = 'BTR-D',
-        ['Cobra'] = 'Cobra BMT-2',
-        ['M1043 HMMWV Armament'] = 'M1043 HMMWV Mg',
-        ['M1126 Stryker ICV'] = 'M1126 Stryker ICV', 
-        ['M-113'] = 'M113 APC',
-        ['MTLB'] = 'MT-LB',
-        ['TPZ'] = 'TPz Fuchs',
-        -- EWR
-        ['55G6 EWR'] = '%R EWR',
-        ['1L13 EWR'] = '%R EWR',
-        ['Roland Radar'] = 'Roland EWR',
-        -- SSM
-        ['Scud_B'] = '%R LN',
-        ['Silkworm_SR'] = '%R SR',
-        ['hy_launcher'] = '%R LN',
         -- MLRS
         ['Grad-URAL'] = '%R Grad',
         ['Uragan_BM-27'] = '%R Uragan',
         ['Smerch'] = '%R Smerch',
         ['MLRS'] = 'M270 MLRS LN',
         ['MLRS FDDM'] = 'M270 MLRS FDDM',
+        -- SSM
+        ['Scud_B'] = '%R LN',
+        ['Silkworm_SR'] = '%R SR',
+        ['hy_launcher'] = '%R LN',
+        -- EWR
+        ['55G6 EWR'] = '%R EWR',
+        ['1L13 EWR'] = '%R EWR',
+        ['Roland Radar'] = 'Roland EWR',
         -- SAM
         ['Hawk cwar'] = 'Hawk AN/MPQ-55 CWAR',
         ['Hawk ln'] = 'Hawk M192 LN',
@@ -987,10 +1024,11 @@ do --FDMM_UnitTypes
         ['SA-11 Buk SR 9S18M1'] = '%R SR',
         ['Strela-10M3'] = '%R',
         ['Tor 9A331'] = '%R',
+        ['2S6 Tunguska'] = '%R',
+        -- SAM (Infantry)
         ['Igla manpad INS'] = 'Insurgent %R MANPAD',
         ['SA-18 Igla comm'] = '%R Comm',
         ['SA-18 Igla manpad'] = '%R MANPAD',
-        ['2S6 Tunguska'] = '%R',
         ['SA-18 Igla-S comm'] = '%R Comm',
         ['SA-18 Igla-S manpad'] = '%R MANPAD',
         ['Stinger comm'] = 'Stinger Comm',
@@ -1017,12 +1055,19 @@ do --FDMM_UnitTypes
         ['ZiL-131 APA-80'] = 'APA-80/ZiL-131',
         ['HEMTT TFFT'] = 'M1142 HEMTT TFFT',
         -- Transport
-        ['Hummer'] = 'M1025 HMMWV',
+        ['Ural-4320-31'] = 'Ural-4320-31 armored truck',
+        ['GAZ-66'] = 'GAZ-66 truck',
+        ['Ural-375'] = 'Ural-375 truck',
+        ['GAZ-3308'] = 'GAZ-3308 truck',
         ['KAMAZ Truck'] = 'KamAZ-43101 truck',
         ['KrAZ6322'] = 'KrAZ-6322 truck',
-        ['Land_Rover_109_S3'] = 'Land Rover 109 S3',
         ['M 818'] = 'M818 truck',
+        ['Ural-4320T'] = 'Ural-4320T truck',
+        -- Car
+        ['Hummer'] = 'M1025 HMMWV',
+        ['Land_Rover_109_S3'] = 'Land Rover 109 S3',
         ['Tigr_233036'] = 'GAZ-233036 Tigr',
+        ['UAZ-469'] = 'UAZ-469 car',
         -- Fort (armed)
         ['Bunker'] = 'Pillbox bunker',
         ['Sandbox'] = 'Hillside bunker',
@@ -1033,6 +1078,7 @@ do --FDMM_UnitTypes
         ['outpost_road'] = 'Road outpost',
         ['warning_board_a'] = 'Warning board',
         -- Civilian
+        ['MAZ-6303'] = 'MAZ-6303 trailer',
         ['IKARUS Bus'] = 'IKARUS-280 bus',
         ['LAZ Bus'] = 'LAZ-695 bus',
         ['Trolley bus'] = 'ZIU-9 bus',
@@ -1148,20 +1194,20 @@ do --FDMM_UnitTypes
         ['ELNYA'] = 'Altay::Tanker'
       },
       WTOReporting = {
-        ['KUZNECOW'] = 'Orel:(1143.5)',
-        ['PIOTR'] = 'Orlan:(1144.2)',
-        ['MOSCOW'] = 'Atlant:(1164)',
-        ['NEUSTRASH'] = 'Yastreb:(1154.0)',
+        ['KUZNECOW'] = 'Orel:(P.1143.5)',
+        ['PIOTR'] = 'Orlan:(P.1144.2)',
+        ['MOSCOW'] = 'Atlant:(P.1164)',
+        ['NEUSTRASH'] = 'Yastreb:(P.1154.0)',
         ['052B'] = 'Guangzhou:',
         ['052C'] = 'Lanzhou:',
-        ['REZKY'] = 'Burevestnik M:(1135M)',
-        ['ALBATROS'] = 'Albatros:(1124.4)',
+        ['REZKY'] = 'Burevestnik M:(P.1135M)',
+        ['ALBATROS'] = 'Albatros:(P.1124.4)',
         ['054A'] = 'Xuzhou:',
-        ['MOLNIYA'] = 'Molniya:(1241.1MP)',
-        ['KILO'] = 'Paltus:(877)',
-        ['SOM'] = 'Som:(641B)',
+        ['MOLNIYA'] = 'Molniya:(P.1241.1MP)',
+        ['KILO'] = 'Paltus:(P.877)',
+        ['SOM'] = 'Som:(P.641B)',
         ['Type 093'] = '09-III:',
-        ['ELNYA'] = 'Altay:(160):Oiler'
+        ['ELNYA'] = 'Altay:(P.160):Oiler'
       },
       ReportNaming = {
         ['KUZNECOW'] = '%R-class Carrier',
