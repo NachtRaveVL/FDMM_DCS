@@ -1,7 +1,7 @@
 ---
 -- FDMM FARP Module.
 -- @module FDMM_FARP
-env.info('---FDMM_FARP Start---')
+env.info("---FDMM_FARP Start---")
 
 require('Territory/FDMM_Facility')
 
@@ -50,4 +50,4 @@ do -- FDMM_FARP
   -- TODO: me.
 end -- FDMM_FARP
 
-env.info('---FDMM_FARP End---')
+env.info("---FDMM_FARP End---")

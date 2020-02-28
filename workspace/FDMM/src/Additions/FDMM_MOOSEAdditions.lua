@@ -1,7 +1,7 @@
 ---
 -- FDMM MOOSE Additions Module.
 -- @module FDMM_MOOSEAdditions
-env.info('---FDMM_MOOSEAdditions Start---')
+env.info("---FDMM_MOOSEAdditions Start---")
 
 assert(routines, 'MOOSE not initialized.')
 
@@ -58,4 +58,4 @@ do --FDMM_MOOSEAdditions
 
 end --FDMM_MOOSEAdditions
 
-env.info('---FDMM_MOOSEAdditions End---')
+env.info("---FDMM_MOOSEAdditions End---")

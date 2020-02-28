@@ -5,7 +5,7 @@ env.info("---FDMM_Config Start---");
 
 -- FDMM versioning.
 fdmm.majorVersion = 0
-fdmm.minorVersion = 2
+fdmm.minorVersion = 3
 
 --- FDMM enumerations.
 fdmm.enums = {}
@@ -302,6 +302,7 @@ do --FDMM_UnitType_Defines
     Infantry = 'Infantry',
     Fort = 'Fort',
     Civilian = 'Civilian',
+    Animal = 'Animal',
   }
 
   --- Vehicle ground unit types.
@@ -320,7 +321,7 @@ do --FDMM_UnitType_Defines
     SPH = 'SPH',
     EWR = 'EWR',
     SAM = 'SAM',
-    AAA = 'AAA',
+    SPAAG = 'SPAAG',
     Power = 'Power',
     Fire = 'Fire',
     Transport = 'Transport',
@@ -415,6 +416,7 @@ do --FDMM_UnitType_Defines
     TrackOptical = 'TrackOptical',
     RadarArray = 'RadarArray',
     DataProcessing = 'DataProcessing',
+    Loader = 'Loader',
     Launcher = 'Launcher',
     MasterLauncher = 'MasterLauncher',
     SlaveLauncher = 'SlaveLauncher',
@@ -496,6 +498,11 @@ do --FDMM_UnitType_Defines
     Telecom = 'Telecom',
     Warehouse = 'Warehouse',
     Civilian = 'Civilian',
+    Plane = 'Plane',
+    Helicopter = 'Helicopter',
+    Ground = 'Ground',
+    Train = 'Train',
+    Ship = 'Ship',
   }
 
 end
@@ -506,6 +513,29 @@ do --FDMM_Config
   function fdmm.config.runUserSetupScript()
     fdmm.setup = {} -- clear
     dofile(fdmm.fullPath .. "FDMM_Setup.lua")
+  end
+
+  --- Attempts to load the DCS DB module.
+  function fdmm.config.loadDCSDBIfAble()
+    if not db and fdmm.setup.loadDB then
+      __DCS_VERSION__ = '2.5' -- doesn't matter
+      local retries = 3
+      while(retries > 0) do
+        -- First call usually fails, second call is usually fine.
+        local status,retVal = pcall(require,'./Scripts/Database/db_scan')
+        if status then break end
+        retries = retries - 1
+      end
+      __DCS_VERSION__ = nil
+    end
+  end
+
+  --- Attempts to load the DCS JSON module.
+  function fdmm.config.loadDCSJSONIfAble()
+    if not JSON and fdmm.setup.loadJSON then
+      local status,retVal = pcall(require,'./Scripts/JSON')
+      if status then JSON = retVal end
+    end
   end
 
   --- Creates group prefix cache from initial mission group placements.

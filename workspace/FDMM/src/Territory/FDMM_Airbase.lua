@@ -1,7 +1,7 @@
 ---
 -- FDMM Airbase Module.
 -- @module FDMM_Airbase
-env.info('---FDMM_Airbase Start---')
+env.info("---FDMM_Airbase Start---")
 
 require('Territory/FDMM_Facility')
 
@@ -50,4 +50,4 @@ do -- FDMM_Airbase
   -- TODO: me.
 end -- FDMM_Airbase
 
-env.info('---FDMM_Airbase End---')
+env.info("---FDMM_Airbase End---")

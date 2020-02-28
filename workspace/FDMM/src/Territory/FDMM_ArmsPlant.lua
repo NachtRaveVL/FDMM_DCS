@@ -1,7 +1,7 @@
 ---
 -- FDMM Arms Plant Module.
 -- @module FDMM_ArmsPlant
-env.info('---FDMM_ArmsPlant Start---')
+env.info("---FDMM_ArmsPlant Start---")
 
 require('Territory/FDMM_Facility')
 
@@ -50,4 +50,4 @@ do -- FDMM_ArmsPlant
   -- TODO: me.
 end -- FDMM_ArmsPlant
 
-env.info('---FDMM_ArmsPlant End---')
+env.info("---FDMM_ArmsPlant End---")

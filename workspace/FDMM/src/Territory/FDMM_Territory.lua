@@ -1,7 +1,7 @@
 ---
 -- FDMM Territory Module.
 -- @module FDMM_Territory
-env.info('---FDMM_Territory Start---')
+env.info("---FDMM_Territory Start---")
 
 --- FDMM territories module.
 fdmm.territory = {}
@@ -278,20 +278,20 @@ do --FDMM_Territory
 
   --- Dumps territories to debug log.
   function fdmm.territory.dumpTerritories()
+    env.info("FDMM: Dumping territories...")
     function _envInfoTerritory(territoryName, territory)
-      env.info('    \'' .. territoryName .. '\':')
-      env.info('      ' .. 'centerPoint: ' .. fdmm.utils.pos2ToLoggableString(territory.centerPoint))
-      env.info('      ' .. 'capturePoint: ' .. fdmm.utils.pos2ToLoggableString(territory.capturePoint))
+      env.info("    \'" .. territoryName .. "\':")
+      env.info("      " .. "centerPoint: " .. fdmm.utils.pos2ToLoggableString(territory.centerPoint))
+      env.info("      " .. "capturePoint: " .. fdmm.utils.pos2ToLoggableString(territory.capturePoint))
       for linkedTerritoryName, linkedTerritory in pairs(territory.linkedTerritories) do
-        env.info ('      ' .. 'Linked /w: \'' .. linkedTerritoryName .. '\'.')
+        env.info ("      " .. "Linked /w: \'" .. linkedTerritoryName .. "\'.")
       end
     end
-    env.info('--FDMM Territories Dump--')
-    env.info('  Sea Territories:')
+    env.info("  Sea Territories:")
     for territoryName, territory in pairs(fdmm.territories.sea) do
       _envInfoTerritory(territoryName, territory)
     end
-    env.info('  Land Territories:')
+    env.info("  Land Territories:")
     for territoryName, territory in pairs(fdmm.territories.land) do
       _envInfoTerritory(territoryName, territory)
     end
@@ -299,4 +299,4 @@ do --FDMM_Territory
 
 end --FDMM_Territory
 
-env.info('---FDMM_Territory End---')
+env.info("---FDMM_Territory End---")

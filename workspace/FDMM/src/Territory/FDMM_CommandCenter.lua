@@ -1,7 +1,7 @@
 ---
 -- FDMM Command Center Module.
 -- @module FDMM_CommandCenter
-env.info('---FDMM_CommandCenter Start---')
+env.info("---FDMM_CommandCenter Start---")
 
 require('Territory/FDMM_Facility')
 
@@ -50,4 +50,4 @@ do -- FDMM_CommandCenter
   -- TODO: me.
 end -- FDMM_CommandCenter
 
-env.info('---FDMM_CommandCenter End---')
+env.info("---FDMM_CommandCenter End---")

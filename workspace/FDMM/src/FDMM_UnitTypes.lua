@@ -67,12 +67,13 @@ do --FDMM_UnitTypes
       },
       Bomber = {
         Strategic = {
-          B1B = 'B1-B',
+          B1B = 'B-1B',
           B52H = 'B-52H',
           Tu95MS = 'Tu-95MS',
           Tu160 = 'Tu-160',
         },
         Tactical = {
+          F111F = 'F-111F',
           Tu22M3 = 'Tu-22M3',
         },
         Attack = {
@@ -150,7 +151,8 @@ do --FDMM_UnitTypes
           Yak40 = 'Yak-40',
         },
       },
-      CarrierBorne = {
+      All = {}, -- resolved on startup processing
+      CarrierBorne = { -- planes able to be spawned on ships
         AV8BNA = 'AV8BNA',
         E2C = 'E-2C',
         F4E = 'F-4E',
@@ -159,7 +161,7 @@ do --FDMM_UnitTypes
         S3B = 'S-3B', S3BTanker = 'S-3B Tanker',
         Su33 = 'Su-33',
       },
-      PlayerControllable = {
+      PlayerControllable = { -- planes that players can fly
         A10A = 'A-10A', A10C = 'A-10C',
         AJS37 = 'AJS37',
         AV8BNA = 'AV8BNA',
@@ -181,7 +183,10 @@ do --FDMM_UnitTypes
         Yak52 = 'Yak-52',
         CEII = 'Christen Eagle II',
       },
-      All = {}, -- resolved on startup processing
+      Unavailable = { -- planes in the DB tables, but not spawnable
+        F111F = 'F-111F',
+        MiG29K = 'MiG-29K',
+      },
       NATOReporting = {
         ['AV8BNA'] = ':(N/A)',
         ['A-50'] = ':\'Mainstay\'',
@@ -216,7 +221,7 @@ do --FDMM_UnitTypes
       ReportNaming = {
         ['AJS37'] = 'AJS 37',
         ['AV8BNA'] = 'AV-8B',
-        ['B1-B'] = 'B-1B',
+        ['B-1B'] = 'B-1B',
         ['F-16C_50'] = 'F-16CM bl.50',
         ['FA-18C_hornet'] = 'F/A-18C l.20',
         ['F-86F Sabre'] = 'F-86F',
@@ -232,7 +237,7 @@ do --FDMM_UnitTypes
         ['A-10A'] = 'Thunderbolt II', ['A-10C'] = 'Thunderbolt II',
         ['AJS37'] = 'Viggen',
         ['AV8BNA'] = 'Harrier II',
-        ['B1-B'] = 'Lancer',
+        ['B-1B'] = 'Lancer',
         ['B-52H'] = 'Stratofortress',
         ['C-101CC'] = 'Aviojet', ['C-101EB'] = 'Aviojet',
         ['C-17A'] = 'Globemaster III',
@@ -247,6 +252,7 @@ do --FDMM_UnitTypes
         ['F-16C bl.50'] = 'Fighting Falcon', ['F-16C_50'] = 'Fighting Falcon', ['F-16C bl.52d'] = 'Fighting Falcon',
         ['F/A-18A'] = 'Hornet', ['F/A-18C'] = 'Hornet', ['FA-18C_hornet'] = 'Hornet',
         ['F-86F Sabre'] = 'Sabre',
+        ['F-111F'] = 'Aardvark',
         ['F-117A'] = 'Nighthawk',
         ['KC-135'] = 'Stratotanker', ['KC135MPRS'] = 'Stratotanker',
         ['L-39C'] = 'Albatros', ['L-39ZA'] = 'Albatros',
@@ -267,6 +273,7 @@ do --FDMM_UnitTypes
         AH1W = 'AH-1W',
         AH64A = 'AH-64A', AH64D = 'AH-64D',
         Ka50 = 'Ka-50',
+        Ka52 = 'Ka-52',
         Mi24V = 'Mi-24V',
         Mi28N = 'Mi-28N',
       },
@@ -286,6 +293,7 @@ do --FDMM_UnitTypes
         },
         Tactical = {
           Mi8MTV2 = 'Mi-8MT',
+          SH3W = 'SH-3W',
           SH60B = 'SH-60B',
           UH1H = 'UH-1H',
           UH60A = 'UH-60A',
@@ -297,30 +305,39 @@ do --FDMM_UnitTypes
           UH60A = 'UH-60A',
         },
       },
-      ASW = { -- Helicopters available for ASW duty
+      ASW = {
         Ka27 = 'Ka-27',
+        SH3W = 'SH-3W',
         SH60B = 'SH-60B',
       },
-      CarrierBorne = {
+      All = {}, -- resolved on startup processing
+      CarrierBorne = { -- helicopters able to be spawned on ship
         AH1W = 'AH-1W',
         CH53E = 'CH-53E',
         Ka27 = 'Ka-27',
+        SH3W = 'SH-3W',
         SH60B = 'SH-60B',
       },
-      PlayerControllable = {
+      PlayerControllable = { -- helicopters that players can fly
         Ka50 = 'Ka-50',
         SA342L = 'SA342L', SA342M = 'SA342M', SA342Mg = 'SA342Minigun', SA342Ms = 'SA342Mistral',
         UH1H = 'UH-1H',
         Mi8MTV2 = 'Mi-8MT',
       },
-      All = {}, -- resolved on startup processing
+      Unavailable = { -- helicopters in the DB tables, but not spawnable
+        Ka52 = 'Ka-52',
+        SH3W = 'SH-3W',
+      },
       NATOReporting = {
         ['Ka-27'] = ':\'Helix\'',
         ['Ka-50'] = ':\'Hokum-A\'',
+        ['Ka-52'] = ':\'Hokum-B\'',
         ['Mi-8MT'] = ':\'Hip\'',
         ['Mi-24V'] = ':\'Hind-E\'',
         ['Mi-26'] = ':\'Halo\'',
         ['Mi-28N'] = ':\'Havoc\'',
+      },
+      WTOReporting = {
       },
       ReportNaming = {
         ['SA342L'] = 'SA 342L',
@@ -334,8 +351,10 @@ do --FDMM_UnitTypes
         ['CH-47D'] = 'Chinook',
         ['CH-53E'] = 'Sea Stallion',
         ['Ka-50'] = 'Black Shark',
+        ['Ka-52'] = 'Alligator',
         ['OH-58D'] = 'Kiowa',
         ['SA342L'] = 'Gazelle', ['SA342M'] = 'Gazelle', ['SA342Minigun'] = 'Gazelle', ['SA342Mistral'] = 'Gazelle',
+        ['SH-3W'] = 'Sea King',
         ['SH-60B'] = 'Seahawk',
         ['UH-1H'] = 'Huey',
         ['UH-60A'] = 'Black Hawk',
@@ -377,7 +396,7 @@ do --FDMM_UnitTypes
         ARV = {
           BRDM2 = 'BRDM-2',
           BTRRD = 'BTR_D', -- airborne
-          MTLBuBoman = 'Boman',
+          MTLBuBoman = 'Grad_FDDM',
         },
         APC = {
           AAV7 = 'AAV7', -- marines
@@ -387,6 +406,12 @@ do --FDMM_UnitTypes
           MTLB = 'MTLB',
         },
         MLRS = {
+          BM21 = { -- also has wheeled components
+            _HasWheeledComps = true,
+            FireControl = {
+              MTLBuBoman = 'Grad_FDDM',
+            },
+          },
           M270 = { -- also has wheeled components
             _HasWheeledComps = true,
             Launcher = {
@@ -432,7 +457,7 @@ do --FDMM_UnitTypes
           SA15Tor_9A331 = 'Tor 9A331',
           SA19Tunguska_2S6 = '2S6 Tunguska',
         },
-        AAA = {
+        SPAAG = {
           FlaKPzGepard1A2 = 'Gepard',
           ZSU234Shilka = 'ZSU-23-4 Shilka',
           M163Vulcan = 'Vulcan',
@@ -465,7 +490,12 @@ do --FDMM_UnitTypes
           SS1CScudBLN = 'Scud_B',
         },
         MLRS = {
-          BM21Grad = 'Grad-URAL',
+          BM21 = {
+            _HasTrackedComps = true,
+            Launcher = {
+              BM21Grad = 'Grad-URAL',
+            },
+          },
           BM27Uragan_9K57 = 'Uragan_BM-27',
           BM30Smerch_9A52 = 'Smerch',
           M270 = { -- also has tracked components
@@ -510,7 +540,14 @@ do --FDMM_UnitTypes
               SA3S125SR_P19 = 'p-19 s-125 sr',
             },
           },
-          SA8Osa_9A33 = 'Osa 9A33 ln',
+          SA8 = {
+            Loader = {
+              SA8OsaLD_9T217 = 'SA-8 Osa LD 9T217',
+            },
+            Launcher = {
+              SA8OsaLN_9A33 = 'Osa 9A33 ln',
+            },
+          },
           SA9Strela1_9P31 = 'Strela-1 9P31',
           SA10S300PS = { -- also has towed components
             _HasTowedComps = true,
@@ -528,7 +565,7 @@ do --FDMM_UnitTypes
             },
           },
         },
-        AAA = {
+        SPAAG = {
           ZU23Ural375 = {
             Soldier = {
               ZU23Ural375 = 'Ural-375 ZU-23',
@@ -795,16 +832,22 @@ do --FDMM_UnitTypes
           VAZ2109 = 'VAZ Car',
         },
       },
+      Animal = {
+        Suidae = 'Suidae',
+      },
+      All = {}, -- resolved on startup processing
       Amphibious = { -- vehicles that can float on water (not just ford rivers)
         AAV7 = 'AAV7',
         BMP1 = 'BMP-1',
         BMP2 = 'BMP-2',
         BRDM2 = 'BRDM-2',
         BTRRD = 'BTR_D',
+        BTR80 = 'BTR-80',
         LAV25 = 'LAV-25',
         MTLB = 'MTLB',
-        MTLBuBoman = 'Boman',
-        SA8Osa_9A33 = 'Osa 9A33 ln',
+        MTLBuBoman = 'Grad_FDDM',
+        SA8OsaLD_9T217 = 'SA-8 Osa LD 9T217',
+        SA8OsaLN_9A33 = 'Osa 9A33 ln',
         Gvozdika2S1 = 'SAU Gvozdika',
         NonaS2S9 = 'SAU 2-C9',
       },
@@ -818,10 +861,18 @@ do --FDMM_UnitTypes
         SS1CScudBLN = 'Scud_B',
         TPzFuchs = 'TPZ',
       },
-      All = {}, -- resolved on startup processing
+      Unavailable = { -- vehicles in the DB tables, but not spawnable
+        SA8OsaLD_9T217 = 'SA-8 Osa LD 9T217',
+        Suidae = 'Suidae',
+      },
       NATOReporting = {
         -- HQ
         ['Dog Ear radar'] = 'PPRU-M1 \'Dog Ear\' (Sborka-M1):\'Dog Ear\'',
+        -- MBT
+        ['T-55'] = ':(M1970)',
+        ['T-72B'] = ':(M1988)',
+        ['T-80UD'] = ':(M1989)',
+        ['T-90'] = ':(M1990)',
         -- IFV
         ['BMD-1'] = ':(M1970)',
         ['BMP-1'] = ':(M1970)',
@@ -830,8 +881,9 @@ do --FDMM_UnitTypes
         -- ARV
         ['BRDM-2'] = ':(M1966)',
         ['BTR_D'] = ':(M1979)',
-        ['Boman'] = ':(M1974)',
+        ['Grad_FDDM'] = ':(M1974)',
         -- APC
+        ['BTR-80'] = ':(M1987)',
         ['MTLB'] = ':(M1970)',
         -- SPH
         ['SAU 2-C9'] = 'SAU-120:(M1985)',
@@ -857,6 +909,7 @@ do --FDMM_UnitTypes
         ['snr s-125 tr'] = 'SA-3 \'Low Blow\' (SNR-125):\'Low Blow\'',
         ['Kub 1S91 str'] = 'SA-6 \'Straight Flush\' (Kub):\'Straight Flush\'',
         ['Kub 2P25 ln'] = 'SA-6 \'Gainful\' (Kub):\'Gainful\'',
+        ['SA-8 Osa LD 9T217'] = 'SA-8 \'Gecko\' (Osa):\'Gecko\'',
         ['Osa 9A33 ln'] = 'SA-8 \'Gecko\' (Osa):\'Gecko\'',
         ['Strela-1 9P31'] = 'SA-9 \'Gaskin\' (Strela-1):\'Gaskin\'',
         ['S-300PS 40B6M tr'] = 'SA-10B \'Flap Lid-A\' (S-300PS):\'Flap Lid-A\'',
@@ -877,10 +930,17 @@ do --FDMM_UnitTypes
         ['SA-18 Igla manpad'] = 'SA-18 \'Grouse\' (Igla):\'Grouse\'',
         ['SA-18 Igla-S comm'] = 'SA-24 \'Grinch\' (Igla-S):\'Grinch\'',
         ['SA-18 Igla-S manpad'] = 'SA-24 \'Grinch\' (Igla-S):\'Grinch\' ',
+        -- SPAAG
+        ['ZSU-23-4 Shilka'] = 'ZSU-23-4 \'Gun Dish\' (Shilka):\'Gun Dish\'',
       },
       WTOReporting = {
         -- HQ
         ['Dog Ear radar'] = '9S80M1 Sborka-M1:(PPRU-M1)',
+        -- MBT
+        ['T-55'] = ':(O.155)',
+        ['T-72B'] = ':(O.174M)',
+        ['T-80UD'] = ':(O.219AS)',
+        ['T-90'] = ':(O.188)',
         -- IFV
         ['BMD-1'] = ':(O.915)',
         ['BMP-1'] = ':(O.765Sp2)',
@@ -889,8 +949,9 @@ do --FDMM_UnitTypes
         -- ARV
         ['BRDM-2'] = ':(BTR-40P-2)',
         ['BTR_D'] = ':(O.925)',
-        ['Boman'] = ':(O.10)',
+        ['Grad_FDDM'] = ':(O.10)',
         -- APC
+        ['BTR-80'] = ':(GAZ-5903)',
         ['MTLB'] = ':(O.6)',
         -- SPH
         ['SAU 2-C9'] = '2S9:(SO.120)',
@@ -916,6 +977,7 @@ do --FDMM_UnitTypes
         ['snr s-125 tr'] = 'S-125 SNR-125:',
         ['Kub 1S91 str'] = '2K12 Kub 1S91:',
         ['Kub 2P25 ln'] = '2K12 Kub 2P25:',
+        ['SA-8 Osa LD 9T217'] = '9K33 Osa 9T217:',
         ['Osa 9A33 ln'] = '9K33 Osa 9A33:',
         ['Strela-1 9P31'] = '9K31 Strela-1 9P31:',
         ['S-300PS 40B6M tr'] = 'S-300PS 30N6:',
@@ -924,11 +986,11 @@ do --FDMM_UnitTypes
         ['S-300PS 5P85C ln'] = 'S-300PS 5P85C:',
         ['S-300PS 5P85D ln'] = 'S-300PS 5P85D:',
         ['S-300PS 64H6E sr'] = 'S-300PS 64H6E:',
-        ['SA-11 Buk CC 9S470M1'] = '9K37 Buk:(9S470M1)',
-        ['SA-11 Buk LN 9A310M1'] = '9K37 Buk:(9A310M1)',
-        ['SA-11 Buk SR 9S18M1'] = '9K37 Buk:(9S18M1)',
-        ['Strela-10M3'] = '9K35M Strela-10M3:(9A35M3)',
-        ['Tor 9A331'] = '9K330 Tor:(9A331)',
+        ['SA-11 Buk CC 9S470M1'] = '9K37 Buk 9S470M1:',
+        ['SA-11 Buk LN 9A310M1'] = '9K37 Buk 9A310M1:',
+        ['SA-11 Buk SR 9S18M1'] = '9K37 Buk 9S18M1:',
+        ['Strela-10M3'] = '9K35M Strela-10M3 9A35M3:',
+        ['Tor 9A331'] = '9K330 Tor 9A331:',
         ['2S6 Tunguska'] = '2S6 Tunguska:',
         -- SAM (Infantry)
         ['Igla manpad INS'] = '9K38 Igla:',
@@ -936,6 +998,8 @@ do --FDMM_UnitTypes
         ['SA-18 Igla manpad'] = '9K38 Igla:',
         ['SA-18 Igla-S comm'] = '9K338 Igla-S:',
         ['SA-18 Igla-S manpad'] = '9K338 Igla-S:',
+        -- SPAAG
+        ['ZSU-23-4 Shilka'] = 'ZSU-23-4 Shilka:',
       },
       ReportNaming = {
         -- HQ
@@ -964,10 +1028,11 @@ do --FDMM_UnitTypes
         ['M1134 Stryker ATGM'] = 'M1134 Stryker ATGM',
         -- ARV
         ['BTR_D'] = 'BTR-RD',
-        ['Boman'] = 'MT-LBu Boman',
+        ['Grad_FDDM'] = 'MT-LBu Boman',
         -- APC
         ['AAV7'] = 'AAV-7',
         ['Cobra'] = 'Cobra BMT-2',
+        ['BTR-80'] = 'BTR-80',
         ['M1043 HMMWV Armament'] = 'M1043 HMMWV Mg',
         ['M1126 Stryker ICV'] = 'M1126 Stryker ICV', 
         ['M-113'] = 'M113 APC',
@@ -1018,7 +1083,8 @@ do --FDMM_UnitTypes
         ['snr s-125 tr'] = '%R TR',
         ['Kub 1S91 str'] = '%R STR',
         ['Kub 2P25 ln'] = '%R LN',
-        ['Osa 9A33 ln'] = '%R',
+        ['SA-8 Osa LD 9T217'] = '%R LD',
+        ['Osa 9A33 ln'] = '%R LN',
         ['Strela-1 9P31'] = '%R',
         ['S-300PS 40B6M tr'] = '%R TR',
         ['S-300PS 40B6MD sr'] = '%R SR',
@@ -1041,11 +1107,13 @@ do --FDMM_UnitTypes
         ['Stinger comm'] = 'Stinger Comm',
         ['Stinger comm dsr'] = 'Israeli Stinger Comm',
         ['Soldier stinger'] = 'Stinger MANPAD',
-        -- AAA
+        -- SPAAG
         ['Gepard'] = 'FlaKPz Gepard 1A2',
         ['Vulcan'] = 'M163 Vulcan',
+        ['ZSU-23-4 Shilka'] = '%R',
         ['Ural-375 ZU-23'] = 'ZU-23/Ural-375',
         ['Ural-375 ZU-23 Insurgent'] = 'Insurgent ZU-23/Ural-375',
+        -- AAA
         ['ZU-23 Emplacement Closed'] = 'ZU-23 (fortified)',
         ['ZU-23 Closed Insurgent'] = 'Insurgent ZU-23 (fortified)',
         ['ZU-23 Emplacement'] = 'ZU-23',
@@ -1513,14 +1581,17 @@ do --FDMM_UnitTypes
       },
     },
     All = {}, -- resolved on startup processing
+    CarrierBorne = {}, -- resolved on startup processing
+    PlayerControllable = {}, -- resolved on startup processing
+    Unavailable = {}, -- resolved on startup processing
     NATOReporting = {}, -- resolved on startup processing
     WTOReporting = {}, -- resolved on startup processing
     Nicknaming = {}, -- resolved on startup processing
   }
 
   function fdmm.unitTypes.processEntries()
-    local keyFilter = { 'All', 'PlayerControllable', 'CarrierBorne', 'HeavyWheeled', 'NATOReporting',
-                        'WTOReporting', 'ReportNaming', 'ProperNaming', 'Nicknaming' }
+    local keyFilter = { 'All', 'PlayerControllable', 'CarrierBorne', 'Amphibious', 'HeavyWheeled', 'Unavailable',
+                        'NATOReporting', 'WTOReporting', 'ReportNaming', 'ProperNaming', 'Nicknaming' }
     local prefixFilter = { '_' }
     local suffixFilter = { 'Presets', 'Callsigns', 'Liveries' }
     local categoryOverrides = { ['house1arm'] = 'Fortifications', ['houseA_arm'] = 'Fortifications',
@@ -1586,8 +1657,8 @@ do --FDMM_UnitTypes
       end
     end
 
-    local function copyStaticAllToMasterAll(staticAllList, masterAllList)
-      for fdmmUnitType, value in pairs(staticAllList) do
+    local function copyGroupAllToMasterAll(allList, masterAllList)
+      for fdmmUnitType, value in pairs(allList) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
           local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
           unitType = unitType or value
@@ -1659,28 +1730,36 @@ do --FDMM_UnitTypes
 
     createGroupAll(fdmm.consts.UnitType.Static)
 
-    table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Plane.All)
-    table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Helicopter.All)
-    table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Ground.All)
-    table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Train.All)
-    table.concatWith(fdmm.consts.UnitType.All, fdmm.consts.UnitType.Ship.All)
+    copyGroupAllToMasterAll(fdmm.consts.UnitType.Plane.All, fdmm.consts.UnitType.All)
+    copyGroupAllToMasterAll(fdmm.consts.UnitType.Helicopter.All, fdmm.consts.UnitType.All)
+    copyGroupAllToMasterAll(fdmm.consts.UnitType.Ground.All, fdmm.consts.UnitType.All)
+    copyGroupAllToMasterAll(fdmm.consts.UnitType.Train.All, fdmm.consts.UnitType.All)
+    copyGroupAllToMasterAll(fdmm.consts.UnitType.Ship.All, fdmm.consts.UnitType.All)
+    copyGroupAllToMasterAll(fdmm.consts.UnitType.Static.All, fdmm.consts.UnitType.All)
 
-    copyStaticAllToMasterAll(fdmm.consts.UnitType.Static.All, fdmm.consts.UnitType.All)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.All)
 
-    fdmm.consts.UnitType.All._rev = {}
-    table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Plane.All._rev)
-    table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Helicopter.All._rev)
-    table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Ground.All._rev)
-    table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Train.All._rev)
-    table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Ship.All._rev)
-    table.concatWith(fdmm.consts.UnitType.All._rev, fdmm.consts.UnitType.Static.All._rev)
+    table.concatWith(fdmm.consts.UnitType.CarrierBorne, fdmm.consts.UnitType.Plane.CarrierBorne)
+    table.concatWith(fdmm.consts.UnitType.CarrierBorne, fdmm.consts.UnitType.Helicopter.CarrierBorne)
+    table.concatWith(fdmm.consts.UnitType.PlayerControllable, fdmm.consts.UnitType.Plane.PlayerControllable)
+    table.concatWith(fdmm.consts.UnitType.PlayerControllable, fdmm.consts.UnitType.Helicopter.PlayerControllable)
+    table.concatWith(fdmm.consts.UnitType.Unavailable, fdmm.consts.UnitType.Plane.Unavailable)
+    table.concatWith(fdmm.consts.UnitType.Unavailable, fdmm.consts.UnitType.Helicopter.Unavailable)
+    table.concatWith(fdmm.consts.UnitType.Unavailable, fdmm.consts.UnitType.Ground.Unavailable)
 
-    fdmm.consts.UnitType.Plane.CarrierBorne._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Plane.CarrierBorne)
-    fdmm.consts.UnitType.Plane.PlayerControllable._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Plane.PlayerControllable)
-    fdmm.consts.UnitType.Helicopter.CarrierBorne._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Helicopter.CarrierBorne)
-    fdmm.consts.UnitType.Helicopter.PlayerControllable._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Helicopter.PlayerControllable)
-    fdmm.consts.UnitType.Ground.Amphibious._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Ground.Amphibious)
-    fdmm.consts.UnitType.Ground.HeavyWheeled._rev = fdmm.utils.reversedDict(fdmm.consts.UnitType.Ground.HeavyWheeled)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.CarrierBorne)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.PlayerControllable)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.Unavailable)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.CarrierBorne)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.PlayerControllable)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.Unavailable)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Amphibious)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.HeavyWheeled)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Unavailable)
+
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.CarrierBorne)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.PlayerControllable)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Unavailable)
 
     createGroupNamingIfNeeded(fdmm.consts.UnitType.Plane)
     createGroupNamingIfNeeded(fdmm.consts.UnitType.Helicopter)
@@ -1712,6 +1791,56 @@ do --FDMM_UnitTypes
   end
 
   function fdmm.unitTypes.crossRefEntries()
+    if db then
+      env.info("FDMM: Cross-referencing units...")
+      local function crossRefUnits(keyPath, unitArray)
+        for idx,unitData in ipairs(unitArray) do
+          local unitType = unitData.Name
+          local unitTypeAliases = unit_aliases._rev[unitType]
+          local fdmmUnitType = fdmm.consts.UnitType.All._rev[unitType]
+
+          if not fdmmUnitType and unitTypeAliases then
+            if type(unitTypeAliases) == 'string' then
+              unitTypeAliases = { unitTypeAliases }
+            end
+            for _,unitTypeAlias in ipairs(unitTypeAliases) do
+              fdmmUnitType = fdmm.consts.UnitType.All._rev[unitTypeAlias]
+              if fdmmUnitType then
+                env.warning("  unitTypeAlias=[\'" .. unitTypeAlias .. "\'] is now unitType=[\'" .. unitType .. "\'].")
+                break
+              end
+            end
+          end
+          if not fdmmUnitType then
+            env.info("  Missing fdmmUnitType for unitType=[\'" .. (unitType or "<null>") .. "\'] from " .. keyPath  .. "[" .. idx .. "].")
+          end
+        end
+      end
+
+      fdmm.utils.ensureReversedDict(unit_aliases)
+
+      crossRefUnits('db.Units.Animals', db.Units.Animals.Animal)
+      crossRefUnits('db.Units.Cargos', db.Units.Cargos.Cargo)
+      crossRefUnits('db.Units.Cars', db.Units.Cars.Car)
+      crossRefUnits('db.Units.Fortifications', db.Units.Fortifications.Fortification)
+      crossRefUnits('db.Units.Helicopters', db.Units.Helicopters.Helicopter)
+      crossRefUnits('db.Units.Heliports', db.Units.Heliports.Heliport)
+      crossRefUnits('db.Units.LTAvehicles', db.Units.LTAvehicles.LTAvehicle)
+      crossRefUnits('db.Units.Personnel', db.Units.Personnel.Personnel)
+      crossRefUnits('db.Units.Planes', db.Units.Planes.Plane)
+      crossRefUnits('db.Units.Ships', db.Units.Ships.Ship)
+      crossRefUnits('db.Units.WWIIstructures', db.Units.WWIIstructures.WWIIstructure)
+      crossRefUnits('db.Units.Warehouses', db.Units.Warehouses.Warehouse)
+
+      local checkDBYears = false -- change to true to run the following
+      if dbYears and checkDBYears then
+        local unitArray = {}
+        for unitType,_ in pairs(dbYears) do
+          table.insert(unitArray, {Name = unitType})
+        end
+        crossRefUnits('dbYears', unitArray)
+      end
+    end
   end
 
   function fdmm.unitTypes.anyAvailableToFaction(unitTypesDict, factionName)
@@ -1721,17 +1850,26 @@ do --FDMM_UnitTypes
   end
 
   function fdmm.unitTypes.anyListedUnder(unitTypesDict, listedTypesDict)
+    fdmm.utils.ensureReversedDict(listedTypesDict)
+    for _,unitType in pairs(unitTypesDict) do
+      if listedTypesDict._rev[unitType] then
+        return true
+      end
+    end
+    return false
   end
 
   function fdmm.unitTypes.isListedUnder(unitType, listedTypesDict)
-  end
-
-  function fdmm.unitTypes.sortedListByCombatRating(unitTypeDict)
+    fdmm.utils.ensureReversedDict(listedTypesDict)
+    if listedTypesDict._rev[unitType] then
+      return true
+    end
+    return false
   end
 
   function fdmm.unitTypes.getUnitTypeGroup(unitType)
     if fdmm.consts.UnitType.Plane.All._rev[unitType] then
-      return  fdmm.consts.UnitType.Plane
+      return fdmm.consts.UnitType.Plane
     elseif fdmm.consts.UnitType.Helicopter.All._rev[unitType] then
       return fdmm.consts.UnitType.Helicopter
     elseif fdmm.consts.UnitType.Ground.All._rev[unitType] then
@@ -1740,7 +1878,8 @@ do --FDMM_UnitTypes
       return fdmm.consts.UnitType.Train
     elseif fdmm.consts.UnitType.Ship.All._rev[unitType] then
       return fdmm.consts.UnitType.Ship
-    elseif fdmm.consts.UnitType.Static.All._rev[unitType] then
+    elseif fdmm.consts.UnitType.Static.All._rev[unitType] or
+           fdmm.consts.UnitType.Static.All._revShape[unitType] then
       return fdmm.consts.UnitType.Static
     end
     return nil
@@ -1787,15 +1926,17 @@ do --FDMM_UnitTypes
   end
 
   function fdmm.unitTypes.dumpUnitReportNames()
+    env.info("FDMM: Dumping unit report names...")
     local function dumpAll(unitTypeGroup)
       for _,fdmmUnitType in pairs(table.sortedKeysList(unitTypeGroup.All)) do
         if not string.hasPrefix(fdmmUnitType, '_') then
           local value = unitTypeGroup.All[fdmmUnitType]
           local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
           unitType = unitType or value
-          env.info('  [\'' .. fdmmUnitType .. '\'] = \'' .. unitType .. '\':')
-          env.info('    NATO: ' .. fdmm.unitTypes.getNATOUnitReportName(unitType, unitTypeGroup))
-          env.info('    WTO : ' .. fdmm.unitTypes.getWTOUnitReportName(unitType, unitTypeGroup))
+
+          env.info("  [\'" .. fdmmUnitType .. "\'] = \'" .. unitType .. "\':")
+          env.info("    NATO: " .. fdmm.unitTypes.getNATOUnitReportName(unitType, unitTypeGroup))
+          env.info("    WTO : " .. fdmm.unitTypes.getWTOUnitReportName(unitType, unitTypeGroup))
         end
       end
     end

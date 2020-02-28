@@ -1,7 +1,7 @@
 ---
 -- FDMM Unit Factory Module.
 -- @module FDMM_UnitFactory
-env.info('---FDMM_UnitFactory Start---')
+env.info("---FDMM_UnitFactory Start---")
 
 require('Territory/FDMM_Facility')
 
@@ -50,4 +50,4 @@ do -- FDMM_UnitFactory
   -- TODO: me.
 end -- FDMM_UnitFactory
 
-env.info('---FDMM_UnitFactory End---')
+env.info("---FDMM_UnitFactory End---")

@@ -1,7 +1,7 @@
 # FDMM_DCS
 Fully Dynamic Multiplayer Mission for DCS: World.
 
-**FDMM_DCS v0.02-alpha**  
+**FDMM_DCS v0.03-alpha**  
 **CURRENTLY UNDER DEVELOPMENT / PROPOSAL**
 
 DCS: World multiplayer mission for server admins and air combat ethusiasts.  

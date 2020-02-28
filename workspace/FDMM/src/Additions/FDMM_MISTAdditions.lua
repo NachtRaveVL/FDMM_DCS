@@ -1,7 +1,7 @@
 ---
 -- FDMM MIST Additions Module.
 -- @module FDMM_MISTAdditions
-env.info('---FDMM_MISTAdditions Start---')
+env.info("---FDMM_MISTAdditions Start---")
 
 assert(mist, 'MIST not initialized.')
 
@@ -52,4 +52,4 @@ do --FDMM_MISTAdditions
 
 end --FDMM_MISTAdditions
 
-env.info('---FDMM_MISTAdditions End---')
+env.info("---FDMM_MISTAdditions End---")

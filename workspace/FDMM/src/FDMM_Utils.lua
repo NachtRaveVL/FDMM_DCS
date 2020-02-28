@@ -185,6 +185,15 @@ do --FDMM_Utils
     return rev
   end
 
+  --- Ensures a reverse dictionary exists at tbl._rev, creating it if needed.
+  -- @note Follows dynamics explained for fdmm.utils.reversedDict(...).
+  -- @param #table tbl Table.
+  function fdmm.utils.ensureReversedDict(tbl)
+    if tbl and not tbl._rev then
+      tbl._rev = fdmm.utils.reversedDict(tbl)
+    end
+  end
+
   --- Splits strings in tuple format, returning their individual elements.
   -- @param #string tupleString String with elements:in:tuple:form.
   -- @return #string,#string,#string,#string Tuple: Separated elements, otherwise nil,nil,nil,nil.
@@ -192,7 +201,7 @@ do --FDMM_Utils
     if string.isNotEmpty(tupleString) then
       local colonCount = string.occurrences(tupleString, ':')
       if colonCount == 0 then
-        return tupleString
+        return nil, nil, nil, nil
       elseif colonCount == 1 then
         return fdmm.utils.splitDoublet(tupleString)
       elseif colonCount == 2 then

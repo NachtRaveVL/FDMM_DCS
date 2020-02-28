@@ -1,7 +1,7 @@
 ---
 -- FDMM Facility Module.
 -- @module FDMM_Facility
-env.info('---FDMM_Facility Start---')
+env.info("---FDMM_Facility Start---")
 
 --- FDMM facility module.
 fdmm.facility = {}
@@ -51,4 +51,4 @@ do -- FDMM_Facility
   -- TODO: me.
 end -- FDMM_Facility
 
-env.info('---FDMM_Facility End---')
+env.info("---FDMM_Facility End---")

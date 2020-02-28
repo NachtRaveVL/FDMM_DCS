@@ -12,9 +12,14 @@ fdmm.setup.useMOTD = true
 -- Loads DCS's Database module, allowing cross-referencing checks and unit technical
 -- data to be imported from DCS fresh, not from packaged values.
 -- NOTE: Requires sanitization of 'require' in MissionScripting to be commented out,
---       i.e. comment out line "require = nil" in <DCSWorldMainFolder>/Scripts/MissionScripting.lua
--- (not yet implemented)
+--       i.e. comment out line "require = nil" in <DCS[.openbeta]>/Scripts/MissionScripting.lua
 fdmm.setup.loadDB = true
+
+-- Loads DCS's JSON module, allowing efficient saving of data to and from files.
+-- NOTE: Requires sanitization of 'require' and 'io' in MissionScripting to be commented out,
+--       i.e. comment out lines "require = nil" and "sanitizeModule('io')" in
+--            <DCS[.openbeta]>/Scripts/MissionScripting.lua
+fdmm.setup.loadJSON = true
 
 -- What year of technology the server should allow usage of, up to and including.
 -- Also used to determine what the initial start year should be on map reset, what

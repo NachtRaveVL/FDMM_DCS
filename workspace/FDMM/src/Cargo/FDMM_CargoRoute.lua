@@ -1,7 +1,7 @@
 ---
 -- FDMM Cargo Route Module.
 -- @module FDMM_CargoRoute
-env.info('---FDMM_CargoRoute Start---')
+env.info("---FDMM_CargoRoute Start---")
 
 --- FDMM cargo route module.
 fdmm.cargoRoute = {}
@@ -278,4 +278,4 @@ do -- FDMM_CargoRoute
 
 end -- FDMM_CargoRoute
 
-env.info('---FDMM_CargoRoute End---')
+env.info("---FDMM_CargoRoute End---")

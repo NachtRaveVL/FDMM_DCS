@@ -1,7 +1,7 @@
 ---
 -- FDMM Resource Unit Module.
 -- @module FDMM_ResourceUnit
-env.info('---FDMM_ResourceUnit Start---')
+env.info("---FDMM_ResourceUnit Start---")
 
 --- FDMM ResourceUnit module.
 fdmm.resourceUnit = {}
@@ -67,4 +67,4 @@ do -- FDMM_ResourceUnit
   -- TODO: me.
 end -- FDMM_ResourceUnit
 
-env.info('---FDMM_ResourceUnit End---')
+env.info("---FDMM_ResourceUnit End---")

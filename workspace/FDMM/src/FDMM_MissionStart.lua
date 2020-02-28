@@ -6,7 +6,7 @@ env.setErrorMessageBoxEnabled(false)
 
 --- FDMM main module.
 fdmm = {}
-fdmm_path = fdmm_path or "/Scripts/FDMM/"
+fdmm_path = fdmm_path or '/Scripts/FDMM/'
 fdmm.fullPath = lfs.normpath(lfs.writedir() .. fdmm_path)
 
 fdmm.MapKind = {
@@ -35,15 +35,17 @@ require('Territory/FDMM_UnitFactory')
 do --FDMM_MissionStart
   trigger.action.outText("FDMM Starting...", 10)
 
-  -- Load unit and regiment type entries.
+  fdmm.config.loadDCSDBIfAble()
+  fdmm.config.loadDCSJSONIfAble()
+
+  -- Load unit and regiment type sentries.
   fdmm.unitTypes.processEntries()
   --fdmm.regimentTypes.processEntries()
-  if fdmm_loadDB and db then
-    fdmm.unitTypes.crossRefEntries()
-  end
+  fdmm.unitTypes.crossRefEntries()
+
+  fdmm.config.createGPCache()
 
   -- Create territories, facilities, routes, etc. from groups placed on map.
-  fdmm.config.createGPCache()
   fdmm.territory.createTerritories()
   fdmm.territory.createFacilities()
   fdmm.cargoRoute.createCargoRoutes()

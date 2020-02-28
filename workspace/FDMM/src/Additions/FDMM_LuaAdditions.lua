@@ -1,7 +1,7 @@
 ---
 -- FDMM Lua Additions Module.
 -- @module FDMM_LuaAdditions
-env.info('---FDMM_LuaAdditions Start---')
+env.info("---FDMM_LuaAdditions Start---")
 
 do --FDMM_LuaAdditions
 
@@ -204,4 +204,4 @@ do --FDMM_LuaAdditions
 
 end --FDMM_LuaAdditions
 
-env.info('---FDMM_LuaAdditions End---')
+env.info("---FDMM_LuaAdditions End---")
