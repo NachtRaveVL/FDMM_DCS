@@ -524,7 +524,10 @@ do --FDMM_Config
 
   --- Runs tests script from testing folder.
   function fdmm.config.runTestsScript()
-    local status,retVal = pcall(dofile, fdmm.fullPath .. 'workspace/FDMM/tests/FDMMTEST_TestsScript.lua')
+    if not fdmm.testsPath then
+      fdmm.fullTestsPath = lfs.normpath(fdmm.fullPath .. 'workspace/FDMM/tests/')
+    end
+    local status,retVal = pcall(dofile, fdmm.fullTestsPath .. 'FDMMTEST_TestsScript.lua')
     if not status then
       env.error("** FDMM tests script failure. **")
     end

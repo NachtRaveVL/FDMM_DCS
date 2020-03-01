@@ -5,13 +5,46 @@ env.info("---FDMMTEST_TestScript Start---");
 
 --- FDMM test script module.
 fdmmtest = {}
+fdmmtest.fullPath = fdmm.fullTestsPath
+
+require('../tests/FDMMTEST_UnitTest')
+require('../tests/FDMMTEST_UtilsTests')
 
 do --FDMMTEST_TestScript
 
-  function fdmmtest.runTests()
-    fdmm.utils.setUserFlag(fdmm.consts.UserFlag.TestFlag)
+  function fdmmtest.runUnitTest(unitTest)
+    assert(unitTest and type(unitTest) == 'table' and unitTest.name and unitTest.runUnitTests, 'Invalid parameter: unitTest')
+    env.info("FDMMTEST: Running unit test \'" .. unitTest.name .. "\'...")
 
-    -- TODO: Testing entries.
+    local status,retVal = pcall(unitTest.runUnitTests, unitTest)
+
+    if status and retVal and type(retVal) == 'table' then
+      fdmmtest.testPasses = fdmmtest.testPasses + retVal.passes
+      fdmmtest.testFailures = fdmmtest.testFailures + retVal.failures
+      env.info("FDMMTEST: Ran unit test \'" .. unitTest.name .. "\' with " .. retVal.passes .. " passed, " ..
+                                                                              retVal.failures .. " failure(s).")
+    else
+      fdmmtest.testFailures = fdmmtest.testFailures + 1
+      env.error("FDMMTEST: Failed executing unit test \'" .. unitTest.name .. "\'.")
+    end
+  end
+
+  function fdmmtest.runTests()
+    fdmmtest.testPasses = 0
+    fdmmtest.testFailures = 0
+    fdmm.utils.setUserFlag(fdmm.consts.UserFlag.TestFlag)
+    env.error("FDMMTEST: Running tests...")
+
+    -- Add test files here:
+    pcall(fdmmtest.runUnitTest, FDMMTESTUtilsTests.new())
+
+    if fdmmtest.testFailures == 0 then
+      env.info("FDMMTEST: Finished running tests... " .. fdmmtest.testPasses .. " passed, " ..
+                                                         fdmmtest.testFailures .. " failure(s).")
+    else
+      env.error("FDMMTEST: Finished running tests... " .. fdmmtest.testPasses .. " passed, " ..
+                                                          fdmmtest.testFailures .. " failure(s).")
+    end
 
     fdmm.utils.clearUserFlag(fdmm.consts.UserFlag.TestFlag)
   end

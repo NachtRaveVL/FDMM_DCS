@@ -28,7 +28,9 @@ do
 function fdmm.config.runUserSetupScript()fdmm.setup={}local e,n=pcall(dofile,fdmm.fullPath..'FDMM_Setup.lua')if not e then
 env.error("** FDMM_Setup.lua failed to load properly. Check for any syntax errors. **")end
 end
-function fdmm.config.runTestsScript()local e,n=pcall(dofile,fdmm.fullPath..'workspace/FDMM/tests/FDMMTEST_TestsScript.lua')if not e then
+function fdmm.config.runTestsScript()if not fdmm.testsPath then
+fdmm.fullTestsPath=lfs.normpath(fdmm.fullPath..'workspace/FDMM/tests/')end
+local e,n=pcall(dofile,fdmm.fullTestsPath..'FDMMTEST_TestsScript.lua')if not e then
 env.error("** FDMM tests script failure. **")end
 end
 function fdmm.config.loadDCSDBIfAble()if not db and fdmm.setup.loadDB then
