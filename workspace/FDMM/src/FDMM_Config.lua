@@ -35,6 +35,9 @@ do --FDMM_Common_Defines
   fdmm.enums.Alliance = {
     NATO = 'NATO',
     WTO = 'WTO',
+    UN = 'UN',
+    Insurgent = 'Insurgent',
+    Protestor = 'Protestor',
   }
 
   --- Common factions.
@@ -66,6 +69,7 @@ do --FDMM_Common_Defines
   -- @type Consts.UserFlag
   fdmm.consts.UserFlag = {
     DebugFlag = '99999',
+    TestFlag = '99998',
   }
 
 end --FDMM_Common_Defines
@@ -74,7 +78,7 @@ do --FDMM_CargoRoute_Defines
 
   --- Cargo route types.
   -- @type Enums.CargoRouteType
-  fdmm.enums.CargoRouteType = {
+  fdmm.enums.CargoRouteType = { -- FIXME: Needs values uppercased first. tbd -NR
     Land = 'land',
     Train = 'train',
     Air = 'air',
@@ -132,7 +136,7 @@ do --FDMM_Facility_Defines
 
   --- Facility types.
   -- @type Enums.FacilityType
-  fdmm.enums.FacilityType = {
+  fdmm.enums.FacilityType = { -- FIXME: Needs values uppercased first. tbd -NR
     Airbase = 'airbase',
     ArmsPlant = 'armsPlant',
     CommandCenter = 'commandCenter',
@@ -149,7 +153,7 @@ do --FDMM_ResourceUnit_Defines
 
   --- Resource point types.
   -- @type Enums.RPType
-  fdmm.enums.RPType = {
+  fdmm.enums.RPType = { -- FIXME: Needs values uppercased first. tbd -NR
     Fuel = 'fuel',
     Arms = 'arms',
     Unit = 'unit',
@@ -171,7 +175,7 @@ do --FDMM_Territory_Defines
 
   --- Territory types.
   -- @type Enums.TerritoryType
-  fdmm.enums.TerritoryType = {
+  fdmm.enums.TerritoryType = { -- FIXME: Needs values uppercased first. tbd -NR
     Land = 'land',
     Sea = 'sea',
     All = 'all', -- used only in filtering
@@ -341,7 +345,7 @@ do --FDMM_UnitType_Defines
   --- Towed ground unit types.
   -- @type Enums.UnitGroundTowedType
   fdmm.enums.UnitGroundTowedType = {
-    DroneCommand = 'DroneCommand',
+    Drone = 'Drone',
     SSM = 'SSM',
     SAM = 'SAM',
     AAA = 'AAA',
@@ -436,9 +440,9 @@ do --FDMM_UnitType_Defines
     Emplacement = 'Emplacement',
   }
 
-  --- Drone command ground unit roles.
-  -- @type Enums.UnitGroundDroneCommandRole
-  fdmm.enums.UnitGroundDroneCommandRole = {
+  --- Drone ground unit roles.
+  -- @type Enums.UnitGroundDroneRole
+  fdmm.enums.UnitGroundDroneRole = {
     HQ = 'HQ',
     Repeater = 'Repeater',
   }
@@ -512,19 +516,28 @@ do --FDMM_Config
   --- Runs user setup script, as modified by user.
   function fdmm.config.runUserSetupScript()
     fdmm.setup = {} -- clear
-    dofile(fdmm.fullPath .. "FDMM_Setup.lua")
+    local status,retVal = pcall(dofile, fdmm.fullPath .. 'FDMM_Setup.lua')
+    if not status then
+      env.error("** FDMM_Setup.lua failed to load properly. Check for any syntax errors. **")
+    end
+  end
+
+  --- Runs tests script from testing folder.
+  function fdmm.config.runTestsScript()
+    local status,retVal = pcall(dofile, fdmm.fullPath .. 'workspace/FDMM/tests/FDMMTEST_TestsScript.lua')
+    if not status then
+      env.error("** FDMM tests script failure. **")
+    end
   end
 
   --- Attempts to load the DCS DB module.
   function fdmm.config.loadDCSDBIfAble()
     if not db and fdmm.setup.loadDB then
       __DCS_VERSION__ = '2.5' -- doesn't matter
-      local retries = 3
-      while(retries > 0) do
+      for attempt = 1,3 do
         -- First call usually fails, second call is usually fine.
         local status,retVal = pcall(require,'./Scripts/Database/db_scan')
         if status then break end
-        retries = retries - 1
       end
       __DCS_VERSION__ = nil
     end
@@ -571,6 +584,11 @@ do --FDMM_Config
         end
       end
     end
+  end
+
+  --- Tears down any group prefix setup groups used in FDMM setup.
+  function fdmm.config.tearDownGPSetupGroups()
+    -- TODO: me.
   end
 
 end --FDMM_Config

@@ -125,6 +125,7 @@ do --FDMM_Utils
   -- @param #table knownSuffixes Table (or list) of known suffixes to handle short-naming for.
   -- @return #string,#string,#string Tuple: grouping prefix, stripped name, and grouping suffix.
   function fdmm.utils.getGroupingComponentsWithSNC(name, knownPrefixes, knownSuffixes)
+    assert(name, 'Nonnull parameter: name')
     local prefix, name, suffix = fdmm.utils.getGroupingComponents(name)
 
     -- Check if the name is really a prefix or suffix.
@@ -143,10 +144,11 @@ do --FDMM_Utils
   -- @param DCS#RoutePoint routePoint Route point.
   -- @return DCS#Vec2 Position vector (with routePoint copy).
   function fdmm.utils.rposFromRPoint(routePoint)
+    assert(routePoint, 'Nonnull parameter: routePoint')
     return { x = routePoint.x or routePoint.point.x, y = routePoint.y or routePoint.point.y, routePoint = mist.utils.deepCopy(routePoint) }
   end
 
-  --- Gets the faction enum from a string name.
+  --- Gets the faction enum from a string name (removing any numeric suffix).
   -- @param #string name Name string.
   -- @return #Enums.Faction Faction enumeration, otherwise Faction.Unused if unable to determine.
   function fdmm.utils.getFaction(name)
@@ -160,7 +162,7 @@ do --FDMM_Utils
     return fdmm.enums.Faction.Unused
   end
 
-  --- Builds reversed dictionary where keys/values are reversed.
+  --- Builds reversed lookup dictionary where keys/values are reversed.
   -- @note Values that map to different keys will map to a sequence of keys.
   -- @note Only string and number types for keys and values are permitted.
   -- @param #table tbl Table.
@@ -240,9 +242,10 @@ do --FDMM_Utils
   end
 
   --- Determines if the user flag is set true in mission user flags.
-  -- @param #string flag Flag.
-  -- @return #boolean True if non-0, non-false, and non-no element is set, otherwise false.
+  -- @param #string flag Flag (string index).
+  -- @return #boolean True if non-0, non-false, and non-no value is set, otherwise false.
   function fdmm.utils.isUserFlagSet(flag)
+    assert(flag, 'Nonnull parameter: flag')
     local flag = trigger.misc.getUserFlag(flag)
     return (type(flag) == 'number' and flag ~= 0) or
            (type(flag) == 'boolean' and flag ~= false) or
@@ -250,10 +253,52 @@ do --FDMM_Utils
                                    and flag:lower() ~= 'off' and flag:lower() ~= 'no')
   end
 
+  --- Sets user flag to true or optional value.
+  -- @param #string flag Flag (string index).
+  -- @param #boolean|#number value Optional value for flag, otherwise true.
+  function fdmm.utils.setUserFlag(flag, value)
+    assert(flag, 'Nonnull parameter: flag')
+    value = value or true
+    assert(type(value) == 'number' or type(value) == 'boolean', 'Value must be number or boolean type.')
+    trigger.action.setUserFlag(flag, value)
+  end
+
+  --- Clears user flag by setting it to false.
+  -- @param #string flag Flag (string index).
+  function fdmm.utils.clearUserFlag(flag)
+    assert(flag, 'Nonnull parameter: flag')
+    fdmm.utils.setUserFlag(flag, false)
+  end
+
   --- Determines if the debug flag is set true in mission user flags.
-  -- @return #boolean True if debug flag set, otherwise false.
+  -- @return #boolean True if debug flag is set, otherwise false.
   function fdmm.utils.isDebugFlagSet()
     return fdmm.utils.isUserFlagSet(fdmm.consts.UserFlag.DebugFlag)
+  end
+
+  --- Determines if the system is currently running a test or not.
+  -- @return #boolean True if tests are being ran at the time, otherwise false.
+  function fdmm.utils.isTestsFlagSet()
+    return fdmm.utils.isUserFlagSet(fdmm.consts.UserFlag.TestFlag)
+  end
+
+  --- Determines if the map being loaded from is a map that contains FDMM map setup data (e.g. territories, FARPs,
+  -- facilities, etc.) or not.
+  -- @return #boolean True if map contains setup data, otherwise false if such data should be loaded from json.
+  function fdmm.utils.isSetupMapKind()
+    return fdmm.mapKind == fdmm.MapKind.Both or fdmm.mapKind == fdmm.MapKind.Setup
+  end
+
+  --- Determines if the FDMM code is running in the dev run mode or not.
+  -- @return #boolean True if in dev or dev with tests run mode, otherwise false.
+  function fdmm.utils.isDevRunMode()
+    return fdmm.runMode == fdmm.RunMode.Dev or fdmm.runMode == fdmm.RunMode.DevWithTests
+  end
+
+  --- Determines if the FDMM code is running in the dev with tests run mode or not.
+  -- @return #boolean True if in dev with tests run mode, otherwise false.
+  function fdmm.utils.isTestsRunMode()
+    return fdmm.runMode == fdmm.RunMode.DevWithTests
   end
 
   --- Determines if current theatre map is a desert-based map or not (for heat effects).

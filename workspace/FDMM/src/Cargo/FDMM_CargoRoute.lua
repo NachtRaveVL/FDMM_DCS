@@ -276,6 +276,14 @@ do -- FDMM_CargoRoute
     end
   end
 
+  function fdmm.cargoRoute.saveCargoRoutes()
+    -- TODO: me.
+  end
+
+  function fdmm.cargoRoute.loadCargoRoutes()
+    -- TODO: me.
+  end
+
 end -- FDMM_CargoRoute
 
 env.info("---FDMM_CargoRoute End---")

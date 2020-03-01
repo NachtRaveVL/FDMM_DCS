@@ -614,7 +614,7 @@ do --FDMM_UnitTypes
         },
       },
       Towed = {
-        DroneCommand = {
+        Drone = {
           HQ = {
             PreadtorGCS = 'Predator GCS',
           },

@@ -12,12 +12,17 @@ fdmm.fullPath = lfs.normpath(lfs.writedir() .. fdmm_path)
 fdmm.MapKind = {
   Both = 'Both', Setup = 'Setup', Runable = 'Runable'
 }
-fdmm.mapKind = fdmm.MapKind.Both -- may change later
+fdmm.mapKind = fdmm.MapKind.Both -- set per branch
+fdmm.RunMode = {
+  Release = 'Release', Dev = 'Dev', DevWithTests = 'DevWithTests'
+}
+fdmm.runMode = fdmm.RunMode.DevWithTests -- set per branch
 
--- Master include listing
+-- Master include listing (these should touch all necessary run files)
 require('FDMM_Config')
 require('FDMM_Utils')
 require('FDMM_UnitTypes')
+require('FDMM_RegimentTypes')
 require('Additions/FDMM_LuaAdditions')
 require('Additions/FDMM_MISTAdditions')
 require('Additions/FDMM_MOOSEAdditions')
@@ -35,31 +40,56 @@ require('Territory/FDMM_UnitFactory')
 do --FDMM_MissionStart
   trigger.action.outText("FDMM Starting...", 10)
 
+  -- Main config setup
   fdmm.config.loadDCSDBIfAble()
   fdmm.config.loadDCSJSONIfAble()
 
-  -- Load unit and regiment type sentries.
+  -- Process unit and regiment type entries.
   fdmm.unitTypes.processEntries()
-  --fdmm.regimentTypes.processEntries()
-  fdmm.unitTypes.crossRefEntries()
+  fdmm.regimentTypes.processEntries()
 
-  fdmm.config.createGPCache()
+  if fdmm.utils.isDevRunMode() then
+    -- Cross reference unit type entries.
+    fdmm.unitTypes.crossRefEntries()
+  end
 
-  -- Create territories, facilities, routes, etc. from groups placed on map.
-  fdmm.territory.createTerritories()
-  fdmm.territory.createFacilities()
-  fdmm.cargoRoute.createCargoRoutes()
+  if fdmm.utils.isSetupMapKind() then
+    -- Create groups prefix cache.
+    fdmm.config.createGPCache()
 
-  -- Build facilities as a separate task because it can be a bit much to do. Might wrap in an async task, later.
-  -- On the one hand, it's tearing things down in the setup mission.
-  -- On the other hand, it's building facilities in the play mission, as their display quantity requested. 
+    -- Create territories, facilities, routes, etc. from groups placed on map.
+    fdmm.territory.createTerritories()
+    fdmm.territory.createFacilities()
+    fdmm.cargoRoute.createCargoRoutes()
+
+    -- Saves out to disk
+    fdmm.territory.saveTerritories()
+    fdmm.territory.saveFacilities()
+    fdmm.cargoRoute.saveCargoRoutes()
+
+    -- Tears down all group prefix cache setup groups.
+    fdmm.config.tearDownGPSetupGroups()
+  else
+    -- Loads from disk
+    fdmm.territory.loadTerritories()
+    fdmm.territory.loadFacilities()
+    fdmm.cargoRoute.loadCargoRoutes()
+  end
+
+  -- Builds facilities specified by setup. 
   fdmm.territory.buildFacilities()
 
-  -- Optional to uncomment, dumps to env.info
-  --fdmm.territory.dumpTerritories()
-  --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
-  --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
-  fdmm.unitTypes.dumpUnitReportNames()
+  if fdmm.utils.isDevRunMode() then 
+    -- Optional to uncomment, dumps to env.info()
+    --fdmm.unitTypes.dumpUnitReportNames()
+    --fdmm.territory.dumpTerritories()
+    --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
+    --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
+
+    if fdmm.utils.isTestsRunMode() then
+      fdmm.config.runTestsScript()
+    end
+  end
 
   trigger.action.outText("FDMM Started", 10)
 end --FDMM_MissionStart

@@ -245,6 +245,22 @@ do --FDMM_Territory
     end
   end
 
+  function fdmm.territory.saveTerritories()
+    -- TODO: me.
+  end
+
+  function fdmm.territory.loadTerritories()
+    -- TODO: me.
+  end
+
+  function fdmm.territory.saveFacilities()
+    -- TODO: me.
+  end
+
+  function fdmm.territory.loadFacilities()
+    -- TODO: me.
+  end
+
   --- Builds associated facilities that exist inside territories.
   function fdmm.territory.buildFacilities()
     for territoryName, territory in pairs(fdmm.territories.all) do
