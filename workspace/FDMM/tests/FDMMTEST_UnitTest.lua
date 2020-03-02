@@ -35,7 +35,7 @@ do --FDMMTESTUnitTest
 
     for key,value in pairs(getmetatable(self)) do
       if key and type(key) == 'string' and string.hasPrefix(key, 'test') and value and type(value) == 'function' then
-        env.info("FDMMTEST:   Running \'" .. key .. "\'...")
+        env.info("FDMMTEST:     Running test \'" .. key .. "\'...")
 
         self:setUp()
 
@@ -43,10 +43,11 @@ do --FDMMTESTUnitTest
 
         if status then
           runPasses = runPasses + 1
-          env.info("FDMMTEST:   ... \'" .. key .. "\' passed!")
+          env.info("FDMMTEST:     ...Test \'" .. key .. "\' passed!")
         else
           runFailures = runFailures + 1
-          env.error("FDMMTEST:   ... \'".. key .. "\' failed!")
+          env.error("FDMMTEST:     ...Test \'".. key .. "\' failed!")
+          env.error("FDMMTEST:     Error: " .. retVal)
         end
 
         self:tearDown()

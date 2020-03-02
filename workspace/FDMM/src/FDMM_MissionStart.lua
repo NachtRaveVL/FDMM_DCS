@@ -38,7 +38,7 @@ require('Territory/FDMM_Port')
 require('Territory/FDMM_UnitFactory')
 
 do --FDMM_MissionStart
-  trigger.action.outText("FDMM Starting...", 10)
+  trigger.action.outText("FDMM: Starting FDMM...", 10)
 
   -- Main config setup
   fdmm.config.loadDCSDBIfAble()
@@ -68,7 +68,7 @@ do --FDMM_MissionStart
     fdmm.cargoRoute.saveCargoRoutes()
 
     -- Tears down all group prefix cache setup groups.
-    fdmm.config.tearDownGPSetupGroups()
+    fdmm.config.tearDownGPCache()
   else
     -- Loads from disk
     fdmm.territory.loadTerritories()
@@ -91,7 +91,7 @@ do --FDMM_MissionStart
     end
   end
 
-  trigger.action.outText("FDMM Started", 10)
+  trigger.action.outText("FDMM: FDMM Started!", 10)
 end --FDMM_MissionStart
 
 env.info("---FDMM_MissionStart End---")

@@ -515,6 +515,7 @@ do --FDMM_Config
 
   --- Runs user setup script, as modified by user.
   function fdmm.config.runUserSetupScript()
+    env.info("FDDM: Running user setup script...")
     fdmm.setup = {} -- clear
     local status,retVal = pcall(dofile, fdmm.fullPath .. 'FDMM_Setup.lua')
     if not status then
@@ -524,6 +525,7 @@ do --FDMM_Config
 
   --- Runs tests script from testing folder.
   function fdmm.config.runTestsScript()
+    env.info("FDDM: Running tests script...")
     if not fdmm.testsPath then
       fdmm.fullTestsPath = lfs.normpath(fdmm.fullPath .. 'workspace/FDMM/tests/')
     end
@@ -536,6 +538,7 @@ do --FDMM_Config
   --- Attempts to load the DCS DB module.
   function fdmm.config.loadDCSDBIfAble()
     if not db and fdmm.setup.loadDB then
+      env.info("FDDM: Loading DCS DB...")
       __DCS_VERSION__ = '2.5' -- doesn't matter
       for attempt = 1,3 do
         -- First call usually fails, second call is usually fine.
@@ -549,6 +552,7 @@ do --FDMM_Config
   --- Attempts to load the DCS JSON module.
   function fdmm.config.loadDCSJSONIfAble()
     if not JSON and fdmm.setup.loadJSON then
+      env.info("FDDM: Loading DCS JSON...")
       local status,retVal = pcall(require,'./Scripts/JSON')
       if status then JSON = retVal end
     end
@@ -556,6 +560,7 @@ do --FDMM_Config
 
   --- Creates group prefix cache from initial mission group placements.
   function fdmm.config.createGPCache()
+    env.info("FDDM: Creating GP cache...")
     fdmm.config.gpCache = {}
     local layeredSplits = { 'AIRB_', 'ARMP_', 'CMDC_', 'FARP_', 'OILF_', 'PORT_', 'UNTF_' } -- prefixes that will have layered splits
 
@@ -590,7 +595,8 @@ do --FDMM_Config
   end
 
   --- Tears down any group prefix setup groups used in FDMM setup.
-  function fdmm.config.tearDownGPSetupGroups()
+  function fdmm.config.tearDownGPCache()
+    env.info("FDDM: Tearing down GP cache...")
     -- TODO: me.
   end
 

@@ -25,26 +25,26 @@ fdmm.enums.TerritoryType={Land='land',Sea='sea',All='all',}fdmm.consts.Territory
 do
 fdmm.enums.UnitType={Plane='Plane',Helicopter='Helicopter',Ground='Ground',Train='Train',Ship='Ship',Static='Static',}fdmm.enums.UnitPlaneType={Fighter='Fighter',Bomber='Bomber',Reconnaissance='Reconnaissance',AWACS='AWACS',Refueling='Refueling',Transport='Transport',Trainer='Trainer',Civilian='Civilian',}fdmm.enums.UnitPlaneFighterType={AirSuperiority='AirSuperiority',Interceptor='Interceptor',Strike='Strike',Multirole='Multirole',Light='Light',}fdmm.enums.UnitPlaneBomberType={Strategic='Strategic',Tactical='Tactical',Attack='Attack',Stealth='Stealth',Light='Light',ASW='ASW',}fdmm.enums.UnitPlaneReconType={Arial='Arial',Bomber='Bomber',Drone='Drone',}fdmm.enums.UnitPlaneTransportType={Strategic='Strategic',Tactical='Tactical',}fdmm.enums.UnitPlaneTrainerType={Jet='Jet',Prop='Prop',}fdmm.enums.UnitPlaneCivilianType={Aerobatic='Aerobatic',Transport='Transport',}fdmm.enums.UnitHelicopterType={Attack='Attack',Reconnaissance='Reconnaissance',Light='Light',Transport='Transport',ASW='ASW',}fdmm.enums.UnitHelicopterTransportType={Strategic='Strategic',Tactical='Tactical',Assault='Assault',}fdmm.enums.UnitGroundType={Tracked='Tracked',Wheeled='Wheeled',Towed='Towed',Infantry='Infantry',Fort='Fort',Civilian='Civilian',Animal='Animal',}fdmm.enums.UnitGroundVehicleType={HQ='HQ',MBT='MBT',SPG='SPG',ATGM='ATGM',IFV='IFV',ARV='ARV',APC='APC',SSM='SSM',MLRS='MLRS',SPH='SPH',EWR='EWR',SAM='SAM',SPAAG='SPAAG',Power='Power',Fire='Fire',Transport='Transport',Car='Car',}fdmm.enums.UnitGroundVehicleTransportType={Armored='Armored',Open='Open',Covered='Covered',Lubricant='Lubricant',Fuel='Fuel',}fdmm.enums.UnitGroundTowedType={Drone='Drone',SSM='SSM',SAM='SAM',AAA='AAA',}fdmm.enums.UnitGroundInfantryType={Beacon='Beacon',Mortar='Mortar',SAM='SAM',MG='MG',Rifle='Rifle',RPG='RPG',}fdmm.enums.UnitGroundInfantrySoldierType={Soldier='Soldier',Insurgent='Insurgent',Paratrooper='Paratrooper',}fdmm.enums.UnitGroundCivilianType={Trailer='Trailer',Fire='Fire',Transport='Transport',Bus='Bus',Car='Car',}fdmm.enums.UnitGroundCivilianTransportType={Open='Open',Covered='Covered',}fdmm.enums.UnitGroundCivilianBusType={Double='Double',Single='Single',}fdmm.enums.UnitGroundSSMRole={SearchRadar='SearchRadar',Launcher='Launcher',}fdmm.enums.UnitGroundMLRSRole={FireControl='FireControl',Launcher='Launcher',}fdmm.enums.UnitGroundSAMRole={HQ='HQ',Power='Power',SearchRadar='SearchRadar',SearchTrackRadar='SearchTrackRadar',TrackRadar='TrackRadar',ContWaveAcqRadar='ContWaveAcqRadar',TrackOptical='TrackOptical',RadarArray='RadarArray',DataProcessing='DataProcessing',Loader='Loader',Launcher='Launcher',MasterLauncher='MasterLauncher',SlaveLauncher='SlaveLauncher',}fdmm.enums.UnitGroundInfantrySAMRole={Comm='Comm',Launcher='Launcher',}fdmm.enums.UnitGroundAAARole={Fortified='Fortified',Emplacement='Emplacement',}fdmm.enums.UnitGroundDroneRole={HQ='HQ',Repeater='Repeater',}fdmm.enums.UnitTrainType={Transport='Transport',Civilian='Civilian',}fdmm.enums.UnitTrainCarType={Locomotive='Locomotive',Wagon='Wagon',}fdmm.enums.UnitShipType={Carrier='Carrier',HeliCarrier='HeliCarrier',BattleCruiser='BattleCruiser',Cruiser='Cruiser',Destroyer='Destroyer',Frigate='Frigate',Corvette='Corvette',Submarine='Submarine',Gunboat='Gunboat',Transport='Transport',Civilian='Civilian',}fdmm.enums.UnitShipTransportType={BulkCargo='BulkCargo',ISOCargo='ISOCargo',Refueler='Refueler',}fdmm.enums.UnitStaticType={Airbase='Airbase',Barrier='Barrier',Cargo='Cargo',Effect='Effect',Factory='Factory',FARP='FARP',Fort='Fort',Marker='Marker',OilField='OilField',Railway='Railway',SeaShelf='SeaShelf',Telecom='Telecom',Warehouse='Warehouse',Civilian='Civilian',Plane='Plane',Helicopter='Helicopter',Ground='Ground',Train='Train',Ship='Ship',}end
 do
-function fdmm.config.runUserSetupScript()fdmm.setup={}local e,n=pcall(dofile,fdmm.fullPath..'FDMM_Setup.lua')if not e then
+function fdmm.config.runUserSetupScript()env.info("FDDM: Running user setup script...")fdmm.setup={}local e,n=pcall(dofile,fdmm.fullPath..'FDMM_Setup.lua')if not e then
 env.error("** FDMM_Setup.lua failed to load properly. Check for any syntax errors. **")end
 end
-function fdmm.config.runTestsScript()if not fdmm.testsPath then
+function fdmm.config.runTestsScript()env.info("FDDM: Running tests script...")if not fdmm.testsPath then
 fdmm.fullTestsPath=lfs.normpath(fdmm.fullPath..'workspace/FDMM/tests/')end
 local e,n=pcall(dofile,fdmm.fullTestsPath..'FDMMTEST_TestsScript.lua')if not e then
 env.error("** FDMM tests script failure. **")end
 end
 function fdmm.config.loadDCSDBIfAble()if not db and fdmm.setup.loadDB then
-__DCS_VERSION__='2.5'for n=1,3 do
+env.info("FDDM: Loading DCS DB...")__DCS_VERSION__='2.5'for n=1,3 do
 local e,n=pcall(e,'./Scripts/Database/db_scan')if e then break end
 end
 __DCS_VERSION__=nil
 end
 end
 function fdmm.config.loadDCSJSONIfAble()if not JSON and fdmm.setup.loadJSON then
-local e,n=pcall(e,'./Scripts/JSON')if e then JSON=n end
+env.info("FDDM: Loading DCS JSON...")local e,n=pcall(e,'./Scripts/JSON')if e then JSON=n end
 end
 end
-function fdmm.config.createGPCache()fdmm.config.gpCache={}local i={'AIRB_','ARMP_','CMDC_','FARP_','OILF_','PORT_','UNTF_'}for n,r in pairs(mist.DBs.groupsByName)do
+function fdmm.config.createGPCache()env.info("FDDM: Creating GP cache...")fdmm.config.gpCache={}local i={'AIRB_','ARMP_','CMDC_','FARP_','OILF_','PORT_','UNTF_'}for n,r in pairs(mist.DBs.groupsByName)do
 local t,e=fdmm.utils.removeGroupingPrefix(n)if e~=nil then
 if not fdmm.config.gpCache[e]then
 fdmm.config.gpCache[e]={}end
@@ -64,7 +64,7 @@ end
 end
 end
 end
-function fdmm.config.tearDownGPSetupGroups()end
+function fdmm.config.tearDownGPCache()env.info("FDDM: Tearing down GP cache...")end
 end
 fdmm.config.runUserSetupScript()env.info("---FDMM_Config End---");end)__DISTILLER:define("FDMM_Utils",function(e)env.info("---FDMM_Utils Start---");fdmm.utils={}do
 function fdmm.utils.pos2ToLoggableString(e)if e.z~=nil then e=mist.utils.makeVec2(e)end
@@ -755,14 +755,14 @@ end
 env.info("---FDMM_UnitFactory End---")end)__DISTILLER:define("FDMM_MissionStart.lua_distilled",function(e)env.info("---FDMM_MissionStart Start---")env.setErrorMessageBoxEnabled(false)fdmm={}fdmm_path=fdmm_path or'/Scripts/FDMM/'fdmm.fullPath=lfs.normpath(lfs.writedir()..fdmm_path)fdmm.MapKind={Both='Both',Setup='Setup',Runable='Runable'}fdmm.mapKind=fdmm.MapKind.Both
 fdmm.RunMode={Release='Release',Dev='Dev',DevWithTests='DevWithTests'}fdmm.runMode=fdmm.RunMode.DevWithTests
 e('FDMM_Config')e('FDMM_Utils')e('FDMM_UnitTypes')e('FDMM_RegimentTypes')e('Additions/FDMM_LuaAdditions')e('Additions/FDMM_MISTAdditions')e('Additions/FDMM_MOOSEAdditions')e('Cargo/FDMM_ResourceUnit')e('Cargo/FDMM_CargoRoute')e('Territory/FDMM_Territory')e('Territory/FDMM_Airbase')e('Territory/FDMM_ArmsPlant')e('Territory/FDMM_CommandCenter')e('Territory/FDMM_FARP')e('Territory/FDMM_OilField')e('Territory/FDMM_Port')e('Territory/FDMM_UnitFactory')do
-trigger.action.outText("FDMM Starting...",10)fdmm.config.loadDCSDBIfAble()fdmm.config.loadDCSJSONIfAble()fdmm.unitTypes.processEntries()fdmm.regimentTypes.processEntries()if fdmm.utils.isDevRunMode()then
+trigger.action.outText("FDMM: Starting FDMM...",10)fdmm.config.loadDCSDBIfAble()fdmm.config.loadDCSJSONIfAble()fdmm.unitTypes.processEntries()fdmm.regimentTypes.processEntries()if fdmm.utils.isDevRunMode()then
 fdmm.unitTypes.crossRefEntries()end
 if fdmm.utils.isSetupMapKind()then
-fdmm.config.createGPCache()fdmm.territory.createTerritories()fdmm.territory.createFacilities()fdmm.cargoRoute.createCargoRoutes()fdmm.territory.saveTerritories()fdmm.territory.saveFacilities()fdmm.cargoRoute.saveCargoRoutes()fdmm.config.tearDownGPSetupGroups()else
+fdmm.config.createGPCache()fdmm.territory.createTerritories()fdmm.territory.createFacilities()fdmm.cargoRoute.createCargoRoutes()fdmm.territory.saveTerritories()fdmm.territory.saveFacilities()fdmm.cargoRoute.saveCargoRoutes()fdmm.config.tearDownGPCache()else
 fdmm.territory.loadTerritories()fdmm.territory.loadFacilities()fdmm.cargoRoute.loadCargoRoutes()end
 fdmm.territory.buildFacilities()if fdmm.utils.isDevRunMode()then
 if fdmm.utils.isTestsRunMode()then
 fdmm.config.runTestsScript()end
 end
-trigger.action.outText("FDMM Started",10)end
+trigger.action.outText("FDMM: FDMM Started!",10)end
 env.info("---FDMM_MissionStart End---")end)__DISTILLER:exec("FDMM_MissionStart.lua_distilled")
