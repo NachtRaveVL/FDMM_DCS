@@ -33,6 +33,14 @@ do --FDMMFARP
     return self
   end
 
+  function FDMMFARP:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMFARP:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Builds FARP from initial placement of map elements nearby according to setup parameters.
   function FDMMFARP:buildFacility()
     -- TODO: me.
@@ -45,9 +53,5 @@ do --FDMMFARP
   end
 
 end --FDMMFARP
-
-do -- FDMM_FARP
-  -- TODO: me.
-end -- FDMM_FARP
 
 env.info("---FDMM_FARP End---")

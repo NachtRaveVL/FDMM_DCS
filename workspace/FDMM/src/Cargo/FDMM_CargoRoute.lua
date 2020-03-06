@@ -34,6 +34,14 @@ do --FDMMCargoRoute
     return self
   end
 
+  function FDMMCargoRoute:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMCargoRoute:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Adds spawn point and optional egress points to list of spawn locations.
   -- @param #Enums.Faction spawnFaction Spawnable faction.
   -- @param DCS#Vec2 spawnPoint Spawn point location.

@@ -19,13 +19,31 @@ fdmm.setup.loadDB = true
 -- NOTE: Requires sanitization of 'require' and 'io' in MissionScripting to be commented out,
 --       i.e. comment out lines "require = nil" and "sanitizeModule('io')" in
 --            <DCS[.openbeta]>/Scripts/MissionScripting.lua
+-- WARNING: Disabling this will make it so the server cannot save nor load from save file!
+--          This means server resets will start over from the beginning of the campaign.
 fdmm.setup.loadJSON = true
 
--- What year of technology the server should allow usage of, up to and including.
+-- What year (up to and including) of equipment the server should allow usage of.
 -- Also used to determine what the initial start year should be on map reset, what
--- era of weapons should be set, etc.
+-- era of weapons should be set, what regiments and forces are available, etc.
+-- Some notable years include:
+--   Russo-Georgian War: 2008
+--   Iraq War (Iraqi Freedom): 2003-2011
+--   "Behind Enemy Lines"(tm): 1995
+--   Bosnian War: 1992-1995
+--   Georgian Civil War: 1991-1993
+--   Gulf War (Desert Storm): 1991
+--   Gulf War (Desert Shield): 1990-1991
+--   "Top Gun"(tm): 1986
+--   "Red Dawn"(tm): 1984
+--   "Firefox"(tm): 1982
+--   Soviet–Afghan War: 1979-1989
+--   Vietnam War: 1955-1975 (US: 1964-1973)
+--   Korean War: 1950-1953
+--   Cold War: 1947-1991
+--   Normandy Invasion: 1945
 -- (not yet implemented)
-fdmm.setup.techYear = 1991
+fdmm.setup.equipmentYear = 1995
 
 -- What GMT offset should be used to determine time-of-day. May specify a specific
 -- number, such as -8 for US-PST, 4 for Georgian-ST, etc., or may use "FromMap" to load

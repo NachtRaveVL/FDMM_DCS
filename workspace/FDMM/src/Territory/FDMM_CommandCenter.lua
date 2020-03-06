@@ -33,6 +33,14 @@ do --FDMMCommandCenter
     return self
   end
 
+  function FDMMCommandCenter:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMCommandCenter:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Builds command center from initial placement of map elements nearby according to setup parameters.
   function FDMMCommandCenter:buildFacility()
     -- TODO: me.
@@ -45,9 +53,5 @@ do --FDMMCommandCenter
   end
 
 end --FDMMCommandCenter
-
-do -- FDMM_CommandCenter
-  -- TODO: me.
-end -- FDMM_CommandCenter
 
 env.info("---FDMM_CommandCenter End---")

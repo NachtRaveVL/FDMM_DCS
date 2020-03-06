@@ -26,6 +26,7 @@ require('FDMM_RegimentTypes')
 require('Additions/FDMM_LuaAdditions')
 require('Additions/FDMM_MISTAdditions')
 require('Additions/FDMM_MOOSEAdditions')
+require('Utilities/FDMM_YearRange')
 require('Cargo/FDMM_ResourceUnit')
 require('Cargo/FDMM_CargoRoute')
 require('Territory/FDMM_Territory')
@@ -38,60 +39,78 @@ require('Territory/FDMM_Port')
 require('Territory/FDMM_UnitFactory')
 
 do --FDMM_MissionStart
-  trigger.action.outText("FDMM: Starting FDMM...", 10)
 
-  -- Main config setup
-  fdmm.config.loadDCSDBIfAble()
-  fdmm.config.loadDCSJSONIfAble()
+  --- Main mission start function.
+  function fdmm.missionStart()
+    local message = "FDMM: Starting " .. (fdmm.setup.serverName or "FDMM") .. "..."
+    env.info(message)
+    trigger.action.outText(message, 10)
 
-  -- Process unit and regiment type entries.
-  fdmm.unitTypes.processEntries()
-  fdmm.regimentTypes.processEntries()
+    -- Main config setup
+    fdmm.config.loadDCSDBIfAble()
+    fdmm.config.loadDCSJSONIfAble()
 
-  if fdmm.utils.isDevRunMode() then
-    -- Cross reference unit type entries.
-    fdmm.unitTypes.crossRefEntries()
-  end
+    -- Process unit and regiment type entries.
+    fdmm.unitTypes.processEntries()
+    fdmm.regimentTypes.processEntries()
 
-  if fdmm.utils.isSetupMapKind() then
-    -- Create groups prefix cache.
-    fdmm.config.createGPCache()
+    if fdmm.utils.isDevRunMode() then
+      -- Run tests before main loads
+      if fdmm.utils.isTestsRunMode() then
+        fdmm.config.runTestsScript()
+      end
 
-    -- Create territories, facilities, routes, etc. from groups placed on map.
-    fdmm.territory.createTerritories()
-    fdmm.territory.createFacilities()
-    fdmm.cargoRoute.createCargoRoutes()
-
-    -- Saves out to disk
-    fdmm.territory.saveTerritories()
-    fdmm.territory.saveFacilities()
-    fdmm.cargoRoute.saveCargoRoutes()
-
-    -- Tears down all group prefix cache setup groups.
-    fdmm.config.tearDownGPCache()
-  else
-    -- Loads from disk
-    fdmm.territory.loadTerritories()
-    fdmm.territory.loadFacilities()
-    fdmm.cargoRoute.loadCargoRoutes()
-  end
-
-  -- Builds facilities specified by setup. 
-  fdmm.territory.buildFacilities()
-
-  if fdmm.utils.isDevRunMode() then 
-    -- Optional to uncomment, dumps to env.info()
-    --fdmm.unitTypes.dumpUnitReportNames()
-    --fdmm.territory.dumpTerritories()
-    --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
-    --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
-
-    if fdmm.utils.isTestsRunMode() then
-      fdmm.config.runTestsScript()
+      -- Cross reference unit type entries.
+      fdmm.unitTypes.crossRefEntries()
     end
+
+    if fdmm.utils.isSetupMapKind() then
+      -- Create groups prefix cache.
+      fdmm.config.createGPCache()
+
+      -- Create territories, facilities, routes, etc. from groups placed on map.
+      fdmm.territory.createTerritories()
+      fdmm.territory.createFacilities()
+      fdmm.cargoRoute.createCargoRoutes()
+
+      -- Saves out to disk
+      fdmm.territory.saveTerritories()
+      fdmm.territory.saveFacilities()
+      fdmm.cargoRoute.saveCargoRoutes()
+
+      -- Tears down all group prefix cache setup groups.
+      fdmm.config.tearDownGPCache()
+    else
+      -- Loads from disk
+      fdmm.territory.loadTerritories()
+      fdmm.territory.loadFacilities()
+      fdmm.cargoRoute.loadCargoRoutes()
+    end
+
+    -- Builds facilities specified by setup. 
+    fdmm.territory.buildFacilities()
+
+    if fdmm.utils.isDevRunMode() then 
+      -- Optional to uncomment, dumps to env.info()
+      --fdmm.unitTypes.dumpUnitReportNames()
+      --fdmm.territory.dumpTerritories()
+      --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
+      --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
+      fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, 1968, 2020) -- temp
+    end
+
+    message = "FDMM: ...Started " .. (fdmm.setup.serverName or "FDMM") .. "!"
+    env.info(message)
+    trigger.action.outText(message, 10)
   end
 
-  trigger.action.outText("FDMM: FDMM Started!", 10)
+  local status,retVal = pcall(fdmm.missionStart, nil)
+  if not status then
+    local message = "FDMM: Failed to Start " .. (fdmm.setup.serverName or "FDMM") .. "!"
+    env.error(message)
+    trigger.action.outText(message, 10)
+    env.error("FDMM:   Error: " .. tostring(retVal))
+  end
 end --FDMM_MissionStart
 
 env.info("---FDMM_MissionStart End---")

@@ -1599,14 +1599,14 @@ do --FDMM_UnitTypes
                                 ['outpost'] = 'Fortifications', ['outpost_road'] = 'Fortifications',
                                 ['house2arm'] = 'Fortifications', ['TACAN_beacon'] = 'Fortifications' }
 
-    local function createGroupAll(unitTypeGroup)
-      local function createGroupAll_recurse(node, groupAllList)
+    local function _createGroupAll(unitTypeGroup)
+      local function _createGroupAll_recurse(node, groupAllList)
         for key, value in pairs(node) do
           if not (string.hasAnyPrefix(key, prefixFilter) or
                   table.contains(keyFilter, key) or
                   string.hasAnySuffix(key, suffixFilter)) then -- filter out keys
             if type(value) == 'table' then
-              createGroupAll_recurse(value, groupAllList) -- recurse, b/c table
+              _createGroupAll_recurse(value, groupAllList) -- recurse, b/c table
             elseif type(value) == 'string' then -- valid value
               local fdmmUnitType = key
               local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
@@ -1645,10 +1645,10 @@ do --FDMM_UnitTypes
           end
         end
       end
-      createGroupAll_recurse(unitTypeGroup, unitTypeGroup.All)
+      _createGroupAll_recurse(unitTypeGroup, unitTypeGroup.All)
     end
 
-    local function copyGroupAllToStaticAll(groupAllList, staticAllList, category)
+    local function _copyGroupAllToStaticAll(groupAllList, staticAllList, category)
       for fdmmUnitType, unitType in pairs(groupAllList) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
           -- possible todo: determine shape name?
@@ -1657,7 +1657,7 @@ do --FDMM_UnitTypes
       end
     end
 
-    local function copyGroupAllToMasterAll(allList, masterAllList)
+    local function _copyGroupAllToMasterAll(allList, masterAllList)
       for fdmmUnitType, value in pairs(allList) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
           local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
@@ -1674,7 +1674,7 @@ do --FDMM_UnitTypes
       end
     end
 
-    local function createGroupNamingIfNeeded(unitTypeGroup)
+    local function _createGroupNamingIfNeeded(unitTypeGroup)
       if not unitTypeGroup.NATOReporting then unitTypeGroup.NATOReporting = {} end
       if not unitTypeGroup.WTOReporting then unitTypeGroup.WTOReporting = {} end
       if not unitTypeGroup.ReportNaming then unitTypeGroup.ReportNaming = {} end
@@ -1682,8 +1682,8 @@ do --FDMM_UnitTypes
       if not unitTypeGroup.Nicknaming then unitTypeGroup.Nicknaming = {} end
     end
 
-    local function copyGroupReportingToStaticReporting(unitTypeGroup, staticUnitTypeGroup)
-      local function copyGroupNamingToStaticNaming(groupReportNaming, staticReportNaming)
+    local function _copyGroupReportingToStaticReporting(unitTypeGroup, staticUnitTypeGroup)
+      local function _copyGroupNamingToStaticNaming(groupReportNaming, staticReportNaming)
         for unitType, reportNaming in pairs(groupReportNaming) do
           if not string.hasAnyPrefix(unitType, prefixFilter) then
             if not staticReportNaming[unitType] then
@@ -1696,14 +1696,14 @@ do --FDMM_UnitTypes
           end
         end
       end
-      copyGroupNamingToStaticNaming(unitTypeGroup.NATOReporting, staticUnitTypeGroup.NATOReporting)
-      copyGroupNamingToStaticNaming(unitTypeGroup.WTOReporting, staticUnitTypeGroup.WTOReporting)
-      copyGroupNamingToStaticNaming(unitTypeGroup.ReportNaming, staticUnitTypeGroup.ReportNaming)
-      copyGroupNamingToStaticNaming(unitTypeGroup.ProperNaming, staticUnitTypeGroup.ProperNaming)
-      copyGroupNamingToStaticNaming(unitTypeGroup.Nicknaming, staticUnitTypeGroup.Nicknaming)
+      _copyGroupNamingToStaticNaming(unitTypeGroup.NATOReporting, staticUnitTypeGroup.NATOReporting)
+      _copyGroupNamingToStaticNaming(unitTypeGroup.WTOReporting, staticUnitTypeGroup.WTOReporting)
+      _copyGroupNamingToStaticNaming(unitTypeGroup.ReportNaming, staticUnitTypeGroup.ReportNaming)
+      _copyGroupNamingToStaticNaming(unitTypeGroup.ProperNaming, staticUnitTypeGroup.ProperNaming)
+      _copyGroupNamingToStaticNaming(unitTypeGroup.Nicknaming, staticUnitTypeGroup.Nicknaming)
     end
 
-    local function fillInReportNaming(unitTypeGroup)
+    local function _fillInReportNaming(unitTypeGroup)
       for fdmmUnitType, value in pairs(unitTypeGroup.All) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
           local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
@@ -1716,26 +1716,26 @@ do --FDMM_UnitTypes
       end
     end
 
-    createGroupAll(fdmm.consts.UnitType.Plane)
-    createGroupAll(fdmm.consts.UnitType.Helicopter)
-    createGroupAll(fdmm.consts.UnitType.Ground)
-    createGroupAll(fdmm.consts.UnitType.Ship)
-    createGroupAll(fdmm.consts.UnitType.Train)
+    _createGroupAll(fdmm.consts.UnitType.Plane)
+    _createGroupAll(fdmm.consts.UnitType.Helicopter)
+    _createGroupAll(fdmm.consts.UnitType.Ground)
+    _createGroupAll(fdmm.consts.UnitType.Ship)
+    _createGroupAll(fdmm.consts.UnitType.Train)
 
-    copyGroupAllToStaticAll(fdmm.consts.UnitType.Plane.All, fdmm.consts.UnitType.Static.Plane, 'Planes')
-    copyGroupAllToStaticAll(fdmm.consts.UnitType.Helicopter.All, fdmm.consts.UnitType.Static.Helicopter, 'Helicopters')
-    copyGroupAllToStaticAll(fdmm.consts.UnitType.Ground.All, fdmm.consts.UnitType.Static.Ground, 'Unarmed')
-    copyGroupAllToStaticAll(fdmm.consts.UnitType.Train.All, fdmm.consts.UnitType.Static.Train, 'Unarmed')
-    copyGroupAllToStaticAll(fdmm.consts.UnitType.Ship.All, fdmm.consts.UnitType.Static.Ship, 'Ships')
+    _copyGroupAllToStaticAll(fdmm.consts.UnitType.Plane.All, fdmm.consts.UnitType.Static.Plane, 'Planes')
+    _copyGroupAllToStaticAll(fdmm.consts.UnitType.Helicopter.All, fdmm.consts.UnitType.Static.Helicopter, 'Helicopters')
+    _copyGroupAllToStaticAll(fdmm.consts.UnitType.Ground.All, fdmm.consts.UnitType.Static.Ground, 'Unarmed')
+    _copyGroupAllToStaticAll(fdmm.consts.UnitType.Train.All, fdmm.consts.UnitType.Static.Train, 'Unarmed')
+    _copyGroupAllToStaticAll(fdmm.consts.UnitType.Ship.All, fdmm.consts.UnitType.Static.Ship, 'Ships')
 
-    createGroupAll(fdmm.consts.UnitType.Static)
+    _createGroupAll(fdmm.consts.UnitType.Static)
 
-    copyGroupAllToMasterAll(fdmm.consts.UnitType.Plane.All, fdmm.consts.UnitType.All)
-    copyGroupAllToMasterAll(fdmm.consts.UnitType.Helicopter.All, fdmm.consts.UnitType.All)
-    copyGroupAllToMasterAll(fdmm.consts.UnitType.Ground.All, fdmm.consts.UnitType.All)
-    copyGroupAllToMasterAll(fdmm.consts.UnitType.Train.All, fdmm.consts.UnitType.All)
-    copyGroupAllToMasterAll(fdmm.consts.UnitType.Ship.All, fdmm.consts.UnitType.All)
-    copyGroupAllToMasterAll(fdmm.consts.UnitType.Static.All, fdmm.consts.UnitType.All)
+    _copyGroupAllToMasterAll(fdmm.consts.UnitType.Plane.All, fdmm.consts.UnitType.All)
+    _copyGroupAllToMasterAll(fdmm.consts.UnitType.Helicopter.All, fdmm.consts.UnitType.All)
+    _copyGroupAllToMasterAll(fdmm.consts.UnitType.Ground.All, fdmm.consts.UnitType.All)
+    _copyGroupAllToMasterAll(fdmm.consts.UnitType.Train.All, fdmm.consts.UnitType.All)
+    _copyGroupAllToMasterAll(fdmm.consts.UnitType.Ship.All, fdmm.consts.UnitType.All)
+    _copyGroupAllToMasterAll(fdmm.consts.UnitType.Static.All, fdmm.consts.UnitType.All)
 
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.All)
 
@@ -1761,26 +1761,26 @@ do --FDMM_UnitTypes
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.PlayerControllable)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Unavailable)
 
-    createGroupNamingIfNeeded(fdmm.consts.UnitType.Plane)
-    createGroupNamingIfNeeded(fdmm.consts.UnitType.Helicopter)
-    createGroupNamingIfNeeded(fdmm.consts.UnitType.Ground)
-    createGroupNamingIfNeeded(fdmm.consts.UnitType.Ship)
-    createGroupNamingIfNeeded(fdmm.consts.UnitType.Train)
-    createGroupNamingIfNeeded(fdmm.consts.UnitType.Static)
+    _createGroupNamingIfNeeded(fdmm.consts.UnitType.Plane)
+    _createGroupNamingIfNeeded(fdmm.consts.UnitType.Helicopter)
+    _createGroupNamingIfNeeded(fdmm.consts.UnitType.Ground)
+    _createGroupNamingIfNeeded(fdmm.consts.UnitType.Ship)
+    _createGroupNamingIfNeeded(fdmm.consts.UnitType.Train)
+    _createGroupNamingIfNeeded(fdmm.consts.UnitType.Static)
 
-    fillInReportNaming(fdmm.consts.UnitType.Plane)
-    fillInReportNaming(fdmm.consts.UnitType.Helicopter)
-    fillInReportNaming(fdmm.consts.UnitType.Ground)
-    fillInReportNaming(fdmm.consts.UnitType.Ship)
-    fillInReportNaming(fdmm.consts.UnitType.Train)
+    _fillInReportNaming(fdmm.consts.UnitType.Plane)
+    _fillInReportNaming(fdmm.consts.UnitType.Helicopter)
+    _fillInReportNaming(fdmm.consts.UnitType.Ground)
+    _fillInReportNaming(fdmm.consts.UnitType.Ship)
+    _fillInReportNaming(fdmm.consts.UnitType.Train)
 
-    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Plane, fdmm.consts.UnitType.Static)
-    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Helicopter, fdmm.consts.UnitType.Static)
-    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Ground, fdmm.consts.UnitType.Static)
-    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Ship, fdmm.consts.UnitType.Static)
-    copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Train, fdmm.consts.UnitType.Static)
+    _copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Plane, fdmm.consts.UnitType.Static)
+    _copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Helicopter, fdmm.consts.UnitType.Static)
+    _copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Ground, fdmm.consts.UnitType.Static)
+    _copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Ship, fdmm.consts.UnitType.Static)
+    _copyGroupReportingToStaticReporting(fdmm.consts.UnitType.Train, fdmm.consts.UnitType.Static)
 
-    fillInReportNaming(fdmm.consts.UnitType.Static)
+    _fillInReportNaming(fdmm.consts.UnitType.Static)
 
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Plane.Nicknaming)
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Helicopter.Nicknaming)
@@ -1793,7 +1793,7 @@ do --FDMM_UnitTypes
   function fdmm.unitTypes.crossRefEntries()
     if db then
       env.info("FDMM: Cross-referencing units...")
-      local function crossRefUnits(keyPath, unitArray)
+      local function _crossRefUnits(keyPath, unitArray)
         for idx,unitData in ipairs(unitArray) do
           local unitType = unitData.Name
           local unitTypeAliases = unit_aliases._rev[unitType]
@@ -1819,18 +1819,18 @@ do --FDMM_UnitTypes
 
       fdmm.utils.ensureReversedDict(unit_aliases)
 
-      crossRefUnits('db.Units.Animals', db.Units.Animals.Animal)
-      crossRefUnits('db.Units.Cargos', db.Units.Cargos.Cargo)
-      crossRefUnits('db.Units.Cars', db.Units.Cars.Car)
-      crossRefUnits('db.Units.Fortifications', db.Units.Fortifications.Fortification)
-      crossRefUnits('db.Units.Helicopters', db.Units.Helicopters.Helicopter)
-      crossRefUnits('db.Units.Heliports', db.Units.Heliports.Heliport)
-      crossRefUnits('db.Units.LTAvehicles', db.Units.LTAvehicles.LTAvehicle)
-      crossRefUnits('db.Units.Personnel', db.Units.Personnel.Personnel)
-      crossRefUnits('db.Units.Planes', db.Units.Planes.Plane)
-      crossRefUnits('db.Units.Ships', db.Units.Ships.Ship)
-      crossRefUnits('db.Units.WWIIstructures', db.Units.WWIIstructures.WWIIstructure)
-      crossRefUnits('db.Units.Warehouses', db.Units.Warehouses.Warehouse)
+      _crossRefUnits('db.Units.Animals', db.Units.Animals.Animal)
+      _crossRefUnits('db.Units.Cargos', db.Units.Cargos.Cargo)
+      _crossRefUnits('db.Units.Cars', db.Units.Cars.Car)
+      _crossRefUnits('db.Units.Fortifications', db.Units.Fortifications.Fortification)
+      _crossRefUnits('db.Units.Helicopters', db.Units.Helicopters.Helicopter)
+      _crossRefUnits('db.Units.Heliports', db.Units.Heliports.Heliport)
+      _crossRefUnits('db.Units.LTAvehicles', db.Units.LTAvehicles.LTAvehicle)
+      _crossRefUnits('db.Units.Personnel', db.Units.Personnel.Personnel)
+      _crossRefUnits('db.Units.Planes', db.Units.Planes.Plane)
+      _crossRefUnits('db.Units.Ships', db.Units.Ships.Ship)
+      _crossRefUnits('db.Units.WWIIstructures', db.Units.WWIIstructures.WWIIstructure)
+      _crossRefUnits('db.Units.Warehouses', db.Units.Warehouses.Warehouse)
 
       local checkDBYears = false -- change to true to run the following
       if dbYears and checkDBYears then
@@ -1838,7 +1838,7 @@ do --FDMM_UnitTypes
         for unitType,_ in pairs(dbYears) do
           table.insert(unitArray, {Name = unitType})
         end
-        crossRefUnits('dbYears', unitArray)
+        _crossRefUnits('dbYears', unitArray)
       end
     end
   end
@@ -1927,7 +1927,7 @@ do --FDMM_UnitTypes
 
   function fdmm.unitTypes.dumpUnitReportNames()
     env.info("FDMM: Dumping unit report names...")
-    local function dumpAll(unitTypeGroup)
+    local function _dumpReportNames(unitTypeGroup)
       for _,fdmmUnitType in pairs(table.sortedKeysList(unitTypeGroup.All)) do
         if not string.hasPrefix(fdmmUnitType, '_') then
           local value = unitTypeGroup.All[fdmmUnitType]
@@ -1940,7 +1940,7 @@ do --FDMM_UnitTypes
         end
       end
     end
-    dumpAll(fdmm.consts.UnitType.Static)
+    _dumpReportNames(fdmm.consts.UnitType.Static)
   end
 
 end --FDMM_UnitTypes

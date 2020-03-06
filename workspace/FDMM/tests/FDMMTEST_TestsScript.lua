@@ -9,6 +9,7 @@ fdmmtest.fullPath = fdmm.fullTestsPath
 
 require('../tests/FDMMTEST_UnitTest')
 require('../tests/FDMMTEST_UtilsTests')
+require('../tests/FDMMTEST_YearRangeTests')
 
 do --FDMMTEST_TestScript
 
@@ -27,7 +28,7 @@ do --FDMMTEST_TestScript
     else
       fdmmtest.testFailures = fdmmtest.testFailures + 1
       env.error("FDMMTEST:   Failure executing unit test \'" .. unitTest.name .. "\'.")
-      env.error("FDMMTEST:   Error: " .. retVal)
+      env.error("FDMMTEST:   Error: " .. tostring(retVal))
     end
   end
 
@@ -39,6 +40,7 @@ do --FDMMTEST_TestScript
 
     -- Add test files here:
     pcall(fdmmtest.runUnitTest, FDMMTESTUtilsTests.new())
+    pcall(fdmmtest.runUnitTest, FDMMTESTYearRangeTests.new())
 
     local total = fdmmtest.testPasses + fdmmtest.testFailures
     local resultString = "FDMMTEST: Finished running " .. total .. " test(s) with " ..

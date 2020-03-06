@@ -33,6 +33,14 @@ do --FDMMPort
     return self
   end
 
+  function FDMMPort:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMPort:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Builds port from initial placement of map elements nearby according to setup parameters.
   function FDMMPort:buildFacility()
     -- TODO: me.
@@ -45,9 +53,5 @@ do --FDMMPort
   end
 
 end --FDMMPort
-
-do -- FDMM_Port
-  -- TODO: me.
-end -- FDMM_Port
 
 env.info("---FDMM_Port End---")

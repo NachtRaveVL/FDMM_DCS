@@ -43,7 +43,7 @@ do --FDMMTerritory
         self.capturePoint = point
       end
     end
-    -- Remove last point in polygonPoint if it's too close to first point (typical situation)
+    -- Remove last point in polygonPoint if it's too close to first point (which is a typical situation)
     local cyclicDistSqrd = mist.utils.get2DDist(self.polygonPoints[1], self.polygonPoints[#self.polygonPoints])
     if cyclicDistSqrd <= 25*25 then
       table.remove(self.polygonPoints, #self.polygonPoints)
@@ -59,6 +59,14 @@ do --FDMMTerritory
     return self
   end
 
+  function FDMMTerritory:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMTerritory:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Add linked territory to territory.
   -- @param #FDMMTerritory otherTerritory Other territory object to link with.
   function FDMMTerritory:addTerritoryLink(otherTerritory)
@@ -70,7 +78,7 @@ do --FDMMTerritory
       self.linkedTerritoryDistances[otherTerritory.name] = dist
       otherTerritory.linkedTerritoryDistances[self.name] = dist
     else
-      env.error('Cannot link territory \'' .. self.name .. '\' with itself.')
+      env.error("Cannot link territory \'" .. self.name .. "\' with itself.")
     end
   end
 
@@ -158,12 +166,12 @@ do --FDMM_Territory
             if closestTerritory ~= nil then
               territory:addTerritoryLink(closestTerritory)
             else
-              env.error('Territory linkage group \'' .. groupName .. '\' failed to find a closest territory at WP index ' .. idx .. '.')
+              env.error("Territory linkage group \'" .. groupName .. "\' failed to find a closest territory at WP index " .. idx .. ".")
             end
           end
         end
       else
-        env.error('Territory linkage group \'' .. groupName .. '\' failed to find territory named \'' .. territoryName .. '\'.')
+        env.error("Territory linkage group \'" .. groupName .. "\' failed to find territory named \'" .. territoryName .. "\'.")
       end
     end
   end
@@ -235,12 +243,13 @@ do --FDMM_Territory
               fdmm.facilities.all[unitFactory.name] = unitFactory
               territory:addFacility(unitFactory)
             elseif not (string.isEmpty(wpName) and string.isEmpty(wpSuffix)) then -- not a stand-in WP name
-              env.error('Territory group \'' .. groupName .. '\' unknown facility WP \'' .. (routePoint.name or '<nil>') .. '\' at WP index ' .. idx .. '.')
+              env.error("Territory group \'" .. groupName .. "\' unknown facility WP \'" .. tostring(routePoint.name) .. "\' at WP index " .. idx .. ".")
+              
             end
           end
         end
       else
-        env.error('Territory facility group \'' .. groupName .. '\' failed to find territory named \'' .. territoryName .. '\'.')
+        env.error("Territory facility group \'" .. groupName .. "\' failed to find territory named \'" .. territoryName .. "\'.")
       end
     end
   end

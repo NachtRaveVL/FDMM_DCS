@@ -33,6 +33,14 @@ do --FDMMFacility
     return self
   end
 
+  function FDMMFacility:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMFacility:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Builds facility from initial placement of map elements nearby according to setup parameters.
   function FDMMFacility:buildFacility()
     -- meant to be overridden by derived classes
@@ -46,9 +54,5 @@ do --FDMMFacility
   end
 
 end --FDMMFacility
-
-do -- FDMM_Facility
-  -- TODO: me.
-end -- FDMM_Facility
 
 env.info("---FDMM_Facility End---")

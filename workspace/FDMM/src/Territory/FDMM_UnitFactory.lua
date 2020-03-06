@@ -32,6 +32,14 @@ do --FDMMUnitFactory
     -- TODO: me.
     return self
   end
+  
+  function FDMMUnitFactory:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMUnitFactory:deserialize(decoder)
+    -- TOD: me.
+  end
 
   --- Builds unit factory from initial placement of map elements nearby according to setup parameters.
   function FDMMUnitFactory:buildFacility()
@@ -45,9 +53,5 @@ do --FDMMUnitFactory
   end
 
 end --FDMMUnitFactory
-
-do -- FDMM_UnitFactory
-  -- TODO: me.
-end -- FDMM_UnitFactory
 
 env.info("---FDMM_UnitFactory End---")

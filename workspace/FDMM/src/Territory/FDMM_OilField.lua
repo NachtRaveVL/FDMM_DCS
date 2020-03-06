@@ -33,6 +33,14 @@ do --FDMMOilField
     return self
   end
 
+  function FDMMOilField:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMOilField:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Builds oil field from initial placement of map elements nearby according to setup parameters.
   function FDMMOilField:buildFacility()
     -- TODO: me.
@@ -45,9 +53,5 @@ do --FDMMOilField
   end
 
 end --FDMMOilField
-
-do -- FDMM_OilField
-  -- TODO: me.
-end -- FDMM_OilField
 
 env.info("---FDMM_OilField End---")

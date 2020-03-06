@@ -33,6 +33,14 @@ do --FDMMArmsPlant
     return self
   end
 
+  function FDMMArmsPlant:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMArmsPlant:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Builds arms plant from initial placement of map elements nearby according to setup parameters.
   function FDMMArmsPlant:buildFacility()
     -- TODO: me.
@@ -45,9 +53,5 @@ do --FDMMArmsPlant
   end
 
 end --FDMMArmsPlant
-
-do -- FDMM_ArmsPlant
-  -- TODO: me.
-end -- FDMM_ArmsPlant
 
 env.info("---FDMM_ArmsPlant End---")

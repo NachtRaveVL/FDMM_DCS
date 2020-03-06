@@ -33,6 +33,14 @@ do --FDMMAirbase
     return self
   end
 
+  function FDMMAirbase:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMAirbase:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Builds airbase from initial placement of map elements nearby according to setup parameters.
   function FDMMAirbase:buildFacility()
     -- TODO: me.
@@ -45,9 +53,5 @@ do --FDMMAirbase
   end
 
 end --FDMMAirbase
-
-do -- FDMM_Airbase
-  -- TODO: me.
-end -- FDMM_Airbase
 
 env.info("---FDMM_Airbase End---")

@@ -39,6 +39,14 @@ do --FDMMResourceUnit
     return self
   end
 
+  function FDMMResourceUnit:serialize(encoder)
+    -- TODO: me.
+  end
+
+  function FDMMResourceUnit:deserialize(decoder)
+    -- TOD: me.
+  end
+
   --- Determines if specified amount of RP can be transfered to another resource unit.
   -- @param #FDMMResourceUnit otherResUnit Other resource unit object.
   -- @param #Enums.RPType rpType Resource point type (fuel, arms, etc.).
@@ -62,9 +70,5 @@ do --FDMMResourceUnit
   end
 
 end --FDMMResourceUnit
-
-do -- FDMM_ResourceUnit
-  -- TODO: me.
-end -- FDMM_ResourceUnit
 
 env.info("---FDMM_ResourceUnit End---")
