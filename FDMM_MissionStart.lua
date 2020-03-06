@@ -428,11 +428,11 @@ local function l(n,e)if type(e)~='table'then return nil end
 assert(type(n)=='number',"Invalid parameter: year")assert(type(e[1])=='number',"Invalid parameter: range[1]")assert(type(e[2])=='number',"Invalid parameter: range[2]")return n>=e[1]and n<=e[2]end
 local function d(e,n)if type(e)~='table'or type(n)~='table'then return nil end
 assert(type(e[1])=='number',"Invalid parameter: range1[1]")assert(type(e[2])=='number',"Invalid parameter: range1[2]")assert(type(n[1])=='number',"Invalid parameter: range2[1]")assert(type(n[2])=='number',"Invalid parameter: range2[2]")return n[1]>=e[1]and n[2]<=e[2]end
-function FDMMYearRange:_indexOfRangeAdjToOrCont(i)assert(type(i)=='number',"Invalid parameter: year")if table.getn(self.ranges)==0 then return nil,nil end
-local e,a=1,table.getn(self.ranges)while e<a do
-local n=math.floor((e+a)/2)local o=self.ranges[n]if r(o)>i then
-a=n
-elseif t(o)<i then
+function FDMMYearRange:_indexOfRangeAdjToOrCont(a)assert(type(a)=='number',"Invalid parameter: year")if table.getn(self.ranges)==0 then return nil,nil end
+local e,i=1,table.getn(self.ranges)while e<i do
+local n=math.floor((e+i)/2)local o=self.ranges[n]if r(o)>a then
+i=n
+elseif t(o)<a then
 e=n+1
 else
 return n,o
@@ -491,15 +491,14 @@ end
 function FDMMYearRange:removeYear(e)assert(type(e)=='number',"Invalid parameter: year")return self:removeYearRange(e,e)end
 function FDMMYearRange:removeYearRange(n,e)assert(type(n)=='number',"Invalid parameter: startYear")assert(type(e)=='number',"Invalid parameter: endYear")end
 function FDMMYearRange:containsYear(e)assert(type(e)=='number',"Invalid parameter: year")return self:containsYearRange(e,e)end
-function FDMMYearRange:containsYearRange(n,e)assert(type(n)=='number',"Invalid parameter: startYear")assert(type(e)=='number',"Invalid parameter: endYear")if table.getn(self.ranges)==0 then return false end
-local i={n,e}local r=self:_indexOfRangeAdjToOrCont(n)local t=r and self.ranges[r]or nil
-if t and d(t,i)then
+function FDMMYearRange:containsYearRange(e,n)assert(type(e)=='number',"Invalid parameter: startYear")assert(type(n)=='number',"Invalid parameter: endYear")if table.getn(self.ranges)==0 then return false end
+local r={e,n}local e=self:_indexOfRangeAdjToOrCont(e)local e=e and self.ranges[e]or nil
+if e and d(e,r)then
 return true
 end
-if n<e then
-local e=self:_indexOfRangeAdjToOrCont(e)or r
-local e=e and self.ranges[e]or nil
-if e and d(e,i)then
+if not e or n>t(e)then
+local e=self:_indexOfRangeAdjToOrCont(n)local e=e and self.ranges[e]or nil
+if e and d(e,r)then
 return true
 end
 end
@@ -525,8 +524,8 @@ env.warning("FDMM: Unknown Inactive yearData: '"..tostring(n).."' in regiment un
 end
 end
 end
-local e,n=e._yearRange:startYear(),e._yearRange:endYear()if type(e)=='number'and e<r[1]then r[1]=e end
-if type(n)=='number'and n>r[2]then r[2]=n end
+local n,e=e._yearRange:startYear(),e._yearRange:endYear()if type(n)=='number'and n<r[1]then r[1]=n end
+if type(e)=='number'and e>r[2]then r[2]=e end
 return r
 end
 for r,e in pairs(r.Units or{})do

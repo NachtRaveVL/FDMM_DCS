@@ -189,6 +189,8 @@ do --FDMMYearRange
   function FDMMYearRange:removeYearRange(startYear, endYear)
     assert(type(startYear) == 'number', "Invalid parameter: startYear")
     assert(type(endYear) == 'number', "Invalid parameter: endYear")
+
+    -- TODO: me.
   end
 
   function FDMMYearRange:containsYear(year)
@@ -206,8 +208,8 @@ do --FDMMYearRange
     if begRange and _rangeContainsRange(begRange, range) then
       return true
     end
-    if startYear < endYear then
-      local endIdx = self:_indexOfRangeAdjToOrCont(endYear) or begIdx
+    if not begRange or endYear > _endYear(begRange) then
+      local endIdx = self:_indexOfRangeAdjToOrCont(endYear)
       local endRange = endIdx and self.ranges[endIdx] or nil
       if endRange and _rangeContainsRange(endRange, range) then
         return true
