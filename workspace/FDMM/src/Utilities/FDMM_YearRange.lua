@@ -200,13 +200,16 @@ do --FDMMYearRange
     assert(type(startYear) == 'number', "Invalid parameter: startYear")
     assert(type(endYear) == 'number', "Invalid parameter: endYear")
     if table.getn(self.ranges) == 0 then return false end
-    local idx = self:_indexOfRangeAdjToOrCont(startYear)
-    if idx ~= nil and _yearExistsIn(startYear, self.ranges[idx]) then
+    local range = { startYear, endYear }
+    local begIdx = self:_indexOfRangeAdjToOrCont(startYear)
+    local begRange = begIdx and self.ranges[begIdx] or nil
+    if begRange and _rangeContainsRange(begRange, range) then
       return true
     end
-    if endYear > startYear then
-      idx = self:_indexOfRangeAdjToOrCont(endYear)
-      if idx ~= nil and _yearExistsIn(endYear, self.ranges[idx]) then
+    if startYear < endYear then
+      local endIdx = self:_indexOfRangeAdjToOrCont(endYear) or begIdx
+      local endRange = endIdx and self.ranges[endIdx] or nil
+      if endRange and _rangeContainsRange(endRange, range) then
         return true
       end
     end
