@@ -1844,9 +1844,11 @@ do --FDMM_UnitTypes
   end
 
   function fdmm.unitTypes.anyAvailableToFaction(unitTypesDict, factionName)
+    -- TODO: me.
   end
 
   function fdmm.unitTypes.isAvailabeToFaction(unitType, factionName)
+    -- TODO: me.
   end
 
   function fdmm.unitTypes.anyListedUnder(unitTypesDict, listedTypesDict)

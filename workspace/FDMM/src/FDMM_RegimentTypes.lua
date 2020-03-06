@@ -885,7 +885,7 @@ do --FDMM_RegimentTypes
   function fdmm.regimentTypes.dumpRegimentYearlyAvailability(regiment, yearStart, yearEnd)
     env.info("FDMM: Dumping regiment yearly availability for years " ..
               tostring(yearStart) .. " to " .. tostring(yearEnd) .. "...")
-    local function dumpRegimentAvailability_recurse(regiment, year, shift)
+    local function _dumpRegimentAvailability_recurse(regiment, year, shift)
       env.info("FDMM: " .. shift .. "Regiment: " .. fdmm.regimentTypes.getObjReportNameInYear(regiment, year))
       for _,regimentUnit in pairs(regiment.Units or {}) do
         if fdmm.regimentTypes.isRegimentUnitAvailableInYear(regimentUnit, year) then
@@ -893,7 +893,7 @@ do --FDMM_RegimentTypes
         end
       end
       for regKey,childRegiment in pairs(regiment.Regiments or {}) do
-        dumpRegimentAvailability_recurse(childRegiment, year, shift .. "  ")
+        _dumpRegimentAvailability_recurse(childRegiment, year, shift .. "  ")
       end
       if regiment.Reinforcements then
         env.info("FDMM: " .. shift .. "  Reinforcements:")
@@ -902,14 +902,14 @@ do --FDMM_RegimentTypes
             env.info("FDMM: " .. shift .. "    Unit: " .. fdmm.regimentTypes.getObjReportNameInYear(regimentUnit, year))
           end
           for _,childRegiment in pairs(regiment.Reinforcements.Regiments or {}) do
-            dumpRegimentAvailability_recurse(childRegiment, year, shift .. "    ")
+            _dumpRegimentAvailability_recurse(childRegiment, year, shift .. "    ")
           end
         end
       end
     end
     for year = yearStart,yearEnd do
       env.info("FDMM: Year: " .. year)
-      dumpRegimentAvailability_recurse(regiment, year, "")
+      _dumpRegimentAvailability_recurse(regiment, year, "")
     end
   end
 
