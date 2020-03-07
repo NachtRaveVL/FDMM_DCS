@@ -103,6 +103,17 @@ do --FDMMYearRange
         self.ranges[idx-1][2] = _endYear(self.ranges[idx])
         table.remove(self.ranges, idx)
       end
+      self:_checkValidRangeAt(idx)
+    end
+  end
+
+  function FDMMYearRange:_checkValidRangeAt(idx)
+    local lenRanges = table.getn(self.ranges)
+    if idx >= 1 and idx <= lenRanges then
+      local range = self.ranges[idx]
+      if _startYear(range) > _endYear(range) then
+        table.remove(self.ranges, idx)
+      end
     end
   end
 
@@ -116,6 +127,31 @@ do --FDMMYearRange
     return _endYear(self.ranges[table.getn(self.ranges)])
   end
 
+  function FDMMYearRange:getYearList()
+    local list = {}
+    for _,range in ipairs(self.ranges or {}) do
+      if _startYear(range) ~= _endYear(range) then
+        table.insert(list, range)
+      else
+        table.insert(list, _startYear(range))
+      end
+    end
+    return list
+  end
+
+  function FDMMYearRange:addYearsFromList(yearList)
+    assert(type(yearList) == 'table', "Invalid parameter: yearList")
+    for _,yearData in ipairs(yearList) do
+      if type(yearData) == 'number' then
+        self:addYear(yearData)
+      elseif type(yearData) == 'table' and table.getn(yearData) == 2 then
+        self:addYearRange(yearData[1], yearData[2])
+      else
+        assert(false, "Unknown yearData: " .. tostring(yearData))
+      end
+    end
+  end
+
   function FDMMYearRange:addYear(year)
     assert(type(year) == 'number', "Invalid parameter: year")
     return self:addYearRange(year, year)
@@ -125,10 +161,11 @@ do --FDMMYearRange
     assert(type(startYear) == 'number', "Invalid parameter: startYear")
     assert(type(endYear) == 'number', "Invalid parameter: endYear")
 
-    local range = { startYear, endYear }
-    local lenRanges = table.getn(self.ranges) 
-    if lenRanges == 0 or (startYear < _startYear(self.ranges[1]) and endYear > _endYear(self.ranges[lenRanges])) then
+    local range = { startYear, endYear } 
+    local lenRanges = table.getn(self.ranges)
+    if lenRanges == 0 or (startYear <= _startYear(self.ranges[1]) and endYear >= _endYear(self.ranges[lenRanges])) then
       self.ranges = { range }
+      self:_checkValidRangeAt(1)
       return
     end
 
@@ -162,7 +199,8 @@ do --FDMMYearRange
       self:_checkCombineNeighborsAt(begIdx)
       return
     elseif not startYearInBegRange and not endYearInEndRange then
-      if endYear < _startYear(endRange) then endIdx = endIdx - 1 end
+      local endYearBefEndRange = endYear < _startYear(endRange)
+      if endYearBefEndRange then endIdx = endIdx - 1 end
       self:_collapseRangesFromTo(begIdx, endIdx)
       table.insert(self.ranges, begIdx, range)
       self:_checkCombineNeighborsAt(begIdx)
@@ -181,6 +219,19 @@ do --FDMMYearRange
     end
   end
 
+  function FDMMYearRange:removeYearsFromList(yearList)
+    assert(type(yearList) == 'table', "Invalid parameter: yearList")
+    for _,yearData in ipairs(yearList) do
+      if type(yearData) == 'number' then
+        self:removeYear(yearData)
+      elseif type(yearData) == 'table' and table.getn(yearData) == 2 then
+        self:removeYearRange(yearData[1], yearData[2])
+      else
+        assert(false, "Unknown yearData: " .. tostring(yearData))
+      end
+    end
+  end
+
   function FDMMYearRange:removeYear(year)
     assert(type(year) == 'number', "Invalid parameter: year")
     return self:removeYearRange(year, year)
@@ -190,7 +241,53 @@ do --FDMMYearRange
     assert(type(startYear) == 'number', "Invalid parameter: startYear")
     assert(type(endYear) == 'number', "Invalid parameter: endYear")
 
-    -- TODO: me.
+    local lenRanges = table.getn(self.ranges) 
+    if lenRanges == 0 or (startYear <= _startYear(self.ranges[1]) and endYear >= _endYear(self.ranges[lenRanges])) then
+      self.ranges = {}
+      return
+    end
+
+    local range = { startYear, endYear }
+    local begIdx = self:_indexOfRangeAdjToOrCont(startYear)
+    local begRange = begIdx and self.ranges[begIdx] or nil
+    local endIdx = self:_indexOfRangeAdjToOrCont(endYear)
+    local endRange = endIdx and self.ranges[endIdx] or nil
+    local startYearInBegRange = _yearExistsIn(startYear, begRange)
+    local endYearInEndRange = _yearExistsIn(endYear, endRange)
+    local startYearBefOrEncapsBegRange = startYear <= _startYear(begRange)
+    local endYearBefEndRange = endYear < _startYear(endRange)
+    local endYearAftOrEncapsEndRange = endYear >= _endYear(endRange)
+
+    if startYearBefOrEncapsBegRange and (endYearBefEndRange or endYearAftOrEncapsEndRange) then
+      if endYearBefEndRange then endIdx = endIdx - 1 end
+      self:_collapseRangesFromTo(begIdx, endIdx)
+      return
+    elseif begIdx == endIdx and startYearInBegRange and endYearInEndRange then
+      range = { endYear + 1, _endYear(begRange) }
+      self.ranges[begIdx][2] = startYear - 1
+      table.insert(self.ranges, begIdx + 1, range)
+      self:_checkValidRangeAt(begIdx)
+      self:_checkValidRangeAt(begIdx + 1)
+      return
+    else -- in one or the other
+      local fromIdx, toIdx = begIdx, endIdx
+      if not startYearBefOrEncapsBegRange then fromIdx = begIdx + 1 end
+      if not endYearAftOrEncapsEndRange then toIdx = endIdx - 1 end
+      endIdx = endIdx - self:_collapseRangesFromTo(fromIdx, toIdx)
+
+      if not startYearBefOrEncapsBegRange and startYearInBegRange then
+        self.ranges[begIdx][2] = startYear - 1
+        self:_checkValidRangeAt(begIdx)
+      elseif not endYearAftOrEncapsEndRange and endYearInEndRange then
+        self.ranges[endIdx][1] = endYear + 1
+        self:_checkValidRangeAt(endIdx)
+      end
+      return
+    end
+  end
+
+  function FDMMYearRange:clear()
+    self.ranges = {}
   end
 
   function FDMMYearRange:containsYear(year)
@@ -202,12 +299,14 @@ do --FDMMYearRange
     assert(type(startYear) == 'number', "Invalid parameter: startYear")
     assert(type(endYear) == 'number', "Invalid parameter: endYear")
     if table.getn(self.ranges) == 0 then return false end
+
     local range = { startYear, endYear }
     local begIdx = self:_indexOfRangeAdjToOrCont(startYear)
     local begRange = begIdx and self.ranges[begIdx] or nil
     if begRange and _rangeContainsRange(begRange, range) then
       return true
     end
+
     if not begRange or endYear > _endYear(begRange) then
       local endIdx = self:_indexOfRangeAdjToOrCont(endYear)
       local endRange = endIdx and self.ranges[endIdx] or nil

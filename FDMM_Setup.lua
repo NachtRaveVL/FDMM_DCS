@@ -2,7 +2,7 @@
 -- Please edit this script to your liking to control your FDMM installation.
 
 -- Server name, visible to players connecting.
--- (not yet implemented)
+-- (implementation pending/in progress)
 fdmm.setup.serverName = "FDMM Server"
 
 -- If MOTD text is shown to players after joining server.
@@ -24,7 +24,7 @@ fdmm.setup.loadDB = true
 fdmm.setup.loadJSON = true
 
 -- What year (up to and including) of equipment the server should allow usage of.
--- Also used to determine what the initial start year should be on map reset, what
+-- Also used to determine what the initial start year should be on campaign reset, what
 -- era of weapons should be set, what regiments and forces are available, etc.
 -- Some notable years include:
 --   Russo-Georgian War: 2008
@@ -42,7 +42,7 @@ fdmm.setup.loadJSON = true
 --   Korean War: 1950-1953
 --   Cold War: 1947-1991
 --   Normandy Invasion: 1945
--- (not yet implemented)
+-- (implementation pending/in progress)
 fdmm.setup.equipmentYear = 1995
 
 -- What GMT offset should be used to determine time-of-day. May specify a specific

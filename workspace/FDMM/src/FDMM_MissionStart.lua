@@ -14,9 +14,9 @@ fdmm.MapKind = {
 }
 fdmm.mapKind = fdmm.MapKind.Both -- set per branch
 fdmm.RunMode = {
-  Release = 'Release', Dev = 'Dev', DevWithTests = 'DevWithTests'
+  Release = 'Release', Dev = 'Dev', DevWithPreTests = 'DevWithPreTests', DevWithPostTests = 'DevWithPostTests'
 }
-fdmm.runMode = fdmm.RunMode.DevWithTests -- set per branch
+fdmm.runMode = fdmm.RunMode.DevWithPostTests -- set per branch
 
 -- Master include listing (these should touch all necessary run files)
 require('FDMM_Config')
@@ -55,8 +55,8 @@ do --FDMM_MissionStart
     fdmm.regimentTypes.processEntries()
 
     if fdmm.utils.isDevRunMode() then
-      -- Run tests before main loads
-      if fdmm.utils.isTestsRunMode() then
+      -- Run pre-tests before main loads
+      if fdmm.runMode == fdmm.RunMode.DevWithPreTests then
         fdmm.config.runTestsScript()
       end
 
@@ -97,6 +97,11 @@ do --FDMM_MissionStart
       --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
       --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
       fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, 1968, 2020) -- temp
+
+      -- Run post-tests after main loads
+      if fdmm.runMode == fdmm.RunMode.DevWithPostTests then
+        fdmm.config.runTestsScript()
+      end
     end
 
     message = "FDMM: ...Started " .. (fdmm.setup.serverName or "FDMM") .. "!"

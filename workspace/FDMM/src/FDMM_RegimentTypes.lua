@@ -778,29 +778,20 @@ do --FDMM_RegimentTypes
         if not regimentUnit._yearRange then
           regimentUnit._yearRange = FDMMYearRange()
 
-          if type(regimentUnit.Active) == 'table' then
-            for _,yearData in ipairs(regimentUnit.Active) do
-              if type(yearData) == 'number' then
-                regimentUnit._yearRange:addYear(yearData)
-              elseif type(yearData) == 'table' and table.getn(yearData) == 2 then
-                regimentUnit._yearRange:addYearRange(yearData[1], yearData[2])
-              else
-                env.warning("FDMM: Unknown Active yearData: \'" .. tostring(yearData) .. "\' in regiment unit: \'" ..
-                            fdmm.regimentTypes.getObjReportNameInYear(regimentUnit) .. "\'.")
-              end
+          if type(regimentUnit.Active) == 'table' and table.getn(regimentUnit.Active) > 0 then
+            local status,retVal = pcall(regimentUnit._yearRange.addYearsFromList, regimentUnit._yearRange, regimentUnit.Active)
+            if not status then
+              env.error("FDMM: Failed parsing active years for regiment unit: \'" ..
+                         fdmm.regimentTypes.getObjReportNameInYear(regimentUnit) .. "\'.")
+              env.error("FDMM:  Error: " .. tostring(retVal))
             end
           end
-
-          if type(regimentUnit.Inactive) == 'table' then
-            for _,yearData in ipairs(regimentUnit.Inactive) do
-              if type(yearData) == 'number' then
-                regimentUnit._yearRange:removeYear(yearData)
-              elseif type(yearData) == 'table' and table.getn(yearData) == 2 then
-                regimentUnit._yearRange:removeYearRange(yearData[1], yearData[2])
-              else
-                env.warning("FDMM: Unknown Inactive yearData: \'" .. tostring(yearData) .. "\' in regiment unit: \'" ..
-                            fdmm.regimentTypes.getObjReportNameInYear(regimentUnit) .. "\'.")
-              end
+          if type(regimentUnit.Inactive) == 'table' and table.getn(regimentUnit.Inactive) > 0 then
+            local status,retVal = pcall(regimentUnit._yearRange.removeYearsFromList, regimentUnit._yearRange, regimentUnit.Inactive)
+            if not status then
+              env.error("FDMM: Failed parsing inactive years for regiment unit: \'" ..
+                         fdmm.regimentTypes.getObjReportNameInYear(regimentUnit) .. "\'.")
+              env.error("FDMM:  Error: " .. tostring(retVal))
             end
           end
         end

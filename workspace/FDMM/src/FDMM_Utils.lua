@@ -290,15 +290,16 @@ do --FDMM_Utils
   end
 
   --- Determines if the FDMM code is running in the dev run mode or not.
-  -- @return #boolean True if in dev or dev with tests run mode, otherwise false.
+  -- @return #boolean True if in dev or dev with pre/post tests run mode, otherwise false.
   function fdmm.utils.isDevRunMode()
-    return fdmm.runMode == fdmm.RunMode.Dev or fdmm.runMode == fdmm.RunMode.DevWithTests
+    return fdmm.runMode == fdmm.RunMode.Dev or
+           fdmm.runMode == fdmm.RunMode.DevWithPreTests or fdmm.runMode == fdmm.RunMode.DevWithPostTests
   end
 
-  --- Determines if the FDMM code is running in the dev with tests run mode or not.
-  -- @return #boolean True if in dev with tests run mode, otherwise false.
+  --- Determines if the FDMM code is running in the dev with pre/post tests run mode or not.
+  -- @return #boolean True if in dev with pre/post tests run mode, otherwise false.
   function fdmm.utils.isTestsRunMode()
-    return fdmm.runMode == fdmm.RunMode.DevWithTests
+    return fdmm.runMode == fdmm.RunMode.DevWithPreTests or fdmm.runMode == fdmm.RunMode.DevWithPostTests
   end
 
   --- Determines if current theatre map is a desert-based map or not (for heat effects).
