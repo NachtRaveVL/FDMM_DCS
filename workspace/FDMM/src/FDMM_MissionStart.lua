@@ -96,7 +96,8 @@ do --FDMM_MissionStart
       --fdmm.territory.dumpTerritories()
       --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
       --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
-      fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, 1968, 2020) -- temp
+      --fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, 1968, 2020) -- temp
+      fdmm.regimentTypes.dumpRegimentActiveLists(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet)
 
       -- Run post-tests after main loads
       if fdmm.runMode == fdmm.RunMode.DevWithPostTests then

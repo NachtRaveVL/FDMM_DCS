@@ -447,8 +447,7 @@ do --FDMM_RegimentTypes
                           Name = "USS John F. Kennedy", -- This guy was the Bernie of the 60s.
                           Type = fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,
                           Command = true,
-                          Active = { { 1968, 1994 } },
-                          Inactive = { {1979, 1980}, 1993 },
+                          Active = { { 1968, 1978 }, { 1981, 1992 }, 1994 },
                           ReportNaming = "CV-%H %N",
                           HullNumbering = "67",
                         },
@@ -459,8 +458,7 @@ do --FDMM_RegimentTypes
                             [2013] = fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,
                           },
                           Command = true,
-                          Active = { { 1993, 2016 } },
-                          Inactive = { { 1994, 1998 }, { 2000, 2001 }, 2007, { 2009, 2014 } },
+                          Active = { 1993, 1999, { 2002, 2006 }, 2008, { 2015, 2016 } },
                           ReportNaming = "CVN-%H %N",
                           HullNumbering = "71",
                         },
@@ -476,8 +474,7 @@ do --FDMM_RegimentTypes
                           Name = "USS Harry S. Truman", -- This guy was responsible for NATO.
                           Type = fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,
                           Command = true,
-                          Active = { { 2000, 2020 } },
-                          Inactive = { { 2002, 2006 }, { 2008, 2012 }, { 2014, 2019 } },
+                          Active = { { 2000, 2001 }, 2007, 2013, 2020 },
                           ReportNaming = "CVN-%H %N",
                           HullNumbering = "75",
                         },
@@ -485,8 +482,7 @@ do --FDMM_RegimentTypes
                           Name = "USS Dwight D. Eisenhower", -- The general that beat the Nazis.
                           Type = fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,
                           Command = true,
-                          Active = { { 2009, 2019 } },
-                          Inactive = { 2011, { 2013, 2018 } },
+                          Active = { { 2009,2010 }, 2012, 2019 },
                           ReportNaming = "CVN-%H %N",
                           HullNumbering = "69",
                         },
@@ -494,24 +490,22 @@ do --FDMM_RegimentTypes
                           Name = "USS George H.W. Bush", -- The dude Trump said "hold my beer" towards.
                           Type = fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,
                           Command = true,
-                          Active = { { 2011, 9999 } },
-                          Inactive = { { 2012, 2013 }, { 2015, 2016 }, { 2019, 2020 } },
+                          Active = { 2011, 2014, { 2017, 2018 }, { 2021, 9999 } },
                           ReportNaming = "CVN-%H %N",
                           HullNumbering = "77",
                         },
                         USSSanJacinto = { -- Ticonderoga Cruiser
                           Name = "USS San Jacinto",
                           Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
-                          Active = { { 1989, 2019 } },
-                          Inactive = { 1993, 1995, 1997, 1999, 2002, 2009, {2011, 2012 }, 2015, { 2017, 2018 } },
+                          Active = { { 1989, 1992 }, 1994, 1996, 1998, { 2000, 2001 }, { 2003, 2008 }, 2010,
+                                     { 2013, 2014 }, 2016, 2019 },
                           ReportNaming = "CG-%H %N",
                           HullNumbering = "56",
                         },
                         USSHueCity = { -- Ticonderoga Cruiser
                           Name = "USS Hue City",
                           Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
-                          Active = { { 1993, 2018 } },
-                          Inactive = { 1994, 1996, { 1998, 2011 }, { 2013, 2017 } },
+                          Active = { 1993, 1995, 1997, 2012, 2018 },
                           ReportNaming = "CG-%H %N",
                           HullNumbering = "66",
                         },
@@ -571,16 +565,15 @@ do --FDMM_RegimentTypes
                             Name = "USS Dwight D. Eisenhower", -- The general that beat the Nazis.
                             Type = fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,
                             Command = true,
-                            Active = { { 1982, 9999 } },
-                            Inactive = { 1986, 1993, 1996, { 2001, 2004 }, 2014 },
+                            Active = { { 1982, 1985 }, { 1987, 1992 }, { 1994, 1995 }, { 1997, 2000 }, { 2005, 2013 },
+                                       { 2015, 9999 } },
                             ReportNaming = "CVN-%H %N",
                             HullNumbering = "69",
                           },
                           USSCapeStGeorge = { -- Ticonderoga Cruiser
                             Name = "USS Cape St. George",
                             Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
-                            Active = { { 1994, 2007 } },
-                            Inactive = { { 1995, 1997 }, 1999 },
+                            Active = { 1994, 1998, { 2000, 2007 } },
                             ReportNaming = "CG-%H %N",
                             HullNumbering = "71",
                           },
@@ -594,8 +587,8 @@ do --FDMM_RegimentTypes
                           USSLeyteGulf = { -- Ticonderoga Cruiser
                             Name = "USS Leyte Gulf",
                             Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
-                            Active = { { 1989, 9999 } },
-                            Inactive = { { 1997, 1998 }, 2000, 2003, 2007, { 2012, 2013 }, 2015 },
+                            Active = { { 1989, 1996 }, 1999, { 2001, 2002 }, { 2004, 2006 }, { 2008, 2011 }, 2014, 
+                                       { 2016, 9999 } },
                             ReportNaming = "CG-%H %N",
                             HullNumbering = "55",
                           },
@@ -682,16 +675,14 @@ do --FDMM_RegimentTypes
                           USSVellaGulf = { -- Ticonderoga Cruiser
                             Name = "USS Vella Gulf",
                             Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
-                            Active = { { 2003, 2015 } },
-                            Inactive = { 2007 },
+                            Active = { { 2003, 2006 }, { 2008, 2015 } },
                             ReportNaming = "CG-%H %N",
                             HullNumbering = "72",
                           },
                           USSHueCity = { -- Ticonderoga Cruiser
                             Name = "USS Hue City",
                             Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
-                            Active = { { 1997, 9999 } },
-                            Inactive = { {1999, 2003}, 2014 },
+                            Active = { { 1997, 1998 }, { 2004, 2013 }, { 2015, 9999 } },
                             ReportNaming = "CG-%H %N",
                             HullNumbering = "66",
                           },
@@ -883,7 +874,7 @@ do --FDMM_RegimentTypes
           env.info("FDMM: " .. shift .. "  Unit: " .. fdmm.regimentTypes.getObjReportNameInYear(regimentUnit, year))
         end
       end
-      for regKey,childRegiment in pairs(regiment.Regiments or {}) do
+      for _,childRegiment in pairs(regiment.Regiments or {}) do
         _dumpRegimentAvailability_recurse(childRegiment, year, shift .. "  ")
       end
       if regiment.Reinforcements then
@@ -902,6 +893,33 @@ do --FDMM_RegimentTypes
       env.info("FDMM: Year: " .. year)
       _dumpRegimentAvailability_recurse(regiment, year, "")
     end
+  end
+
+  function fdmm.regimentTypes.dumpRegimentActiveLists(regiment)
+    env.info("FDMM: Dumping regiment year list...")
+    local year = fdmm.setup.equipmentYear
+    local function _dumpRegimentActiveLists_recurse(regiment, shift)
+      env.info("FDMM: " .. shift .. "Regiment: " .. fdmm.regimentTypes.getObjReportNameInYear(regiment, year))
+      env.info("FDMM: " .. shift .. "  _Active: " .. JSON:encode(regiment._Active))
+      for _,regimentUnit in pairs(regiment.Units or {}) do
+        env.info("FDMM: " .. shift .. "  Unit: " .. fdmm.regimentTypes.getObjReportNameInYear(regimentUnit, year))
+        env.info("FDMM: " .. shift .. "    _Active: " .. JSON:encode(regimentUnit._yearRange:getYearList()))
+      end
+      for _,childRegiment in pairs(regiment.Regiments or {}) do
+        _dumpRegimentActiveLists_recurse(childRegiment, shift .. "  ")
+      end
+      if regiment.Reinforcements then
+        env.info("FDMM: " .. shift .. "  Reinforcements:")
+        for _,regimentUnit in pairs(regiment.Reinforcements.Units or {}) do
+          env.info("FDMM: " .. shift .. "    Unit: " .. fdmm.regimentTypes.getObjReportNameInYear(regimentUnit, year))
+          env.info("FDMM: " .. shift .. "      _Active: " .. JSON:encode(regimentUnit._yearRange:getYearList()))
+        end
+        for _,childRegiment in pairs(regiment.Reinforcements.Regiments or {}) do
+          _dumpRegimentActiveLists_recurse(childRegiment, shift .. "    ")
+        end
+      end
+    end
+    _dumpRegimentActiveLists_recurse(regiment, "")
   end
 
 end --FDMM_RegimentTypes
