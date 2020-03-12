@@ -447,7 +447,7 @@ do --FDMM_RegimentTypes
                           Name = "USS John F. Kennedy", -- This guy was the Bernie of the 60s.
                           Type = fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,
                           Command = true,
-                          Active = { { 1968, 1978 }, { 1981, 1992 }, 1994 },
+                          Active = { { 1968, 1978 }, { 1981, 1992 } },
                           ReportNaming = "CV-%H %N",
                           HullNumbering = "67",
                         },
@@ -482,7 +482,7 @@ do --FDMM_RegimentTypes
                           Name = "USS Dwight D. Eisenhower", -- The general that beat the Nazis.
                           Type = fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,
                           Command = true,
-                          Active = { { 2009,2010 }, 2012, 2019 },
+                          Active = { 1994, { 2009, 2010 }, 2012, 2019 },
                           ReportNaming = "CVN-%H %N",
                           HullNumbering = "69",
                         },
@@ -508,6 +508,13 @@ do --FDMM_RegimentTypes
                           Active = { 1993, 1995, 1997, 2012, 2018 },
                           ReportNaming = "CG-%H %N",
                           HullNumbering = "66",
+                        },
+                        USSAnzio = { -- Ticonderoga Cruiser
+                          Name = "USS Anzio",
+                          Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
+                          Active = { 1994 },
+                          ReportNaming = "CG-%H %N",
+                          HullNumbering = "68",
                         },
                         USSVellaGulf = { -- Ticonderoga Cruiser
                           Name = "USS Vella Gulf",
@@ -543,18 +550,24 @@ do --FDMM_RegimentTypes
                           Name = "Destroyer Squadron 20",
                           ReportNaming = "DESRON-20",
                           Units = {
+                            -- USS O'Bannon (DD-987)
+                            -- USS John Rodgers (DD-983)
+                            -- USS Caron (DD-970)
+                            -- USS Halyburton (FFG-40)
+                            -- USS Underwood (FFG-36)
+                            -- USS Stark (FFG-31)
+                            -- USS McInerney (FFG-8)
                             -- USS Oscar Austin (DDG-79) 
                             -- USS Nitze (DDG-94)
                             -- USS Mason (DDG-87)
                             -- USS The Sullivans (DDG-68)
-                            -- USS Anzio (CG-68)
                             -- USS Truxtun (DDG-103)
                             -- USS Mitscher (DDG-57)
                             -- USS Roosevelt (DDG-80)
+                            -- USS Arleigh Burke (DDG-51)
                           }, -- /Destroyer Squadron 20 Units
                           Reinforcements = {
                             Units = {
-                            
                             }, -- /Destroyer Squadron 20 Reinforcement Units
                           }, -- /Destroyer Squadron 20 Reinforcements
                         }, -- /Destroyer Squadron 20 Regiment

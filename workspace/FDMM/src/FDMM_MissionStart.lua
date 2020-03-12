@@ -90,14 +90,14 @@ do --FDMM_MissionStart
     -- Builds facilities specified by setup. 
     fdmm.territory.buildFacilities()
 
-    if fdmm.utils.isDevRunMode() then 
-      -- Optional to uncomment, dumps to env.info()
+    if fdmm.utils.isDevRunMode() then
+      -- Optional to uncomment, dumps via env.info() to dcs.log
       --fdmm.unitTypes.dumpUnitReportNames()
+      --fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, 1968, 2020) -- temp
+      --fdmm.regimentTypes.dumpRegimentActiveLists(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet)
       --fdmm.territory.dumpTerritories()
       --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
       --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
-      --fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, 1968, 2020) -- temp
-      fdmm.regimentTypes.dumpRegimentActiveLists(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet)
 
       -- Run post-tests after main loads
       if fdmm.runMode == fdmm.RunMode.DevWithPostTests then

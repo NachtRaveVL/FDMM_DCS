@@ -42,3 +42,12 @@ luac.out
 # Lua Development Tools
 *.metadata
 *_.lua
+
+# FDMM specific
+FDMM_Caucasus/
+FDMM_Nevada/
+FDMM_Normandy/
+FDMM_PersianGulf/
+empty.lua
+data*.json
+*_key.txt
