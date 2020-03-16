@@ -786,7 +786,7 @@ do --FDMM_RegimentTypes
             local status,retVal = pcall(regimentUnit._yearRange.addYearsFromList, regimentUnit._yearRange, regimentUnit.Active)
             if not status then
               env.error("FDMM: Failed parsing active years for regiment unit: \'" ..
-                         fdmm.regimentTypes.getObjReportNameInYear(regimentUnit) .. "\'.")
+                         fdmm.regimentTypes.getObjReportNameIn(regimentUnit) .. "\'.")
               env.error("FDMM:  Error: " .. tostring(retVal))
             end
           end
@@ -794,7 +794,7 @@ do --FDMM_RegimentTypes
             local status,retVal = pcall(regimentUnit._yearRange.removeYearsFromList, regimentUnit._yearRange, regimentUnit.Inactive)
             if not status then
               env.error("FDMM: Failed parsing inactive years for regiment unit: \'" ..
-                         fdmm.regimentTypes.getObjReportNameInYear(regimentUnit) .. "\'.")
+                         fdmm.regimentTypes.getObjReportNameIn(regimentUnit) .. "\'.")
               env.error("FDMM:  Error: " .. tostring(retVal))
             end
           end
@@ -844,15 +844,15 @@ do --FDMM_RegimentTypes
     return obj
   end
 
-  function fdmm.regimentTypes.getObjNameInYear(unitOrRegiment, year)
+  function fdmm.regimentTypes.getObjNameIn(unitOrRegiment, year)
     return fdmm.regimentTypes._objForYear(unitOrRegiment.Name, year)
   end
 
-  function fdmm.regimentTypes.getObjReportNameInYear(unitOrRegiment, year)
+  function fdmm.regimentTypes.getObjReportNameIn(unitOrRegiment, year)
     local reportName = fdmm.regimentTypes._objForYear(unitOrRegiment.ReportNaming, year)
     if string.isNotEmpty(reportName) then
-      local unitName = fdmm.regimentTypes.getObjNameInYear(unitOrRegiment, year)
-      local hullNum = fdmm.regimentTypes.getUnitHullNumberingInYear(unitOrRegiment, year)
+      local unitName = fdmm.regimentTypes.getObjNameIn(unitOrRegiment, year)
+      local hullNum = fdmm.regimentTypes.getUnitHullNumberingIn(unitOrRegiment, year)
       if string.isNotEmpty(unitName) and string.contains(reportName, '%N') then
         reportName = reportName:gsub('%%N', unitName)
       end
@@ -864,15 +864,15 @@ do --FDMM_RegimentTypes
     return fdmm.regimentTypes._objForYear(unitOrRegiment.Name, year)
   end
 
-  function fdmm.regimentTypes.getUnitTypeInYear(regimentUnit, year)
+  function fdmm.regimentTypes.getUnitTypeIn(regimentUnit, year)
     return fdmm.regimentTypes._objForYear(regimentUnit.Type, year)
   end
 
-  function fdmm.regimentTypes.getUnitHullNumberingInYear(regimentUnit, year)
+  function fdmm.regimentTypes.getUnitHullNumberingIn(regimentUnit, year)
     return fdmm.regimentTypes._objForYear(regimentUnit.HullNumbering, year)
   end
 
-  function fdmm.regimentTypes.isRegimentUnitAvailableInYear(regimentUnit, year)
+  function fdmm.regimentTypes.isRegimentUnitAvailableIn(regimentUnit, year)
     assert(regimentUnit._yearRange, "Missing object: _yearRange")
     return regimentUnit._yearRange:containsYear(year)
   end
@@ -881,10 +881,10 @@ do --FDMM_RegimentTypes
     env.info("FDMM: Dumping regiment yearly availability for years " ..
               tostring(yearStart) .. " to " .. tostring(yearEnd) .. "...")
     local function _dumpRegimentAvailability_recurse(regiment, year, shift)
-      env.info("FDMM: " .. shift .. "Regiment: " .. fdmm.regimentTypes.getObjReportNameInYear(regiment, year))
+      env.info("FDMM: " .. shift .. "Regiment: " .. fdmm.regimentTypes.getObjReportNameIn(regiment, year))
       for _,regimentUnit in pairs(regiment.Units or {}) do
-        if fdmm.regimentTypes.isRegimentUnitAvailableInYear(regimentUnit, year) then
-          env.info("FDMM: " .. shift .. "  Unit: " .. fdmm.regimentTypes.getObjReportNameInYear(regimentUnit, year))
+        if fdmm.regimentTypes.isRegimentUnitAvailableIn(regimentUnit, year) then
+          env.info("FDMM: " .. shift .. "  Unit: " .. fdmm.regimentTypes.getObjReportNameIn(regimentUnit, year))
         end
       end
       for _,childRegiment in pairs(regiment.Regiments or {}) do
@@ -893,8 +893,8 @@ do --FDMM_RegimentTypes
       if regiment.Reinforcements then
         env.info("FDMM: " .. shift .. "  Reinforcements:")
         for _,regimentUnit in pairs(regiment.Reinforcements.Units or {}) do
-          if fdmm.regimentTypes.isRegimentUnitAvailableInYear(regimentUnit, year) then
-            env.info("FDMM: " .. shift .. "    Unit: " .. fdmm.regimentTypes.getObjReportNameInYear(regimentUnit, year))
+          if fdmm.regimentTypes.isRegimentUnitAvailableIn(regimentUnit, year) then
+            env.info("FDMM: " .. shift .. "    Unit: " .. fdmm.regimentTypes.getObjReportNameIn(regimentUnit, year))
           end
           for _,childRegiment in pairs(regiment.Reinforcements.Regiments or {}) do
             _dumpRegimentAvailability_recurse(childRegiment, year, shift .. "    ")
@@ -912,10 +912,10 @@ do --FDMM_RegimentTypes
     env.info("FDMM: Dumping regiment year list...")
     local year = fdmm.setup.equipmentYear
     local function _dumpRegimentActiveLists_recurse(regiment, shift)
-      env.info("FDMM: " .. shift .. "Regiment: " .. fdmm.regimentTypes.getObjReportNameInYear(regiment, year))
+      env.info("FDMM: " .. shift .. "Regiment: " .. fdmm.regimentTypes.getObjReportNameIn(regiment, year))
       env.info("FDMM: " .. shift .. "  _Active: " .. JSON:encode(regiment._Active))
       for _,regimentUnit in pairs(regiment.Units or {}) do
-        env.info("FDMM: " .. shift .. "  Unit: " .. fdmm.regimentTypes.getObjReportNameInYear(regimentUnit, year))
+        env.info("FDMM: " .. shift .. "  Unit: " .. fdmm.regimentTypes.getObjReportNameIn(regimentUnit, year))
         env.info("FDMM: " .. shift .. "    _Active: " .. JSON:encode(regimentUnit._yearRange:getYearList()))
       end
       for _,childRegiment in pairs(regiment.Regiments or {}) do
@@ -924,7 +924,7 @@ do --FDMM_RegimentTypes
       if regiment.Reinforcements then
         env.info("FDMM: " .. shift .. "  Reinforcements:")
         for _,regimentUnit in pairs(regiment.Reinforcements.Units or {}) do
-          env.info("FDMM: " .. shift .. "    Unit: " .. fdmm.regimentTypes.getObjReportNameInYear(regimentUnit, year))
+          env.info("FDMM: " .. shift .. "    Unit: " .. fdmm.regimentTypes.getObjReportNameIn(regimentUnit, year))
           env.info("FDMM: " .. shift .. "      _Active: " .. JSON:encode(regimentUnit._yearRange:getYearList()))
         end
         for _,childRegiment in pairs(regiment.Reinforcements.Regiments or {}) do

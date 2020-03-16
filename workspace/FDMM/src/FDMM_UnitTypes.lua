@@ -384,7 +384,7 @@ do --FDMM_UnitTypes
           ZTZ96B = 'ZTZ96B',
         },
         IFV = {
-          BMD1 = 'BMD-1',
+          BMD1 = 'BMD-1', -- airborne
           BMP1 = 'BMP-1',
           BMP2 = 'BMP-2',
           BMP3 = 'BMP-3',
@@ -836,7 +836,13 @@ do --FDMM_UnitTypes
         Suidae = 'Suidae',
       },
       All = {}, -- resolved on startup processing
-      Amphibious = { -- vehicles that can float on water (not just ford rivers)
+      Airborne = { -- vehicles that are considered a part of airborne assault units (capable of air drop)
+        BMD1 = 'BMD-1',
+        BTRRD = 'BTR_D',
+        ParatroopAKS74 = 'Paratrooper AKS-74',
+        ParatroopRPG16 = 'Paratrooper RPG-16',
+      },
+      Amphibious = { -- vehicles that can float on water, not just ford rivers (capable of sea crossing)
         AAV7 = 'AAV7',
         BMP1 = 'BMP-1',
         BMP2 = 'BMP-2',
@@ -851,7 +857,7 @@ do --FDMM_UnitTypes
         Gvozdika2S1 = 'SAU Gvozdika',
         NonaS2S9 = 'SAU 2-C9',
       },
-      HeavyWheeled = { -- wheeled vehicles less likely to get stuck in the mud
+      HeavyWheeled = { -- wheeled vehicles less likely to get stuck in the mud (reduced stuck-in-mud chance)
         M1142HEMTTTFFT = 'HEMTT TFFT',
         M978HEMTTTanker = 'M978 HEMTT Tanker',
         SA10S300PSCP_54K6 = 'S-300PS 54K6 cp',
@@ -860,6 +866,10 @@ do --FDMM_UnitTypes
         SA10S300PSLN_5P85D = 'S-300PS 5P85D ln',
         SS1CScudBLN = 'Scud_B',
         TPzFuchs = 'TPZ',
+      },
+      Marines = { -- vehicles that are considered a part of marine assault units (capable of amphibious launch)
+        AAV7 = 'AAV7',
+        LAV25 = 'LAV-25',
       },
       Unavailable = { -- vehicles in the DB tables, but not spawnable
         SA8OsaLD_9T217 = 'SA-8 Osa LD 9T217',
@@ -1581,17 +1591,22 @@ do --FDMM_UnitTypes
       },
     },
     All = {}, -- resolved on startup processing
+    Airborne = {}, -- resolved on startup processing
+    Amphibious = {}, -- resolved on startup processing
     CarrierBorne = {}, -- resolved on startup processing
+    HeavyWheeled = {}, -- resolved on startup processing
+    Marines = {}, -- resolved on startup processing
     PlayerControllable = {}, -- resolved on startup processing
     Unavailable = {}, -- resolved on startup processing
+    Available = {}, -- resolved on startup processing
     NATOReporting = {}, -- resolved on startup processing
     WTOReporting = {}, -- resolved on startup processing
     Nicknaming = {}, -- resolved on startup processing
   }
 
   function fdmm.unitTypes.processEntries()
-    local keyFilter = { 'All', 'PlayerControllable', 'CarrierBorne', 'Amphibious', 'HeavyWheeled', 'Unavailable',
-                        'NATOReporting', 'WTOReporting', 'ReportNaming', 'ProperNaming', 'Nicknaming' }
+    local keyFilter = { 'All', 'Airborne', 'Amphibious', 'CarrierBorne', 'HeavyWheeled', 'Marines', 'PlayerControllable',
+                        'Unavailable', 'Available', 'NATOReporting', 'WTOReporting', 'ReportNaming', 'ProperNaming', 'Nicknaming' }
     local prefixFilter = { '_' }
     local suffixFilter = { 'Presets', 'Callsigns', 'Liveries' }
     local categoryOverrides = { ['house1arm'] = 'Fortifications', ['houseA_arm'] = 'Fortifications',
@@ -1660,9 +1675,7 @@ do --FDMM_UnitTypes
     local function _copyGroupAllToMasterAll(allList, masterAllList)
       for fdmmUnitType, value in pairs(allList) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
-          local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
-          unitType = unitType or value
-
+          local unitType = fdmm.unitTypes.getUnitType(value)
           if not masterAllList[fdmmUnitType] then
             masterAllList[fdmmUnitType] = unitType
           elseif masterAllList[fdmmUnitType] ~= unitType then -- different entry
@@ -1706,9 +1719,7 @@ do --FDMM_UnitTypes
     local function _fillInReportNaming(unitTypeGroup)
       for fdmmUnitType, value in pairs(unitTypeGroup.All) do
         if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
-          local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
-          unitType = unitType or value
-
+          local unitType = fdmm.unitTypes.getUnitType(value)
           if not unitTypeGroup.ReportNaming[unitType] then
             unitTypeGroup.ReportNaming[unitType] = unitType
           end
@@ -1737,10 +1748,12 @@ do --FDMM_UnitTypes
     _copyGroupAllToMasterAll(fdmm.consts.UnitType.Ship.All, fdmm.consts.UnitType.All)
     _copyGroupAllToMasterAll(fdmm.consts.UnitType.Static.All, fdmm.consts.UnitType.All)
 
-    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.All)
-
+    table.concatWith(fdmm.consts.UnitType.Airborne, fdmm.consts.UnitType.Ground.Airborne)
+    table.concatWith(fdmm.consts.UnitType.Amphibious, fdmm.consts.UnitType.Ground.Amphibious)
     table.concatWith(fdmm.consts.UnitType.CarrierBorne, fdmm.consts.UnitType.Plane.CarrierBorne)
     table.concatWith(fdmm.consts.UnitType.CarrierBorne, fdmm.consts.UnitType.Helicopter.CarrierBorne)
+    table.concatWith(fdmm.consts.UnitType.HeavyWheeled, fdmm.consts.UnitType.Ground.HeavyWheeled)
+    table.concatWith(fdmm.consts.UnitType.Marines, fdmm.consts.UnitType.Ground.Marines)
     table.concatWith(fdmm.consts.UnitType.PlayerControllable, fdmm.consts.UnitType.Plane.PlayerControllable)
     table.concatWith(fdmm.consts.UnitType.PlayerControllable, fdmm.consts.UnitType.Helicopter.PlayerControllable)
     table.concatWith(fdmm.consts.UnitType.Unavailable, fdmm.consts.UnitType.Plane.Unavailable)
@@ -1753,11 +1766,18 @@ do --FDMM_UnitTypes
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.CarrierBorne)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.PlayerControllable)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.Unavailable)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Airborne)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Amphibious)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.HeavyWheeled)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Marines)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Unavailable)
 
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.All)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Airborne)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Amphibious)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.CarrierBorne)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.HeavyWheeled)
+    fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Marines)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.PlayerControllable)
     fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Unavailable)
 
@@ -1788,6 +1808,54 @@ do --FDMM_UnitTypes
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Train.Nicknaming)
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Ship.Nicknaming)
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Static.Nicknaming)
+
+    if db and dbYears and fdmm.utils.isDebugFlagSet() then
+      fdmm.unitTypes.createAvailabilityTable()
+      fdmm.unitTypes.saveAvailabilityTable()
+    else
+      fdmm.unitTypes.loadAvailabilityTable()
+    end
+  end
+
+  function fdmm.unitTypes.createAvailabilityTable()
+    assert(db, "Missing module: db")
+    assert(dbYears, "Missing module: dbYears")
+    fdmm.consts.UnitType.Available = {}
+    for fdmmUnitType, unitType in pairs(fdmm.consts.UnitType.All) do
+      if not string.hasPrefix(fdmmUnitType, '_') then
+        local availability = {}
+        if dbYears[unitType] then
+          local countries = db.getHistoricalCountres(unitType)
+          for _, country in pairs(countries) do
+            local begYear, endYear = db.getYearsLocal(unitType, country)
+            availability[country] = { begYear, endYear }
+          end
+        elseif not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Static.Effect) then
+          availability['ALL'] = { 1900, 9999 }
+        else
+          availability = nil
+        end
+        fdmm.consts.UnitType.Available[unitType] = availability
+      end
+    end
+  end
+
+  function fdmm.unitTypes.saveAvailabilityTable()
+    assert(JSON, "Missing module: JSON")
+    local filename = fdmm.fullPath .. "FDMM_UnitAvailability.json"
+    local file = assert(io.open(filename, 'w'))
+    local data = JSON:encode_pretty(fdmm.consts.UnitType.Available)
+    file:write(data)
+    file:close()
+  end
+
+  function fdmm.unitTypes.loadAvailabilityTable()
+    assert(JSON, "Missing module: JSON")
+    local filename = fdmm.fullPath .. "FDMM_UnitAvailability.json"
+    local file = assert(io.open(filename, 'r'))
+    local data = file:read("*all")
+    file:close()
+    fdmm.consts.UnitType.Available = JSON:decode(data)
   end
 
   function fdmm.unitTypes.crossRefEntries()
@@ -1798,7 +1866,6 @@ do --FDMM_UnitTypes
           local unitType = unitData.Name
           local unitTypeAliases = unit_aliases._rev[unitType]
           local fdmmUnitType = fdmm.consts.UnitType.All._rev[unitType]
-
           if not fdmmUnitType and unitTypeAliases then
             if type(unitTypeAliases) == 'string' then
               unitTypeAliases = { unitTypeAliases }
@@ -1843,19 +1910,72 @@ do --FDMM_UnitTypes
     end
   end
 
-  function fdmm.unitTypes.anyAvailableToFaction(unitTypesDict, factionName)
-    -- TODO: me.
+  function fdmm.unitTypes.whichAvailableToCountryIn(unitTypesDict, countryName, year)
+    local retVal = {}
+    for fdmmUnitType, value in pairs(unitTypesDict) do
+      if not string.hasPrefix(fdmmUnitType, '_') then
+        local unitType = fdmm.unitTypes.getUnitType(value)
+        if not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Unavailable) then
+          local availability = fdmm.consts.UnitType.Available[unitType]
+          local yearRange = availability[countryName] or availability['ALL']
+          if yearRange and year >= yearRange[1] and year <= yearRange[2] then
+            retVal[fdmmUnitType] = value
+          end
+        end
+      end
+    end
+    return retVal
   end
 
-  function fdmm.unitTypes.isAvailabeToFaction(unitType, factionName)
-    -- TODO: me.
+  function fdmm.unitTypes.anyAvailableToCountryIn(unitTypesDict, countryName, year)
+    for fdmmUnitType, value in pairs(unitTypesDict) do
+      if not string.hasPrefix(fdmmUnitType, '_') then
+        local unitType = fdmm.unitTypes.getUnitType(value)
+        if not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Unavailable) then
+          local availability = fdmm.consts.UnitType.Available[unitType]
+          local yearRange = availability[countryName] or availability['ALL']
+          if yearRange and year >= yearRange[1] and year <= yearRange[2] then
+            return true
+          end
+        end
+      end
+    end
+    return false
+  end
+
+  function fdmm.unitTypes.isAvailableToCountryIn(unitType, countryName, year)
+    if not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Unavailable) then
+      local availability = fdmm.consts.UnitType.Available[unitType]
+      local yearRange = availability[countryName] or availability['ALL']
+      if yearRange and year >= yearRange[1] and year <= yearRange[2] then
+        return true
+      end
+    end
+    return false
+  end
+
+  function fdmm.unitTypes.whichListedUnder(unitTypesDict, listedTypesDict)
+    fdmm.utils.ensureReversedDict(listedTypesDict)
+    local retVal = {}
+    for fdmmUnitType, value in pairs(unitTypesDict) do
+      if not string.hasPrefix(fdmmUnitType, '_') then
+        local unitType = fdmm.unitTypes.getUnitType(value)
+        if listedTypesDict._rev[unitType] then
+          retVal[fdmmUnitType] = value
+        end
+      end
+    end
+    return retVal
   end
 
   function fdmm.unitTypes.anyListedUnder(unitTypesDict, listedTypesDict)
     fdmm.utils.ensureReversedDict(listedTypesDict)
-    for _,unitType in pairs(unitTypesDict) do
-      if listedTypesDict._rev[unitType] then
-        return true
+    for fdmmUnitType, value in pairs(unitTypesDict) do
+      if not string.hasPrefix(fdmmUnitType, '_') then
+        local unitType = fdmm.unitTypes.getUnitType(value)
+        if listedTypesDict._rev[unitType] then
+          return true
+        end
       end
     end
     return false
@@ -1867,6 +1987,12 @@ do --FDMM_UnitTypes
       return true
     end
     return false
+  end
+
+  function fdmm.unitTypes.getUnitType(value)
+    local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
+    unitType = unitType or value
+    return unitType
   end
 
   function fdmm.unitTypes.getUnitTypeGroup(unitType)
@@ -1933,9 +2059,7 @@ do --FDMM_UnitTypes
       for _,fdmmUnitType in pairs(table.sortedKeysList(unitTypeGroup.All)) do
         if not string.hasPrefix(fdmmUnitType, '_') then
           local value = unitTypeGroup.All[fdmmUnitType]
-          local unitCategory, shapeName, unitType = fdmm.utils.splitTuple(value)
-          unitType = unitType or value
-
+          local unitType = fdmm.unitTypes.getUnitType(value)
           env.info("  [\'" .. fdmmUnitType .. "\'] = \'" .. unitType .. "\':")
           env.info("    NATO: " .. fdmm.unitTypes.getNATOUnitReportName(unitType, unitTypeGroup))
           env.info("    WTO : " .. fdmm.unitTypes.getWTOUnitReportName(unitType, unitTypeGroup))
