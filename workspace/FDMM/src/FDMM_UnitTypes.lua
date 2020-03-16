@@ -1613,13 +1613,18 @@ do --FDMM_UnitTypes
                                 ['Sandbox'] = 'Fortifications', ['Bunker'] = 'Fortifications',
                                 ['outpost'] = 'Fortifications', ['outpost_road'] = 'Fortifications',
                                 ['house2arm'] = 'Fortifications', ['TACAN_beacon'] = 'Fortifications' }
+    local availabilityFilename = fdmm.fullPath .. "data/UnitTypeAvailability.json"
+
+    local function _isReservedKey(key)
+      return string.hasAnyPrefix(key, prefixFilter) or
+             table.contains(keyFilter, key) or
+             string.hasAnySuffix(key, suffixFilter)
+    end
 
     local function _createGroupAll(unitTypeGroup)
       local function _createGroupAll_recurse(node, groupAllList)
         for key, value in pairs(node) do
-          if not (string.hasAnyPrefix(key, prefixFilter) or
-                  table.contains(keyFilter, key) or
-                  string.hasAnySuffix(key, suffixFilter)) then -- filter out keys
+          if not _isReservedKey(key) then
             if type(value) == 'table' then
               _createGroupAll_recurse(value, groupAllList) -- recurse, b/c table
             elseif type(value) == 'string' then -- valid value
@@ -1665,7 +1670,7 @@ do --FDMM_UnitTypes
 
     local function _copyGroupAllToStaticAll(groupAllList, staticAllList, category)
       for fdmmUnitType, unitType in pairs(groupAllList) do
-        if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
+        if not _isReservedKey(fdmmUnitType) then
           -- possible todo: determine shape name?
           staticAllList[fdmmUnitType] = (categoryOverrides[unitType] or category) .. '::' .. unitType
         end
@@ -1674,7 +1679,7 @@ do --FDMM_UnitTypes
 
     local function _copyGroupAllToMasterAll(allList, masterAllList)
       for fdmmUnitType, value in pairs(allList) do
-        if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
+        if not _isReservedKey(fdmmUnitType) then
           local unitType = fdmm.unitTypes.getUnitType(value)
           if not masterAllList[fdmmUnitType] then
             masterAllList[fdmmUnitType] = unitType
@@ -1698,7 +1703,7 @@ do --FDMM_UnitTypes
     local function _copyGroupReportingToStaticReporting(unitTypeGroup, staticUnitTypeGroup)
       local function _copyGroupNamingToStaticNaming(groupReportNaming, staticReportNaming)
         for unitType, reportNaming in pairs(groupReportNaming) do
-          if not string.hasAnyPrefix(unitType, prefixFilter) then
+          if not _isReservedKey(unitType) then
             if not staticReportNaming[unitType] then
               staticReportNaming[unitType] = reportNaming
             elseif staticReportNaming[unitType] ~= reportNaming then -- different entry
@@ -1718,13 +1723,50 @@ do --FDMM_UnitTypes
 
     local function _fillInReportNaming(unitTypeGroup)
       for fdmmUnitType, value in pairs(unitTypeGroup.All) do
-        if not string.hasAnyPrefix(fdmmUnitType, prefixFilter) then
+        if not _isReservedKey(fdmmUnitType) then
           local unitType = fdmm.unitTypes.getUnitType(value)
           if not unitTypeGroup.ReportNaming[unitType] then
             unitTypeGroup.ReportNaming[unitType] = unitType
           end
         end
       end
+    end
+
+    local function _createUnitTypeAvailability()
+      assert(db, "Missing module: db")
+      assert(dbYears, "Missing module: dbYears")
+      fdmm.consts.UnitType.Available = {}
+      for fdmmUnitType, unitType in pairs(fdmm.consts.UnitType.All) do
+        if not _isReservedKey(fdmmUnitType) then
+          local availability = {}
+          if dbYears[unitType] then
+            local countries = db.getHistoricalCountres(unitType)
+            for _, country in pairs(countries) do
+              local begYear, endYear = db.getYearsLocal(unitType, country)
+              availability[string.trim(country)] = { begYear, endYear }
+            end
+          else
+            availability['ALL'] = { 1900, 9999 }
+          end
+          fdmm.consts.UnitType.Available[unitType] = availability
+        end
+      end
+    end
+
+    local function _saveUnitTypeAvailability()
+      assert(JSON, "Missing module: JSON")
+      local file = assert(io.open(availabilityFilename, 'w'))
+      local data = JSON:encode(fdmm.consts.UnitType.Available)
+      file:write(data)
+      file:close()
+    end
+
+    local function _loadUnitTypeAvailability()
+      assert(JSON, "Missing module: JSON")
+      local file = assert(io.open(availabilityFilename, 'r'))
+      local data = file:read("*all")
+      file:close()
+      fdmm.consts.UnitType.Available = JSON:decode(data)
     end
 
     _createGroupAll(fdmm.consts.UnitType.Plane)
@@ -1810,52 +1852,11 @@ do --FDMM_UnitTypes
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Static.Nicknaming)
 
     if db and dbYears and fdmm.utils.isDebugFlagSet() then
-      fdmm.unitTypes.createAvailabilityTable()
-      fdmm.unitTypes.saveAvailabilityTable()
+      _createUnitTypeAvailability()
+      _saveUnitTypeAvailability()
     else
-      fdmm.unitTypes.loadAvailabilityTable()
+      _loadUnitTypeAvailability()
     end
-  end
-
-  function fdmm.unitTypes.createAvailabilityTable()
-    assert(db, "Missing module: db")
-    assert(dbYears, "Missing module: dbYears")
-    fdmm.consts.UnitType.Available = {}
-    for fdmmUnitType, unitType in pairs(fdmm.consts.UnitType.All) do
-      if not string.hasPrefix(fdmmUnitType, '_') then
-        local availability = {}
-        if dbYears[unitType] then
-          local countries = db.getHistoricalCountres(unitType)
-          for _, country in pairs(countries) do
-            local begYear, endYear = db.getYearsLocal(unitType, country)
-            availability[country] = { begYear, endYear }
-          end
-        elseif not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Static.Effect) then
-          availability['ALL'] = { 1900, 9999 }
-        else
-          availability = nil
-        end
-        fdmm.consts.UnitType.Available[unitType] = availability
-      end
-    end
-  end
-
-  function fdmm.unitTypes.saveAvailabilityTable()
-    assert(JSON, "Missing module: JSON")
-    local filename = fdmm.fullPath .. "FDMM_UnitAvailability.json"
-    local file = assert(io.open(filename, 'w'))
-    local data = JSON:encode_pretty(fdmm.consts.UnitType.Available)
-    file:write(data)
-    file:close()
-  end
-
-  function fdmm.unitTypes.loadAvailabilityTable()
-    assert(JSON, "Missing module: JSON")
-    local filename = fdmm.fullPath .. "FDMM_UnitAvailability.json"
-    local file = assert(io.open(filename, 'r'))
-    local data = file:read("*all")
-    file:close()
-    fdmm.consts.UnitType.Available = JSON:decode(data)
   end
 
   function fdmm.unitTypes.crossRefEntries()
