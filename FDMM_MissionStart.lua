@@ -1061,7 +1061,7 @@ function FDMMUnitFactory:buildFacility()end
 function FDMMUnitFactory:getFacilityType()return fdmm.enums.FacilityType.UnitFactory
 end
 end
-env.info("---FDMM_UnitFactory End---")end)__DISTILLER:define("FDMM_MissionStart.lua_distilled",function(e)env.info("---FDMM_MissionStart Start---")env.setErrorMessageBoxEnabled(false)fdmm={}fdmm_path=fdmm_path or'/Scripts/FDMM/'fdmm.fullPath=lfs.normpath(lfs.writedir()..fdmm_path)fdmm.MapKind={Both='Both',Setup='Setup',Runnable='Runnable'}fdmm.mapKind=fdmm.MapKind.Both
+env.info("---FDMM_UnitFactory End---")end)__DISTILLER:define("FDMM_MissionStart.lua_distilled",function(e)env.info("---FDMM_MissionStart Start---")env.setErrorMessageBoxEnabled(false)assert(lfs,"Missing module: lfs")fdmm={}fdmm_path=fdmm_path or'/Scripts/FDMM/'fdmm.fullPath=lfs.normpath(lfs.writedir()..fdmm_path)fdmm.MapKind={Both='Both',Setup='Setup',Runnable='Runnable'}fdmm.mapKind=fdmm.MapKind.Both
 fdmm.RunMode={Release='Release',Dev='Dev',DevWithPreTests='DevWithPreTests',DevWithPostTests='DevWithPostTests'}fdmm.runMode=fdmm.RunMode.DevWithPostTests
 e('FDMM_Config')e('FDMM_Utils')e('FDMM_UnitTypes')e('FDMM_RegimentTypes')e('Additions/FDMM_LuaAdditions')e('Additions/FDMM_MISTAdditions')e('Additions/FDMM_MOOSEAdditions')e('Utilities/FDMM_YearRange')e('Cargo/FDMM_ResourceUnit')e('Cargo/FDMM_CargoRoute')e('Territory/FDMM_Territory')e('Territory/FDMM_Airbase')e('Territory/FDMM_ArmsPlant')e('Territory/FDMM_CommandCenter')e('Territory/FDMM_FARP')e('Territory/FDMM_OilField')e('Territory/FDMM_Port')e('Territory/FDMM_UnitFactory')do
 function fdmm.missionStart()local e="FDMM: Starting "..(fdmm.setup.serverName or"FDMM").."..."env.info(e)trigger.action.outText(e,10)fdmm.config.loadDCSJSONIfAble()fdmm.config.loadConfigOrDefaults()fdmm.config.detectVersions()fdmm.config.loadDCSDBIfAble()fdmm.unitTypes.processEntries()fdmm.regimentTypes.processEntries()if db and dbYears and fdmm.config.Config.updatedDCSDetected then
@@ -1080,13 +1080,14 @@ else
 fdmm.territory.loadTerritories()fdmm.territory.loadFacilities()fdmm.cargoRoute.loadCargoRoutes()end
 if fdmm.utils.isRunnableMapKind()then
 fdmm.territory.buildFacilities()end
-if fdmm.utils.isDevRunMode()then
+fdmm.config.saveConfig()if fdmm.utils.isDevRunMode()then
 if fdmm.runMode==fdmm.RunMode.DevWithPostTests then
 fdmm.config.runTestsScript()end
 end
-fdmm.config.saveConfig()e="FDMM: ...Started "..(fdmm.setup.serverName or"FDMM").."!"env.info(e)trigger.action.outText(e,10)if fdmm.utils.isRunnableMapKind()then
+e="FDMM: ...Started "..(fdmm.setup.serverName or"FDMM").."!"env.info(e)trigger.action.outText(e,10)if fdmm.utils.isRunnableMapKind()then
 else
-env.warning("FDMM: FDMM will now bail out... (anything after here is undefined behavior)")fdmm={}end
+env.warning("FDMM: FDMM will now bail-out... (anything after here is undefined behavior)")fdmm=nil
+end
 end
 local e,n=pcall(fdmm.missionStart,nil)if not e then
 local e="FDMM: ...Failed to Start "..(fdmm.setup.serverName or"FDMM").."!"env.error(e)trigger.action.outText(e,10)env.error("FDMM:   Error: "..tostring(n))end

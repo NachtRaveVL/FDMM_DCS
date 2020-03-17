@@ -1,4 +1,6 @@
 do
+    assert(lfs, "Missing module: lfs")
+
     local __nativeRequire = require
     local __loadedModules = {}
 

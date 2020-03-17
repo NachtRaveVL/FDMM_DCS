@@ -3,6 +3,7 @@
 -- @module FDMM_MissionStart
 env.info("---FDMM_MissionStart Start---")
 env.setErrorMessageBoxEnabled(false)
+assert(lfs, "Missing module: lfs")
 
 --- FDMM main module.
 fdmm = {}
@@ -61,8 +62,11 @@ do --FDMM_MissionStart
     if db and dbYears and fdmm.config.Config.updatedDCSDetected then
       fdmm.unitTypes.createUnitTypeAvailability()
       fdmm.unitTypes.saveUnitTypeAvailability()
+      --fdmm.weaponTypes.createWeaponTypeAvailability()
+      --fdmm.weaponTypes.saveWeaponTypeAvailability()
     else
       fdmm.unitTypes.loadUnitTypeAvailability()
+      --fdmm.weaponTypes.loadWeaponTypeAvailability()
     end
 
     if fdmm.utils.isDevRunMode() then
@@ -107,6 +111,9 @@ do --FDMM_MissionStart
       fdmm.territory.buildFacilities()
     end
 
+    -- Main config wrap-up (goes last).
+    fdmm.config.saveConfig()
+
     if fdmm.utils.isDevRunMode() then
       -- Optional to uncomment, dumps via env.info() to dcs.log.
       --fdmm.unitTypes.dumpUnitReportNames()
@@ -122,9 +129,6 @@ do --FDMM_MissionStart
       end
     end
 
-    -- Main config wrap-up (goes last).
-    fdmm.config.saveConfig()
-
     message = "FDMM: ...Started " .. (fdmm.setup.serverName or "FDMM") .. "!"
     env.info(message)
     trigger.action.outText(message, 10)
@@ -132,8 +136,8 @@ do --FDMM_MissionStart
     if fdmm.utils.isRunnableMapKind() then
       --fdmm.runloop.startMainLoop() -- TODO: Main run loop. -NR
     else
-      env.warning("FDMM: FDMM will now bail out... (anything after here is undefined behavior)")
-      fdmm = {}
+      env.warning("FDMM: FDMM will now bail-out... (anything after here is undefined behavior)")
+      fdmm = nil
     end
   end
 
