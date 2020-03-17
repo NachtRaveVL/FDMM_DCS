@@ -25,6 +25,19 @@ do --FDMM_Utils
            ',a:' .. mist.utils.round(point.y, -1) .. '}'
   end
 
+  --- Gets the DCS version from system.
+  -- @return #string DCS version string.
+  function fdmm.utils.getDCSVersion()
+    assert(_ED_VERSION, "Missing value: _ED_VERSION")
+    return _ED_VERSION:match('^DCS/([%w.]*)')
+  end
+
+  --- Gets the FDMM version from system.
+  -- @return #string FDMM version string.
+  function fdmm.utils.getFDMMVersion()
+    return tostring(fdmm.majorVersion) .. "." .. tostring(fdmm.minorVersion) .. "." .. tostring(fdmm.patchVersion)
+  end
+
   --- Gets the FDMM grouping prefix of a string name (e.g. 'ABC_Test' -> 'ABC_').
   -- Note: Grouping prefix strings must be in all uppercase in order to be recognized as such.
   -- @param #string name Name string.
@@ -239,6 +252,28 @@ do --FDMM_Utils
   function fdmm.utils.splitQuadlet(quadletString)
     assert(quadletString, 'Nonnull parameter: quadletString')
     return quadletString:match("([^:]*):([^:]*):([^:]*):([^:]*)")
+  end
+
+  --- Encodes table to JSON and writes to file.
+  -- @param #table tbl Table to encode.
+  -- @param #string filename Filename to write to.
+  function fdmm.utils.encodeToJSONFile(tbl, filename)
+    assert(JSON, "Missing module: JSON")
+    local file = assert(io.open(filename, 'w'))
+    local data = JSON:encode(tbl)
+    file:write(data)
+    file:close()
+  end
+
+  --- Decodes table from JSON read from file.
+  -- @param #string filename Filename to read from.
+  -- @return #table Decoded table, otherwise nil.
+  function fdmm.utils.decodeFromJSONFile(filename)
+      assert(JSON, "Missing module: JSON")
+      local file = assert(io.open(filename, 'r'))
+      local data = file:read("*all")
+      file:close()
+      return JSON:decode(data)
   end
 
   --- Determines if the user flag is set true in mission user flags.

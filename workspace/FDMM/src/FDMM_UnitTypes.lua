@@ -1604,27 +1604,27 @@ do --FDMM_UnitTypes
     Nicknaming = {}, -- resolved on startup processing
   }
 
+  fdmm.unitTypes._resKeyFilter = { 'All', 'Airborne', 'Amphibious', 'CarrierBorne', 'HeavyWheeled', 'Marines',
+                                   'PlayerControllable', 'Unavailable', 'Available', 'NATOReporting', 'WTOReporting',
+                                   'ReportNaming', 'ProperNaming', 'Nicknaming' }
+  fdmm.unitTypes._resKeySuffixFilter = { 'Presets', 'Callsigns', 'Liveries' }                      
+
+  function fdmm.unitTypes._isReservedKey(key)
+    return string.hasPrefix(key, '_') or
+           table.contains(fdmm.unitTypes._resKeyFilter, key) or
+           string.hasAnySuffix(key, fdmm.unitTypes._resKeySuffixFilter)
+  end
+
   function fdmm.unitTypes.processEntries()
-    local keyFilter = { 'All', 'Airborne', 'Amphibious', 'CarrierBorne', 'HeavyWheeled', 'Marines', 'PlayerControllable',
-                        'Unavailable', 'Available', 'NATOReporting', 'WTOReporting', 'ReportNaming', 'ProperNaming', 'Nicknaming' }
-    local prefixFilter = { '_' }
-    local suffixFilter = { 'Presets', 'Callsigns', 'Liveries' }
     local categoryOverrides = { ['house1arm'] = 'Fortifications', ['houseA_arm'] = 'Fortifications',
                                 ['Sandbox'] = 'Fortifications', ['Bunker'] = 'Fortifications',
                                 ['outpost'] = 'Fortifications', ['outpost_road'] = 'Fortifications',
                                 ['house2arm'] = 'Fortifications', ['TACAN_beacon'] = 'Fortifications' }
-    local availabilityFilename = fdmm.fullPath .. "data/UnitTypeAvailability.json"
-
-    local function _isReservedKey(key)
-      return string.hasAnyPrefix(key, prefixFilter) or
-             table.contains(keyFilter, key) or
-             string.hasAnySuffix(key, suffixFilter)
-    end
 
     local function _createGroupAll(unitTypeGroup)
       local function _createGroupAll_recurse(node, groupAllList)
         for key, value in pairs(node) do
-          if not _isReservedKey(key) then
+          if not fdmm.unitTypes._isReservedKey(key) then
             if type(value) == 'table' then
               _createGroupAll_recurse(value, groupAllList) -- recurse, b/c table
             elseif type(value) == 'string' then -- valid value
@@ -1670,7 +1670,7 @@ do --FDMM_UnitTypes
 
     local function _copyGroupAllToStaticAll(groupAllList, staticAllList, category)
       for fdmmUnitType, unitType in pairs(groupAllList) do
-        if not _isReservedKey(fdmmUnitType) then
+        if not fdmm.unitTypes._isReservedKey(fdmmUnitType) then
           -- possible todo: determine shape name?
           staticAllList[fdmmUnitType] = (categoryOverrides[unitType] or category) .. '::' .. unitType
         end
@@ -1679,7 +1679,7 @@ do --FDMM_UnitTypes
 
     local function _copyGroupAllToMasterAll(allList, masterAllList)
       for fdmmUnitType, value in pairs(allList) do
-        if not _isReservedKey(fdmmUnitType) then
+        if not fdmm.unitTypes._isReservedKey(fdmmUnitType) then
           local unitType = fdmm.unitTypes.getUnitType(value)
           if not masterAllList[fdmmUnitType] then
             masterAllList[fdmmUnitType] = unitType
@@ -1703,7 +1703,7 @@ do --FDMM_UnitTypes
     local function _copyGroupReportingToStaticReporting(unitTypeGroup, staticUnitTypeGroup)
       local function _copyGroupNamingToStaticNaming(groupReportNaming, staticReportNaming)
         for unitType, reportNaming in pairs(groupReportNaming) do
-          if not _isReservedKey(unitType) then
+          if not fdmm.unitTypes._isReservedKey(unitType) then
             if not staticReportNaming[unitType] then
               staticReportNaming[unitType] = reportNaming
             elseif staticReportNaming[unitType] ~= reportNaming then -- different entry
@@ -1723,50 +1723,13 @@ do --FDMM_UnitTypes
 
     local function _fillInReportNaming(unitTypeGroup)
       for fdmmUnitType, value in pairs(unitTypeGroup.All) do
-        if not _isReservedKey(fdmmUnitType) then
+        if not fdmm.unitTypes._isReservedKey(fdmmUnitType) then
           local unitType = fdmm.unitTypes.getUnitType(value)
           if not unitTypeGroup.ReportNaming[unitType] then
             unitTypeGroup.ReportNaming[unitType] = unitType
           end
         end
       end
-    end
-
-    local function _createUnitTypeAvailability()
-      assert(db, "Missing module: db")
-      assert(dbYears, "Missing module: dbYears")
-      fdmm.consts.UnitType.Available = {}
-      for fdmmUnitType, unitType in pairs(fdmm.consts.UnitType.All) do
-        if not _isReservedKey(fdmmUnitType) then
-          local availability = {}
-          if dbYears[unitType] then
-            local countries = db.getHistoricalCountres(unitType)
-            for _, country in pairs(countries) do
-              local begYear, endYear = db.getYearsLocal(unitType, country)
-              availability[string.trim(country)] = { begYear, endYear }
-            end
-          else
-            availability['ALL'] = { 1900, 9999 }
-          end
-          fdmm.consts.UnitType.Available[unitType] = availability
-        end
-      end
-    end
-
-    local function _saveUnitTypeAvailability()
-      assert(JSON, "Missing module: JSON")
-      local file = assert(io.open(availabilityFilename, 'w'))
-      local data = JSON:encode(fdmm.consts.UnitType.Available)
-      file:write(data)
-      file:close()
-    end
-
-    local function _loadUnitTypeAvailability()
-      assert(JSON, "Missing module: JSON")
-      local file = assert(io.open(availabilityFilename, 'r'))
-      local data = file:read("*all")
-      file:close()
-      fdmm.consts.UnitType.Available = JSON:decode(data)
     end
 
     _createGroupAll(fdmm.consts.UnitType.Plane)
@@ -1850,64 +1813,90 @@ do --FDMM_UnitTypes
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Train.Nicknaming)
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Ship.Nicknaming)
     table.concatWith(fdmm.consts.UnitType.Nicknaming, fdmm.consts.UnitType.Static.Nicknaming)
+  end
 
-    if db and dbYears and fdmm.utils.isDebugFlagSet() then
-      _createUnitTypeAvailability()
-      _saveUnitTypeAvailability()
-    else
-      _loadUnitTypeAvailability()
+  function fdmm.unitTypes.createUnitTypeAvailability()
+    assert(db, "Missing module: db")
+    assert(dbYears, "Missing module: dbYears")
+    fdmm.consts.UnitType.Available = {}
+    for fdmmUnitType, unitType in pairs(fdmm.consts.UnitType.All) do
+      if not fdmm.unitTypes._isReservedKey(fdmmUnitType) then
+        local availability = {}
+        if dbYears[unitType] then
+          local countries = db.getHistoricalCountres(unitType)
+          for _, country in pairs(countries) do
+            local begYear, endYear = db.getYearsLocal(unitType, country)
+            availability[string.trim(country)] = { begYear, endYear }
+          end
+        else
+          availability['ALL'] = { 1900, 9999 }
+        end
+        fdmm.consts.UnitType.Available[unitType] = availability
+      end
     end
   end
 
+  function fdmm.unitTypes.saveUnitTypeAvailability()
+    env.info("FDDM: Saving UnitType availability...")
+    local availabilityFilename = fdmm.fullPath .. "data/UnitTypeAvailability.json"
+    fdmm.utils.encodeToJSONFile(fdmm.consts.UnitType.Available, availabilityFilename)
+  end
+
+  function fdmm.unitTypes.loadUnitTypeAvailability()
+    env.info("FDDM: Loading UnitType availability...")
+    local availabilityFilename = fdmm.fullPath .. "data/UnitTypeAvailability.json"
+    fdmm.consts.UnitType.Available = fdmm.utils.decodeFromJSONFile(availabilityFilename)
+  end
+
   function fdmm.unitTypes.crossRefEntries()
-    if db then
-      env.info("FDMM: Cross-referencing units...")
-      local function _crossRefUnits(keyPath, unitArray)
-        for idx,unitData in ipairs(unitArray) do
-          local unitType = unitData.Name
-          local unitTypeAliases = unit_aliases._rev[unitType]
-          local fdmmUnitType = fdmm.consts.UnitType.All._rev[unitType]
-          if not fdmmUnitType and unitTypeAliases then
-            if type(unitTypeAliases) == 'string' then
-              unitTypeAliases = { unitTypeAliases }
-            end
-            for _,unitTypeAlias in ipairs(unitTypeAliases) do
-              fdmmUnitType = fdmm.consts.UnitType.All._rev[unitTypeAlias]
-              if fdmmUnitType then
-                env.warning("  unitTypeAlias=[\'" .. unitTypeAlias .. "\'] is now unitType=[\'" .. unitType .. "\'].")
-                break
-              end
+    assert(db, "Missing module: db")
+    assert(dbYears, "Missing module: dbYears")
+    env.info("FDMM: Cross-referencing units...")
+    local function _crossRefUnits(keyPath, unitArray)
+      for idx,unitData in ipairs(unitArray) do
+        local unitType = unitData.Name
+        local unitTypeAliases = unit_aliases._rev[unitType]
+        local fdmmUnitType = fdmm.consts.UnitType.All._rev[unitType]
+        if not fdmmUnitType and unitTypeAliases then
+          if type(unitTypeAliases) == 'string' then
+            unitTypeAliases = { unitTypeAliases }
+          end
+          for _,unitTypeAlias in ipairs(unitTypeAliases) do
+            fdmmUnitType = fdmm.consts.UnitType.All._rev[unitTypeAlias]
+            if fdmmUnitType then
+              env.warning("  unitTypeAlias=[\'" .. unitTypeAlias .. "\'] is now unitType=[\'" .. unitType .. "\'].")
+              break
             end
           end
-          if not fdmmUnitType then
-            env.info("  Missing fdmmUnitType for unitType=[\'" .. (unitType or "<null>") .. "\'] from " .. keyPath  .. "[" .. idx .. "].")
-          end
+        end
+        if not fdmmUnitType then
+          env.info("  Missing fdmmUnitType for unitType=[\'" .. (unitType or "<null>") .. "\'] from " .. keyPath  .. "[" .. idx .. "].")
         end
       end
+    end
 
-      fdmm.utils.ensureReversedDict(unit_aliases)
+    fdmm.utils.ensureReversedDict(unit_aliases)
 
-      _crossRefUnits('db.Units.Animals', db.Units.Animals.Animal)
-      _crossRefUnits('db.Units.Cargos', db.Units.Cargos.Cargo)
-      _crossRefUnits('db.Units.Cars', db.Units.Cars.Car)
-      _crossRefUnits('db.Units.Fortifications', db.Units.Fortifications.Fortification)
-      _crossRefUnits('db.Units.Helicopters', db.Units.Helicopters.Helicopter)
-      _crossRefUnits('db.Units.Heliports', db.Units.Heliports.Heliport)
-      _crossRefUnits('db.Units.LTAvehicles', db.Units.LTAvehicles.LTAvehicle)
-      _crossRefUnits('db.Units.Personnel', db.Units.Personnel.Personnel)
-      _crossRefUnits('db.Units.Planes', db.Units.Planes.Plane)
-      _crossRefUnits('db.Units.Ships', db.Units.Ships.Ship)
-      _crossRefUnits('db.Units.WWIIstructures', db.Units.WWIIstructures.WWIIstructure)
-      _crossRefUnits('db.Units.Warehouses', db.Units.Warehouses.Warehouse)
+    _crossRefUnits('db.Units.Animals', db.Units.Animals.Animal)
+    _crossRefUnits('db.Units.Cargos', db.Units.Cargos.Cargo)
+    _crossRefUnits('db.Units.Cars', db.Units.Cars.Car)
+    _crossRefUnits('db.Units.Fortifications', db.Units.Fortifications.Fortification)
+    _crossRefUnits('db.Units.Helicopters', db.Units.Helicopters.Helicopter)
+    _crossRefUnits('db.Units.Heliports', db.Units.Heliports.Heliport)
+    _crossRefUnits('db.Units.LTAvehicles', db.Units.LTAvehicles.LTAvehicle)
+    _crossRefUnits('db.Units.Personnel', db.Units.Personnel.Personnel)
+    _crossRefUnits('db.Units.Planes', db.Units.Planes.Plane)
+    _crossRefUnits('db.Units.Ships', db.Units.Ships.Ship)
+    _crossRefUnits('db.Units.WWIIstructures', db.Units.WWIIstructures.WWIIstructure)
+    _crossRefUnits('db.Units.Warehouses', db.Units.Warehouses.Warehouse)
 
-      local checkDBYears = false -- change to true to run the following
-      if dbYears and checkDBYears then
-        local unitArray = {}
-        for unitType,_ in pairs(dbYears) do
-          table.insert(unitArray, {Name = unitType})
-        end
-        _crossRefUnits('dbYears', unitArray)
+    local checkDBYears = false -- change to true to run the following
+    if checkDBYears then
+      local unitArray = {}
+      for unitType,_ in pairs(dbYears) do
+        table.insert(unitArray, {Name = unitType})
       end
+      _crossRefUnits('dbYears', unitArray)
     end
   end
 

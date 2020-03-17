@@ -10,17 +10,21 @@ fdmm.setup.serverName = "FDMM Server"
 fdmm.setup.useMOTD = true
 
 -- Loads DCS's Database module, allowing cross-referencing checks and unit technical
--- data to be imported from DCS fresh, not from packaged values.
+-- data to be imported from DCS fresh, not from packaged json data files. Can also be
+-- set to "OnUpdate", which will load it only in the event that DCS has been updated.
 -- NOTE: Requires sanitization of 'require' in MissionScripting to be commented out,
 --       i.e. comment out line "require = nil" in <DCS[.openbeta]>/Scripts/MissionScripting.lua
-fdmm.setup.loadDB = true
+-- WARNING: Enabling this will add a good 30 seconds+ to startup time, but allows one
+--          to update their data tables to the latest DCS version's values.
+fdmm.setup.loadDB = "OnUpdate"
 
--- Loads DCS's JSON module, allowing efficient saving of data to and from files.
+-- Loads DCS's JSON module, allowing saving of data to and from files.
 -- NOTE: Requires sanitization of 'require' and 'io' in MissionScripting to be commented out,
 --       i.e. comment out lines "require = nil" and "sanitizeModule('io')" in
 --            <DCS[.openbeta]>/Scripts/MissionScripting.lua
 -- WARNING: Disabling this will make it so the server cannot save nor load from save file!
 --          This means server resets will start over from the beginning of the campaign.
+--          If disabled, must manually load JSON global, with :encode(tbl)/:decode(str) methods.
 fdmm.setup.loadJSON = true
 
 -- What year (up to and including) of equipment the server should allow usage of.
@@ -29,14 +33,14 @@ fdmm.setup.loadJSON = true
 -- Some notable years include:
 --   Russo-Georgian War: 2008
 --   Iraq War (Iraqi Freedom): 2003-2011
---   "Behind Enemy Lines"(tm): 1995
+--   "Behind Enemy Lines"™: 1995
 --   Bosnian War: 1992-1995
 --   Georgian Civil War: 1991-1993
 --   Gulf War (Desert Storm): 1991
 --   Gulf War (Desert Shield): 1990-1991
---   "Top Gun"(tm): 1986
---   "Red Dawn"(tm): 1984
---   "Firefox"(tm): 1982
+--   "Top Gun"™: 1986
+--   "Red Dawn"™: 1984
+--   "Firefox"™: 1982
 --   Soviet–Afghan War: 1979-1989
 --   Vietnam War: 1955-1975 (US: 1964-1973)
 --   Korean War: 1950-1953

@@ -5,7 +5,8 @@ env.info("---FDMM_Config Start---");
 
 -- FDMM versioning.
 fdmm.majorVersion = 0
-fdmm.minorVersion = 3
+fdmm.minorVersion = 0
+fdmm.patchVersion = 3
 
 --- FDMM enumerations.
 fdmm.enums = {}
@@ -513,6 +514,15 @@ end
 
 do --FDMM_Config
 
+  --- Configuration storage table.
+  fdmm.config.Config = {
+    _tableVer = 1, -- increment when contents changed
+    updatedDCSDetected = false,
+    lastDCSVersionSeen = nil,
+    updatedFDMMDetected = false,
+    lastFDMMVersionSeen = nil
+  }
+
   --- Runs user setup script, as modified by user.
   function fdmm.config.runUserSetupScript()
     env.info("FDDM: Running user setup script...")
@@ -535,11 +545,35 @@ do --FDMM_Config
     end
   end
 
+  --- Detects various version updates from previous run.
+  function fdmm.config.detectVersions()
+    env.info("FDDM: Detecting versions...")
+
+    local dcsVersion = fdmm.utils.getDCSVersion()
+    fdmm.config.Config.updatedDCSDetected = fdmm.config.Config.lastDCSVersionSeen == nil or
+                                            fdmm.config.Config.lastDCSVersionSeen ~= dcsVersion
+    fdmm.config.Config.lastDCSVersionSeen = dcsVersion
+
+    local fdmmVersion = fdmm.utils.getFDMMVersion()
+    fdmm.config.Config.updatedFDMMDetected = fdmm.config.Config.lastFDMMVersionSeen == nil or
+                                             fdmm.config.Config.lastFDMMVersionSeen ~= fdmmVersion
+    fdmm.config.Config.lastFDMMVersionSeen = fdmmVersion
+
+    -- Modify setup vars that are defined as "OnUpdate"
+    local updateDetected = fdmm.config.Config.updatedDCSDetected or
+                           fdmm.config.Config.updatedFDMMDetected
+    for k,v in pairs(fdmm.setup) do
+      if v == "OnUpdate" then
+        fdmm.setup[k] = updateDetected
+      end
+    end
+  end
+
   --- Attempts to load the DCS DB module.
   function fdmm.config.loadDCSDBIfAble()
-    if not db and fdmm.setup.loadDB then
+    if not db and fdmm.setup.loadDB == true then
       env.info("FDDM: Loading DCS DB...")
-      __DCS_VERSION__ = '2.5' -- doesn't matter
+      __DCS_VERSION__ = fdmm.utils.getDCSVersion()
       for attempt = 1,3 do
         -- First call usually fails, second call is usually fine.
         local status,retVal = pcall(require,'./Scripts/Database/db_scan')
@@ -551,10 +585,36 @@ do --FDMM_Config
 
   --- Attempts to load the DCS JSON module.
   function fdmm.config.loadDCSJSONIfAble()
-    if not JSON and fdmm.setup.loadJSON then
+    if not JSON and fdmm.setup.loadJSON == true then
       env.info("FDDM: Loading DCS JSON...")
       local status,retVal = pcall(require,'./Scripts/JSON')
       if status then JSON = retVal end
+    end
+  end
+
+  --- Saves Config to disk.
+  function fdmm.config.saveConfig()
+    env.info("FDDM: Saving Config...")
+    local configFilename = fdmm.fullPath .. "data/Config.json"
+    fdmm.utils.encodeToJSONFile(fdmm.config.Config, configFilename)
+  end
+
+  --- Loads Config from disk, else uses already existing default values.
+  function fdmm.config.loadConfigOrDefaults()
+    env.info("FDDM: Loading Config or defaults...")
+    local configFilename = fdmm.fullPath .. "data/Config.json"
+    local status,diskConfig = pcall(fdmm.utils.decodeFromJSONFile, configFilename)
+    if status and diskConfig then
+      local currVer = fdmm.config.Config._tableVer
+      if currVer ~= fdmm.config.Config._tableVer then
+        env.info("FDDM:   ...updating config to v" .. currVer .. ".")
+        -- Put any necessary update code here.
+        table.concatWith(fdmm.config.Config, diskConfig)
+
+        fdmm.config.Config._tableVer = currVer
+      end
+    else
+      env.info("FDDM:   ...Config not found, using defaults.")
     end
   end
 
