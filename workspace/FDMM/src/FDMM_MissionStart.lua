@@ -10,7 +10,7 @@ fdmm_path = fdmm_path or '/Scripts/FDMM/'
 fdmm.fullPath = lfs.normpath(lfs.writedir() .. fdmm_path)
 
 fdmm.MapKind = {
-  Both = 'Both', Setup = 'Setup', Runable = 'Runable'
+  Both = 'Both', Setup = 'Setup', Runnable = 'Runnable'
 }
 fdmm.mapKind = fdmm.MapKind.Both -- set per branch
 fdmm.RunMode = {
@@ -46,7 +46,7 @@ do --FDMM_MissionStart
     env.info(message)
     trigger.action.outText(message, 10)
 
-    -- Main config setup (always goes first).
+    -- Main config setup (goes first).
     fdmm.config.loadDCSJSONIfAble()
     fdmm.config.loadConfigOrDefaults()
     fdmm.config.detectVersions()
@@ -58,7 +58,7 @@ do --FDMM_MissionStart
     --fdmm.weaponTypes.processEntries()
 
     -- Create/save or load type entry data.
-    if db and dbYears then
+    if db and dbYears and fdmm.config.Config.updatedDCSDetected then
       fdmm.unitTypes.createUnitTypeAvailability()
       fdmm.unitTypes.saveUnitTypeAvailability()
     else
@@ -72,7 +72,7 @@ do --FDMM_MissionStart
       end
 
       -- Cross reference entries.
-      if db and dbYears then
+      if db and dbYears and fdmm.config.Config.updatedDCSDetected then
         fdmm.unitTypes.crossRefEntries()
       end
     end
@@ -91,8 +91,10 @@ do --FDMM_MissionStart
       fdmm.territory.saveFacilities()
       fdmm.cargoRoute.saveCargoRoutes()
 
-      -- Tears down all group prefix cache setup groups.
-      fdmm.config.tearDownGPCache()
+      if fdmm.utils.isRunnableMapKind() then
+        -- Tears down all group prefix cache setup groups.
+        fdmm.config.tearDownGPCache()
+      end
     else
       -- Loads territories, facilities, routes, etc. from disk.
       fdmm.territory.loadTerritories()
@@ -100,17 +102,16 @@ do --FDMM_MissionStart
       fdmm.cargoRoute.loadCargoRoutes()
     end
 
-    -- Builds facilities.
-    fdmm.territory.buildFacilities()
-
-    -- Main config wrapup (always goes last).
-    fdmm.config.saveConfig()
+    if fdmm.utils.isRunnableMapKind() then
+      -- Builds facilities.
+      fdmm.territory.buildFacilities()
+    end
 
     if fdmm.utils.isDevRunMode() then
       -- Optional to uncomment, dumps via env.info() to dcs.log.
       --fdmm.unitTypes.dumpUnitReportNames()
       --fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, 1968, 2020) -- temp
-      --fdmm.regimentTypes.dumpRegimentActiveLists(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet)
+      --fdmm.regimentTypes.dumpRegimentActiveLists(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet) -- temp
       --fdmm.territory.dumpTerritories()
       --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
       --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later
@@ -121,17 +122,27 @@ do --FDMM_MissionStart
       end
     end
 
-    message = "FDMM:   ...Started " .. (fdmm.setup.serverName or "FDMM") .. "!"
+    -- Main config wrap-up (goes last).
+    fdmm.config.saveConfig()
+
+    message = "FDMM: ...Started " .. (fdmm.setup.serverName or "FDMM") .. "!"
     env.info(message)
     trigger.action.outText(message, 10)
+
+    if fdmm.utils.isRunnableMapKind() then
+      --fdmm.runloop.startMainLoop() -- TODO: Main run loop. -NR
+    else
+      env.warning("FDMM: FDMM will now bail out... (anything after here is undefined behavior)")
+      fdmm = {}
+    end
   end
 
   local status,retVal = pcall(fdmm.missionStart, nil)
   if not status then
-    local message = "FDMM:   ...Failed to Start " .. (fdmm.setup.serverName or "FDMM") .. "!"
+    local message = "FDMM: ...Failed to Start " .. (fdmm.setup.serverName or "FDMM") .. "!"
     env.error(message)
     trigger.action.outText(message, 10)
-    env.error("FDMM:     Error: " .. tostring(retVal))
+    env.error("FDMM:   Error: " .. tostring(retVal))
   end
 end --FDMM_MissionStart
 

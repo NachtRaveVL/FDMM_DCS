@@ -50,4 +50,5 @@ FDMM_Normandy/
 FDMM_PersianGulf/
 empty.lua
 data*.json
+Config.json
 *_key.txt

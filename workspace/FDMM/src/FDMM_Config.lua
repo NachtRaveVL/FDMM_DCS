@@ -52,7 +52,25 @@ do --FDMM_Common_Defines
     Georgia = 'Georgia',
     Turkey = 'Turkey',
     Ukraine = 'Ukraine',
-    Unused = 'Unused' -- no programatic application
+    Unused = 'Unused', -- no programatic application
+  }
+
+  --- Theater maps.
+  -- @type Enums.Theater
+  fdmm.enums.Theater = {
+    Caucasus = DCSMAP.Caucasus,
+    Nevada = DCSMAP.NTTR,
+    Normandy = DCSMAP.Normandy,
+    PersianGulf = DCSMAP.PersianGulf,
+  }
+
+  --- Theater maps' GMT offsets.
+  -- @type Enums.TheaterGMT
+  fdmm.enums.TheaterGMT = {
+    [DCSMAP.Caucasus] = 3,
+    [DCSMAP.NTTR] = -8,
+    [DCSMAP.Normandy] = 1,
+    [DCSMAP.PersianGulf] = 4,
   }
 
   --- Common error codes.
@@ -63,7 +81,7 @@ do --FDMM_Common_Defines
     Incomplete = 2,
     Cancelled = 3,
     InvalidParam = 4,
-    ShouldNotBeReached = 5
+    ShouldNotBeReached = 5,
   }
 
   --- Mission user flags.
@@ -528,7 +546,16 @@ do --FDMM_Config
     env.info("FDDM: Running user setup script...")
     fdmm.setup = {} -- clear
     local status,retVal = pcall(dofile, fdmm.fullPath .. 'FDMM_Setup.lua')
-    if not status then
+    if status then -- validate user input
+      fdmm.setup.equipmentYear = math.floor(math.max(1900, math.min(9999, fdmm.setup.equipmentYear)))
+      if fdmm.setup.gmtOffset == "FromMap" then
+        fdmm.setup.gmtOffset = fdmm.enums.TheaterGMT[env.mission.theatre]
+      elseif fdmm.setup.gmtOffset == "FromServer" then
+        assert(os, "Missing module: os")
+        local now = os.time()
+        fdmm.setup.gmtOffset = os.difftime(now, os.time(os.date("!*t", now))) / (60 * 60)
+      end
+    else
       env.error("** FDMM_Setup.lua failed to load properly. Check for any syntax errors. **")
     end
   end
@@ -553,11 +580,17 @@ do --FDMM_Config
     fdmm.config.Config.updatedDCSDetected = fdmm.config.Config.lastDCSVersionSeen == nil or
                                             fdmm.config.Config.lastDCSVersionSeen ~= dcsVersion
     fdmm.config.Config.lastDCSVersionSeen = dcsVersion
+    if fdmm.config.Config.updatedDCSDetected then
+      env.info("FDMM:   ...New DCS version detected: v" .. dcsVersion)
+    end
 
     local fdmmVersion = fdmm.utils.getFDMMVersion()
     fdmm.config.Config.updatedFDMMDetected = fdmm.config.Config.lastFDMMVersionSeen == nil or
                                              fdmm.config.Config.lastFDMMVersionSeen ~= fdmmVersion
     fdmm.config.Config.lastFDMMVersionSeen = fdmmVersion
+    if fdmm.config.Config.updatedFDMMDetected then
+      env.info("FDMM:   ...New FDMM version detected: v" .. fdmmVersion)
+    end
 
     -- Modify setup vars that are defined as "OnUpdate"
     local updateDetected = fdmm.config.Config.updatedDCSDetected or

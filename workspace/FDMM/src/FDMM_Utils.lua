@@ -318,10 +318,16 @@ do --FDMM_Utils
   end
 
   --- Determines if the map being loaded from is a map that contains FDMM map setup data (e.g. territories, FARPs,
-  -- facilities, etc.) or not.
+  --- facilities, etc.) or not.
   -- @return #boolean True if map contains setup data, otherwise false if such data should be loaded from json.
   function fdmm.utils.isSetupMapKind()
     return fdmm.mapKind == fdmm.MapKind.Both or fdmm.mapKind == fdmm.MapKind.Setup
+  end
+
+  --- Determines if the map being loaded from is a map that can run FDMM as a runnable game server or not.
+  -- @return #boolean True if map can be ran as a runnable game server, otherwise false if early bail-out should occur. 
+  function fdmm.utils.isRunnableMapKind()
+    return fdmm.mapKind == fdmm.MapKind.Both or fdmm.mapKind == fdmm.MapKind.Runnable
   end
 
   --- Determines if the FDMM code is running in the dev run mode or not.
