@@ -131,13 +131,15 @@ do -- FDMM_MissionStart
       end
     end
 
+    if fdmm.utils.isRunnableMapKind() then
+      fdmm.runLoop.startRunLoops()
+    end
+
     message = "FDMM: ...Started " .. (fdmm.setup.serverName or "FDMM") .. "!"
     env.info(message)
     trigger.action.outText(message, 10)
 
-    if fdmm.utils.isRunnableMapKind() then
-      fdmm.runLoop.startRunLoops()
-    else
+    if not fdmm.utils.isRunnableMapKind() then
       env.warning("FDMM: FDMM will now bail-out... (anything after here is undefined behavior)")
       fdmm = nil
     end

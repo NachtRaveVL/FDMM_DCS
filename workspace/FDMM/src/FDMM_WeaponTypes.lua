@@ -44,11 +44,11 @@ do -- FDMM_WeaponTypes
     -- TODO: me.
   end
 
-  function fdmm.unitTypes.saveWeaponTypeAvailability()
+  function fdmm.weaponTypes.saveWeaponTypeAvailability()
     -- TODO: me.
   end
 
-  function fdmm.unitTypes.saveWeaponTypeAvailability()
+  function fdmm.weaponTypes.saveWeaponTypeAvailability()
     -- TODO: me.
   end
 
