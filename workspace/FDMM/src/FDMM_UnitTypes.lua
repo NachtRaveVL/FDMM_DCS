@@ -1831,7 +1831,7 @@ do -- FDMM_UnitTypes
             availability[string.lower(string.trim(country))] = { begYear, endYear }
           end
         else
-          availability['ALL'] = { 1900, 9999 }
+          availability['all'] = { 1900, 9999 }
         end
         fdmm.consts.UnitType.Available[unitType] = availability
       end
@@ -1910,7 +1910,7 @@ do -- FDMM_UnitTypes
         local unitType = fdmm.unitTypes.getUnitType(value)
         if not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Unavailable) then
           local availability = fdmm.consts.UnitType.Available[unitType]
-          local yearRange = availability[countryName] or availability['ALL']
+          local yearRange = availability[countryName] or availability['all']
           if yearRange and year >= yearRange[1] and year <= yearRange[2] then
             retVal[fdmmUnitType] = value
           end
@@ -1927,7 +1927,7 @@ do -- FDMM_UnitTypes
         local unitType = fdmm.unitTypes.getUnitType(value)
         if not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Unavailable) then
           local availability = fdmm.consts.UnitType.Available[unitType]
-          local yearRange = availability[countryName] or availability['ALL']
+          local yearRange = availability[countryName] or availability['all']
           if yearRange and year >= yearRange[1] and year <= yearRange[2] then
             return true
           end
@@ -1941,7 +1941,7 @@ do -- FDMM_UnitTypes
     local countryName = string.lower(countryName)
     if not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Unavailable) then
       local availability = fdmm.consts.UnitType.Available[unitType]
-      local yearRange = availability[countryName] or availability['ALL']
+      local yearRange = availability[countryName] or availability['all']
       if yearRange and year >= yearRange[1] and year <= yearRange[2] then
         return true
       end
