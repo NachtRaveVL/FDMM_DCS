@@ -636,14 +636,16 @@ do -- FDMM_Config
 
   --- Loads Config from disk, else uses already existing default values.
   function fdmm.config.loadConfigOrDefaults()
-    env.info("FDDM: Loading Config or defaults...")
+    env.info("FDDM: Loading Config (or defaults)...")
     local configFilename = fdmm.fullPath .. "data/Config.json"
     local status,diskConfig = pcall(fdmm.utils.decodeFromJSONFile, configFilename)
     if status and diskConfig then
       local currVer = fdmm.config.Config._tableVer
-      if currVer ~= fdmm.config.Config._tableVer then
-        env.info("FDDM:   ...updating config to v" .. currVer .. ".")
-        -- Put any necessary update code here.
+      if currVer == diskConfig._tableVer then
+        fdmm.config.Config = diskConfig
+      else
+        env.info("FDDM:   ...Updating config to v" .. currVer .. ".")
+        -- Put any necessary update code here.        
         table.concatWith(fdmm.config.Config, diskConfig)
 
         fdmm.config.Config._tableVer = currVer

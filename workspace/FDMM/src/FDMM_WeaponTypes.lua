@@ -48,7 +48,7 @@ do -- FDMM_WeaponTypes
     -- TODO: me.
   end
 
-  function fdmm.weaponTypes.saveWeaponTypeAvailability()
+  function fdmm.weaponTypes.loadWeaponTypeAvailability()
     -- TODO: me.
   end
 
