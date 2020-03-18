@@ -39,7 +39,7 @@ require('Territory/FDMM_OilField')
 require('Territory/FDMM_Port')
 require('Territory/FDMM_UnitFactory')
 
-do --FDMM_MissionStart
+do -- FDMM_MissionStart
 
   --- Main mission start function.
   function fdmm.missionStart()

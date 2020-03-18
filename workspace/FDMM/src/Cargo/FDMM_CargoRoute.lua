@@ -6,7 +6,7 @@ env.info("---FDMM_CargoRoute Start---")
 --- FDMM cargo route module.
 fdmm.cargoRoute = {}
 
-do --  FDMMCargoRoute
+do -- FDMMCargoRoute
 
   --- Cargo route class that manages what spawns and destinations are available per territory for cargo vessels.
   -- @type FDMMCargoRoute
@@ -100,7 +100,7 @@ do --  FDMMCargoRoute
     -- TODO: me.
   end
 
-end --  FDMMCargoRoute
+end -- /FDMMCargoRoute
 
 do -- FDMM_CargoRoute
 

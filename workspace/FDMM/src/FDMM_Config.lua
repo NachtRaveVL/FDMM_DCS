@@ -29,7 +29,7 @@ fdmm.setup = {}
 -- @type ListRoute
 -- @list <DCS#Route>
 
-do --FDMM_Common_Defines
+do -- FDMM_Common_Defines
 
   --- Common alliances.
   -- @type Enums.Alliance
@@ -91,9 +91,9 @@ do --FDMM_Common_Defines
     TestFlag = '99998',
   }
 
-end --FDMM_Common_Defines
+end -- /FDMM_Common_Defines
 
-do --FDMM_CargoRoute_Defines
+do -- FDMM_CargoRoute_Defines
 
   --- Cargo route types.
   -- @type Enums.CargoRouteType
@@ -149,9 +149,9 @@ do --FDMM_CargoRoute_Defines
     Facility = '_FC',
   }
 
-end --FDMM_CargoRoute_Defines
+end -- /FDMM_CargoRoute_Defines
 
-do --FDMM_Facility_Defines
+do -- FDMM_Facility_Defines
 
   --- Facility types.
   -- @type Enums.FacilityType
@@ -166,9 +166,9 @@ do --FDMM_Facility_Defines
     All = 'all', -- used only in filtering
   }
 
-end --FDMM_Facility_Defines
+end -- /FDMM_Facility_Defines
 
-do --FDMM_ResourceUnit_Defines
+do -- FDMM_ResourceUnit_Defines
 
   --- Resource point types.
   -- @type Enums.RPType
@@ -188,9 +188,9 @@ do --FDMM_ResourceUnit_Defines
     PercentCurrOther = 'percent_co', -- percentage of other's current RP, values of [0.0, 1.0], /w 0.0->0%, 1.0->100%
   }
 
-end --FDMM_ResourceUnit_Defines
+end -- /FDMM_ResourceUnit_Defines
 
-do --FDMM_Territory_Defines
+do -- FDMM_Territory_Defines
 
   --- Territory types.
   -- @type Enums.TerritoryType
@@ -220,9 +220,9 @@ do --FDMM_Territory_Defines
     UnitFactory = 'TUNT_',
   }
 
-end --FDMM_Territory_Defines
+end -- /FDMM_Territory_Defines
 
-do --FDMM_UnitType_Defines
+do -- FDMM_UnitType_Defines
 
   --- Unit types.
   -- @type Enums.UnitType
@@ -530,7 +530,7 @@ do --FDMM_UnitType_Defines
 
 end
 
-do --FDMM_Config
+do -- FDMM_Config
 
   --- Configuration storage table.
   fdmm.config.Config = {
@@ -693,7 +693,7 @@ do --FDMM_Config
     -- TODO: me.
   end
 
-end --FDMM_Config
+end -- /FDMM_Config
 
 fdmm.config.runUserSetupScript()
 

@@ -5,7 +5,7 @@ env.info("---FDMM_MOOSEAdditions Start---")
 
 assert(routines, 'MOOSE not initialized.')
 
-do --FDMM_MOOSEAdditions
+do -- FDMM_MOOSEAdditions
 
   --- Distance between two points (2 dimensional).
   -- Gets distance in meters squared between two points in 2 dimensions (no altitude).
@@ -56,6 +56,6 @@ do --FDMM_MOOSEAdditions
     return self
   end
 
-end --FDMM_MOOSEAdditions
+end -- /FDMM_MOOSEAdditions
 
 env.info("---FDMM_MOOSEAdditions End---")

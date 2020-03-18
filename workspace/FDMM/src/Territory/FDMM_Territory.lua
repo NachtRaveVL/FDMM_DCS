@@ -6,7 +6,7 @@ env.info("---FDMM_Territory Start---")
 --- FDMM territories module.
 fdmm.territory = {}
 
-do --FDMMTerritory
+do -- FDMMTerritory
 
   --- Territory class that manages and marks territory boundaries, various points, FARP spawn locations, etc.
   -- @type FDMMTerritory
@@ -124,9 +124,9 @@ do --FDMMTerritory
     end
   end
 
-end --FDMMTerritory
+end -- /FDMMTerritory
 
-do --FDMM_Territory
+do -- FDMM_Territory
 
   --- Creates territories from initial mission group placements.
   -- Layout:
@@ -322,6 +322,6 @@ do --FDMM_Territory
     end
   end
 
-end --FDMM_Territory
+end -- /FDMM_Territory
 
 env.info("---FDMM_Territory End---")

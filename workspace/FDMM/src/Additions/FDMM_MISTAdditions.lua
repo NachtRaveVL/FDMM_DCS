@@ -5,7 +5,7 @@ env.info("---FDMM_MISTAdditions Start---")
 
 assert(mist, 'MIST not initialized.')
 
-do --FDMM_MISTAdditions
+do -- FDMM_MISTAdditions
 
   --- DBs object category enum.
   mist.DBs.Category = {
@@ -50,6 +50,6 @@ do --FDMM_MISTAdditions
     return (vec.x * vec.x) + (vec.y * vec.y) + ((vec.z or 0) * (vec.z or 0))
   end
 
-end --FDMM_MISTAdditions
+end -- /FDMM_MISTAdditions
 
 env.info("---FDMM_MISTAdditions End---")

@@ -3,7 +3,7 @@
 -- @module FDMM_LuaAdditions
 env.info("---FDMM_LuaAdditions Start---")
 
-do --FDMM_LuaAdditions
+do -- FDMM_LuaAdditions
 
   --- Determines if string contains other string.
   -- @param #string str String.
@@ -229,6 +229,6 @@ do --FDMM_LuaAdditions
     return retVal
   end
 
-end --FDMM_LuaAdditions
+end -- /FDMM_LuaAdditions
 
 env.info("---FDMM_LuaAdditions End---")
