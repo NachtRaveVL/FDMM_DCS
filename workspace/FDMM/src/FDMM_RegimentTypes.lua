@@ -12,7 +12,8 @@ fdmm.regimentTypes = {}
 do -- FDMM_RegimentTypes
 
   --- Regiment type table.
-  -- A structure of regiment types. Dates should be ranged [JanOfBegYear,DecOfLastYear].
+  -- A structure of regiment types.
+  -- Dates should be ranged [BeginningYear,EndingYear].
   -- Also contains a lot of categorization that FDMM relies upon.
   -- @note See something wrong? Say something! That way we can fix it.
   -- @type Consts.RegimentType

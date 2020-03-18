@@ -25,19 +25,6 @@ do -- FDMM_Utils
            ',a:' .. mist.utils.round(point.y, -1) .. '}'
   end
 
-  --- Gets the DCS version from system.
-  -- @return #string DCS version string.
-  function fdmm.utils.getDCSVersion()
-    assert(_ED_VERSION, "Missing value: _ED_VERSION")
-    return _ED_VERSION:match('^DCS/([%w.]*)')
-  end
-
-  --- Gets the FDMM version from system.
-  -- @return #string FDMM version string.
-  function fdmm.utils.getFDMMVersion()
-    return tostring(fdmm.majorVersion) .. "." .. tostring(fdmm.minorVersion) .. "." .. tostring(fdmm.patchVersion)
-  end
-
   --- Gets the FDMM grouping prefix of a string name (e.g. 'ABC_Test' -> 'ABC_').
   -- Note: Grouping prefix strings must be in all uppercase in order to be recognized as such.
   -- @param #string name Name string.
@@ -124,7 +111,7 @@ do -- FDMM_Utils
   -- @param #string name Name string.
   -- @return #string,#string,#string Tuple: grouping prefix, stripped name, and grouping suffix.
   function fdmm.utils.getGroupingComponents(name)
-    assert(name, 'Nonnull parameter: name')
+    assert(name, "Nonnull parameter: name")
     local prefix, suffix
     name = fdmm.utils.removeNumericSuffix(name)
     name, prefix = fdmm.utils.removeGroupingPrefix(name)
@@ -138,7 +125,7 @@ do -- FDMM_Utils
   -- @param #table knownSuffixes Table (or list) of known suffixes to handle short-naming for.
   -- @return #string,#string,#string Tuple: grouping prefix, stripped name, and grouping suffix.
   function fdmm.utils.getGroupingComponentsWithSNC(name, knownPrefixes, knownSuffixes)
-    assert(name, 'Nonnull parameter: name')
+    assert(name, "Nonnull parameter: name")
     local prefix, name, suffix = fdmm.utils.getGroupingComponents(name)
 
     -- Check if the name is really a prefix or suffix.
@@ -157,7 +144,7 @@ do -- FDMM_Utils
   -- @param DCS#RoutePoint routePoint Route point.
   -- @return DCS#Vec2 Position vector (with routePoint copy).
   function fdmm.utils.rposFromRPoint(routePoint)
-    assert(routePoint, 'Nonnull parameter: routePoint')
+    assert(routePoint, "Nonnull parameter: routePoint")
     return { x = routePoint.x or routePoint.point.x, y = routePoint.y or routePoint.point.y, routePoint = mist.utils.deepCopy(routePoint) }
   end
 
@@ -165,7 +152,7 @@ do -- FDMM_Utils
   -- @param #string name Name string.
   -- @return #Enums.Faction Faction enumeration, otherwise Faction.Unused if unable to determine.
   function fdmm.utils.getFaction(name)
-    assert(name, 'Nonnull parameter: name')
+    assert(name, "Nonnull parameter: name")
     name = fdmm.utils.removeNumericSuffix(name)
     for enum, value in pairs(fdmm.enums.Faction) do
       if value:lower() == name:lower() then
@@ -181,7 +168,7 @@ do -- FDMM_Utils
   -- @param #table tbl Table.
   -- @return #table New table with reversed key/value entries.
   function fdmm.utils.reversedDict(tbl)
-    assert(tbl, 'Nonnull parameter: tbl')
+    assert(tbl, "Nonnull parameter: tbl")
     local rev = {}
     for k,v in pairs(tbl) do
       if (type(k) == 'string' or type(k) == 'number') and (type(v) == 'string' or type(v) == 'number') then
@@ -224,7 +211,7 @@ do -- FDMM_Utils
       elseif colonCount == 3 then
         return fdmm.utils.splitQuadlet(tupleString)
       else
-        assert(false, 'Not reachable')
+        assert(false, "Not reachable")
       end
     end
     return nil, nil, nil, nil
@@ -234,7 +221,7 @@ do -- FDMM_Utils
   -- @param #string doubletString String with one:two elements in doublet form.
   -- @return #string,#string Tuple: first and second elements, otherwise nil,nil.  
   function fdmm.utils.splitDoublet(doubletString)
-    assert(doubletString, 'Nonnull parameter: doubletString')
+    assert(doubletString, "Nonnull parameter: doubletString")
     return doubletString:match("([^:]*):([^:]*)")
   end
 
@@ -242,7 +229,7 @@ do -- FDMM_Utils
   -- @param #string tripletString String with one:two:three elements in triplet form.
   -- @return #string,#string,#string Tuple: first, second, and third elements, otherwise nil,nil,nil.
   function fdmm.utils.splitTriplet(tripletString)
-    assert(tripletString, 'Nonnull parameter: tripletString')
+    assert(tripletString, "Nonnull parameter: tripletString")
     return tripletString:match("([^:]*):([^:]*):([^:]*)")
   end
 
@@ -250,7 +237,7 @@ do -- FDMM_Utils
   -- @param #string quadletString String with one:two:three:four elements in quadlet form.
   -- @return #string,#string,#string Tuple: first, second, third, and fourth elements, otherwise nil,nil,nil,nil.
   function fdmm.utils.splitQuadlet(quadletString)
-    assert(quadletString, 'Nonnull parameter: quadletString')
+    assert(quadletString, "Nonnull parameter: quadletString")
     return quadletString:match("([^:]*):([^:]*):([^:]*):([^:]*)")
   end
 
@@ -271,16 +258,39 @@ do -- FDMM_Utils
   function fdmm.utils.decodeFromJSONFile(filename)
       assert(JSON, "Missing module: JSON")
       local file = assert(io.open(filename, 'r'))
-      local data = file:read("*all")
+      local data = file:read('*all')
       file:close()
       return JSON:decode(data)
+  end
+
+  --- Gets the DCS version from system.
+  -- @return #string DCS version string.
+  function fdmm.utils.getDCSVersion()
+    local dcsVersion = fdmm.utils._dcsVersion
+    if not dcsVersion then
+      assert(_ED_VERSION, "Missing value: _ED_VERSION")
+      dcsVersion = _ED_VERSION:match('^DCS/([%w.]*)')
+      fdmm.utils._dcsVersion = dcsVersion
+    end
+    return dcsVersion
+  end
+
+  --- Gets the FDMM version from system.
+  -- @return #string FDMM version string.
+  function fdmm.utils.getFDMMVersion()
+    local fdmmVersion = fdmm.utils._fdmmVersion
+    if not fdmmVersion then
+      fdmmVersion = tostring(fdmm.majorVersion) .. "." .. tostring(fdmm.minorVersion) .. "." .. tostring(fdmm.patchVersion)
+      fdmm.utils._fdmmVersion = fdmmVersion
+    end
+    return fdmmVersion
   end
 
   --- Determines if the user flag is set true in mission user flags.
   -- @param #string flag Flag (string index).
   -- @return #boolean True if non-0, non-false, and non-no value is set, otherwise false.
   function fdmm.utils.isUserFlagSet(flag)
-    assert(flag, 'Nonnull parameter: flag')
+    assert(flag, "Nonnull parameter: flag")
     local flag = trigger.misc.getUserFlag(flag)
     return (type(flag) == 'number' and flag ~= 0) or
            (type(flag) == 'boolean' and flag ~= false) or
@@ -292,16 +302,16 @@ do -- FDMM_Utils
   -- @param #string flag Flag (string index).
   -- @param #boolean|#number value Optional value for flag, otherwise true.
   function fdmm.utils.setUserFlag(flag, value)
-    assert(flag, 'Nonnull parameter: flag')
+    assert(flag, "Nonnull parameter: flag")
     value = value or true
-    assert(type(value) == 'number' or type(value) == 'boolean', 'Value must be number or boolean type.')
+    assert(type(value) == 'number' or type(value) == 'boolean', "Must be number or boolean type: value.")
     trigger.action.setUserFlag(flag, value)
   end
 
   --- Clears user flag by setting it to false.
   -- @param #string flag Flag (string index).
   function fdmm.utils.clearUserFlag(flag)
-    assert(flag, 'Nonnull parameter: flag')
+    assert(flag, "Nonnull parameter: flag")
     fdmm.utils.setUserFlag(flag, false)
   end
 

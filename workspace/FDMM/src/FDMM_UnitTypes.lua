@@ -12,6 +12,7 @@ do -- FDMM_UnitTypes
 
   --- Unit type table.
   -- A ridiculous structure mapping fdmmUnitTypes to dcsUnitTypes.
+  -- Dates should be ranged [BeginningYear,EndingYear].
   -- Also contains a lot of categorization that FDMM relies upon.
   -- @note See something wrong? Say something! That way we can fix it.
   -- @type Consts.UnitType
@@ -1827,7 +1828,7 @@ do -- FDMM_UnitTypes
           local countries = db.getHistoricalCountres(unitType)
           for _, country in pairs(countries) do
             local begYear, endYear = db.getYearsLocal(unitType, country)
-            availability[string.trim(country)] = { begYear, endYear }
+            availability[string.lower(string.trim(country))] = { begYear, endYear }
           end
         else
           availability['ALL'] = { 1900, 9999 }
@@ -1903,6 +1904,7 @@ do -- FDMM_UnitTypes
 
   function fdmm.unitTypes.whichAvailableToCountryIn(unitTypesDict, countryName, year)
     local retVal = {}
+    local countryName = string.lower(countryName)
     for fdmmUnitType, value in pairs(unitTypesDict) do
       if not string.hasPrefix(fdmmUnitType, '_') then
         local unitType = fdmm.unitTypes.getUnitType(value)
@@ -1919,6 +1921,7 @@ do -- FDMM_UnitTypes
   end
 
   function fdmm.unitTypes.anyAvailableToCountryIn(unitTypesDict, countryName, year)
+    local countryName = string.lower(countryName)
     for fdmmUnitType, value in pairs(unitTypesDict) do
       if not string.hasPrefix(fdmmUnitType, '_') then
         local unitType = fdmm.unitTypes.getUnitType(value)
@@ -1935,6 +1938,7 @@ do -- FDMM_UnitTypes
   end
 
   function fdmm.unitTypes.isAvailableToCountryIn(unitType, countryName, year)
+    local countryName = string.lower(countryName)
     if not fdmm.unitTypes.isListedUnder(unitType, fdmm.consts.UnitType.Unavailable) then
       local availability = fdmm.consts.UnitType.Available[unitType]
       local yearRange = availability[countryName] or availability['ALL']

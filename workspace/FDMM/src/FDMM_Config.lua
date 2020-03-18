@@ -39,6 +39,7 @@ do -- FDMM_Common_Defines
     UN = 'UN',
     Insurgent = 'Insurgent',
     Protestor = 'Protestor',
+    ISIS = 'ISIS',
   }
 
   --- Common factions.
@@ -64,9 +65,9 @@ do -- FDMM_Common_Defines
     PersianGulf = DCSMAP.PersianGulf,
   }
 
-  --- Theater maps' GMT offsets.
-  -- @type Enums.TheaterGMT
-  fdmm.enums.TheaterGMT = {
+  --- Theater map's GMT offsets.
+  -- @type Enums.TheaterGMTOffset
+  fdmm.enums.TheaterGMTOffset = {
     [DCSMAP.Caucasus] = 3,
     [DCSMAP.NTTR] = -8,
     [DCSMAP.Normandy] = 1,
@@ -484,7 +485,7 @@ do -- FDMM_UnitType_Defines
   -- @type Enums.UnitShipType
   fdmm.enums.UnitShipType = {
     Carrier = 'Carrier',
-    HeliCarrier = 'HeliCarrier',
+    HeliCarrier = 'HeliCarrier', -- amphibious assault ship
     BattleCruiser = 'BattleCruiser',
     Cruiser = 'Cruiser',
     Destroyer = 'Destroyer',
@@ -543,13 +544,14 @@ do -- FDMM_Config
 
   --- Runs user setup script, as modified by user.
   function fdmm.config.runUserSetupScript()
+    -- Note: Ran directly after config include, so no access to Utils, etc.
     env.info("FDDM: Running user setup script...")
     fdmm.setup = {} -- clear
     local status,retVal = pcall(dofile, fdmm.fullPath .. 'FDMM_Setup.lua')
     if status then -- validate user input
       fdmm.setup.equipmentYear = math.floor(math.max(1900, math.min(9999, fdmm.setup.equipmentYear)))
       if fdmm.setup.gmtOffset == "FromMap" then
-        fdmm.setup.gmtOffset = fdmm.enums.TheaterGMT[env.mission.theatre]
+        fdmm.setup.gmtOffset = fdmm.enums.TheaterGMTOffset[env.mission.theatre]
       elseif fdmm.setup.gmtOffset == "FromServer" then
         assert(os, "Missing module: os")
         local now = os.time()

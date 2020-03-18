@@ -24,9 +24,11 @@ require('FDMM_Config')
 require('FDMM_Utils')
 require('FDMM_UnitTypes')
 require('FDMM_RegimentTypes')
+require('FDMM_WeaponTypes')
 require('Additions/FDMM_LuaAdditions')
 require('Additions/FDMM_MISTAdditions')
 require('Additions/FDMM_MOOSEAdditions')
+require('Utilities/FDMM_RunLoop')
 require('Utilities/FDMM_YearRange')
 require('Cargo/FDMM_ResourceUnit')
 require('Cargo/FDMM_CargoRoute')
@@ -56,17 +58,17 @@ do -- FDMM_MissionStart
     -- Process unit, regiment, and weapon type entries.
     fdmm.unitTypes.processEntries()
     fdmm.regimentTypes.processEntries()
-    --fdmm.weaponTypes.processEntries()
+    fdmm.weaponTypes.processEntries()
 
     -- Create/save or load type entry data.
     if db and dbYears and fdmm.config.Config.updatedDCSDetected then
       fdmm.unitTypes.createUnitTypeAvailability()
       fdmm.unitTypes.saveUnitTypeAvailability()
-      --fdmm.weaponTypes.createWeaponTypeAvailability()
-      --fdmm.weaponTypes.saveWeaponTypeAvailability()
+      fdmm.weaponTypes.createWeaponTypeAvailability()
+      fdmm.weaponTypes.saveWeaponTypeAvailability()
     else
       fdmm.unitTypes.loadUnitTypeAvailability()
-      --fdmm.weaponTypes.loadWeaponTypeAvailability()
+      fdmm.weaponTypes.loadWeaponTypeAvailability()
     end
 
     if fdmm.utils.isDevRunMode() then
@@ -134,7 +136,7 @@ do -- FDMM_MissionStart
     trigger.action.outText(message, 10)
 
     if fdmm.utils.isRunnableMapKind() then
-      --fdmm.runloop.startMainLoop() -- TODO: Main run loop. -NR
+      fdmm.runLoop.startRunLoops()
     else
       env.warning("FDMM: FDMM will now bail-out... (anything after here is undefined behavior)")
       fdmm = nil
