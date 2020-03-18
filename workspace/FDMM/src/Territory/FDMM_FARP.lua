@@ -8,7 +8,7 @@ require('Territory/FDMM_Facility')
 --- FDMM FARP module.
 fdmm.farp = {}
 
-do --FDMMFARP
+do -- FDMMFARP
 
   --- FARP class that manages a forward base facility in a territory, which acts as a territory command post, respawn area, and supply point for an army advancing into an enemy held territory.
   -- @type FDMMFARP
@@ -52,6 +52,6 @@ do --FDMMFARP
     return fdmm.enums.FacilityType.FARP
   end
 
-end --FDMMFARP
+end -- /FDMMFARP
 
 env.info("---FDMM_FARP End---")

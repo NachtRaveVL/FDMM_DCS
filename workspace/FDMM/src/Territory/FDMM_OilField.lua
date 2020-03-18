@@ -8,7 +8,7 @@ require('Territory/FDMM_Facility')
 --- FDMM oil field module.
 fdmm.oilField = {}
 
-do --FDMMOilField
+do -- FDMMOilField
 
   --- Oil field class that manages an oil extraction and refinery facility in a territory, which acts as an RPType.Fuel manufacturer.
   -- @type FDMMOilField
@@ -52,6 +52,6 @@ do --FDMMOilField
     return fdmm.enums.FacilityType.OilField
   end
 
-end --FDMMOilField
+end -- /FDMMOilField
 
 env.info("---FDMM_OilField End---")

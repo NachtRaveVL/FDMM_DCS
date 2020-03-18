@@ -6,7 +6,7 @@ env.info("---FDMM_Utils Start---");
 --- FDMM utilities module.
 fdmm.utils = {}
 
-do --FDMM_Utils
+do -- FDMM_Utils
 
   --- Converts position to loggable string (two dimensional).
   -- @param DCS#Vec point Position.
@@ -355,6 +355,6 @@ do --FDMM_Utils
     return env.mission.theatre == DCSMAP.Caucasus or env.mission.theatre == DCSMAP.Normandy 
   end
 
-end --FDMM_Utils
+end -- /FDMM_Utils
 
 env.info("---FDMM_Utils End---");

@@ -8,11 +8,12 @@ require('Additions/FDMM_LuaAdditions')
 --- FDMM unit types module.
 fdmm.unitTypes = {}
 
-do --FDMM_UnitTypes
+do -- FDMM_UnitTypes
 
   --- Unit type table.
   -- A ridiculous structure mapping fdmmUnitTypes to dcsUnitTypes.
   -- Also contains a lot of categorization that FDMM relies upon.
+  -- @note See something wrong? Say something! That way we can fix it.
   -- @type Consts.UnitType
   fdmm.consts.UnitType = {
     Plane = {
@@ -2059,6 +2060,6 @@ do --FDMM_UnitTypes
     _dumpReportNames(fdmm.consts.UnitType.Static)
   end
 
-end --FDMM_UnitTypes
+end -- /FDMM_UnitTypes
 
 env.info("---FDMM_UnitTypes End---");

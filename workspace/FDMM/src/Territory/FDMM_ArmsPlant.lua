@@ -8,7 +8,7 @@ require('Territory/FDMM_Facility')
 --- FDMM arms plant module.
 fdmm.armsPlant = {}
 
-do --FDMMArmsPlant
+do -- FDMMArmsPlant
 
   --- Arms plant class that manages an arms manufacturing plant facility in a territory, which acts as an RPType.Arms manufacturer.
   -- @type FDMMArmsPlant
@@ -52,6 +52,6 @@ do --FDMMArmsPlant
     return fdmm.enums.FacilityType.ArmsPlant
   end
 
-end --FDMMArmsPlant
+end -- /FDMMArmsPlant
 
 env.info("---FDMM_ArmsPlant End---")

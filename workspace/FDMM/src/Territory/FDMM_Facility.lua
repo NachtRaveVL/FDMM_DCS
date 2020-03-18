@@ -6,7 +6,7 @@ env.info("---FDMM_Facility Start---")
 --- FDMM facility module.
 fdmm.facility = {}
 
-do --FDMMFacility
+do -- FDMMFacility
 
   --- Facility base class that manages a facility in a territory.
   -- @type FDMMFacility
@@ -53,6 +53,6 @@ do --FDMMFacility
     return nil
   end
 
-end --FDMMFacility
+end -- /FDMMFacility
 
 env.info("---FDMM_Facility End---")

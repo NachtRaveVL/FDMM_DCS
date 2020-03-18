@@ -8,7 +8,7 @@ require('Territory/FDMM_Facility')
 --- FDMM command center module.
 fdmm.commandCenter = {}
 
-do --FDMMCommandCenter
+do -- FDMMCommandCenter
 
   --- Command center class that manages an command center facility in a territory, which acts as faction command post.
   -- @type FDMMCommandCenter
@@ -52,6 +52,6 @@ do --FDMMCommandCenter
     return fdmm.enums.FacilityType.CommandCenter
   end
 
-end --FDMMCommandCenter
+end -- /FDMMCommandCenter
 
 env.info("---FDMM_CommandCenter End---")

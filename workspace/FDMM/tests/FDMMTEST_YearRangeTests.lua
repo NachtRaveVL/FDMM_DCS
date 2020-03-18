@@ -5,7 +5,7 @@ env.info("---FDMMTEST_YearRangeTests Start---")
 
 require('../tests/FDMMTEST_UnitTest')
 
-do --FDMMTESTYearRangeTests
+do -- FDMMTESTYearRangeTests
 
   --- Utils unit tests.
   -- @type FDMMTESTYearRangeTests
@@ -205,6 +205,6 @@ do --FDMMTESTYearRangeTests
     assert(yearRange:endYear() == 2011, 'Incorrect end year.')
   end
 
-end --FDMMTESTYearRangeTests
+end -- /FDMMTESTYearRangeTests
 
 env.info("---FDMMTEST_YearRangeTests End---")

@@ -6,7 +6,7 @@ env.info("---FDMM_YearRange Start---")
 --- FDMM YearRange module.
 fdmm.yearRange = {}
 
-do --FDMMYearRange
+do -- FDMMYearRange
 
   --- Year range class that stores a set of resource points that can be converted into DCS fuel, equipment, and craft.
   -- @type FDMMYearRange
@@ -317,6 +317,6 @@ do --FDMMYearRange
     return false
   end
 
-end --FDMMYearRange
+end -- /FDMMYearRange
 
 env.info("---FDMM_YearRange End---")

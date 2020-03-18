@@ -11,7 +11,7 @@ require('../tests/FDMMTEST_UnitTest')
 require('../tests/FDMMTEST_UtilsTests')
 require('../tests/FDMMTEST_YearRangeTests')
 
-do --FDMMTEST_TestScript
+do -- FDMMTEST_TestScript
 
   function fdmmtest.runUnitTest(unitTest)
     assert(unitTest and type(unitTest) == 'table' and unitTest.name and unitTest.runUnitTests, 'Invalid parameter: unitTest')
@@ -56,7 +56,7 @@ do --FDMMTEST_TestScript
     fdmm.utils.clearUserFlag(fdmm.consts.UserFlag.TestFlag)
   end
 
-end --FDMMTEST_TestScript
+end -- /FDMMTEST_TestScript
 
 fdmmtest.runTests()
 

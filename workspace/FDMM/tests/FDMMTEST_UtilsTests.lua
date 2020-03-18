@@ -5,7 +5,7 @@ env.info("---FDMMTEST_UtilsTests Start---")
 
 require('../tests/FDMMTEST_UnitTest')
 
-do --FDMMTESTUtilsTests
+do -- FDMMTESTUtilsTests
 
   --- Utils unit tests.
   -- @type FDMMTESTUtilsTests
@@ -80,6 +80,6 @@ do --FDMMTESTUtilsTests
     assert(ret1 == nil, 'Single split failed')
   end
 
-end --FDMMTESTUtilsTests
+end -- /FDMMTESTUtilsTests
 
 env.info("---FDMMTEST_UtilsTests End---")

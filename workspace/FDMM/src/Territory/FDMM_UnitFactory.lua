@@ -8,7 +8,7 @@ require('Territory/FDMM_Facility')
 --- FDMM unit factory module.
 fdmm.unitFactory = {}
 
-do --FDMMUnitFactory
+do -- FDMMUnitFactory
 
   --- Unit factory class that manages a unit manufacturing factory facility in a territory, which acts as an RPType.Unit manufacturer.
   -- @type FDMMUnitFactory
@@ -52,6 +52,6 @@ do --FDMMUnitFactory
     return fdmm.enums.FacilityType.UnitFactory
   end
 
-end --FDMMUnitFactory
+end -- /FDMMUnitFactory
 
 env.info("---FDMM_UnitFactory End---")

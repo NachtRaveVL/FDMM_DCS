@@ -148,6 +148,6 @@ do --FDMM_MissionStart
     trigger.action.outText(message, 10)
     env.error("FDMM:   Error: " .. tostring(retVal))
   end
-end --FDMM_MissionStart
+end -- /FDMM_MissionStart
 
 env.info("---FDMM_MissionStart End---")

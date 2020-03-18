@@ -3,7 +3,7 @@
 -- @module FDMMTEST_UnitTest
 env.info("---FDMMTEST_UnitTest Start---")
 
-do --FDMMTESTUnitTest
+do -- FDMMTESTUnitTest
 
   --- Unit test class.
   -- @type FDMMTESTUnitTest
@@ -67,6 +67,6 @@ do --FDMMTESTUnitTest
     -- Meant to be overridden by derived classes.
   end
 
-end --FDMMTESTUnitTest
+end -- /FDMMTESTUnitTest
 
 env.info("---FDMMTEST_UnitTest End---")

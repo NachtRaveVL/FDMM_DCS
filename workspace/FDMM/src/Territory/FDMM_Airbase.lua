@@ -8,7 +8,7 @@ require('Territory/FDMM_Facility')
 --- FDMM airbase module.
 fdmm.airbase = {}
 
-do --FDMMAirbase
+do -- FDMMAirbase
 
   --- Airbase class that manages an airbase facility in a territory, which acts as a territory airstrip, respawn area, and supply point.
   -- @type FDMMAirbase
@@ -52,6 +52,6 @@ do --FDMMAirbase
     return fdmm.enums.FacilityType.Airbase
   end
 
-end --FDMMAirbase
+end -- /FDMMAirbase
 
 env.info("---FDMM_Airbase End---")

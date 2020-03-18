@@ -6,7 +6,7 @@ env.info("---FDMM_ResourceUnit Start---")
 --- FDMM ResourceUnit module.
 fdmm.resourceUnit = {}
 
-do --FDMMResourceUnit
+do -- FDMMResourceUnit
 
   --- Resource unit class that stores a set of resource points that can be converted into DCS fuel, equipment, and craft.
   -- @type FDMMResourceUnit
@@ -69,6 +69,6 @@ do --FDMMResourceUnit
     -- TODO: me.
   end
 
-end --FDMMResourceUnit
+end -- /FDMMResourceUnit
 
 env.info("---FDMM_ResourceUnit End---")
