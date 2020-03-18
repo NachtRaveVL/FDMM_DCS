@@ -119,8 +119,8 @@ do -- FDMM_MissionStart
     if fdmm.utils.isDevRunMode() then
       -- Optional to uncomment, dumps via env.info() to dcs.log.
       --fdmm.unitTypes.dumpUnitReportNames()
-      --fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, 1968, 2020) -- temp
-      --fdmm.regimentTypes.dumpRegimentActiveLists(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet) -- temp
+      --fdmm.regimentTypes.dumpRegimentYearlyAvailability(fdmm.consts.RegimentType.Caucasus.Navy.USA.SixthFleet, 1968, 2020) -- temp
+      --fdmm.regimentTypes.dumpRegimentActiveLists(fdmm.consts.RegimentType.Caucasus.Navy.USA.SixthFleet) -- temp
       --fdmm.territory.dumpTerritories()
       --fdmm.territory.landTerritories.Tbilisi:smokeBoundaries(SMOKECOLOR.Blue)
       --fdmm.cargoRoute.dumpCargoRoutes() -- not yet implemented, might get around to later

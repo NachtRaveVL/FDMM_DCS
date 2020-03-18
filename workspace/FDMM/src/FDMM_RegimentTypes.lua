@@ -815,7 +815,7 @@ do -- FDMM_RegimentTypes
       return activeYearRanges
     end
 
-    _makeRegimentActYearRange_recurse(fdmm.consts.RegimentType.Caucasus.Ship.USA.Divisions.SixthFleet, {9999,0}) -- temp
+    _makeRegimentActYearRange_recurse(fdmm.consts.RegimentType.Caucasus.Navy.USA.SixthFleet, {9999,0}) -- temp
   end
 
   function fdmm.regimentTypes._objForYear(obj, year)
