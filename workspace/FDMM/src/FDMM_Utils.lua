@@ -275,6 +275,14 @@ do -- FDMM_Utils
     return dcsVersion
   end
 
+  --- Gets the current clock time in seconds.
+  -- Depending on what modules are accessible, may use a more or less precise timing resolution.
+  -- @return #number Current clock time in seconds.
+  function fdmm.utils.getTime()
+    if os then return os.clock() end
+    return timer.getTime()
+  end
+
   --- Gets the FDMM version from system.
   -- @return #string FDMM version string.
   function fdmm.utils.getFDMMVersion()

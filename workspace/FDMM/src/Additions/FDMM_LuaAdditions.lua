@@ -118,7 +118,7 @@ do -- FDMM_LuaAdditions
 
   --- Table contains value (O(n) time).
   -- @param #table tbl Table.
-  -- @param #object value Value (type must implement __eq metamethod).
+  -- @param #object value Value (type may implement __eq metamethod).
   -- @return #boolean True if value is found in table, otherwise false.
   function table.contains(tbl, value)
     assert(tbl, 'Nonnull parameter: tbl')
@@ -129,6 +129,26 @@ do -- FDMM_LuaAdditions
       end
     end
     return false
+  end
+
+  --- Table find and remove value (sequence, O(n) time).
+  -- @param #table seq Sequence.
+  -- @param #object value Value (type may implement __eq metamethod).
+  -- @param #number limit Optional limit count, otherwise defaults to 1.
+  -- @return #number Number of items found and removed.
+  function table.findAndRemove(seq, value, limit)
+    assert(seq, 'Nonnull parameter: tbl')
+    assert(value, 'Nonnull parameter: value')
+    local retVal = 0
+    for idx,v in ipairs(seq) do
+      if v == value then
+        retVal = retVal + 1
+        if retVal >= limit or 1 then
+          return retVal
+        end
+      end
+    end
+    return retVal
   end
 
   --- Table concatination.

@@ -3,7 +3,7 @@
 -- @module FDMM_MissionStart
 env.info("---FDMM_MissionStart Start---")
 env.setErrorMessageBoxEnabled(false)
-assert(lfs, "Missing module: lfs")
+assert(lfs, "Missing module: lfs") -- did you forget to desanitize MissionScripting.lua?
 
 --- FDMM main module.
 fdmm = {}
@@ -19,7 +19,7 @@ fdmm.RunMode = {
 }
 fdmm.runMode = fdmm.RunMode.DevWithPostTests -- set per branch
 
--- Master include listing (these should touch all necessary run files)
+-- Master include listing (below should touch all necessary run files)
 require('FDMM_Config')
 require('FDMM_Utils')
 require('FDMM_UnitTypes')
@@ -111,10 +111,10 @@ do -- FDMM_MissionStart
     if fdmm.utils.isRunnableMapKind() then
       -- Builds facilities.
       fdmm.territory.buildFacilities()
-
-      -- Start run loops.
-      fdmm.runLoop.startRunLoops()
     end
+
+    -- Start run loops.
+    fdmm.runLoop.startBaseRunLoops()
 
     -- Main config wrap-up (goes last).
     fdmm.config.saveConfig()
@@ -140,8 +140,25 @@ do -- FDMM_MissionStart
 
     if not fdmm.utils.isRunnableMapKind() then
       env.warning("FDMM: FDMM will now bail-out... (anything after here is undefined behavior)")
-      fdmm = nil
+      fdmm.missionStop()
     end
+  end
+
+  function fdmm.saveState()
+    -- TODO: me.
+  end
+
+  function fdmm.loadState()
+    -- TODO: me.
+  end
+
+  function fdmm.missionStop()
+    if fdmm.utils.isRunnableMapKind() then
+      fdmm.saveState()
+    end
+    fdmm.runLoop.stopExtRunLoops()
+    fdmm.runLoop.stopBaseRunLoops()
+    fdmm = nil
   end
 
   local status,retVal = pcall(fdmm.missionStart, nil)
