@@ -111,6 +111,9 @@ do -- FDMM_MissionStart
     if fdmm.utils.isRunnableMapKind() then
       -- Builds facilities.
       fdmm.territory.buildFacilities()
+
+      -- Start run loops.
+      fdmm.runLoop.startRunLoops()
     end
 
     -- Main config wrap-up (goes last).
@@ -129,10 +132,6 @@ do -- FDMM_MissionStart
       if fdmm.runMode == fdmm.RunMode.DevWithPostTests then
         fdmm.config.runTestsScript()
       end
-    end
-
-    if fdmm.utils.isRunnableMapKind() then
-      fdmm.runLoop.startRunLoops()
     end
 
     message = "FDMM: ...Started " .. (fdmm.setup.serverName or "FDMM") .. "!"

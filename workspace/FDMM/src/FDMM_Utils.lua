@@ -327,6 +327,12 @@ do -- FDMM_Utils
     return fdmm.utils.isUserFlagSet(fdmm.consts.UserFlag.TestFlag)
   end
 
+  --- Determines if the current thread running is the main DCS thread or not. 
+  -- @return #boolean True if on main DCS thread, otherwise false.
+  function fdmm.utils.isMainThread()
+    return coroutine.running() == nil
+  end
+
   --- Determines if the map being loaded from is a map that contains FDMM map setup data (e.g. territories, FARPs,
   --- facilities, etc.) or not.
   -- @return #boolean True if map contains setup data, otherwise false if such data should be loaded from json.
