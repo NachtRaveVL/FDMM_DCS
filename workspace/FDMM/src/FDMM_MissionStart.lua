@@ -24,7 +24,7 @@ require('FDMM_Config')
 require('FDMM_Utils')
 require('FDMM_UnitTypes')
 require('FDMM_RegimentTypes')
-require('FDMM_WeaponTypes')
+require('FDMM_OrdinanceTypes')
 require('Additions/FDMM_LuaAdditions')
 require('Additions/FDMM_MISTAdditions')
 require('Additions/FDMM_MOOSEAdditions')
@@ -55,20 +55,20 @@ do -- FDMM_MissionStart
     fdmm.config.detectVersions()
     fdmm.config.loadDCSDBIfAble()
 
-    -- Process unit, regiment, and weapon type entries.
+    -- Process unit, regiment, and equipment type entries.
     fdmm.unitTypes.processEntries()
     fdmm.regimentTypes.processEntries()
-    fdmm.weaponTypes.processEntries()
+    fdmm.ordinanceTypes.processEntries()
 
     -- Create/save or load type entry data.
-    if db and dbYears and fdmm.config.Config.updatedDCSDetected then
+    if db and dbYears and fdmm.config.configSettings.updatedDCSDetected then
       fdmm.unitTypes.createUnitTypeAvailability()
       fdmm.unitTypes.saveUnitTypeAvailability()
-      fdmm.weaponTypes.createWeaponTypeAvailability()
-      fdmm.weaponTypes.saveWeaponTypeAvailability()
+      fdmm.ordinanceTypes.createOrdinanceTypeAvailability()
+      fdmm.ordinanceTypes.saveOrdinanceTypeAvailability()
     else
       fdmm.unitTypes.loadUnitTypeAvailability()
-      fdmm.weaponTypes.loadWeaponTypeAvailability()
+      fdmm.ordinanceTypes.loadOrdinanceTypeAvailability()
     end
 
     if fdmm.utils.isDevRunMode() then
@@ -78,8 +78,9 @@ do -- FDMM_MissionStart
       end
 
       -- Cross reference entries.
-      if db and dbYears and fdmm.config.Config.updatedDCSDetected then
+      if db and dbYears and fdmm.config.configSettings.updatedDCSDetected then
         fdmm.unitTypes.crossRefEntries()
+        fdmm.ordinanceTypes.crossRefEntries()
       end
     end
 
@@ -139,7 +140,7 @@ do -- FDMM_MissionStart
     trigger.action.outText(message, 10)
 
     if not fdmm.utils.isRunnableMapKind() then
-      env.warning("FDMM: FDMM will now bail-out... (anything after here is undefined behavior)")
+      env.warning("FDMM: FDMM will now bail-out... (you may now exit from DCS mission)")
       fdmm.missionStop()
     end
   end

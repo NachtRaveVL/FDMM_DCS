@@ -1855,24 +1855,28 @@ do -- FDMM_UnitTypes
     assert(dbYears, "Missing module: dbYears")
     env.info("FDMM: Cross-referencing units...")
     local function _crossRefUnits(keyPath, unitArray)
-      for idx,unitData in ipairs(unitArray) do
-        local unitType = unitData.Name
-        local unitTypeAliases = unit_aliases._rev[unitType]
-        local fdmmUnitType = fdmm.consts.UnitType.All._rev[unitType]
-        if not fdmmUnitType and unitTypeAliases then
-          if type(unitTypeAliases) == 'string' then
-            unitTypeAliases = { unitTypeAliases }
-          end
-          for _,unitTypeAlias in ipairs(unitTypeAliases) do
-            fdmmUnitType = fdmm.consts.UnitType.All._rev[unitTypeAlias]
-            if fdmmUnitType then
-              env.warning("  unitTypeAlias=[\'" .. unitTypeAlias .. "\'] is now unitType=[\'" .. unitType .. "\'].")
-              break
+      local num = table.maxn(unitArray)
+      for idx = 1,num do
+        local unitData = unitArray[idx]
+        if unitData then
+          local unitType = unitData.Name
+          local unitTypeAliases = unit_aliases._rev[unitType]
+          local fdmmUnitType = fdmm.consts.UnitType.All._rev[unitType]
+          if not fdmmUnitType and unitTypeAliases then
+            if type(unitTypeAliases) == 'string' then
+              unitTypeAliases = { unitTypeAliases }
+            end
+            for _,unitTypeAlias in ipairs(unitTypeAliases) do
+              fdmmUnitType = fdmm.consts.UnitType.All._rev[unitTypeAlias]
+              if fdmmUnitType then
+                env.warning("  unitTypeAlias=[\'" .. unitTypeAlias .. "\'] is now unitType=[\'" .. unitType .. "\'].")
+                break
+              end
             end
           end
-        end
-        if not fdmmUnitType then
-          env.info("  Missing fdmmUnitType for unitType=[\'" .. (unitType or "<null>") .. "\'] from " .. keyPath  .. "[" .. idx .. "].")
+          if not fdmmUnitType then
+            env.info("  Missing fdmmUnitType for unitType=[\'" .. (unitType or "<null>") .. "\'] from " .. keyPath  .. "[" .. idx .. "].")
+          end
         end
       end
     end

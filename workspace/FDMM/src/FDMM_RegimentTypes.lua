@@ -12,7 +12,7 @@ fdmm.regimentTypes = {}
 do -- FDMM_RegimentTypes
 
   --- Regiment type table.
-  -- A structure of regiment types.
+  -- A structure of regiment types (composition, OoB, etc).
   -- Dates should be ranged [BeginningYear,EndingYear].
   -- Also contains a lot of categorization that FDMM relies upon.
   -- @note See something wrong? Say something! That way we can fix it.
@@ -494,8 +494,8 @@ do -- FDMM_RegimentTypes
                       USSSanJacinto = { -- Ticonderoga Cruiser
                         Name = "USS San Jacinto",
                         Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
-                        Active = { { 1989, 1992 }, 1994, 1996, 1998, { 2000, 2001 }, { 2003, 2008 }, 2010,
-                                   { 2013, 2014 }, 2016, 2019 },
+                        Active = { { 1989, 1992 }, 1996, 1998, { 2000, 2001 }, { 2003, 2008 }, 2010, { 2013, 2014 },
+                                   2016, 2019 },
                         ReportNaming = "CG-%H %N",
                         HullNumbering = "56",
                       },
@@ -537,7 +537,7 @@ do -- FDMM_RegimentTypes
                       USSPhilippineSea = { -- Ticonderoga Cruiser
                         Name = "USS Philippine Sea",
                         Type = fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,
-                        Active = { 2017, 2019, { 2021, 9999 } },
+                        Active = { 2017, { 2021, 9999 } },
                         ReportNaming = "CG-%H %N",
                         HullNumbering = "58",
                       },

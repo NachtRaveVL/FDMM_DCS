@@ -533,8 +533,10 @@ end
 
 do -- FDMM_Config
 
-  --- Configuration storage table.
-  fdmm.config.Config = {
+  --- Configuration settings storage table.
+  -- Config values table that are saved out to and loaded from a json data file, allowing server config settings to be
+  -- saved between runs.
+  fdmm.config.configSettings = {
     _tableVer = 1, -- increment when contents changed
     updatedDCSDetected = false,
     lastDCSVersionSeen = nil,
@@ -579,24 +581,24 @@ do -- FDMM_Config
     env.info("FDDM: Detecting versions...")
 
     local dcsVersion = fdmm.utils.getDCSVersion()
-    fdmm.config.Config.updatedDCSDetected = fdmm.config.Config.lastDCSVersionSeen == nil or
-                                            fdmm.config.Config.lastDCSVersionSeen ~= dcsVersion
-    fdmm.config.Config.lastDCSVersionSeen = dcsVersion
-    if fdmm.config.Config.updatedDCSDetected then
+    fdmm.config.configSettings.updatedDCSDetected = fdmm.config.configSettings.lastDCSVersionSeen == nil or
+                                            fdmm.config.configSettings.lastDCSVersionSeen ~= dcsVersion
+    fdmm.config.configSettings.lastDCSVersionSeen = dcsVersion
+    if fdmm.config.configSettings.updatedDCSDetected then
       env.info("FDMM:   ...New DCS version detected: v" .. dcsVersion)
     end
 
     local fdmmVersion = fdmm.utils.getFDMMVersion()
-    fdmm.config.Config.updatedFDMMDetected = fdmm.config.Config.lastFDMMVersionSeen == nil or
-                                             fdmm.config.Config.lastFDMMVersionSeen ~= fdmmVersion
-    fdmm.config.Config.lastFDMMVersionSeen = fdmmVersion
-    if fdmm.config.Config.updatedFDMMDetected then
+    fdmm.config.configSettings.updatedFDMMDetected = fdmm.config.configSettings.lastFDMMVersionSeen == nil or
+                                             fdmm.config.configSettings.lastFDMMVersionSeen ~= fdmmVersion
+    fdmm.config.configSettings.lastFDMMVersionSeen = fdmmVersion
+    if fdmm.config.configSettings.updatedFDMMDetected then
       env.info("FDMM:   ...New FDMM version detected: v" .. fdmmVersion)
     end
 
     -- Modify setup vars that are defined as "OnUpdate"
-    local updateDetected = fdmm.config.Config.updatedDCSDetected or
-                           fdmm.config.Config.updatedFDMMDetected
+    local updateDetected = fdmm.config.configSettings.updatedDCSDetected or
+                           fdmm.config.configSettings.updatedFDMMDetected
     for k,v in pairs(fdmm.setup) do
       if v == "OnUpdate" then
         fdmm.setup[k] = updateDetected
@@ -630,25 +632,25 @@ do -- FDMM_Config
   --- Saves Config to disk.
   function fdmm.config.saveConfig()
     env.info("FDDM: Saving Config...")
-    local configFilename = fdmm.fullPath .. "data/Config.json"
-    fdmm.utils.encodeToJSONFile(fdmm.config.Config, configFilename)
+    local configFilename = fdmm.fullPath .. "data/ConfigSettings.json"
+    fdmm.utils.encodeToJSONFile(fdmm.config.configSettings, configFilename)
   end
 
   --- Loads Config from disk, else uses already existing default values.
   function fdmm.config.loadConfigOrDefaults()
     env.info("FDDM: Loading Config (or defaults)...")
-    local configFilename = fdmm.fullPath .. "data/Config.json"
+    local configFilename = fdmm.fullPath .. "data/ConfigSettings.json"
     local status,diskConfig = pcall(fdmm.utils.decodeFromJSONFile, configFilename)
     if status and diskConfig then
-      local currVer = fdmm.config.Config._tableVer
+      local currVer = fdmm.config.configSettings._tableVer
       if currVer == diskConfig._tableVer then
-        fdmm.config.Config = diskConfig
+        fdmm.config.configSettings = diskConfig
       else
         env.info("FDDM:   ...Updating config to v" .. currVer .. ".")
         -- Put any necessary update code here.        
-        table.concatWith(fdmm.config.Config, diskConfig)
+        table.concatWith(fdmm.config.configSettings, diskConfig)
 
-        fdmm.config.Config._tableVer = currVer
+        fdmm.config.configSettings._tableVer = currVer
       end
     else
       env.info("FDDM:   ...Config not found, using defaults.")

@@ -153,18 +153,18 @@ do -- FDMMRunLoop
   end
 
   --- Returns if run loop has exhaused its timeslice or not.
-  -- @param #boolean markAsExitingIfTimedOut Optional, if true and the run loop is timed out then will make the next
-  -- scheduling of this run loop as more immediate rather than spaced farther out.
   -- @return True if run loop has exhausted its timeslice, otherwise false.
-  function FDMMRunLoop:isTimeSliceOver(markAsExitingIfTimedOut)
+  function FDMMRunLoop:isTimeSliceOver()
     if self:isActiveLoop() then
-      local retVal = self.runStartTime + self.timeSlice - fdmm.utils.getTime() <= 0
-      if retVal and markAsExitingIfTimedOut == true then
-        self.neededMoreTime = true
-      end
-      return retVal
+      return self.runStartTime + self.timeSlice - fdmm.utils.getTime() <= 0
     end
     return true
+  end
+
+  --- Marks run loop as having timed out due to timeslice exhaustion.
+  -- Will make the next scheduling of this run loop as more immediate rather than spread further apart.
+  function FDMMRunLoop:markAsTimedOut()
+    self.neededMoreTime = true
   end
 
   function FDMMRunLoop:enqueueAsync(func, params)
@@ -206,7 +206,10 @@ do -- FDMMRunLoop
 
   function FDMMRunLoop:_runQueuedFuncs()
     while self.functionList[1] ~= nil do
-      if self:isTimeSliceOver(true) then return end
+      if self:isTimeSliceOver() then
+        self:markAsTimedOut()
+        return
+      end
       local entry = table.remove(self.functionList, 1)
       local status,retVal = pcall(entry[1], entry[2] and table.unpack(entry[2]))
       if not status then

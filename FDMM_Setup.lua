@@ -26,12 +26,12 @@ fdmm.setup.loadJSON = true
 -- WARNING: Enabling this will add some extra startup time, but allows one to update
 --          their data tables to the latest DCS versions' values when a new DCS version
 --          is detected. Best paired with "OnUpdate"
-fdmm.setup.loadDB = "OnUpdate"
+fdmm.setup.loadDB = true --"OnUpdate"
 
 -- What year (up to and including) of equipment the server should allow usage of.
 -- Also used to determine what the initial start year should be on campaign reset, what
 -- era of weapons should be set, what regiments and forces are available, etc.
--- Some notable historical years include:
+-- Some notable historical war years:
 --   War on ISIS: 2014-current          Russo-Georgian War: 2008        Iraq War (Iraqi Freedom): 2003-2011
 --   Bosnian War: 1992-1995             Georgian Civil War: 1991-1993   Gulf War (Desert Storm): 1991
 --   Gulf War (Desert Shield): 1990-1991        Soviet nuclear false alarm incident: 1983
@@ -40,7 +40,7 @@ fdmm.setup.loadDB = "OnUpdate"
 --   Bay of Pigs Invasion: 1961         Vietnam War: 1955-1975 (US involvement: 1964-1973)
 --   Korean War: 1950-1953              Cold War: 1947-1991             Normandy Invasion: 1944
 --   Battle of Britain: 1940-1941       World War II: 1939-1945
--- Some notable movies taking place during years include:
+-- Some notable war movies taking place in year:
 --   "Top Gun: Maverick"™: 2020         "Con Air"™: 1997            "Broken Arrow"™: 1996
 --   "Behind Enemy Lines"™: 1995        "True Lies"™: 1994          "Hot Shots! Part Deux"™: 1993
 --   "Hot Shots!"™: 1991                "Iron Eagle II"™: 1988      "Top Gun"™: 1986
@@ -79,9 +79,9 @@ fdmm.setup.nightSequencesPerGameDay = 1
 -- units can move, which provides a more engaging simulation, but can severly lag DCS
 -- servers (a seemingly common gripe of DCS server administrators).
 -- NOTE: This is not a strict maximum, but more like a throttling value that attempts
---       to be honored as the game progresses.
+--       to be honored as the game progresses, i.e. critical actions may override this.
 -- (not yet implemented)
-fdmm.setup.movingUnitsCap = 128
+fdmm.setup.movingUnitsCap = 64
 
 -- Disabled mission types that the server administrator doesn't want to be made available.
 -- For those who think certain missions are cheap, broken, or just not fun (in which
