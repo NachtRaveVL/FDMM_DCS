@@ -241,13 +241,14 @@ do -- FDMM_Utils
     return quadletString:match("([^:]*):([^:]*):([^:]*):([^:]*)")
   end
 
-  --- Encodes table to JSON and writes to file.
+  --- Encodes table to pretty JSON and writes to file.
   -- @param #table tbl Table to encode.
   -- @param #string filename Filename to write to.
   function fdmm.utils.encodeToJSONFile(tbl, filename)
+    assert(io, "Missing module: io")
     assert(JSON, "Missing module: JSON")
     local file = assert(io.open(filename, 'w'))
-    local data = JSON:encode(tbl)
+    local data = JSON:encode_pretty(tbl)
     file:write(data)
     file:close()
   end
@@ -256,11 +257,23 @@ do -- FDMM_Utils
   -- @param #string filename Filename to read from.
   -- @return #table Decoded table, otherwise nil.
   function fdmm.utils.decodeFromJSONFile(filename)
+      assert(io, "Missing module: io")
       assert(JSON, "Missing module: JSON")
       local file = assert(io.open(filename, 'r'))
       local data = file:read('*all')
       file:close()
       return JSON:decode(data)
+  end
+
+  --- Checks to see if a file exists or not.
+  -- @param #string filename Filename to attempt to read from.
+  -- @return #boolean True if file can be read from, otherwise false.
+  function fdmm.utils.getFileExists(filename)
+    return select(1, pcall(function()
+            local file = assert(io.open(filename, 'r'))
+          end,
+        nil)
+      )
   end
 
   --- Gets the DCS version from system.

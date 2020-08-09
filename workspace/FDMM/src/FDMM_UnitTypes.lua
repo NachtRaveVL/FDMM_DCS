@@ -1838,6 +1838,11 @@ do -- FDMM_UnitTypes
     end
   end
 
+  function fdmm.unitTypes.isMissingAvailability()
+    local availabilityFilename = fdmm.fullPath .. "data/UnitTypeAvailability.json"
+    return not fdmm.utils.getFileExists(availabilityFilename)
+  end
+
   function fdmm.unitTypes.saveUnitTypeAvailability()
     env.info("FDDM: Saving UnitType availability...")
     local availabilityFilename = fdmm.fullPath .. "data/UnitTypeAvailability.json"

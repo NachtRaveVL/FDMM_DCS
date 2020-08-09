@@ -1,0 +1,15 @@
+<<< Sample MOTD - Edit FDMM_MOTD.txt to change! >>>
+
+Hello %U, welcome to %S.
+
+Server Rules:
+1) Be respectful to other players.
+2) Do not shoot on friendlies (turn on IFF).
+3) Callout your landings and takeoffs.
+4) No speeding on the tarmac.
+5) No taking off from taxiway.
+
+SRS Comms Freq: 254.00MHz
+Blue Carrier TACAN: 65X
+
+You may access additional commands via the F10 menu in the communications interface (typically accessed via the '\' key).

@@ -5,8 +5,8 @@ return package.loaded[e]end
 if __DISTILLER.FACTORIES[e]then
 local n=__DISTILLER.FACTORIES[e]package.loaded[e]=n(__DISTILLER.require)or true
 return package.loaded[e]end
-return __DISTILLER.__nativeRequire(e)end,define=function(t,e,n)assert(type(e)=="string","invalid id:"..tostring(e))assert(type(n)=="function","invalid factory:"..tostring(n))if package.loaded[e]==nil and t.FACTORIES[e]==nil then
-t.FACTORIES[e]=n
+return __DISTILLER.__nativeRequire(e)end,define=function(i,e,n)assert(type(e)=="string","invalid id:"..tostring(e))assert(type(n)=="function","invalid factory:"..tostring(n))if package.loaded[e]==nil and i.FACTORIES[e]==nil then
+i.FACTORIES[e]=n
 else
 print("[__DISTILLER::define] module "..tostring(e).." is already defined")end
 end,exec=function(n,e)local n=n.FACTORIES[e]assert(n,"missing factory method for id "..tostring(e))n(__DISTILLER.require)end}end
@@ -48,11 +48,11 @@ fdmm.config.configSettings.lastFDMMVersionSeen~=e
 fdmm.config.configSettings.lastFDMMVersionSeen=e
 if fdmm.config.configSettings.updatedFDMMDetected then
 env.info("FDMM:   ...New FDMM version detected: v"..e)end
-local t=fdmm.config.configSettings.updatedDCSDetected or
+local i=fdmm.config.configSettings.updatedDCSDetected or
 fdmm.config.configSettings.updatedFDMMDetected
 for n,e in pairs(fdmm.setup)do
 if e=="OnUpdate"then
-fdmm.setup[n]=t
+fdmm.setup[n]=i
 end
 end
 end
@@ -120,7 +120,7 @@ end
 return n,nil
 end
 function fdmm.utils.getNumericSuffix(e)if e then
-local t,n=e:reverse():find('# ')if n~=nil then
+local i,n=e:reverse():find('# ')if n~=nil then
 local e=e:sub(-n)if e==e:match(' #[%d]+')then
 return e
 end
@@ -128,10 +128,10 @@ end
 end
 return nil
 end
-function fdmm.utils.removeNumericSuffix(n)local e=fdmm.utils.getNumericSuffix(n)if e~=nil then
-return n:sub(1,-#e-1),e
+function fdmm.utils.removeNumericSuffix(e)local n=fdmm.utils.getNumericSuffix(e)if n~=nil then
+return e:sub(1,-#n-1),n
 end
-return n,nil
+return e,nil
 end
 function fdmm.utils.getGroupingSuffix(e)if e then
 local n=e:reverse():find('_')if n~=nil then
@@ -144,33 +144,33 @@ return n:sub(1,-#e-1),e
 end
 return n,nil
 end
-function fdmm.utils.getGroupingComponents(e)assert(e,"Nonnull parameter: name")local n,t
-e=fdmm.utils.removeNumericSuffix(e)e,n=fdmm.utils.removeGroupingPrefix(e)e,t=fdmm.utils.removeGroupingSuffix(e)return n,e,t
+function fdmm.utils.getGroupingComponents(e)assert(e,"Nonnull parameter: name")local n,i
+e=fdmm.utils.removeNumericSuffix(e)e,n=fdmm.utils.removeGroupingPrefix(e)e,i=fdmm.utils.removeGroupingSuffix(e)return n,e,i
 end
-function fdmm.utils.getGroupingComponentsWithSNC(e,r,i)assert(e,"Nonnull parameter: name")local t,e,n=fdmm.utils.getGroupingComponents(e)if string.isEmpty(t)and table.contains(r or{},(e..'_'))then
-t=(e..'_')e=nil
-elseif string.isEmpty(n)and table.contains(i or{},('_'..e))then
-n=('_'..e)e=nil
+function fdmm.utils.getGroupingComponentsWithSNC(e,t,r)assert(e,"Nonnull parameter: name")local n,e,i=fdmm.utils.getGroupingComponents(e)if string.isEmpty(n)and table.contains(t or{},(e..'_'))then
+n=(e..'_')e=nil
+elseif string.isEmpty(i)and table.contains(r or{},('_'..e))then
+i=('_'..e)e=nil
 end
-return t,e,n
+return n,e,i
 end
 function fdmm.utils.rposFromRPoint(e)assert(e,"Nonnull parameter: routePoint")return{x=e.x or e.point.x,y=e.y or e.point.y,routePoint=mist.utils.deepCopy(e)}end
-function fdmm.utils.getFaction(e)assert(e,"Nonnull parameter: name")e=fdmm.utils.removeNumericSuffix(e)for n,t in pairs(fdmm.enums.Faction)do
-if t:lower()==e:lower()then
+function fdmm.utils.getFaction(e)assert(e,"Nonnull parameter: name")e=fdmm.utils.removeNumericSuffix(e)for n,i in pairs(fdmm.enums.Faction)do
+if i:lower()==e:lower()then
 return n
 end
 end
 return fdmm.enums.Faction.Unused
 end
-function fdmm.utils.reversedDict(e)assert(e,"Nonnull parameter: tbl")local n={}for t,e in pairs(e)do
-if(type(t)=='string'or type(t)=='number')and(type(e)=='string'or type(e)=='number')then
+function fdmm.utils.reversedDict(e)assert(e,"Nonnull parameter: tbl")local n={}for i,e in pairs(e)do
+if(type(i)=='string'or type(i)=='number')and(type(e)=='string'or type(e)=='number')then
 if not n[e]then
-n[e]=t
-elseif n[e]~=t then
+n[e]=i
+elseif n[e]~=i then
 if type(n[e])~='table'then
 n[e]={n[e]}end
-if not table.contains(n[e],t)then
-table.insert(n[e],t)end
+if not table.contains(n[e],i)then
+table.insert(n[e],i)end
 end
 end
 end
@@ -193,8 +193,9 @@ end
 function fdmm.utils.splitDoublet(e)assert(e,"Nonnull parameter: doubletString")return e:match("([^:]*):([^:]*)")end
 function fdmm.utils.splitTriplet(e)assert(e,"Nonnull parameter: tripletString")return e:match("([^:]*):([^:]*):([^:]*)")end
 function fdmm.utils.splitQuadlet(e)assert(e,"Nonnull parameter: quadletString")return e:match("([^:]*):([^:]*):([^:]*):([^:]*)")end
-function fdmm.utils.encodeToJSONFile(n,e)assert(JSON,"Missing module: JSON")local e=assert(io.open(e,'w'))local n=JSON:encode(n)e:write(n)e:close()end
-function fdmm.utils.decodeFromJSONFile(e)assert(JSON,"Missing module: JSON")local e=assert(io.open(e,'r'))local n=e:read('*all')e:close()return JSON:decode(n)end
+function fdmm.utils.encodeToJSONFile(n,e)assert(io,"Missing module: io")assert(JSON,"Missing module: JSON")local e=assert(io.open(e,'w'))local n=JSON:encode_pretty(n)e:write(n)e:close()end
+function fdmm.utils.decodeFromJSONFile(e)assert(io,"Missing module: io")assert(JSON,"Missing module: JSON")local e=assert(io.open(e,'r'))local n=e:read('*all')e:close()return JSON:decode(n)end
+function fdmm.utils.getFileExists(e)return select(1,pcall(function()local e=assert(io.open(e,'r'))end,nil))end
 function fdmm.utils.getDCSVersion()local e=fdmm.utils._dcsVersion
 if not e then
 assert(_ED_VERSION,"Missing value: _ED_VERSION")e=_ED_VERSION:match('^DCS/([%w.]*)')fdmm.utils._dcsVersion=e
@@ -234,10 +235,10 @@ end
 env.info("---FDMM_Utils End---");end)__DISTILLER:define("Additions/FDMM_LuaAdditions",function(e)env.info("---FDMM_LuaAdditions Start---")do
 function string.contains(e,n)assert(e,'Nonnull parameter: str')assert(n,'Nonnull parameter: otherStr')return string.find(e,n,0,true)~=nil
 end
-function string.occurrences(e,n)assert(e,'Nonnull parameter: str')assert(n,'Nonnull parameter: otherStr')return select(2,e:gsub(n,''))end
+function string.occurrences(n,e)assert(n,'Nonnull parameter: str')assert(e,'Nonnull parameter: otherStr')return select(2,n:gsub(e,''))end
 function string.hasPrefix(n,e)assert(n,'Nonnull parameter: str')assert(e,'Nonnull parameter: prefix')return string.sub(n,1,#e)==e
 end
-function string.hasAnyPrefix(n,e)assert(n,'Nonnull parameter: str')assert(e,'Nonnull parameter: prefixList')for t,e in pairs(e)do
+function string.hasAnyPrefix(n,e)assert(n,'Nonnull parameter: str')assert(e,'Nonnull parameter: prefixList')for i,e in pairs(e)do
 if string.hasPrefix(n,e)then
 return true
 end
@@ -246,8 +247,8 @@ return false
 end
 function string.hasSuffix(n,e)assert(n,'Nonnull parameter: str')assert(e,'Nonnull parameter: suffix')return string.sub(n,-#e)==e
 end
-function string.hasAnySuffix(n,e)assert(n,'Nonnull parameter: str')assert(e,'Nonnull parameter: suffixList')for t,e in pairs(e)do
-if string.hasSuffix(n,e)then
+function string.hasAnySuffix(e,n)assert(e,'Nonnull parameter: str')assert(n,'Nonnull parameter: suffixList')for i,n in pairs(n)do
+if string.hasSuffix(e,n)then
 return true
 end
 end
@@ -264,58 +265,58 @@ return n
 end
 function string.trim(e)assert(e,'Nonnull parameter: str')return(e:gsub('^%s*(.-)%s*$','%1'))end
 function string.upperFirst(e)assert(e,'Nonnull parameter: str')return e:sub(1,1):upper()..e:sub(2)end
-function table.contains(e,n)assert(e,'Nonnull parameter: tbl')assert(n,'Nonnull parameter: value')for t,e in pairs(e)do
+function table.contains(e,n)assert(e,'Nonnull parameter: tbl')assert(n,'Nonnull parameter: value')for i,e in pairs(e)do
 if e==n then
 return true
 end
 end
 return false
 end
-function table.findAndRemove(n,t,i)assert(n,'Nonnull parameter: tbl')assert(t,'Nonnull parameter: value')local e=0
+function table.findAndRemove(n,i,t)assert(n,'Nonnull parameter: tbl')assert(i,'Nonnull parameter: value')local e=0
 for r,n in ipairs(n)do
-if n==t then
+if n==i then
 e=e+1
-if e>=i or 1 then
+if e>=t or 1 then
 return e
 end
 end
 end
 return e
 end
-function table.concatedWith(e,n)assert(e or n,'Nonnull parameter: tbl1 or tbl2')local t={}if e then
-for n,e in pairs(e)do
-t[n]=e
+function table.concatedWith(i,e)assert(i or e,'Nonnull parameter: tbl1 or tbl2')local n={}if i then
+for e,i in pairs(i)do
+n[e]=i
 end
 end
-if n then
-for e,n in pairs(n)do
-t[e]=n
+if e then
+for i,e in pairs(e)do
+n[i]=e
 end
-end
-return t
-end
-function table.concatWith(n,e)assert(n,'Nonnull parameter: tbl1')if e then
-for e,t in pairs(e)do
-n[e]=t
-end
-end
-end
-function table.concatedWithi(e,t)assert(e or t,'Nonnull parameter: seq1 or seq2')local n={}if e then
-for t,e in ipairs(e)do
-table.insert(n,e)end
-end
-if t then
-for t,e in ipairs(t)do
-table.insert(n,e)end
 end
 return n
 end
+function table.concatWith(n,e)assert(n,'Nonnull parameter: tbl1')if e then
+for i,e in pairs(e)do
+n[i]=e
+end
+end
+end
+function table.concatedWithi(i,n)assert(i or n,'Nonnull parameter: seq1 or seq2')local e={}if i then
+for i,n in ipairs(i)do
+table.insert(e,n)end
+end
+if n then
+for i,n in ipairs(n)do
+table.insert(e,n)end
+end
+return e
+end
 function table.concatWithi(e,n)assert(e,'Nonnull parameter: seq1')if n then
-for t,n in ipairs(n)do
+for i,n in ipairs(n)do
 table.insert(e,n)end
 end
 end
-function table.keysList(e)assert(e,'Nonnull parameter: tbl')local n={}for e,t in pairs(e)do
+function table.keysList(e)assert(e,'Nonnull parameter: tbl')local n={}for e,i in pairs(e)do
 table.insert(n,e)end
 return n
 end
@@ -355,94 +356,95 @@ end
 end
 end
 a(o,o.All)end
-local function r(e,t,i)for e,n in pairs(e)do
+local function r(e,i,t)for n,e in pairs(e)do
+if not fdmm.unitTypes._isReservedKey(n)then
+i[n]=(s[e]or t)..'::'..e
+end
+end
+end
+local function i(e,n)for e,i in pairs(e)do
 if not fdmm.unitTypes._isReservedKey(e)then
-t[e]=(s[n]or i)..'::'..n
+local i=fdmm.unitTypes.getUnitType(i)if not n[e]then
+n[e]=i
+elseif n[e]~=i then
+env.error("Master all list discrepancy for fdmmUnitType='"..e.."', masterAllList[fdmmUnitType]='"..n[e].."' ~= unitType='"..i.."'.")end
 end
 end
 end
-local function n(e,n)for e,t in pairs(e)do
-if not fdmm.unitTypes._isReservedKey(e)then
-local t=fdmm.unitTypes.getUnitType(t)if not n[e]then
-n[e]=t
-elseif n[e]~=t then
-env.error("Master all list discrepancy for fdmmUnitType='"..e.."', masterAllList[fdmmUnitType]='"..n[e].."' ~= unitType='"..t.."'.")end
-end
-end
-end
-local function t(e)if not e.NATOReporting then e.NATOReporting={}end
+local function n(e)if not e.NATOReporting then e.NATOReporting={}end
 if not e.WTOReporting then e.WTOReporting={}end
 if not e.ReportNaming then e.ReportNaming={}end
 if not e.ProperNaming then e.ProperNaming={}end
 if not e.Nicknaming then e.Nicknaming={}end
 end
-local function i(n,t)local function i(e,n)for e,t in pairs(e)do
+local function t(i,n)local function t(e,n)for e,i in pairs(e)do
 if not fdmm.unitTypes._isReservedKey(e)then
 if not n[e]then
-n[e]=t
-elseif n[e]~=t then
-env.error("Static report naming discrepancy for unitType='"..e.."', staticReportNaming[unitType]='"..n[e].."' ~= reportNaming='"..t.."'.")end
+n[e]=i
+elseif n[e]~=i then
+env.error("Static report naming discrepancy for unitType='"..e.."', staticReportNaming[unitType]='"..n[e].."' ~= reportNaming='"..i.."'.")end
 end
 end
 end
-i(n.NATOReporting,t.NATOReporting)i(n.WTOReporting,t.WTOReporting)i(n.ReportNaming,t.ReportNaming)i(n.ProperNaming,t.ProperNaming)i(n.Nicknaming,t.Nicknaming)end
-local function e(n)for t,e in pairs(n.All)do
-if not fdmm.unitTypes._isReservedKey(t)then
-local e=fdmm.unitTypes.getUnitType(e)if not n.ReportNaming[e]then
-n.ReportNaming[e]=e
+t(i.NATOReporting,n.NATOReporting)t(i.WTOReporting,n.WTOReporting)t(i.ReportNaming,n.ReportNaming)t(i.ProperNaming,n.ProperNaming)t(i.Nicknaming,n.Nicknaming)end
+local function e(e)for n,i in pairs(e.All)do
+if not fdmm.unitTypes._isReservedKey(n)then
+local n=fdmm.unitTypes.getUnitType(i)if not e.ReportNaming[n]then
+e.ReportNaming[n]=n
 end
 end
 end
 end
-a(fdmm.consts.UnitType.Plane)a(fdmm.consts.UnitType.Helicopter)a(fdmm.consts.UnitType.Ground)a(fdmm.consts.UnitType.Ship)a(fdmm.consts.UnitType.Train)r(fdmm.consts.UnitType.Plane.All,fdmm.consts.UnitType.Static.Plane,'Planes')r(fdmm.consts.UnitType.Helicopter.All,fdmm.consts.UnitType.Static.Helicopter,'Helicopters')r(fdmm.consts.UnitType.Ground.All,fdmm.consts.UnitType.Static.Ground,'Unarmed')r(fdmm.consts.UnitType.Train.All,fdmm.consts.UnitType.Static.Train,'Unarmed')r(fdmm.consts.UnitType.Ship.All,fdmm.consts.UnitType.Static.Ship,'Ships')a(fdmm.consts.UnitType.Static)n(fdmm.consts.UnitType.Plane.All,fdmm.consts.UnitType.All)n(fdmm.consts.UnitType.Helicopter.All,fdmm.consts.UnitType.All)n(fdmm.consts.UnitType.Ground.All,fdmm.consts.UnitType.All)n(fdmm.consts.UnitType.Train.All,fdmm.consts.UnitType.All)n(fdmm.consts.UnitType.Ship.All,fdmm.consts.UnitType.All)n(fdmm.consts.UnitType.Static.All,fdmm.consts.UnitType.All)table.concatWith(fdmm.consts.UnitType.Airborne,fdmm.consts.UnitType.Ground.Airborne)table.concatWith(fdmm.consts.UnitType.Amphibious,fdmm.consts.UnitType.Ground.Amphibious)table.concatWith(fdmm.consts.UnitType.CarrierBorne,fdmm.consts.UnitType.Plane.CarrierBorne)table.concatWith(fdmm.consts.UnitType.CarrierBorne,fdmm.consts.UnitType.Helicopter.CarrierBorne)table.concatWith(fdmm.consts.UnitType.HeavyWheeled,fdmm.consts.UnitType.Ground.HeavyWheeled)table.concatWith(fdmm.consts.UnitType.Marines,fdmm.consts.UnitType.Ground.Marines)table.concatWith(fdmm.consts.UnitType.PlayerControllable,fdmm.consts.UnitType.Plane.PlayerControllable)table.concatWith(fdmm.consts.UnitType.PlayerControllable,fdmm.consts.UnitType.Helicopter.PlayerControllable)table.concatWith(fdmm.consts.UnitType.Unavailable,fdmm.consts.UnitType.Plane.Unavailable)table.concatWith(fdmm.consts.UnitType.Unavailable,fdmm.consts.UnitType.Helicopter.Unavailable)table.concatWith(fdmm.consts.UnitType.Unavailable,fdmm.consts.UnitType.Ground.Unavailable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.CarrierBorne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.PlayerControllable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.Unavailable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.CarrierBorne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.PlayerControllable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.Unavailable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Airborne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Amphibious)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.HeavyWheeled)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Marines)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Unavailable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.All)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Airborne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Amphibious)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.CarrierBorne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.HeavyWheeled)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Marines)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.PlayerControllable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Unavailable)t(fdmm.consts.UnitType.Plane)t(fdmm.consts.UnitType.Helicopter)t(fdmm.consts.UnitType.Ground)t(fdmm.consts.UnitType.Ship)t(fdmm.consts.UnitType.Train)t(fdmm.consts.UnitType.Static)e(fdmm.consts.UnitType.Plane)e(fdmm.consts.UnitType.Helicopter)e(fdmm.consts.UnitType.Ground)e(fdmm.consts.UnitType.Ship)e(fdmm.consts.UnitType.Train)i(fdmm.consts.UnitType.Plane,fdmm.consts.UnitType.Static)i(fdmm.consts.UnitType.Helicopter,fdmm.consts.UnitType.Static)i(fdmm.consts.UnitType.Ground,fdmm.consts.UnitType.Static)i(fdmm.consts.UnitType.Ship,fdmm.consts.UnitType.Static)i(fdmm.consts.UnitType.Train,fdmm.consts.UnitType.Static)e(fdmm.consts.UnitType.Static)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Plane.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Helicopter.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Ground.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Train.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Ship.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Static.Nicknaming)end
+a(fdmm.consts.UnitType.Plane)a(fdmm.consts.UnitType.Helicopter)a(fdmm.consts.UnitType.Ground)a(fdmm.consts.UnitType.Ship)a(fdmm.consts.UnitType.Train)r(fdmm.consts.UnitType.Plane.All,fdmm.consts.UnitType.Static.Plane,'Planes')r(fdmm.consts.UnitType.Helicopter.All,fdmm.consts.UnitType.Static.Helicopter,'Helicopters')r(fdmm.consts.UnitType.Ground.All,fdmm.consts.UnitType.Static.Ground,'Unarmed')r(fdmm.consts.UnitType.Train.All,fdmm.consts.UnitType.Static.Train,'Unarmed')r(fdmm.consts.UnitType.Ship.All,fdmm.consts.UnitType.Static.Ship,'Ships')a(fdmm.consts.UnitType.Static)i(fdmm.consts.UnitType.Plane.All,fdmm.consts.UnitType.All)i(fdmm.consts.UnitType.Helicopter.All,fdmm.consts.UnitType.All)i(fdmm.consts.UnitType.Ground.All,fdmm.consts.UnitType.All)i(fdmm.consts.UnitType.Train.All,fdmm.consts.UnitType.All)i(fdmm.consts.UnitType.Ship.All,fdmm.consts.UnitType.All)i(fdmm.consts.UnitType.Static.All,fdmm.consts.UnitType.All)table.concatWith(fdmm.consts.UnitType.Airborne,fdmm.consts.UnitType.Ground.Airborne)table.concatWith(fdmm.consts.UnitType.Amphibious,fdmm.consts.UnitType.Ground.Amphibious)table.concatWith(fdmm.consts.UnitType.CarrierBorne,fdmm.consts.UnitType.Plane.CarrierBorne)table.concatWith(fdmm.consts.UnitType.CarrierBorne,fdmm.consts.UnitType.Helicopter.CarrierBorne)table.concatWith(fdmm.consts.UnitType.HeavyWheeled,fdmm.consts.UnitType.Ground.HeavyWheeled)table.concatWith(fdmm.consts.UnitType.Marines,fdmm.consts.UnitType.Ground.Marines)table.concatWith(fdmm.consts.UnitType.PlayerControllable,fdmm.consts.UnitType.Plane.PlayerControllable)table.concatWith(fdmm.consts.UnitType.PlayerControllable,fdmm.consts.UnitType.Helicopter.PlayerControllable)table.concatWith(fdmm.consts.UnitType.Unavailable,fdmm.consts.UnitType.Plane.Unavailable)table.concatWith(fdmm.consts.UnitType.Unavailable,fdmm.consts.UnitType.Helicopter.Unavailable)table.concatWith(fdmm.consts.UnitType.Unavailable,fdmm.consts.UnitType.Ground.Unavailable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.CarrierBorne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.PlayerControllable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Plane.Unavailable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.CarrierBorne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.PlayerControllable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Helicopter.Unavailable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Airborne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Amphibious)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.HeavyWheeled)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Marines)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Ground.Unavailable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.All)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Airborne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Amphibious)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.CarrierBorne)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.HeavyWheeled)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Marines)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.PlayerControllable)fdmm.utils.ensureReversedDict(fdmm.consts.UnitType.Unavailable)n(fdmm.consts.UnitType.Plane)n(fdmm.consts.UnitType.Helicopter)n(fdmm.consts.UnitType.Ground)n(fdmm.consts.UnitType.Ship)n(fdmm.consts.UnitType.Train)n(fdmm.consts.UnitType.Static)e(fdmm.consts.UnitType.Plane)e(fdmm.consts.UnitType.Helicopter)e(fdmm.consts.UnitType.Ground)e(fdmm.consts.UnitType.Ship)e(fdmm.consts.UnitType.Train)t(fdmm.consts.UnitType.Plane,fdmm.consts.UnitType.Static)t(fdmm.consts.UnitType.Helicopter,fdmm.consts.UnitType.Static)t(fdmm.consts.UnitType.Ground,fdmm.consts.UnitType.Static)t(fdmm.consts.UnitType.Ship,fdmm.consts.UnitType.Static)t(fdmm.consts.UnitType.Train,fdmm.consts.UnitType.Static)e(fdmm.consts.UnitType.Static)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Plane.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Helicopter.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Ground.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Train.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Ship.Nicknaming)table.concatWith(fdmm.consts.UnitType.Nicknaming,fdmm.consts.UnitType.Static.Nicknaming)end
 function fdmm.unitTypes.createUnitTypeAvailability()assert(db,"Missing module: db")assert(dbYears,"Missing module: dbYears")fdmm.consts.UnitType.Available={}for n,e in pairs(fdmm.consts.UnitType.All)do
 if not fdmm.unitTypes._isReservedKey(n)then
 local n={}if dbYears[e]then
-local t=db.getHistoricalCountres(e)for i,t in pairs(t)do
-local i,e=db.getYearsLocal(e,t)n[string.lower(string.trim(t))]={i,e}end
+local i=db.getHistoricalCountres(e)for t,i in pairs(i)do
+local t,e=db.getYearsLocal(e,i)n[string.lower(string.trim(i))]={t,e}end
 else
 n['all']={1900,9999}end
 fdmm.consts.UnitType.Available[e]=n
 end
 end
 end
+function fdmm.unitTypes.isMissingAvailability()local e=fdmm.fullPath.."data/UnitTypeAvailability.json"return not fdmm.utils.getFileExists(e)end
 function fdmm.unitTypes.saveUnitTypeAvailability()env.info("FDDM: Saving UnitType availability...")local e=fdmm.fullPath.."data/UnitTypeAvailability.json"fdmm.utils.encodeToJSONFile(fdmm.consts.UnitType.Available,e)end
 function fdmm.unitTypes.loadUnitTypeAvailability()env.info("FDDM: Loading UnitType availability...")local e=fdmm.fullPath.."data/UnitTypeAvailability.json"fdmm.consts.UnitType.Available=fdmm.utils.decodeFromJSONFile(e)end
-function fdmm.unitTypes.crossRefEntries()assert(db,"Missing module: db")assert(dbYears,"Missing module: dbYears")env.info("FDMM: Cross-referencing units...")local function e(r,e)local n=table.maxn(e)for i=1,n do
-local e=e[i]if e then
-local t=e.Name
-local e=unit_aliases._rev[t]local n=fdmm.consts.UnitType.All._rev[t]if not n and e then
+function fdmm.unitTypes.crossRefEntries()assert(db,"Missing module: db")assert(dbYears,"Missing module: dbYears")env.info("FDMM: Cross-referencing units...")local function e(r,e)local n=table.maxn(e)for t=1,n do
+local e=e[t]if e then
+local i=e.Name
+local e=unit_aliases._rev[i]local n=fdmm.consts.UnitType.All._rev[i]if not n and e then
 if type(e)=='string'then
 e={e}end
-for i,e in ipairs(e)do
+for t,e in ipairs(e)do
 n=fdmm.consts.UnitType.All._rev[e]if n then
-env.warning("  unitTypeAlias=['"..e.."'] is now unitType=['"..t.."'].")break
+env.warning("  unitTypeAlias=['"..e.."'] is now unitType=['"..i.."'].")break
 end
 end
 end
 if not n then
-env.info("  Missing fdmmUnitType for unitType=['"..(t or"<null>").."'] from "..r.."["..i.."].")end
+env.info("  Missing fdmmUnitType for unitType=['"..(i or"<null>").."'] from "..r.."["..t.."].")end
 end
 end
 end
 fdmm.utils.ensureReversedDict(unit_aliases)e('db.Units.Animals',db.Units.Animals.Animal)e('db.Units.Cargos',db.Units.Cargos.Cargo)e('db.Units.Cars',db.Units.Cars.Car)e('db.Units.Fortifications',db.Units.Fortifications.Fortification)e('db.Units.Helicopters',db.Units.Helicopters.Helicopter)e('db.Units.Heliports',db.Units.Heliports.Heliport)e('db.Units.LTAvehicles',db.Units.LTAvehicles.LTAvehicle)e('db.Units.Personnel',db.Units.Personnel.Personnel)e('db.Units.Planes',db.Units.Planes.Plane)e('db.Units.Ships',db.Units.Ships.Ship)e('db.Units.WWIIstructures',db.Units.WWIIstructures.WWIIstructure)e('db.Units.Warehouses',db.Units.Warehouses.Warehouse)local n=false
 if n then
-local n={}for t,i in pairs(dbYears)do
-table.insert(n,{Name=t})end
+local n={}for i,t in pairs(dbYears)do
+table.insert(n,{Name=i})end
 e('dbYears',n)end
 end
-function fdmm.unitTypes.whichAvailableToCountryIn(i,e,n)local t={}local a=string.lower(e)for r,i in pairs(i)do
+function fdmm.unitTypes.whichAvailableToCountryIn(e,t,n)local i={}local a=string.lower(t)for r,t in pairs(e)do
 if not string.hasPrefix(r,'_')then
-local e=fdmm.unitTypes.getUnitType(i)if not fdmm.unitTypes.isListedUnder(e,fdmm.consts.UnitType.Unavailable)then
+local e=fdmm.unitTypes.getUnitType(t)if not fdmm.unitTypes.isListedUnder(e,fdmm.consts.UnitType.Unavailable)then
 local e=fdmm.consts.UnitType.Available[e]local e=e[a]or e['all']if e and n>=e[1]and n<=e[2]then
-t[r]=i
+i[r]=t
 end
 end
 end
 end
-return t
+return i
 end
-function fdmm.unitTypes.anyAvailableToCountryIn(e,t,n)local t=string.lower(t)for e,i in pairs(e)do
+function fdmm.unitTypes.anyAvailableToCountryIn(i,e,n)local t=string.lower(e)for e,i in pairs(i)do
 if not string.hasPrefix(e,'_')then
 local e=fdmm.unitTypes.getUnitType(i)if not fdmm.unitTypes.isListedUnder(e,fdmm.consts.UnitType.Unavailable)then
 local e=fdmm.consts.UnitType.Available[e]local e=e[t]or e['all']if e and n>=e[1]and n<=e[2]then
@@ -453,24 +455,24 @@ end
 end
 return false
 end
-function fdmm.unitTypes.isAvailableToCountryIn(e,t,n)local t=string.lower(t)if not fdmm.unitTypes.isListedUnder(e,fdmm.consts.UnitType.Unavailable)then
-local e=fdmm.consts.UnitType.Available[e]local e=e[t]or e['all']if e and n>=e[1]and n<=e[2]then
+function fdmm.unitTypes.isAvailableToCountryIn(e,i,n)local i=string.lower(i)if not fdmm.unitTypes.isListedUnder(e,fdmm.consts.UnitType.Unavailable)then
+local e=fdmm.consts.UnitType.Available[e]local e=e[i]or e['all']if e and n>=e[1]and n<=e[2]then
 return true
 end
 end
 return false
 end
-function fdmm.unitTypes.whichListedUnder(e,i)fdmm.utils.ensureReversedDict(i)local t={}for e,n in pairs(e)do
-if not string.hasPrefix(e,'_')then
-local r=fdmm.unitTypes.getUnitType(n)if i._rev[r]then
-t[e]=n
+function fdmm.unitTypes.whichListedUnder(e,i)fdmm.utils.ensureReversedDict(i)local t={}for n,e in pairs(e)do
+if not string.hasPrefix(n,'_')then
+local r=fdmm.unitTypes.getUnitType(e)if i._rev[r]then
+t[n]=e
 end
 end
 end
 return t
 end
-function fdmm.unitTypes.anyListedUnder(n,e)fdmm.utils.ensureReversedDict(e)for t,n in pairs(n)do
-if not string.hasPrefix(t,'_')then
+function fdmm.unitTypes.anyListedUnder(n,e)fdmm.utils.ensureReversedDict(e)for i,n in pairs(n)do
+if not string.hasPrefix(i,'_')then
 local n=fdmm.unitTypes.getUnitType(n)if e._rev[n]then
 return true
 end
@@ -483,7 +485,7 @@ return true
 end
 return false
 end
-function fdmm.unitTypes.getUnitType(n)local t,t,e=fdmm.utils.splitTuple(n)e=e or n
+function fdmm.unitTypes.getUnitType(n)local i,i,e=fdmm.utils.splitTuple(n)e=e or n
 return e
 end
 function fdmm.unitTypes.getUnitTypeGroup(e)if fdmm.consts.UnitType.Plane.All._rev[e]then
@@ -502,30 +504,30 @@ return fdmm.consts.UnitType.Static
 end
 return nil
 end
-function fdmm.unitTypes.getUnitReportName(e,n,t)local i=e..'Reporting'local e=fdmm.consts.UnitType[i][n]if string.isEmpty(e)then
-local r=t or fdmm.unitTypes.getUnitTypeGroup(n)local o=r[i][n]local t,a,s=fdmm.utils.splitTuple(o)t=t or o
-e=r.ReportNaming[n]local r=r.ProperNaming[n]if string.isNotEmpty(t)and string.contains(e,'%R')then
-e=e:gsub('%%R',t)end
-if string.isNotEmpty(s)and string.contains(e,'%N')then
-e=e:gsub('%%N',s)end
+function fdmm.unitTypes.getUnitReportName(e,n,i)local a=e..'Reporting'local e=fdmm.consts.UnitType[a][n]if string.isEmpty(e)then
+local t=i or fdmm.unitTypes.getUnitTypeGroup(n)local s=t[a][n]local i,r,o=fdmm.utils.splitTuple(s)i=i or s
+e=t.ReportNaming[n]local t=t.ProperNaming[n]if string.isNotEmpty(i)and string.contains(e,'%R')then
+e=e:gsub('%%R',i)end
+if string.isNotEmpty(o)and string.contains(e,'%N')then
+e=e:gsub('%%N',o)end
+if string.isNotEmpty(t)and not string.contains(e,t)then
+e=e..' '..t
+end
 if string.isNotEmpty(r)and not string.contains(e,r)then
 e=e..' '..r
 end
-if string.isNotEmpty(a)and not string.contains(e,a)then
-e=e..' '..a
-end
-fdmm.consts.UnitType[i][n]=e
+fdmm.consts.UnitType[a][n]=e
 end
 return e
 end
 function fdmm.unitTypes.getNATOUnitReportName(e,n)return fdmm.unitTypes.getUnitReportName(fdmm.enums.Alliance.NATO,e,n)end
 function fdmm.unitTypes.getWTOUnitReportName(n,e)return fdmm.unitTypes.getUnitReportName(fdmm.enums.Alliance.WTO,n,e)end
-function fdmm.unitTypes.dumpUnitReportNames()env.info("FDMM: Dumping unit report names...")local function i(e)for t,n in pairs(table.sortedKeysList(e.All))do
-if not string.hasPrefix(n,'_')then
-local t=e.All[n]local t=fdmm.unitTypes.getUnitType(t)env.info("  ['"..n.."'] = '"..t.."':")env.info("    NATO: "..fdmm.unitTypes.getNATOUnitReportName(t,e))env.info("    WTO : "..fdmm.unitTypes.getWTOUnitReportName(t,e))end
+function fdmm.unitTypes.dumpUnitReportNames()env.info("FDMM: Dumping unit report names...")local function t(e)for n,i in pairs(table.sortedKeysList(e.All))do
+if not string.hasPrefix(i,'_')then
+local n=e.All[i]local n=fdmm.unitTypes.getUnitType(n)env.info("  ['"..i.."'] = '"..n.."':")env.info("    NATO: "..fdmm.unitTypes.getNATOUnitReportName(n,e))env.info("    WTO : "..fdmm.unitTypes.getWTOUnitReportName(n,e))end
 end
 end
-i(fdmm.consts.UnitType.Static)end
+t(fdmm.consts.UnitType.Static)end
 end
 env.info("---FDMM_UnitTypes End---");end)__DISTILLER:define("Utilities/FDMM_YearRange",function(e)env.info("---FDMM_YearRange Start---")fdmm.yearRange={}do
 FDMMYearRange={}FDMMYearRange.__index=FDMMYearRange
@@ -533,57 +535,57 @@ setmetatable(FDMMYearRange,{__call=function(e,...)return e.new(...)end,})functio
 end
 function FDMMYearRange:serialize(e)end
 function FDMMYearRange:deserialize(e)end
-local function n(e)if type(e)~='table'then return nil end
+local function e(e)if type(e)~='table'then return nil end
 assert(type(e[1])=='number',"Invalid parameter: range[1]")return e[1]end
-local function t(e)if type(e)~='table'then return nil end
+local function i(e)if type(e)~='table'then return nil end
 assert(type(e[2])=='number',"Invalid parameter: range[2]")return e[2]end
-local function s(n,e)if type(e)~='table'then return nil end
+local function o(n,e)if type(e)~='table'then return nil end
 assert(type(n)=='number',"Invalid parameter: year")assert(type(e[1])=='number',"Invalid parameter: range[1]")assert(type(e[2])=='number',"Invalid parameter: range[2]")return n>=e[1]and n<=e[2]end
 local function d(n,e)if type(n)~='table'or type(e)~='table'then return nil end
 assert(type(n[1])=='number',"Invalid parameter: range1[1]")assert(type(n[2])=='number',"Invalid parameter: range1[2]")assert(type(e[1])=='number',"Invalid parameter: range2[1]")assert(type(e[2])=='number',"Invalid parameter: range2[2]")return e[1]>=n[1]and e[2]<=n[2]end
-function FDMMYearRange:_indexOfRangeAdjToOrCont(o)assert(type(o)=='number',"Invalid parameter: year")if table.getn(self.ranges)==0 then return nil,nil end
-local e,a=1,table.getn(self.ranges)while e<a do
-local i=math.floor((e+a)/2)local r=self.ranges[i]if n(r)>o then
-a=i
-elseif t(r)<o then
-e=i+1
+function FDMMYearRange:_indexOfRangeAdjToOrCont(a)assert(type(a)=='number',"Invalid parameter: year")if table.getn(self.ranges)==0 then return nil,nil end
+local n,o=1,table.getn(self.ranges)while n<o do
+local t=math.floor((n+o)/2)local r=self.ranges[t]if e(r)>a then
+o=t
+elseif i(r)<a then
+n=t+1
 else
-return i,r
+return t,r
 end
 end
-return e,self.ranges[e]end
-function FDMMYearRange:_collapseRangesFromTo(i,e)local n=0
-local t=table.getn(self.ranges)while e>=i do
-if e>=1 and e<=t then
-table.remove(self.ranges,e)t=t-1
-n=n+1
+return n,self.ranges[n]end
+function FDMMYearRange:_collapseRangesFromTo(t,e)local i=0
+local n=table.getn(self.ranges)while e>=t do
+if e>=1 and e<=n then
+table.remove(self.ranges,e)n=n-1
+i=i+1
 end
 e=e-1
 end
-return n
+return i
 end
-function FDMMYearRange:_checkCombineNeighborsAt(e)local i=table.getn(self.ranges)if e>=1 and e<=i then
-if e+1<=i and s(n(self.ranges[e+1])-1,self.ranges[e])then
-self.ranges[e+1][1]=n(self.ranges[e])table.remove(self.ranges,e)end
-if e-1>=1 and s(t(self.ranges[e-1])+1,self.ranges[e])then
-self.ranges[e-1][2]=t(self.ranges[e])table.remove(self.ranges,e)end
-self:_checkValidRangeAt(e)end
+function FDMMYearRange:_checkCombineNeighborsAt(n)local t=table.getn(self.ranges)if n>=1 and n<=t then
+if n+1<=t and o(e(self.ranges[n+1])-1,self.ranges[n])then
+self.ranges[n+1][1]=e(self.ranges[n])table.remove(self.ranges,n)end
+if n-1>=1 and o(i(self.ranges[n-1])+1,self.ranges[n])then
+self.ranges[n-1][2]=i(self.ranges[n])table.remove(self.ranges,n)end
+self:_checkValidRangeAt(n)end
 end
-function FDMMYearRange:_checkValidRangeAt(e)local i=table.getn(self.ranges)if e>=1 and e<=i then
-local i=self.ranges[e]if n(i)>t(i)then
-table.remove(self.ranges,e)end
+function FDMMYearRange:_checkValidRangeAt(n)local t=table.getn(self.ranges)if n>=1 and n<=t then
+local t=self.ranges[n]if e(t)>i(t)then
+table.remove(self.ranges,n)end
 end
 end
 function FDMMYearRange:startYear()if table.getn(self.ranges)==0 then return nil end
-return n(self.ranges[1])end
+return e(self.ranges[1])end
 function FDMMYearRange:endYear()if table.getn(self.ranges)==0 then return nil end
-return t(self.ranges[table.getn(self.ranges)])end
-function FDMMYearRange:getYearList()local i={}for r,e in ipairs(self.ranges or{})do
-if n(e)~=t(e)then
-table.insert(i,e)else
-table.insert(i,n(e))end
+return i(self.ranges[table.getn(self.ranges)])end
+function FDMMYearRange:getYearList()local t={}for r,n in ipairs(self.ranges or{})do
+if e(n)~=i(n)then
+table.insert(t,n)else
+table.insert(t,e(n))end
 end
-return i
+return t
 end
 function FDMMYearRange:addYearsFromList(e)assert(type(e)=='table',"Invalid parameter: yearList")for n,e in ipairs(e)do
 if type(e)=='number'then
@@ -593,30 +595,30 @@ assert(false,"Unknown yearData: "..tostring(e))end
 end
 end
 function FDMMYearRange:addYear(e)assert(type(e)=='number',"Invalid parameter: year")return self:addYearRange(e,e)end
-function FDMMYearRange:addYearRange(o,a)assert(type(o)=='number',"Invalid parameter: startYear")assert(type(a)=='number',"Invalid parameter: endYear")local r={o,a}local e=table.getn(self.ranges)if e==0 or(o<=n(self.ranges[1])and a>=t(self.ranges[e]))then
+function FDMMYearRange:addYearRange(s,a)assert(type(s)=='number',"Invalid parameter: startYear")assert(type(a)=='number',"Invalid parameter: endYear")local r={s,a}local n=table.getn(self.ranges)if n==0 or(s<=e(self.ranges[1])and a>=i(self.ranges[n]))then
 self.ranges={r}self:_checkValidRangeAt(1)return
 end
-local e=self:_indexOfRangeAdjToOrCont(o)local l=e and self.ranges[e]or nil
+local n=self:_indexOfRangeAdjToOrCont(s)local l=n and self.ranges[n]or nil
 if l then
 if d(l,r)then
 return
-elseif a<n(l)then
-table.insert(self.ranges,e,r)self:_checkCombineNeighborsAt(e)return
+elseif a<e(l)then
+table.insert(self.ranges,n,r)self:_checkCombineNeighborsAt(n)return
 end
 end
-local i=self:_indexOfRangeAdjToOrCont(a)local m=i and self.ranges[i]or nil
-if m and o>t(m)then
-table.insert(self.ranges,r)self:_checkCombineNeighborsAt(i+1)return
+local t=self:_indexOfRangeAdjToOrCont(a)local m=t and self.ranges[t]or nil
+if m and s>i(m)then
+table.insert(self.ranges,r)self:_checkCombineNeighborsAt(t+1)return
 end
-local d=s(o,l)local o=s(a,m)if d and o then
-r={n(l),t(m)}self:_collapseRangesFromTo(e,i)table.insert(self.ranges,e,r)self:_checkCombineNeighborsAt(e)return
-elseif not d and not o then
-local n=a<n(m)if n then i=i-1 end
-self:_collapseRangesFromTo(e,i)table.insert(self.ranges,e,r)self:_checkCombineNeighborsAt(e)return
+local s=o(s,l)local o=o(a,m)if s and o then
+r={e(l),i(m)}self:_collapseRangesFromTo(n,t)table.insert(self.ranges,n,r)self:_checkCombineNeighborsAt(n)return
+elseif not s and not o then
+local e=a<e(m)if e then t=t-1 end
+self:_collapseRangesFromTo(n,t)table.insert(self.ranges,n,r)self:_checkCombineNeighborsAt(n)return
 else
-if d then
-self:_collapseRangesFromTo(e+1,i)self.ranges[e][2]=t(r)self:_checkCombineNeighborsAt(e)elseif o then
-i=i-self:_collapseRangesFromTo(e,i-1)self.ranges[i][1]=n(r)self:_checkCombineNeighborsAt(i)end
+if s then
+self:_collapseRangesFromTo(n+1,t)self.ranges[n][2]=i(r)self:_checkCombineNeighborsAt(n)elseif o then
+t=t-self:_collapseRangesFromTo(n,t-1)self.ranges[t][1]=e(r)self:_checkCombineNeighborsAt(t)end
 return
 end
 end
@@ -628,39 +630,39 @@ assert(false,"Unknown yearData: "..tostring(e))end
 end
 end
 function FDMMYearRange:removeYear(e)assert(type(e)=='number',"Invalid parameter: year")return self:removeYearRange(e,e)end
-function FDMMYearRange:removeYearRange(a,r)assert(type(a)=='number',"Invalid parameter: startYear")assert(type(r)=='number',"Invalid parameter: endYear")local e=table.getn(self.ranges)if e==0 or(a<=n(self.ranges[1])and r>=t(self.ranges[e]))then
+function FDMMYearRange:removeYearRange(a,r)assert(type(a)=='number',"Invalid parameter: startYear")assert(type(r)=='number',"Invalid parameter: endYear")local n=table.getn(self.ranges)if n==0 or(a<=e(self.ranges[1])and r>=i(self.ranges[n]))then
 self.ranges={}return
 end
-local c={a,r}local i=self:_indexOfRangeAdjToOrCont(a)local m=i and self.ranges[i]or nil
-local e=self:_indexOfRangeAdjToOrCont(r)local o=e and self.ranges[e]or nil
-local d=s(a,m)local u=s(r,o)local s=a<=n(m)local l=r<n(o)local n=r>=t(o)if s and(l or n)then
-if l then e=e-1 end
-self:_collapseRangesFromTo(i,e)return
-elseif i==e and d and u then
-c={r+1,t(m)}self.ranges[i][2]=a-1
-table.insert(self.ranges,i+1,c)self:_checkValidRangeAt(i)self:_checkValidRangeAt(i+1)return
+local d={a,r}local t=self:_indexOfRangeAdjToOrCont(a)local s=t and self.ranges[t]or nil
+local n=self:_indexOfRangeAdjToOrCont(r)local m=n and self.ranges[n]or nil
+local u=o(a,s)local c=o(r,m)local o=a<=e(s)local l=r<e(m)local e=r>=i(m)if o and(l or e)then
+if l then n=n-1 end
+self:_collapseRangesFromTo(t,n)return
+elseif t==n and u and c then
+d={r+1,i(s)}self.ranges[t][2]=a-1
+table.insert(self.ranges,t+1,d)self:_checkValidRangeAt(t)self:_checkValidRangeAt(t+1)return
 else
-local o,t=i,e
-if not s then o=i+1 end
-if not n then t=e-1 end
-e=e-self:_collapseRangesFromTo(o,t)if not s and d then
-self.ranges[i][2]=a-1
-self:_checkValidRangeAt(i)elseif not n and u then
-self.ranges[e][1]=r+1
-self:_checkValidRangeAt(e)end
+local s,i=t,n
+if not o then s=t+1 end
+if not e then i=n-1 end
+n=n-self:_collapseRangesFromTo(s,i)if not o and u then
+self.ranges[t][2]=a-1
+self:_checkValidRangeAt(t)elseif not e and c then
+self.ranges[n][1]=r+1
+self:_checkValidRangeAt(n)end
 return
 end
 end
 function FDMMYearRange:clear()self.ranges={}end
 function FDMMYearRange:containsYear(e)assert(type(e)=='number',"Invalid parameter: year")return self:containsYearRange(e,e)end
 function FDMMYearRange:containsYearRange(n,e)assert(type(n)=='number',"Invalid parameter: startYear")assert(type(e)=='number',"Invalid parameter: endYear")if table.getn(self.ranges)==0 then return false end
-local i={n,e}local n=self:_indexOfRangeAdjToOrCont(n)local n=n and self.ranges[n]or nil
-if n and d(n,i)then
+local t={n,e}local n=self:_indexOfRangeAdjToOrCont(n)local n=n and self.ranges[n]or nil
+if n and d(n,t)then
 return true
 end
-if not n or e>t(n)then
+if not n or e>i(n)then
 local e=self:_indexOfRangeAdjToOrCont(e)local e=e and self.ranges[e]or nil
-if e and d(e,i)then
+if e and d(e,t)then
 return true
 end
 end
@@ -668,94 +670,95 @@ return false
 end
 end
 env.info("---FDMM_YearRange End---")end)__DISTILLER:define("FDMM_RegimentTypes",function(e)env.info("---FDMM_RegimentTypes Start---");e('Additions/FDMM_LuaAdditions')e('Utilities/FDMM_YearRange')fdmm.regimentTypes={}do
-fdmm.consts.RegimentType={Caucasus={Navy={Russia={BlackSeaFleet={Name="Black Sea Fleet",Regiments={['30thSurfaceShip']={Name="30th Surface Ship Division",Units={Moskva={Name={[1982]="Slava",[1995]="Moskva"},Type=fdmm.consts.UnitType.Ship.Cruiser.Slava_Moskva,Command=true,Active={{1982,9999}},ReportNaming="GRKR-%H %N",HullNumbering={[1983]={"126","108"},[1984]="103",[1987]="106",[1990]="121",}},Kuznetsov={Name="Admiral Kuznetsov",Type=fdmm.consts.UnitType.Ship.Carrier.Kuznetsov_AdmiralKuznetsov,Command=true,Active={{1990,9999}},ReportNaming="TAKR-%H %N",HullNumbering={[1989]="111",[1990]="113",['1991?1995']={"082","062"},[1995]="063",},},Deyatelnyy={Name="Deyatelnyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1975,1995}},ReportNaming="SKR-%H %N",HullNumbering={[1975]="193",[1976]={"192","533","196"},[1979]={"800","801"},['1980?1984']="810",[1984]="814",[1986]="813",[1992]="811",},},Bezukoriznennyy={Name="Bezukoriznennyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1979,1997}},ReportNaming="SKR-%H %N",HullNumbering={[1978]="811",[1981]="813",[1985]="820",[1987]="807",[1989]="888",[1990]="802",},},Bezzavetnyy={Name="Bezzavetnyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1977,1997}},ReportNaming="SKR-%H %N",HullNumbering={['1900?1978']="195",[1978]={"192","805","878"},[1981]="811",[1984]="817",[1988]="811",[1997]="807",},},Razitelnyy={Name="Razitelnyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1976,1997}},ReportNaming="SKR-%H %N",HullNumbering={[1976]="235",[1977]={"232","249"},[1978]={"165","808"},[1979]="812",[1980]="806",['1981?1984']={"195","801"},[1984]="804",[1987]="821",[1989]="807",[1990]="819",},},Pylkiy={Name="Pylkiy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1978,1993}},ReportNaming="SKR-%H %N",HullNumbering={[1978]="518",[1981]="806",['1981?1982']={"810","819","813"},[1982]="807",[1984]="808",[1985]="758",[1987]="809",[1988]="807",[1993]="702",},},Pytlivyy={Name="Pytlivyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1981,9999}},ReportNaming="SKR-%H %N",HullNumbering={[1981]={"942","751"},['1981?1982']="916",[1982]={"759","888"},[1984]="826",[1988]="889",[1990]="808",[2016]="868",},},Ladny={Name="Ladny",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1981,9999}},ReportNaming="SKR-%H %N",HullNumbering={['1900?1981']="802",[1981]="815",[1986]="824",[1990]="801",[2016]="861"},},},Reinforcements={Kalinin={Name={[1988]="Kalinin",[2006]="Admiral Nakhimov"},Type=fdmm.consts.UnitType.Ship.BattleCruiser.Kirov_PyotrVelikiy,Command=true,Active={{1988,9999}},Inactive={{2006,2022}},ReportNaming="RKA-%H %N",HullNumbering={[1988]="180",[1989]="064",[1990]="085",[1994]="080",},},Neustrashimy={Name="Neustrashimy",Type=fdmm.consts.UnitType.Ship.Destroyer.Neustrashimy_Neustrashimy,Active={{1990,9999}},ReportNaming="BPK-%H %N",HullNumbering={[1990]="712",[2017]="772",},},},},['4thIndependentSubmarine']={Name="4th Independent Submarine Brigade",Units={B871={Name="B-871 Alrosa",Type=fdmm.consts.UnitType.Ship.Submarine.Kilo,Active={{1990,9999}},ReportNaming="DPL-%H %N",HullNumbering={[1990]="596",[1993]="554",},},B380={Name={[1982]="Gorkovsky Komsomolets",[1992]="B-380",[2008]="Svyatoi Kniaz Georgy"},Type=fdmm.consts.UnitType.Ship.Submarine.Tango,Active={{1982,2016}},ReportNaming="DPL-%H %N",HullNumbering={['1900?1990']="594",[1990]="572",},},B498={Name="B-498",Type=fdmm.consts.UnitType.Ship.Submarine.Tango,Active={{1975,1995}},ReportNaming="DPL-%H %N",HullNumbering={[1989]="244",[1991]="450",},},},},['68thCoastalDefense']={Name="68th Coastal Defense Ship Brigade",Regiments={['149thAntiSubmarineTactical']={Name="149th Anti-Submarine Ships Tactical Group",Units={Alexandrovets={Name={[1982]="MPK-49",[2004]="Alexandrovets"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1982,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1987]="057",[1989]="082",[1990]="059",},},Suzdalets={Name={[1983]="Komsomolets Moldavii",[1992]="MPK-118",[1999]="Suzdalets"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1983,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1983]="053",[1990]="071",},},Muromets={Name={[1982]="Kievskiy komsomolets",[1992]="MPK-134",[1999]="Muromets"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1982,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1983]="085",[1985]="073",[1987]="061",[1989]="064",},},},},['400thAntiSubmarineWarfare']={Name="400th Anti-Submarine Warfare Battalion",Units={MPK5={Name="MPK-5",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1970,1993}},ReportNaming="MPK-%H %N",HullNumbering={['1900?1990']={"060","077"},[1990]="072",},},MPK6={Name="MPK-6",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1978,1998}},ReportNaming="MPK-%H %N",HullNumbering={[1978]="059",[1990]="073",},},MPK8={Name="MPK-8",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1973,1992}},ReportNaming="MPK-%H %N",HullNumbering={[1973]="274",[1975]="288",[1979]="054",[1981]="052",[1991]="069",},},MPK43={Name={[1974]="MPK-43",[1983]="Odesskiy komsomolets",[1992]="MPK-43"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1974,1997}},ReportNaming="MPK-%H %N",HullNumbering={[1975]="274",[1976]="297",[1979]="092",[1981]="081",[1983]="054",['1984?1991']="052",[1991]="075",},},MPK52={Name="MPK-52",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1971,1997}},ReportNaming="MPK-%H %N",HullNumbering={[1973]="198",['1974?1992']={"190","057"},[1992]="068",},},MPK127={Name={[1976]="MPK-127",[1980]="Komsomolets Gruzii",[1992]="MPK-127"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1976,2005}},ReportNaming="MPK-%H %N",HullNumbering={['1900?1989']="059",[1989]="084",[1990]="078",},},MPK147={Name="MPK-147",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1970,1994}},ReportNaming="MPK-%H %N",HullNumbering={[1971]="279",[1973]="277",['1974?1981']={"274","287"},[1981]="061",[1988]="071",[1992]="070",},},},},},},['184th Coastal Defense']={Name={[1961]="184th Anti-Submarine Warfare Brigade",[1976]="184th Coastal Defense Ship Brigade",},Regiments={['181thAntiSubmarineTactical']={Name="181th Anti-Submarine Ships Tactical Group",Units={Povorino={Name={[1989]="MPK-207",[1999]="Povorino"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1989,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1989]="093",[1990]="053",},},Eysk={Name={[1989]="MPK-217",[1999]="Eysk"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1989,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1989]="094",[1990]="054",},},Kasimov={Name={[1986]="Komsomolets Armenii",[1992]="MPK-199",[2001]="Kasimov"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1986,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1989]="095",[1990]="055",},},},},},},['41thMissileBoat']={Name={[1958]="41st Torpedo Boat Brigade",[1961]="41th Missile Boat Brigade",},Regiments={['166thNovorossiyskyMissile']={Name="166th Novorossiysky Small Missile Ship Battalion",Units={R46={Name="R-46",Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1981,1994}},ReportNaming="RKA-%H %N",HullNumbering={[1984]="948",[1986]="957",[1990]="960",},},R160={Name={[1988]="R-160",[1990]="Poltavskiy komsomolets",[1992]="R-160"},Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1988,2018}},ReportNaming="RKA-%H %N",HullNumbering={[1987]="870",[1988]="965",[1991]="709",[1997]="700",[2004]="054",},},R239={Name={[1992]="R-239",[2018]="R-239 Naberezhnye Chelny"},Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1992,9999}},ReportNaming="RKA-%H %N",HullNumbering={[1989]="973",[1990]="953",},},},},['295thSulinskyMissile']={Name="295th Sulinsky Missile Boat Battalion",Units={R60={Name="R-60",Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1987,9999}},Inactive={2005},ReportNaming="RKA-%H %N",HullNumbering={[1988]="970",['1989?1990']="953",[1990]="955",},},R109={Name="R-109",Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1990,9999}},ReportNaming="RKA-%H %N",HullNumbering={[1996]="952",},},Ivanovets={Name={[1989]="R-334",[1998]="Ivanovets"},Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1989,9999}},ReportNaming="RKA-%H %N",HullNumbering={[1990]="954",},},},},},},},},},China={},USA={SixthFleet={Name="Sixth Fleet",Regiments={TaskForce60={Name="Task Force 60",Units={USSMountWhitney={Name="USS Mount Whitney",Type=fdmm.consts.UnitType.Ship.HeliCarrier.Tarawa_LHA1Tarawa,Command=true,Active={{2005,9999}},ReportNaming="LCC/JCC-%H %N",HullNumbering="20",},USSLaSalle={Name="USS La Salle",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Command=true,Active={{1972,2004}},ReportNaming="AGF-%H %N",HullNumbering="3",},USSYorktown={Name="USS Yorktown",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1985,2004}},ReportNaming="CG-%H %N",HullNumbering="48",},USSTaylor={Name="USS Taylor",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{2008,2014}},ReportNaming="FFG-%H %N",HullNumbering="50",},},Regiments={CarrierStrikeGroup2={Name="Carrier Strike Group 2",ReportNaming="CSG-2",Units={USSJohnFKennedy={Name="USS John F. Kennedy",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,Command=true,Active={{1968,1978},{1981,1992}},ReportNaming="CV-%H %N",HullNumbering="67",},USSTheodoreRoosevelt={Name="USS Theodore Roosevelt",Type={[1993]=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,[2013]=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,},Command=true,Active={1993,1999,{2002,2006},2008,{2015,2016}},ReportNaming="CVN-%H %N",HullNumbering="71",},USSJohnCStennis={Name="USS John C. Stennis",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,Command=true,Active={{1995,1998}},ReportNaming="CVN-%H %N",HullNumbering="74",},USSHarrySTruman={Name="USS Harry S. Truman",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,Command=true,Active={{2000,2001},2007,2013,2020},ReportNaming="CVN-%H %N",HullNumbering="75",},USSDwightDEisenhower={Name="USS Dwight D. Eisenhower",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,Command=true,Active={1994,{2009,2010},2012,2019},ReportNaming="CVN-%H %N",HullNumbering="69",},USSGeorgeHWBush={Name="USS George H.W. Bush",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,Command=true,Active={2011,2014,{2017,2018},{2021,9999}},ReportNaming="CVN-%H %N",HullNumbering="77",},USSSanJacinto={Name="USS San Jacinto",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1989,1992},1996,1998,{2000,2001},{2003,2008},2010,{2013,2014},2016,2019},ReportNaming="CG-%H %N",HullNumbering="56",},USSHueCity={Name="USS Hue City",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={1993,1995,1997,2012,2018},ReportNaming="CG-%H %N",HullNumbering="66",},USSAnzio={Name="USS Anzio",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={1994},ReportNaming="CG-%H %N",HullNumbering="68",},USSVellaGulf={Name="USS Vella Gulf",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={1999,2002},ReportNaming="CG-%H %N",HullNumbering="72",},USSMonterey={Name="USS Monterey",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={2009,2011},ReportNaming="CG-%H %N",HullNumbering="61",},USSNormandy={Name="USS Normandy",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={2015,2020},ReportNaming="CG-%H %N",HullNumbering="60",},USSPhilippineSea={Name="USS Philippine Sea",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={2017,{2021,9999}},ReportNaming="CG-%H %N",HullNumbering="58",},},Regiments={DestroyerSquadron20={Name="Destroyer Squadron 20",ReportNaming="DESRON-20",Units={},Reinforcements={Units={},},},},Reinforcements={Units={USSDwightDEisenhower={Name="USS Dwight D. Eisenhower",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,Command=true,Active={{1982,1985},{1987,1992},{1994,1995},{1997,2000},{2005,2013},{2015,9999}},ReportNaming="CVN-%H %N",HullNumbering="69",},USSCapeStGeorge={Name="USS Cape St. George",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={1994,1998,{2000,2007}},ReportNaming="CG-%H %N",HullNumbering="71",},USSGettysburg={Name="USS Gettysburg",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1994,2002}},ReportNaming="CG-%H %N",HullNumbering="64",},USSLeyteGulf={Name="USS Leyte Gulf",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1989,1996},1999,{2001,2002},{2004,2006},{2008,2011},2014,{2016,9999}},ReportNaming="CG-%H %N",HullNumbering="55",},},},},DestroyerSquadron60={Name="Destroyer Squadron 60",ReportNaming="DESRON-60",Units={USSDonaldCook={Name="USS Donald Cook",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{1972,2005}},ReportNaming="DDG-%H %N",HullNumbering="75",},USSRoss={Name="USS Ross",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{1999,9999}},ReportNaming="DDG-%H %N",HullNumbering="71",},USSCarney={Name="USS Carney",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{2007,9999}},ReportNaming="DDG-%H %N",HullNumbering="64",},USSPorter={Name="USS Porter",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{2007,9999}},ReportNaming="DDG-%H %N",HullNumbering="78",},},Reinforcements={Units={USSRamage={Name="USS Ramage",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{1996,9999}},ReportNaming="DDG-%H %N",HullNumbering="61",},USSStout={Name="USS Stout",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{1996,9999}},ReportNaming="DDG-%H %N",HullNumbering="55",},},},},},Reinforcements={Units={USSCoronado={Name="USS Coronado",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Command=true,Active={{1980,2006}},ReportNaming="AGF-%H %N",HullNumbering="11",},},Regiments={CarrierStrikeGroup8={Name="Carrier Strike Group 8",ReportNaming="CSG-8",Units={USSHarrySTruman={Name="USS Harry S. Truman",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,Command=true,Active={{0,9999}},ReportNaming="CVN-%H %N",HullNumbering="75",},USSVellaGulf={Name="USS Vella Gulf",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{2003,2006},{2008,2015}},ReportNaming="CG-%H %N",HullNumbering="72",},USSHueCity={Name="USS Hue City",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1997,1998},{2004,2013},{2015,9999}},ReportNaming="CG-%H %N",HullNumbering="66",},},Regiments={DestroyerSquadron28={Name="Destroyer Squadron 28",ReportNaming="DESRON-28",Units={USSRamage={Name="USS Ramage",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="61",},USSMitscher={Name="USS Mitscher",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="57",},USSForrestSherman={Name="USS Forrest Sherman",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="98",},USSLassen={Name="USS Lassen",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="82",},USSFarragut={Name="USS Farragut",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="99",},},},},},},},},},},},Ukraine={},Georgia={},Turkey={},},},Nevada={},Normandy={},PersianGulf={},}function fdmm.regimentTypes.processEntries()local function i(t,n)local function r(e,n)if not e._yearRange then
+fdmm.consts.RegimentType={Caucasus={Navy={Russia={BlackSeaFleet={Name="Black Sea Fleet",Regiments={['30thSurfaceShip']={Name="30th Surface Ship Division",Units={Moskva={Name={[1982]="Slava",[1995]="Moskva"},Type=fdmm.consts.UnitType.Ship.Cruiser.Slava_Moskva,Command=true,Active={{1982,9999}},ReportNaming="GRKR-%H %N",HullNumbering={[1983]={"126","108"},[1984]="103",[1987]="106",[1990]="121",}},Kuznetsov={Name="Admiral Kuznetsov",Type=fdmm.consts.UnitType.Ship.Carrier.Kuznetsov_AdmiralKuznetsov,Command=true,Active={{1990,9999}},ReportNaming="TAKR-%H %N",HullNumbering={[1989]="111",[1990]="113",['1991?1995']={"082","062"},[1995]="063",},},Deyatelnyy={Name="Deyatelnyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1975,1995}},ReportNaming="SKR-%H %N",HullNumbering={[1975]="193",[1976]={"192","533","196"},[1979]={"800","801"},['1980?1984']="810",[1984]="814",[1986]="813",[1992]="811",},},Bezukoriznennyy={Name="Bezukoriznennyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1979,1997}},ReportNaming="SKR-%H %N",HullNumbering={[1978]="811",[1981]="813",[1985]="820",[1987]="807",[1989]="888",[1990]="802",},},Bezzavetnyy={Name="Bezzavetnyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1977,1997}},ReportNaming="SKR-%H %N",HullNumbering={['1900?1978']="195",[1978]={"192","805","878"},[1981]="811",[1984]="817",[1988]="811",[1997]="807",},},Razitelnyy={Name="Razitelnyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1976,1997}},ReportNaming="SKR-%H %N",HullNumbering={[1976]="235",[1977]={"232","249"},[1978]={"165","808"},[1979]="812",[1980]="806",['1981?1984']={"195","801"},[1984]="804",[1987]="821",[1989]="807",[1990]="819",},},Pylkiy={Name="Pylkiy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1978,1993}},ReportNaming="SKR-%H %N",HullNumbering={[1978]="518",[1981]="806",['1981?1982']={"810","819","813"},[1982]="807",[1984]="808",[1985]="758",[1987]="809",[1988]="807",[1993]="702",},},Pytlivyy={Name="Pytlivyy",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1981,9999}},ReportNaming="SKR-%H %N",HullNumbering={[1981]={"942","751"},['1981?1982']="916",[1982]={"759","888"},[1984]="826",[1988]="889",[1990]="808",[2016]="868",},},Ladny={Name="Ladny",Type=fdmm.consts.UnitType.Ship.Frigate.KrivakII_Rezky,Active={{1981,9999}},ReportNaming="SKR-%H %N",HullNumbering={['1900?1981']="802",[1981]="815",[1986]="824",[1990]="801",[2016]="861"},},},Reinforcements={Kalinin={Name={[1988]="Kalinin",[2006]="Admiral Nakhimov"},Type=fdmm.consts.UnitType.Ship.BattleCruiser.Kirov_PyotrVelikiy,Command=true,Active={{1988,9999}},Inactive={{2006,2022}},ReportNaming="RKA-%H %N",HullNumbering={[1988]="180",[1989]="064",[1990]="085",[1994]="080",},},Neustrashimy={Name="Neustrashimy",Type=fdmm.consts.UnitType.Ship.Destroyer.Neustrashimy_Neustrashimy,Active={{1990,9999}},ReportNaming="BPK-%H %N",HullNumbering={[1990]="712",[2017]="772",},},},},['4thIndependentSubmarine']={Name="4th Independent Submarine Brigade",Units={B871={Name="B-871 Alrosa",Type=fdmm.consts.UnitType.Ship.Submarine.Kilo,Active={{1990,9999}},ReportNaming="DPL-%H %N",HullNumbering={[1990]="596",[1993]="554",},},B380={Name={[1982]="Gorkovsky Komsomolets",[1992]="B-380",[2008]="Svyatoi Kniaz Georgy"},Type=fdmm.consts.UnitType.Ship.Submarine.Tango,Active={{1982,2016}},ReportNaming="DPL-%H %N",HullNumbering={['1900?1990']="594",[1990]="572",},},B498={Name="B-498",Type=fdmm.consts.UnitType.Ship.Submarine.Tango,Active={{1975,1995}},ReportNaming="DPL-%H %N",HullNumbering={[1989]="244",[1991]="450",},},},},['68thCoastalDefense']={Name="68th Coastal Defense Ship Brigade",Regiments={['149thAntiSubmarineTactical']={Name="149th Anti-Submarine Ships Tactical Group",Units={Alexandrovets={Name={[1982]="MPK-49",[2004]="Alexandrovets"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1982,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1987]="057",[1989]="082",[1990]="059",},},Suzdalets={Name={[1983]="Komsomolets Moldavii",[1992]="MPK-118",[1999]="Suzdalets"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1983,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1983]="053",[1990]="071",},},Muromets={Name={[1982]="Kievskiy komsomolets",[1992]="MPK-134",[1999]="Muromets"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1982,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1983]="085",[1985]="073",[1987]="061",[1989]="064",},},},},['400thAntiSubmarineWarfare']={Name="400th Anti-Submarine Warfare Battalion",Units={MPK5={Name="MPK-5",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1970,1993}},ReportNaming="MPK-%H %N",HullNumbering={['1900?1990']={"060","077"},[1990]="072",},},MPK6={Name="MPK-6",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1978,1998}},ReportNaming="MPK-%H %N",HullNumbering={[1978]="059",[1990]="073",},},MPK8={Name="MPK-8",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1973,1992}},ReportNaming="MPK-%H %N",HullNumbering={[1973]="274",[1975]="288",[1979]="054",[1981]="052",[1991]="069",},},MPK43={Name={[1974]="MPK-43",[1983]="Odesskiy komsomolets",[1992]="MPK-43"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1974,1997}},ReportNaming="MPK-%H %N",HullNumbering={[1975]="274",[1976]="297",[1979]="092",[1981]="081",[1983]="054",['1984?1991']="052",[1991]="075",},},MPK52={Name="MPK-52",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1971,1997}},ReportNaming="MPK-%H %N",HullNumbering={[1973]="198",['1974?1992']={"190","057"},[1992]="068",},},MPK127={Name={[1976]="MPK-127",[1980]="Komsomolets Gruzii",[1992]="MPK-127"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1976,2005}},ReportNaming="MPK-%H %N",HullNumbering={['1900?1989']="059",[1989]="084",[1990]="078",},},MPK147={Name="MPK-147",Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1970,1994}},ReportNaming="MPK-%H %N",HullNumbering={[1971]="279",[1973]="277",['1974?1981']={"274","287"},[1981]="061",[1988]="071",[1992]="070",},},},},},},['184th Coastal Defense']={Name={[1961]="184th Anti-Submarine Warfare Brigade",[1976]="184th Coastal Defense Ship Brigade",},Regiments={['181thAntiSubmarineTactical']={Name="181th Anti-Submarine Ships Tactical Group",Units={Povorino={Name={[1989]="MPK-207",[1999]="Povorino"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1989,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1989]="093",[1990]="053",},},Eysk={Name={[1989]="MPK-217",[1999]="Eysk"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1989,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1989]="094",[1990]="054",},},Kasimov={Name={[1986]="Komsomolets Armenii",[1992]="MPK-199",[2001]="Kasimov"},Type=fdmm.consts.UnitType.Ship.Frigate.GrishaV,Active={{1986,9999}},ReportNaming="MPK-%H %N",HullNumbering={[1989]="095",[1990]="055",},},},},},},['41thMissileBoat']={Name={[1958]="41st Torpedo Boat Brigade",[1961]="41th Missile Boat Brigade",},Regiments={['166thNovorossiyskyMissile']={Name="166th Novorossiysky Small Missile Ship Battalion",Units={R46={Name="R-46",Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1981,1994}},ReportNaming="RKA-%H %N",HullNumbering={[1984]="948",[1986]="957",[1990]="960",},},R160={Name={[1988]="R-160",[1990]="Poltavskiy komsomolets",[1992]="R-160"},Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1988,2018}},ReportNaming="RKA-%H %N",HullNumbering={[1987]="870",[1988]="965",[1991]="709",[1997]="700",[2004]="054",},},R239={Name={[1992]="R-239",[2018]="R-239 Naberezhnye Chelny"},Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1992,9999}},ReportNaming="RKA-%H %N",HullNumbering={[1989]="973",[1990]="953",},},},},['295thSulinskyMissile']={Name="295th Sulinsky Missile Boat Battalion",Units={R60={Name="R-60",Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1987,9999}},Inactive={2005},ReportNaming="RKA-%H %N",HullNumbering={[1988]="970",['1989?1990']="953",[1990]="955",},},R109={Name="R-109",Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1990,9999}},ReportNaming="RKA-%H %N",HullNumbering={[1996]="952",},},Ivanovets={Name={[1989]="R-334",[1998]="Ivanovets"},Type=fdmm.consts.UnitType.Ship.Corvette.TarantulIII,Active={{1989,9999}},ReportNaming="RKA-%H %N",HullNumbering={[1990]="954",},},},},},},},},},China={},USA={SixthFleet={Name="Sixth Fleet",Regiments={TaskForce60={Name="Task Force 60",Units={USSMountWhitney={Name="USS Mount Whitney",Type=fdmm.consts.UnitType.Ship.HeliCarrier.Tarawa_LHA1Tarawa,Command=true,Active={{2005,9999}},ReportNaming="LCC/JCC-%H %N",HullNumbering="20",},USSLaSalle={Name="USS La Salle",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Command=true,Active={{1972,2004}},ReportNaming="AGF-%H %N",HullNumbering="3",},USSYorktown={Name="USS Yorktown",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1985,2004}},ReportNaming="CG-%H %N",HullNumbering="48",},USSTaylor={Name="USS Taylor",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{2008,2014}},ReportNaming="FFG-%H %N",HullNumbering="50",},},Regiments={CarrierStrikeGroup2={Name="Carrier Strike Group 2",ReportNaming="CSG-2",Units={USSJohnFKennedy={Name="USS John F. Kennedy",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,Command=true,Active={{1968,1978},{1981,1992}},ReportNaming="CV-%H %N",HullNumbering="67",},USSTheodoreRoosevelt={Name="USS Theodore Roosevelt",Type={[1993]=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,[2013]=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,},Command=true,Active={1993,1999,{2002,2006},2008,{2015,2016}},ReportNaming="CVN-%H %N",HullNumbering="71",},USSJohnCStennis={Name="USS John C. Stennis",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,Command=true,Active={{1995,1998}},ReportNaming="CVN-%H %N",HullNumbering="74",},USSHarrySTruman={Name="USS Harry S. Truman",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,Command=true,Active={{2000,2001},2007,2013,2020},ReportNaming="CVN-%H %N",HullNumbering="75",},USSDwightDEisenhower={Name="USS Dwight D. Eisenhower",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,Command=true,Active={1994,{2009,2010},2012,2019},ReportNaming="CVN-%H %N",HullNumbering="69",},USSGeorgeHWBush={Name="USS George H.W. Bush",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,Command=true,Active={2011,2014,{2017,2018},{2021,9999}},ReportNaming="CVN-%H %N",HullNumbering="77",},USSSanJacinto={Name="USS San Jacinto",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1989,1992},1996,1998,{2000,2001},{2003,2008},2010,{2013,2014},2016,2019},ReportNaming="CG-%H %N",HullNumbering="56",},USSHueCity={Name="USS Hue City",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={1993,1995,1997,2012,2018},ReportNaming="CG-%H %N",HullNumbering="66",},USSAnzio={Name="USS Anzio",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={1994},ReportNaming="CG-%H %N",HullNumbering="68",},USSVellaGulf={Name="USS Vella Gulf",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={1999,2002},ReportNaming="CG-%H %N",HullNumbering="72",},USSMonterey={Name="USS Monterey",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={2009,2011},ReportNaming="CG-%H %N",HullNumbering="61",},USSNormandy={Name="USS Normandy",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={2015,2020},ReportNaming="CG-%H %N",HullNumbering="60",},USSPhilippineSea={Name="USS Philippine Sea",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={2017,{2021,9999}},ReportNaming="CG-%H %N",HullNumbering="58",},},Regiments={DestroyerSquadron20={Name="Destroyer Squadron 20",ReportNaming="DESRON-20",Units={},Reinforcements={Units={},},},},Reinforcements={Units={USSDwightDEisenhower={Name="USS Dwight D. Eisenhower",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN70CarlVinson,Command=true,Active={{1982,1985},{1987,1992},{1994,1995},{1997,2000},{2005,2013},{2015,9999}},ReportNaming="CVN-%H %N",HullNumbering="69",},USSCapeStGeorge={Name="USS Cape St. George",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={1994,1998,{2000,2007}},ReportNaming="CG-%H %N",HullNumbering="71",},USSGettysburg={Name="USS Gettysburg",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1994,2002}},ReportNaming="CG-%H %N",HullNumbering="64",},USSLeyteGulf={Name="USS Leyte Gulf",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1989,1996},1999,{2001,2002},{2004,2006},{2008,2011},2014,{2016,9999}},ReportNaming="CG-%H %N",HullNumbering="55",},},},},DestroyerSquadron60={Name="Destroyer Squadron 60",ReportNaming="DESRON-60",Units={USSDonaldCook={Name="USS Donald Cook",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{1972,2005}},ReportNaming="DDG-%H %N",HullNumbering="75",},USSRoss={Name="USS Ross",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{1999,9999}},ReportNaming="DDG-%H %N",HullNumbering="71",},USSCarney={Name="USS Carney",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{2007,9999}},ReportNaming="DDG-%H %N",HullNumbering="64",},USSPorter={Name="USS Porter",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{2007,9999}},ReportNaming="DDG-%H %N",HullNumbering="78",},},Reinforcements={Units={USSRamage={Name="USS Ramage",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{1996,9999}},ReportNaming="DDG-%H %N",HullNumbering="61",},USSStout={Name="USS Stout",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={{1996,9999}},ReportNaming="DDG-%H %N",HullNumbering="55",},},},},},Reinforcements={Units={USSCoronado={Name="USS Coronado",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Command=true,Active={{1980,2006}},ReportNaming="AGF-%H %N",HullNumbering="11",},},Regiments={CarrierStrikeGroup8={Name="Carrier Strike Group 8",ReportNaming="CSG-8",Units={USSHarrySTruman={Name="USS Harry S. Truman",Type=fdmm.consts.UnitType.Ship.Carrier.Nimitz_CVN74JohnCStennis,Command=true,Active={{0,9999}},ReportNaming="CVN-%H %N",HullNumbering="75",},USSVellaGulf={Name="USS Vella Gulf",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{2003,2006},{2008,2015}},ReportNaming="CG-%H %N",HullNumbering="72",},USSHueCity={Name="USS Hue City",Type=fdmm.consts.UnitType.Ship.Cruiser.Ticonderoga,Active={{1997,1998},{2004,2013},{2015,9999}},ReportNaming="CG-%H %N",HullNumbering="66",},},Regiments={DestroyerSquadron28={Name="Destroyer Squadron 28",ReportNaming="DESRON-28",Units={USSRamage={Name="USS Ramage",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="61",},USSMitscher={Name="USS Mitscher",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="57",},USSForrestSherman={Name="USS Forrest Sherman",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="98",},USSLassen={Name="USS Lassen",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="82",},USSFarragut={Name="USS Farragut",Type=fdmm.consts.UnitType.Ship.Destroyer.OliverHazardPerry,Active={2000},ReportNaming="DDG-%H %N",HullNumbering="99",},},},},},},},},},},},Ukraine={},Georgia={},Turkey={},},},Nevada={},Normandy={},PersianGulf={},}function fdmm.regimentTypes.processEntries()local function t(i,n)local function r(e,n)if not e._yearRange then
 e._yearRange=FDMMYearRange()if type(e.Active)=='table'and table.getn(e.Active)>0 then
-local n,t=pcall(e._yearRange.addYearsFromList,e._yearRange,e.Active)if not n then
-env.error("FDMM: Failed parsing active years for regiment unit: '"..fdmm.regimentTypes.getObjReportNameIn(e).."'.")env.error("FDMM:  Error: "..tostring(t))end
+local n,i=pcall(e._yearRange.addYearsFromList,e._yearRange,e.Active)if not n then
+env.error("FDMM: Failed parsing active years for regiment unit: '"..fdmm.regimentTypes.getObjReportNameIn(e).."'.")env.error("FDMM:  Error: "..tostring(i))end
 end
 if type(e.Inactive)=='table'and table.getn(e.Inactive)>0 then
-local n,t=pcall(e._yearRange.removeYearsFromList,e._yearRange,e.Inactive)if not n then
-env.error("FDMM: Failed parsing inactive years for regiment unit: '"..fdmm.regimentTypes.getObjReportNameIn(e).."'.")env.error("FDMM:  Error: "..tostring(t))end
+local i,n=pcall(e._yearRange.removeYearsFromList,e._yearRange,e.Inactive)if not i then
+env.error("FDMM: Failed parsing inactive years for regiment unit: '"..fdmm.regimentTypes.getObjReportNameIn(e).."'.")env.error("FDMM:  Error: "..tostring(n))end
 end
 end
-local t,e=e._yearRange:startYear(),e._yearRange:endYear()if type(t)=='number'and t<n[1]then n[1]=t end
-if type(e)=='number'and e>n[2]then n[2]=e end
+local e,i=e._yearRange:startYear(),e._yearRange:endYear()if type(e)=='number'and e<n[1]then n[1]=e end
+if type(i)=='number'and i>n[2]then n[2]=i end
 return n
 end
-for t,e in pairs(t.Units or{})do
+for i,e in pairs(i.Units or{})do
 n=r(e,n)end
-for t,e in pairs(t.Regiments or{})do
-n=i(e,n)end
-if t.Reinforcements then
-for t,e in pairs(t.Reinforcements.Units or{})do
+for i,e in pairs(i.Regiments or{})do
+n=t(e,n)end
+if i.Reinforcements then
+for i,e in pairs(i.Reinforcements.Units or{})do
 n=r(e,n)end
-for t,e in pairs(t.Reinforcements.Regiments or{})do
-n=i(e,n)end
+for i,e in pairs(i.Reinforcements.Regiments or{})do
+n=t(e,n)end
 end
-t._Active=n
+i._Active=n
 return n
 end
-i(fdmm.consts.RegimentType.Caucasus.Navy.USA.SixthFleet,{9999,0})end
-function fdmm.regimentTypes._objForYear(t,r)if type(t)=='table'then
-local i=nil
-for n,e in ipairs(table.sortedKeysList(t))do
-assert(type(e)=='number',"Invalid format: startYear")local n=t[e]assert(type(n)~='nil',"Invalid format.")if r==e then return n end
-if r<e then return i or n end
-i=n
-end
-return i
+t(fdmm.consts.RegimentType.Caucasus.Navy.USA.SixthFleet,{9999,0})end
+function fdmm.regimentTypes._objForYear(i,r)if type(i)=='table'then
+local t=nil
+for n,e in ipairs(table.sortedKeysList(i))do
+assert(type(e)=='number',"Invalid format: startYear")local n=i[e]assert(type(n)~='nil',"Invalid format.")if r==e then return n end
+if r<e then return t or n end
+t=n
 end
 return t
 end
-function fdmm.regimentTypes.getObjNameIn(e,n)return fdmm.regimentTypes._objForYear(e.Name,n)end
-function fdmm.regimentTypes.getObjReportNameIn(n,t)local e=fdmm.regimentTypes._objForYear(n.ReportNaming,t)if string.isNotEmpty(e)then
-local i=fdmm.regimentTypes.getObjNameIn(n,t)local n=fdmm.regimentTypes.getUnitHullNumberingIn(n,t)if string.isNotEmpty(i)and string.contains(e,'%N')then
-e=e:gsub('%%N',i)end
+return i
+end
+function fdmm.regimentTypes.getObjNameIn(n,e)return fdmm.regimentTypes._objForYear(n.Name,e)end
+function fdmm.regimentTypes.getObjReportNameIn(i,n)local e=fdmm.regimentTypes._objForYear(i.ReportNaming,n)if string.isNotEmpty(e)then
+local t=fdmm.regimentTypes.getObjNameIn(i,n)local n=fdmm.regimentTypes.getUnitHullNumberingIn(i,n)if string.isNotEmpty(t)and string.contains(e,'%N')then
+e=e:gsub('%%N',t)end
 if string.isNotEmpty(n)and string.contains(e,'%H')then
 e=e:gsub('%%H',n)end
 return e
 end
-return fdmm.regimentTypes._objForYear(n.Name,t)end
-function fdmm.regimentTypes.getUnitTypeIn(n,e)return fdmm.regimentTypes._objForYear(n.Type,e)end
+return fdmm.regimentTypes._objForYear(i.Name,n)end
+function fdmm.regimentTypes.getUnitTypeIn(e,n)return fdmm.regimentTypes._objForYear(e.Type,n)end
 function fdmm.regimentTypes.getUnitHullNumberingIn(e,n)return fdmm.regimentTypes._objForYear(e.HullNumbering,n)end
 function fdmm.regimentTypes.isRegimentUnitAvailableIn(e,n)assert(e._yearRange,"Missing object: _yearRange")return e._yearRange:containsYear(n)end
-function fdmm.regimentTypes.dumpRegimentYearlyAvailability(o,a,r)env.info("FDMM: Dumping regiment yearly availability for years "..tostring(a).." to "..tostring(r).."...")local function i(t,e,n)env.info("FDMM: "..n.."Regiment: "..fdmm.regimentTypes.getObjReportNameIn(t,e))for i,t in pairs(t.Units or{})do
-if fdmm.regimentTypes.isRegimentUnitAvailableIn(t,e)then
-env.info("FDMM: "..n.."  Unit: "..fdmm.regimentTypes.getObjReportNameIn(t,e))end
+function fdmm.regimentTypes.dumpRegimentYearlyAvailability(s,o,a)env.info("FDMM: Dumping regiment yearly availability for years "..tostring(o).." to "..tostring(a).."...")local function t(n,e,i)env.info("FDMM: "..i.."Regiment: "..fdmm.regimentTypes.getObjReportNameIn(n,e))for t,n in pairs(n.Units or{})do
+if fdmm.regimentTypes.isRegimentUnitAvailableIn(n,e)then
+env.info("FDMM: "..i.."  Unit: "..fdmm.regimentTypes.getObjReportNameIn(n,e))end
 end
-for r,t in pairs(t.Regiments or{})do
-i(t,e,n.."  ")end
-if t.Reinforcements then
-env.info("FDMM: "..n.."  Reinforcements:")for a,r in pairs(t.Reinforcements.Units or{})do
-if fdmm.regimentTypes.isRegimentUnitAvailableIn(r,e)then
-env.info("FDMM: "..n.."    Unit: "..fdmm.regimentTypes.getObjReportNameIn(r,e))end
-for r,t in pairs(t.Reinforcements.Regiments or{})do
-i(t,e,n.."    ")end
-end
-end
-end
-for e=a,r do
-env.info("FDMM: Year: "..e)i(o,e,"")end
-end
-function fdmm.regimentTypes.dumpRegimentActiveLists(r)env.info("FDMM: Dumping regiment year list...")local i=fdmm.setup.equipmentYear
-local function t(n,e)env.info("FDMM: "..e.."Regiment: "..fdmm.regimentTypes.getObjReportNameIn(n,i))env.info("FDMM: "..e.."  _Active: "..JSON:encode(n._Active))for t,n in pairs(n.Units or{})do
-env.info("FDMM: "..e.."  Unit: "..fdmm.regimentTypes.getObjReportNameIn(n,i))env.info("FDMM: "..e.."    _Active: "..JSON:encode(n._yearRange:getYearList()))end
-for i,n in pairs(n.Regiments or{})do
-t(n,e.."  ")end
+for r,n in pairs(n.Regiments or{})do
+t(n,e,i.."  ")end
 if n.Reinforcements then
-env.info("FDMM: "..e.."  Reinforcements:")for t,n in pairs(n.Reinforcements.Units or{})do
-env.info("FDMM: "..e.."    Unit: "..fdmm.regimentTypes.getObjReportNameIn(n,i))env.info("FDMM: "..e.."      _Active: "..JSON:encode(n._yearRange:getYearList()))end
-for i,n in pairs(n.Reinforcements.Regiments or{})do
-t(n,e.."    ")end
+env.info("FDMM: "..i.."  Reinforcements:")for a,r in pairs(n.Reinforcements.Units or{})do
+if fdmm.regimentTypes.isRegimentUnitAvailableIn(r,e)then
+env.info("FDMM: "..i.."    Unit: "..fdmm.regimentTypes.getObjReportNameIn(r,e))end
+for r,n in pairs(n.Reinforcements.Regiments or{})do
+t(n,e,i.."    ")end
 end
 end
-t(r,"")end
+end
+for e=o,a do
+env.info("FDMM: Year: "..e)t(s,e,"")end
+end
+function fdmm.regimentTypes.dumpRegimentActiveLists(r)env.info("FDMM: Dumping regiment year list...")local t=fdmm.setup.equipmentYear
+local function i(n,e)env.info("FDMM: "..e.."Regiment: "..fdmm.regimentTypes.getObjReportNameIn(n,t))env.info("FDMM: "..e.."  _Active: "..JSON:encode(n._Active))for i,n in pairs(n.Units or{})do
+env.info("FDMM: "..e.."  Unit: "..fdmm.regimentTypes.getObjReportNameIn(n,t))env.info("FDMM: "..e.."    _Active: "..JSON:encode(n._yearRange:getYearList()))end
+for t,n in pairs(n.Regiments or{})do
+i(n,e.."  ")end
+if n.Reinforcements then
+env.info("FDMM: "..e.."  Reinforcements:")for i,n in pairs(n.Reinforcements.Units or{})do
+env.info("FDMM: "..e.."    Unit: "..fdmm.regimentTypes.getObjReportNameIn(n,t))env.info("FDMM: "..e.."      _Active: "..JSON:encode(n._yearRange:getYearList()))end
+for t,n in pairs(n.Reinforcements.Regiments or{})do
+i(n,e.."    ")end
+end
+end
+i(r,"")end
 end
 env.info("---FDMM_RegimentTypes End---");end)__DISTILLER:define("FDMM_OrdinanceTypes",function(e)env.info("---FDMM_OrdinanceTypes Start---");e('Additions/FDMM_LuaAdditions')fdmm.ordinanceTypes={}do
 fdmm.consts.OrdinanceType={Missiles={A2G={IR={},Optical={},IROptical={},GPS={},DLOS={},},A2A={Fox1={},Fox2={},Fox3={},},SAM={},SSM={},},Rockets={A2G={},},AutoCannons={A2M={MainGun={},GunPods={},},A2G={MainGun={},GunPods={},},},ECM={Jammer={},},Rifles={MG={},Assault={},},All={},Unavailable={},Available={},NATOReporting={},WTOReporting={},}fdmm.ordinanceTypes._resKeyFilter={'All','Unavailable','Available','NATOReporting','WTOReporting','ReportNaming','ProperNaming'}function fdmm.ordinanceTypes._isReservedKey(e)return string.hasPrefix(e,'_')or table.contains(fdmm.OrdinanceTypes._resKeyFilter,e)end
 function fdmm.ordinanceTypes.processEntries()end
 function fdmm.ordinanceTypes.crossRefEntries()assert(db,"Missing module: db")assert(dbYears,"Missing module: dbYears")env.info("FDMM: Cross-referencing ordinances...")end
 function fdmm.ordinanceTypes.createOrdinanceTypeAvailability()end
+function fdmm.ordinanceTypes.isMissingAvailability()local e=fdmm.fullPath.."data/OrdinanceTypeAvailability.json"return not fdmm.utils.getFileExists(e)end
 function fdmm.ordinanceTypes.saveOrdinanceTypeAvailability()end
 function fdmm.ordinanceTypes.loadOrdinanceTypeAvailability()end
 end
@@ -772,18 +775,18 @@ env.info("---FDMM_MISTAdditions End---")end)__DISTILLER:define("Additions/FDMM_M
 function routines.utils.get2DDistSqrd(e,n)if e.z~=nil then e=routines.utils.makeVec2(e)end
 if n.z~=nil then n=routines.utils.makeVec2(n)end
 return routines.vec.magSqrd({x=e.x-n.x,y=e.y-n.y})end
-function routines.utils.get3DDistSqrd(n,e)if n.z==nil then n=routines.utils.makeVec3(n)end
-if e.z==nil then e=routines.utils.makeVec3(e)end
-return routines.vec.magSqrd({x=n.x-e.x,y=n.y-e.y,z=n.z-e.z})end
+function routines.utils.get3DDistSqrd(e,n)if e.z==nil then e=routines.utils.makeVec3(e)end
+if n.z==nil then n=routines.utils.makeVec3(n)end
+return routines.vec.magSqrd({x=e.x-n.x,y=e.y-n.y,z=e.z-n.z})end
 routines.vec.magSqrd=function(e)return(e.x*e.x)+(e.y*e.y)+((e.z or 0)*(e.z or 0))end
 function ZONE_POLYGON:NewFromPoints(n,e)local e=BASE:Inherit(self,ZONE_POLYGON_BASE:New(n,e))e:F({n,nil,e._.Polygon})_EVENTDISPATCHER:CreateEventNewZone(e)return e
 end
 end
 env.info("---FDMM_MOOSEAdditions End---")end)__DISTILLER:define("Utilities/FDMM_RunLoop",function(e)env.info("---FDMM_RunLoop Start---")fdmm.runLoop={}do
 FDMMRunLoop={}FDMMRunLoop.__index=FDMMRunLoop
-setmetatable(FDMMRunLoop,{__call=function(e,...)return e.new(...)end,})function FDMMRunLoop.new(n,t,i)assert(n,"Nonnull parameter: name")local e=setmetatable({},FDMMRunLoop)e.name=n
-e.timeInterval=t or .05
-e.timeSlice=i or .017
+setmetatable(FDMMRunLoop,{__call=function(e,...)return e.new(...)end,})function FDMMRunLoop.new(n,i,t)assert(n,"Nonnull parameter: name")local e=setmetatable({},FDMMRunLoop)e.name=n
+e.timeInterval=i or .05
+e.timeSlice=t or .017
 e.isStarted=false
 e.isRunning=false
 e.runStartTime=0
@@ -832,8 +835,8 @@ end
 end
 function FDMMRunLoop:_main()fdmm.runLoop._activeRunLoop=self
 self.isRunning=true
-self.runStartTime=fdmm.utils.getTime()local n,e=pcall(self.main,self)if not n then
-env.error("FDMM: Runloop '"..self.name.."' experienced an execution failure in main.")env.error("FDMM:   Error: "..tostring(e))env.error("FDMM:   Traceback: "..tostring(debug and debug.traceback()))end
+self.runStartTime=fdmm.utils.getTime()local e,n=pcall(self.main,self)if not e then
+env.error("FDMM: Runloop '"..self.name.."' experienced an execution failure in main.")env.error("FDMM:   Error: "..tostring(n))env.error("FDMM:   Traceback: "..tostring(debug and debug.traceback()))end
 self:_runQueuedFuncs()self:yield()end
 function FDMMRunLoop:main()end
 function FDMMRunLoop:isMainLoop()return self==fdmm.runLoop.mainLoop
@@ -863,10 +866,10 @@ self:enqueueAsync(n,e)end
 end
 function FDMMRunLoop:runIfActiveElseEnqueueSync(n,e)if self:isActiveLoop()then
 n(e and table.unpack(e))else
-local t=true
-self:enqueueAsync(function()local n,e=pcall(n,e and table.unpack(e))t=false
+local i=true
+self:enqueueAsync(function()local n,e=pcall(n,e and table.unpack(e))i=false
 return e
-end)while t do
+end)while i do
 local e=fdmm.runLoop.getActiveLoop()if e and e~=self then
 e:yield()elseif not e then
 local e=coroutine.running()if e and e~=self.coroutine then
@@ -879,8 +882,8 @@ function FDMMRunLoop:_runQueuedFuncs()while self.functionList[1]~=nil do
 if self:isTimeSliceOver()then
 self:markAsTimedOut()return
 end
-local e=table.remove(self.functionList,1)local e,n=pcall(e[1],e[2]and table.unpack(e[2]))if not e then
-env.error("FDMM: Runloop '"..self.name.."' experienced an execution failure in a queued function.")env.error("FDMM:   Error: "..tostring(n))env.error("FDMM:   Traceback: "..tostring(debug and debug.traceback()))end
+local e=table.remove(self.functionList,1)local n,e=pcall(e[1],e[2]and table.unpack(e[2]))if not n then
+env.error("FDMM: Runloop '"..self.name.."' experienced an execution failure in a queued function.")env.error("FDMM:   Error: "..tostring(e))env.error("FDMM:   Traceback: "..tostring(debug and debug.traceback()))end
 end
 end
 end
@@ -896,20 +899,20 @@ return nil
 end
 function fdmm.runLoop.startBaseRunLoops()fdmm.runLoop.mainLoop=FDMMRunLoop.new("MainLoop",.05)fdmm.runLoop.highPriorityLoop=FDMMRunLoop.new("HighPriorityLoop",1)fdmm.runLoop.medPriorityLoop=FDMMRunLoop.new("MedPriorityLoop",5)fdmm.runLoop.lowPriorityLoop=FDMMRunLoop.new("LowPriorityLoop",30)fdmm.runLoop.mainLoop:startAsCallback()fdmm.runLoop.lowPriorityLoop:startAsCoroutine()fdmm.runLoop.medPriorityLoop:startAsCoroutine()fdmm.runLoop.highPriorityLoop:startAsCoroutine()end
 function fdmm.runLoop.stopBaseRunLoops()fdmm.runLoop.highPriorityLoop:stop()fdmm.runLoop.medPriorityLoop:stop()fdmm.runLoop.lowPriorityLoop:stop()fdmm.runLoop.mainLoop:stop()end
-function fdmm.runLoop.stopExtRunLoops()local t={fdmm.runLoop.mainLoop,fdmm.runLoop.lowPriorityLoop,fdmm.runLoop.medPriorityLoop,fdmm.runLoop.highPriorityLoop}for n=table.getn(fdmm.runLoop._runLoopList),1,-1 do
-local e=fdmm.runLoop._runLoopList[n]if not table.contains(t,e)then
+function fdmm.runLoop.stopExtRunLoops()local i={fdmm.runLoop.mainLoop,fdmm.runLoop.lowPriorityLoop,fdmm.runLoop.medPriorityLoop,fdmm.runLoop.highPriorityLoop}for n=table.getn(fdmm.runLoop._runLoopList),1,-1 do
+local e=fdmm.runLoop._runLoopList[n]if not table.contains(i,e)then
 e:stop(false)table.remove(fdmm.runLoop._runLoopList,n)end
 end
 end
 end
 env.info("---FDMM_RunLoop End---")end)__DISTILLER:define("Cargo/FDMM_ResourceUnit",function(e)env.info("---FDMM_ResourceUnit Start---")fdmm.resourceUnit={}do
 FDMMResourceUnit={}FDMMResourceUnit.__index=FDMMResourceUnit
-setmetatable(FDMMResourceUnit,{__call=function(e,...)return e.new(...)end,})function FDMMResourceUnit.new(n,i,t,r,o,a)local e=setmetatable({},FDMMResourceUnit)e.fuelRP=n
-e.armsRP=i
+setmetatable(FDMMResourceUnit,{__call=function(e,...)return e.new(...)end,})function FDMMResourceUnit.new(i,n,t,r,a,o)local e=setmetatable({},FDMMResourceUnit)e.fuelRP=i
+e.armsRP=n
 e.unitRP=t
 e.maxFuelRP=r
-e.maxArmsRP=o
-e.maxUnitRP=a
+e.maxArmsRP=a
+e.maxUnitRP=o
 return e
 end
 function FDMMResourceUnit:serialize(e)end
@@ -919,15 +922,15 @@ function FDMMResourceUnit:transferTo(e,e,e,e,e,e)end
 end
 env.info("---FDMM_ResourceUnit End---")end)__DISTILLER:define("Cargo/FDMM_CargoRoute",function(e)env.info("---FDMM_CargoRoute Start---")fdmm.cargoRoute={}do
 FDMMCargoRoute={}FDMMCargoRoute.__index=FDMMCargoRoute
-setmetatable(FDMMCargoRoute,{__call=function(e,...)return e.new(...)end,})function FDMMCargoRoute.new(t,n)local e=setmetatable({},FDMMCargoRoute)e.territoryName=t
+setmetatable(FDMMCargoRoute,{__call=function(e,...)return e.new(...)end,})function FDMMCargoRoute.new(i,n)local e=setmetatable({},FDMMCargoRoute)e.territoryName=i
 e.routeType=n
 e.spawnLocs={}e.facilityLocs={}e.dirLinks={}return e
 end
 function FDMMCargoRoute:serialize(e)end
 function FDMMCargoRoute:deserialize(e)end
-function FDMMCargoRoute:addSpawnLocation(e,n,t)table.insert(self.spawnLocs,{spawnFaction=e,spawnPoint=n,egressPoints=t or{}})end
-function FDMMCargoRoute:addFacilityLocation(e,n,t)table.insert(self.facilityLocs,{facilityName=e,facilityPoint=n,ingressPoints=t or{}})end
-function FDMMCargoRoute:addDirectionalLink(t,n,e)table.insert(self.dirLinks,{directionName=t,navigationPoint=n,ingressPoints=e or{}})end
+function FDMMCargoRoute:addSpawnLocation(i,e,n)table.insert(self.spawnLocs,{spawnFaction=i,spawnPoint=e,egressPoints=n or{}})end
+function FDMMCargoRoute:addFacilityLocation(e,n,i)table.insert(self.facilityLocs,{facilityName=e,facilityPoint=n,ingressPoints=i or{}})end
+function FDMMCargoRoute:addDirectionalLink(e,n,i)table.insert(self.dirLinks,{directionName=e,navigationPoint=n,ingressPoints=i or{}})end
 function FDMMCargoRoute:getOutboundRouteFromStart(e)end
 function FDMMCargoRoute:getInboundRouteToFacility(e)end
 function FDMMCargoRoute:getOutboundRouteFromFacility(e)end
@@ -936,73 +939,73 @@ end
 do
 function fdmm.cargoRoute.createCargoRoutes()fdmm.cargoRoutes={}for e,n in pairs(fdmm.territories.all)do
 fdmm.cargoRoutes[e]={[fdmm.enums.CargoRouteType.Land]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Land),[fdmm.enums.CargoRouteType.Train]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Train),[fdmm.enums.CargoRouteType.Air]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Air),[fdmm.enums.CargoRouteType.Sea]=FDMMCargoRoute.new(e,fdmm.enums.CargoRouteType.Sea)}end
-local d={[fdmm.consts.CargoRouteGNPrefix.Land]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Land]or{},[fdmm.consts.CargoRouteGNPrefix.Train]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Train]or{},[fdmm.consts.CargoRouteGNPrefix.Air]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Air]or{},[fdmm.consts.CargoRouteGNPrefix.Sea]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Sea]or{}}function _processGroup(a,e,o)local n=fdmm.utils.removeNumericSuffix(fdmm.utils.removeGroupingPrefix(a))local t=fdmm.territories.all[n]if t~=nil then
-local l=fdmm.cargoRoutes[n][o]local c=mist.getGroupRoute(a,false)local d=fdmm.utils.getFaction(string.notEmptyElse(e.units[1].unitName,e.country))local m=o:upperFirst()local u=table.concatedWith(fdmm.consts.CargoRouteGNPrefix,fdmm.consts.CargoRouteWPRoutePrefix[m])local e=nil
-local n={Spawn='spawn',Linkage='linkage',Facility='facility',TBD='_'}local t,r,s=nil,nil,{}function _updateScanner(i,m)if e==n.TBD and i~=nil and i~=n.TBD then
-e=i
-elseif e~=nil and e~=n.TBD and i==n.TBD then
-i=e
+local u={[fdmm.consts.CargoRouteGNPrefix.Land]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Land]or{},[fdmm.consts.CargoRouteGNPrefix.Train]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Train]or{},[fdmm.consts.CargoRouteGNPrefix.Air]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Air]or{},[fdmm.consts.CargoRouteGNPrefix.Sea]=fdmm.config.gpCache[fdmm.consts.CargoRouteGNPrefix.Sea]or{}}function _processGroup(o,e,a)local n=fdmm.utils.removeNumericSuffix(fdmm.utils.removeGroupingPrefix(o))local i=fdmm.territories.all[n]if i~=nil then
+local l=fdmm.cargoRoutes[n][a]local c=mist.getGroupRoute(o,false)local d=fdmm.utils.getFaction(string.notEmptyElse(e.units[1].unitName,e.country))local m=a:upperFirst()local u=table.concatedWith(fdmm.consts.CargoRouteGNPrefix,fdmm.consts.CargoRouteWPRoutePrefix[m])local n=nil
+local e={Spawn='spawn',Linkage='linkage',Facility='facility',TBD='_'}local i,r,s=nil,nil,{}function _updateScanner(t,m)if n==e.TBD and t~=nil and t~=e.TBD then
+n=t
+elseif n~=nil and n~=e.TBD and t==e.TBD then
+t=n
 end
-if e~=i or t~=m then
-if e then
-if e==n.Spawn then
+if n~=t or i~=m then
+if n then
+if n==e.Spawn then
 if string.isNotEmpty(d)and r and s then
 l:addSpawnLocation(d,r,s)else
-env.error('Cargo '..o.." routing group '"..a.."' failed to parse spawn route '"..(t or'<nil>').."'.")end
-elseif e==n.Linkage then
-if string.isNotEmpty(t)and r and s then
-l:addDirectionalLink(t,r,s)else
-env.error('Cargo '..o.." routing group '"..a.."' failed to parse linkage route '"..(t or'<nil>').."'.")end
-elseif e==n.Facility then
-if string.isNotEmpty(t)and r and s then
-l:addFacilityLocation(t,r,s)else
-env.error('Cargo '..o.." routing group '"..a.."' failed to parse facility route '"..(t or'<nil>').."'.")end
-elseif e~=n.TBD then
-env.error('Cargo '..o.." routing group '"..a.."' encountered unrecognized scan mode '"..(i or'<nil>').."'.")end
-t,r,s=nil,nil,{}end
-e=i
-t=m
+env.error('Cargo '..a.." routing group '"..o.."' failed to parse spawn route '"..(i or'<nil>').."'.")end
+elseif n==e.Linkage then
+if string.isNotEmpty(i)and r and s then
+l:addDirectionalLink(i,r,s)else
+env.error('Cargo '..a.." routing group '"..o.."' failed to parse linkage route '"..(i or'<nil>').."'.")end
+elseif n==e.Facility then
+if string.isNotEmpty(i)and r and s then
+l:addFacilityLocation(i,r,s)else
+env.error('Cargo '..a.." routing group '"..o.."' failed to parse facility route '"..(i or'<nil>').."'.")end
+elseif n~=e.TBD then
+env.error('Cargo '..a.." routing group '"..o.."' encountered unrecognized scan mode '"..(t or'<nil>').."'.")end
+i,r,s=nil,nil,{}end
+n=t
+i=m
 end
 end
-for l,e in ipairs(c)do
-if string.isNotEmpty(e.name)and(e.name..'_')~=fdmm.consts.CargoRouteGNPrefix[m]then
-local d,i,t=fdmm.utils.getGroupingComponentsWithSNC(e.name,u,fdmm.consts.CargoRouteWPRouteSuffix)if d==fdmm.consts.CargoRouteGNPrefix[m]then
-if t==fdmm.consts.CargoRouteWPRouteSuffix.Egress or
-t==fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
-_updateScanner(n.TBD,i)table.insert(s,fdmm.utils.rposFromRPoint(e))elseif t==fdmm.consts.CargoRouteWPRouteSuffix.Spawn then
-_updateScanner(n.Spawn,i)r=fdmm.utils.rposFromRPoint(e)elseif t==fdmm.consts.CargoRouteWPRouteSuffix.Linkage then
-_updateScanner(n.Linkage,i)r=fdmm.utils.rposFromRPoint(e)elseif t==fdmm.consts.CargoRouteWPRouteSuffix.Facility then
-_updateScanner(n.Facility,i)r=fdmm.utils.rposFromRPoint(e)elseif not(string.isEmpty(i)and string.isEmpty(t))then
-env.error('Cargo '..o.." routing group '"..a.."' unknown WP '"..(e.name or'<nil>').."' at WP index "..l..'.')end
+for l,n in ipairs(c)do
+if string.isNotEmpty(n.name)and(n.name..'_')~=fdmm.consts.CargoRouteGNPrefix[m]then
+local d,t,i=fdmm.utils.getGroupingComponentsWithSNC(n.name,u,fdmm.consts.CargoRouteWPRouteSuffix)if d==fdmm.consts.CargoRouteGNPrefix[m]then
+if i==fdmm.consts.CargoRouteWPRouteSuffix.Egress or
+i==fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
+_updateScanner(e.TBD,t)table.insert(s,fdmm.utils.rposFromRPoint(n))elseif i==fdmm.consts.CargoRouteWPRouteSuffix.Spawn then
+_updateScanner(e.Spawn,t)r=fdmm.utils.rposFromRPoint(n)elseif i==fdmm.consts.CargoRouteWPRouteSuffix.Linkage then
+_updateScanner(e.Linkage,t)r=fdmm.utils.rposFromRPoint(n)elseif i==fdmm.consts.CargoRouteWPRouteSuffix.Facility then
+_updateScanner(e.Facility,t)r=fdmm.utils.rposFromRPoint(n)elseif not(string.isEmpty(t)and string.isEmpty(i))then
+env.error('Cargo '..a.." routing group '"..o.."' unknown WP '"..(n.name or'<nil>').."' at WP index "..l..'.')end
 elseif d==fdmm.consts.CargoRouteWPRoutePrefix[m].Spawn then
-if string.isEmpty(t)then
-_updateScanner(n.Spawn,i)r=fdmm.utils.rposFromRPoint(e)elseif t==fdmm.consts.CargoRouteWPRouteSuffix.Egress then
-_updateScanner(n.Spawn,i)table.insert(s,fdmm.utils.rposFromRPoint(e))elseif not(string.isEmpty(i)and string.isEmpty(t))then
-env.error('Cargo '..o.." routing group '"..a.."' unknown spawn WP '"..(e.name or'<nil>').."' at WP index "..l..'.')end
+if string.isEmpty(i)then
+_updateScanner(e.Spawn,t)r=fdmm.utils.rposFromRPoint(n)elseif i==fdmm.consts.CargoRouteWPRouteSuffix.Egress then
+_updateScanner(e.Spawn,t)table.insert(s,fdmm.utils.rposFromRPoint(n))elseif not(string.isEmpty(t)and string.isEmpty(i))then
+env.error('Cargo '..a.." routing group '"..o.."' unknown spawn WP '"..(n.name or'<nil>').."' at WP index "..l..'.')end
 elseif d==fdmm.consts.CargoRouteWPRoutePrefix[m].Linkage then
-if string.isEmpty(t)then
-_updateScanner(n.Linkage,i)r=fdmm.utils.rposFromRPoint(e)elseif t==fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
-_updateScanner(n.Linkage,i)table.insert(s,fdmm.utils.rposFromRPoint(e))elseif not(string.isEmpty(i)and string.isEmpty(t))then
-env.error('Cargo '..o.." routing group '"..a.."' unknown linkage WP '"..(e.name or'<nil>').."' at WP index "..l..'.')end
+if string.isEmpty(i)then
+_updateScanner(e.Linkage,t)r=fdmm.utils.rposFromRPoint(n)elseif i==fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
+_updateScanner(e.Linkage,t)table.insert(s,fdmm.utils.rposFromRPoint(n))elseif not(string.isEmpty(t)and string.isEmpty(i))then
+env.error('Cargo '..a.." routing group '"..o.."' unknown linkage WP '"..(n.name or'<nil>').."' at WP index "..l..'.')end
 elseif d==fdmm.consts.CargoRouteWPRoutePrefix[m].Facility then
-if string.isEmpty(t)then
-_updateScanner(n.Facility,i)r=fdmm.utils.rposFromRPoint(e)elseif t==fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
-_updateScanner(n.Facility,i)table.insert(s,fdmm.utils.rposFromRPoint(e))elseif not(string.isEmpty(i)and string.isEmpty(t))then
-env.error('Cargo '..o.." routing group '"..a.."' unknown facility WP '"..(e.name or'<nil>').."' at WP index "..l..'.')end
+if string.isEmpty(i)then
+_updateScanner(e.Facility,t)r=fdmm.utils.rposFromRPoint(n)elseif i==fdmm.consts.CargoRouteWPRouteSuffix.Ingress then
+_updateScanner(e.Facility,t)table.insert(s,fdmm.utils.rposFromRPoint(n))elseif not(string.isEmpty(t)and string.isEmpty(i))then
+env.error('Cargo '..a.." routing group '"..o.."' unknown facility WP '"..(n.name or'<nil>').."' at WP index "..l..'.')end
 else
-env.error('Cargo '..o.." routing group '"..a.."' unknown routing WP '"..(e.name or'<nil>').."' at WP index "..l..'.')end
+env.error('Cargo '..a.." routing group '"..o.."' unknown routing WP '"..(n.name or'<nil>').."' at WP index "..l..'.')end
 end
 end
 _updateScanner(nil,nil)else
-env.error('Cargo '..o.." routing group '"..a.."' failed to find territory with same name.")end
+env.error('Cargo '..a.." routing group '"..o.."' failed to find territory with same name.")end
 end
-for n,e in pairs(d[fdmm.consts.CargoRouteGNPrefix.Land])do
-_processGroup(n,e,fdmm.enums.CargoRouteType.Land)end
-for e,n in pairs(d[fdmm.consts.CargoRouteGNPrefix.Train])do
-_processGroup(e,n,fdmm.enums.CargoRouteType.Train)end
-for e,n in pairs(d[fdmm.consts.CargoRouteGNPrefix.Air])do
-_processGroup(e,n,fdmm.enums.CargoRouteType.Air)end
-for e,n in pairs(d[fdmm.consts.CargoRouteGNPrefix.Sea])do
+for e,n in pairs(u[fdmm.consts.CargoRouteGNPrefix.Land])do
+_processGroup(e,n,fdmm.enums.CargoRouteType.Land)end
+for n,e in pairs(u[fdmm.consts.CargoRouteGNPrefix.Train])do
+_processGroup(n,e,fdmm.enums.CargoRouteType.Train)end
+for n,e in pairs(u[fdmm.consts.CargoRouteGNPrefix.Air])do
+_processGroup(n,e,fdmm.enums.CargoRouteType.Air)end
+for e,n in pairs(u[fdmm.consts.CargoRouteGNPrefix.Sea])do
 _processGroup(e,n,fdmm.enums.CargoRouteType.Sea)end
 end
 function fdmm.cargoRoute.saveCargoRoutes()end
@@ -1010,14 +1013,14 @@ function fdmm.cargoRoute.loadCargoRoutes()end
 end
 env.info("---FDMM_CargoRoute End---")end)__DISTILLER:define("Territory/FDMM_Territory",function(e)env.info("---FDMM_Territory Start---")fdmm.territory={}do
 FDMMTerritory={}FDMMTerritory.__index=FDMMTerritory
-setmetatable(FDMMTerritory,{__call=function(e,...)return e.newFromGroup(...)end,})function FDMMTerritory.newFromGroup(n,t)local e=setmetatable({},FDMMTerritory)e.name=fdmm.utils.removeGroupingPrefix(n)if t.category==mist.DBs.Category.Ship then
+setmetatable(FDMMTerritory,{__call=function(e,...)return e.newFromGroup(...)end,})function FDMMTerritory.newFromGroup(n,i)local e=setmetatable({},FDMMTerritory)e.name=fdmm.utils.removeGroupingPrefix(n)if i.category==mist.DBs.Category.Ship then
 e.type=fdmm.enums.TerritoryType.Sea
 else
 e.type=fdmm.enums.TerritoryType.Land
 end
-e.polygonPoints={}local i=mist.getGroupPoints(n)for t,n in ipairs(i)do
-if t>1 and t<#i then
-table.insert(e.polygonPoints,n)elseif t==1 then
+e.polygonPoints={}local t=mist.getGroupPoints(n)for i,n in ipairs(t)do
+if i>1 and i<#t then
+table.insert(e.polygonPoints,n)elseif i==1 then
 e.centerPoint=n
 else
 e.capturePoint=n
@@ -1042,22 +1045,22 @@ end
 function FDMMTerritory:buildFacilities()for n,e in pairs(self.facilities)do
 e:buildFacility()end
 end
-function FDMMTerritory:smokeBoundaries(r)r=r or SMOKECOLOR.Blue
+function FDMMTerritory:smokeBoundaries(i)i=i or SMOKECOLOR.Blue
 local o=10000./25.
-local i=nil
+local t=nil
 for e,a in ipairs(self.polygonPoints)do
 if e>1 then
-local e=mist.utils.makeVec3(a)local e=mist.vec.sub(e,i)local t=mist.vec.mag(e)local a=mist.vec.scalarMult(e,1./t)local e=1
-local n=t/e
+local e=mist.utils.makeVec3(a)local e=mist.vec.sub(e,t)local r=mist.vec.mag(e)local a=mist.vec.scalarMult(e,1./r)local e=1
+local n=r/e
 while n>o do
 e=e+1
-n=t/e
+n=r/e
 end
 while e>=0 do
-local n=mist.vec.scalarMult(a,e*n)local n=mist.vec.add(i,n);COORDINATE:NewFromVec2(mist.utils.makeVec2(n)):Smoke(r)e=e-1
+local n=mist.vec.scalarMult(a,e*n)local n=mist.vec.add(t,n);COORDINATE:NewFromVec2(mist.utils.makeVec2(n)):Smoke(i)e=e-1
 end
 end
-i=mist.utils.makeVec3(a)end
+t=mist.utils.makeVec3(a)end
 end
 end
 do
@@ -1066,49 +1069,49 @@ local e=FDMMTerritory.newFromGroup(e,n)fdmm.territories[e.type][e.name]=e
 fdmm.territories.all[e.name]=e
 end
 for e,n in pairs(n[fdmm.consts.TerritoryGNPrefix.Linkage])do
-local i=fdmm.utils.removeGroupingPrefix(e)local n=fdmm.territories.all[i]if n~=nil then
-for i,t in ipairs(mist.getGroupRoute(e,false))do
-if string.isEmpty(t.name)then
-local t=fdmm.territory.closestTerritoryToPoint(fdmm.utils.rposFromRPoint(t),n.type)if t~=nil then
-n:addTerritoryLink(t)else
-env.error("Territory linkage group '"..e.."' failed to find a closest territory at WP index "..i..".")end
+local t=fdmm.utils.removeGroupingPrefix(e)local n=fdmm.territories.all[t]if n~=nil then
+for t,i in ipairs(mist.getGroupRoute(e,false))do
+if string.isEmpty(i.name)then
+local i=fdmm.territory.closestTerritoryToPoint(fdmm.utils.rposFromRPoint(i),n.type)if i~=nil then
+n:addTerritoryLink(i)else
+env.error("Territory linkage group '"..e.."' failed to find a closest territory at WP index "..t..".")end
 end
 end
 else
-env.error("Territory linkage group '"..e.."' failed to find territory named '"..i.."'.")end
+env.error("Territory linkage group '"..e.."' failed to find territory named '"..t.."'.")end
 end
 end
 function fdmm.territory.createFacilities()fdmm.facilities={[fdmm.enums.FacilityType.Airbase]={},[fdmm.enums.FacilityType.ArmsPlant]={},[fdmm.enums.FacilityType.CommandCenter]={},[fdmm.enums.FacilityType.FARP]={},[fdmm.enums.FacilityType.OilField]={},[fdmm.enums.FacilityType.Port]={},[fdmm.enums.FacilityType.UnitFactory]={},[fdmm.enums.FacilityType.All]={}}local e={[fdmm.consts.TerritoryGNPrefix.Facility]=fdmm.config.gpCache[fdmm.consts.TerritoryGNPrefix.Facility]or{}}local r=table.concatedWith(fdmm.consts.TerritoryGNPrefix,fdmm.consts.TerritoryWPFacilityPrefix)for a,e in pairs(e[fdmm.consts.TerritoryGNPrefix.Facility])do
-local t=fdmm.utils.removeGroupingPrefix(a)local i=fdmm.territories.all[t]if i~=nil then
+local i=fdmm.utils.removeGroupingPrefix(a)local t=fdmm.territories.all[i]if t~=nil then
 for o,n in ipairs(mist.getGroupRoute(a,false))do
 if string.isNotEmpty(n.name)and(n.name..'_')~=fdmm.consts.TerritoryGNPrefix.Facility then
 local r,e,s=fdmm.utils.getGroupingComponentsWithSNC(n.name,r,nil)if r==fdmm.consts.TerritoryWPFacilityPrefix.Airbase and string.isNotEmpty(e)then
-local e=fdmm.facilities.all[e]or FDMMAirbase.new(e,fdmm.utils.rposFromRPoint(n),t)fdmm.facilities.airbase[e.name]=e
+local e=fdmm.facilities.all[e]or FDMMAirbase.new(e,fdmm.utils.rposFromRPoint(n),i)fdmm.facilities.airbase[e.name]=e
 fdmm.facilities.all[e.name]=e
-i:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.ArmsPlant and string.isNotEmpty(e)then
-local e=fdmm.facilities.all[e]or FDMMArmsPlant.new(e,fdmm.utils.rposFromRPoint(n),t)fdmm.facilities.armsPlant[e.name]=e
+t:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.ArmsPlant and string.isNotEmpty(e)then
+local e=fdmm.facilities.all[e]or FDMMArmsPlant.new(e,fdmm.utils.rposFromRPoint(n),i)fdmm.facilities.armsPlant[e.name]=e
 fdmm.facilities.all[e.name]=e
-i:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.CommandCenter and string.isNotEmpty(e)then
-local e=fdmm.facilities.all[e]or FDMMCommandCenter.new(e,fdmm.utils.rposFromRPoint(n),t)fdmm.facilities.commandCenter[e.name]=e
+t:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.CommandCenter and string.isNotEmpty(e)then
+local e=fdmm.facilities.all[e]or FDMMCommandCenter.new(e,fdmm.utils.rposFromRPoint(n),i)fdmm.facilities.commandCenter[e.name]=e
 fdmm.facilities.all[e.name]=e
-i:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.FARP and string.isNotEmpty(e)then
-local e=fdmm.facilities.all[e]or FDMMFARP.new(e,fdmm.utils.rposFromRPoint(n),t)fdmm.facilities.farp[e.name]=e
+t:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.FARP and string.isNotEmpty(e)then
+local e=fdmm.facilities.all[e]or FDMMFARP.new(e,fdmm.utils.rposFromRPoint(n),i)fdmm.facilities.farp[e.name]=e
 fdmm.facilities.all[e.name]=e
-i:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.OilField and string.isNotEmpty(e)then
-local e=fdmm.facilities.all[e]or FDMMOilField.new(e,fdmm.utils.rposFromRPoint(n),t)fdmm.facilities.oilField[e.name]=e
+t:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.OilField and string.isNotEmpty(e)then
+local e=fdmm.facilities.all[e]or FDMMOilField.new(e,fdmm.utils.rposFromRPoint(n),i)fdmm.facilities.oilField[e.name]=e
 fdmm.facilities.all[e.name]=e
-i:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.Port and string.isNotEmpty(e)then
-local e=fdmm.facilities.all[e]or FDMMPort.new(e,fdmm.utils.rposFromRPoint(n),t)fdmm.facilities.port[e.name]=e
+t:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.Port and string.isNotEmpty(e)then
+local e=fdmm.facilities.all[e]or FDMMPort.new(e,fdmm.utils.rposFromRPoint(n),i)fdmm.facilities.port[e.name]=e
 fdmm.facilities.all[e.name]=e
-i:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.UnitFactory and string.isNotEmpty(e)then
-local e=fdmm.facilities.all[e]or FDMMUnitFactory.new(e,fdmm.utils.rposFromRPoint(n),t)fdmm.facilities.unitFactory[e.name]=e
+t:addFacility(e)elseif r==fdmm.consts.TerritoryWPFacilityPrefix.UnitFactory and string.isNotEmpty(e)then
+local e=fdmm.facilities.all[e]or FDMMUnitFactory.new(e,fdmm.utils.rposFromRPoint(n),i)fdmm.facilities.unitFactory[e.name]=e
 fdmm.facilities.all[e.name]=e
-i:addFacility(e)elseif not(string.isEmpty(e)and string.isEmpty(s))then
+t:addFacility(e)elseif not(string.isEmpty(e)and string.isEmpty(s))then
 env.error("Territory group '"..a.."' unknown facility WP '"..tostring(n.name).."' at WP index "..o..".")end
 end
 end
 else
-env.error("Territory facility group '"..a.."' failed to find territory named '"..t.."'.")end
+env.error("Territory facility group '"..a.."' failed to find territory named '"..i.."'.")end
 end
 end
 function fdmm.territory.saveTerritories()end
@@ -1118,13 +1121,13 @@ function fdmm.territory.loadFacilities()end
 function fdmm.territory.buildFacilities()for n,e in pairs(fdmm.territories.all)do
 e:buildFacilities()end
 end
-function fdmm.territory.closestTerritoryToPoint(e,i)local n=mist.utils.makeVec2(e)local e=nil
+function fdmm.territory.closestTerritoryToPoint(e,n)local i=mist.utils.makeVec2(e)local e=nil
 local t=0
-local i=i or fdmm.enums.TerritoryType.All
-local i=fdmm.territories[i]for r,i in pairs(i)do
-local n=mist.utils.get2DDistSqrd(n,i.centerPoint)if e==nil or n<t then
-e=i
-t=n
+local n=n or fdmm.enums.TerritoryType.All
+local n=fdmm.territories[n]for r,n in pairs(n)do
+local i=mist.utils.get2DDistSqrd(i,n.centerPoint)if e==nil or i<t then
+e=n
+t=i
 end
 end
 return e
@@ -1140,9 +1143,9 @@ end
 end
 env.info("---FDMM_Territory End---")end)__DISTILLER:define("Territory/FDMM_Facility",function(e)env.info("---FDMM_Facility Start---")fdmm.facility={}do
 FDMMFacility={}FDMMFacility.__index=FDMMFacility
-setmetatable(FDMMFacility,{__call=function(e,...)return e.new(...)end})function FDMMFacility.new(n,t,i)local e=setmetatable({},FDMMFacility)e.name=n
-e.centerPoint=t
-e.territoryName=i
+setmetatable(FDMMFacility,{__call=function(e,...)return e.new(...)end})function FDMMFacility.new(n,i,t)local e=setmetatable({},FDMMFacility)e.name=n
+e.centerPoint=i
+e.territoryName=t
 return e
 end
 function FDMMFacility:serialize(e)end
@@ -1153,7 +1156,7 @@ end
 end
 env.info("---FDMM_Facility End---")end)__DISTILLER:define("Territory/FDMM_Airbase",function(e)env.info("---FDMM_Airbase Start---")e('Territory/FDMM_Facility')fdmm.airbase={}do
 FDMMAirbase={}FDMMAirbase.__index=FDMMAirbase
-setmetatable(FDMMAirbase,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMAirbase.new(t,n,e)local e=setmetatable(FDMMFacility.new(t,n,e),FDMMAirbase)return e
+setmetatable(FDMMAirbase,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMAirbase.new(i,n,e)local e=setmetatable(FDMMFacility.new(i,n,e),FDMMAirbase)return e
 end
 function FDMMAirbase:serialize(e)end
 function FDMMAirbase:deserialize(e)end
@@ -1163,7 +1166,7 @@ end
 end
 env.info("---FDMM_Airbase End---")end)__DISTILLER:define("Territory/FDMM_ArmsPlant",function(e)env.info("---FDMM_ArmsPlant Start---")e('Territory/FDMM_Facility')fdmm.armsPlant={}do
 FDMMArmsPlant={}FDMMArmsPlant.__index=FDMMArmsPlant
-setmetatable(FDMMArmsPlant,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMArmsPlant.new(e,t,n)local e=setmetatable(FDMMFacility.new(e,t,n),FDMMArmsPlant)return e
+setmetatable(FDMMArmsPlant,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMArmsPlant.new(e,i,n)local e=setmetatable(FDMMFacility.new(e,i,n),FDMMArmsPlant)return e
 end
 function FDMMArmsPlant:serialize(e)end
 function FDMMArmsPlant:deserialize(e)end
@@ -1173,7 +1176,7 @@ end
 end
 env.info("---FDMM_ArmsPlant End---")end)__DISTILLER:define("Territory/FDMM_CommandCenter",function(e)env.info("---FDMM_CommandCenter Start---")e('Territory/FDMM_Facility')fdmm.commandCenter={}do
 FDMMCommandCenter={}FDMMCommandCenter.__index=FDMMCommandCenter
-setmetatable(FDMMCommandCenter,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMCommandCenter.new(t,n,e)local e=setmetatable(FDMMFacility.new(t,n,e),FDMMCommandCenter)return e
+setmetatable(FDMMCommandCenter,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMCommandCenter.new(i,n,e)local e=setmetatable(FDMMFacility.new(i,n,e),FDMMCommandCenter)return e
 end
 function FDMMCommandCenter:serialize(e)end
 function FDMMCommandCenter:deserialize(e)end
@@ -1183,7 +1186,7 @@ end
 end
 env.info("---FDMM_CommandCenter End---")end)__DISTILLER:define("Territory/FDMM_FARP",function(e)env.info("---FDMM_FARP Start---")e('Territory/FDMM_Facility')fdmm.farp={}do
 FDMMFARP={}FDMMFARP.__index=FDMMFARP
-setmetatable(FDMMFARP,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMFARP.new(n,e,t)local e=setmetatable(FDMMFacility.new(n,e,t),FDMMFARP)return e
+setmetatable(FDMMFARP,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMFARP.new(n,e,i)local e=setmetatable(FDMMFacility.new(n,e,i),FDMMFARP)return e
 end
 function FDMMFARP:serialize(e)end
 function FDMMFARP:deserialize(e)end
@@ -1193,7 +1196,7 @@ end
 end
 env.info("---FDMM_FARP End---")end)__DISTILLER:define("Territory/FDMM_OilField",function(e)env.info("---FDMM_OilField Start---")e('Territory/FDMM_Facility')fdmm.oilField={}do
 FDMMOilField={}FDMMOilField.__index=FDMMOilField
-setmetatable(FDMMOilField,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMOilField.new(e,t,n)local e=setmetatable(FDMMFacility.new(e,t,n),FDMMOilField)return e
+setmetatable(FDMMOilField,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMOilField.new(e,i,n)local e=setmetatable(FDMMFacility.new(e,i,n),FDMMOilField)return e
 end
 function FDMMOilField:serialize(e)end
 function FDMMOilField:deserialize(e)end
@@ -1203,7 +1206,7 @@ end
 end
 env.info("---FDMM_OilField End---")end)__DISTILLER:define("Territory/FDMM_Port",function(e)env.info("---FDMM_Port Start---")e('Territory/FDMM_Facility')fdmm.port={}do
 FDMMPort={}FDMMPort.__index=FDMMPort
-setmetatable(FDMMPort,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMPort.new(t,e,n)local e=setmetatable(FDMMFacility.new(t,e,n),FDMMPort)return e
+setmetatable(FDMMPort,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMPort.new(i,e,n)local e=setmetatable(FDMMFacility.new(i,e,n),FDMMPort)return e
 end
 function FDMMPort:serialize(e)end
 function FDMMPort:deserialize(e)end
@@ -1213,7 +1216,7 @@ end
 end
 env.info("---FDMM_Port End---")end)__DISTILLER:define("Territory/FDMM_UnitFactory",function(e)env.info("---FDMM_UnitFactory Start---")e('Territory/FDMM_Facility')fdmm.unitFactory={}do
 FDMMUnitFactory={}FDMMUnitFactory.__index=FDMMUnitFactory
-setmetatable(FDMMUnitFactory,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMUnitFactory.new(n,e,t)local e=setmetatable(FDMMFacility.new(n,e,t),FDMMUnitFactory)return e
+setmetatable(FDMMUnitFactory,{__index=FDMMFacility,__call=function(e,...)return e.new(...)end})function FDMMUnitFactory.new(n,e,i)local e=setmetatable(FDMMFacility.new(n,e,i),FDMMUnitFactory)return e
 end
 function FDMMUnitFactory:serialize(e)end
 function FDMMUnitFactory:deserialize(e)end
@@ -1224,7 +1227,9 @@ end
 env.info("---FDMM_UnitFactory End---")end)__DISTILLER:define("FDMM_MissionStart.lua_distilled",function(e)env.info("---FDMM_MissionStart Start---")env.setErrorMessageBoxEnabled(false)assert(lfs,"Missing module: lfs")fdmm={}fdmm_path=fdmm_path or'/Scripts/FDMM/'fdmm.fullPath=lfs.normpath(lfs.writedir()..fdmm_path)fdmm.MapKind={Both='Both',Setup='Setup',Runnable='Runnable'}fdmm.mapKind=fdmm.MapKind.Both
 fdmm.RunMode={Release='Release',Dev='Dev',DevWithPreTests='DevWithPreTests',DevWithPostTests='DevWithPostTests'}fdmm.runMode=fdmm.RunMode.DevWithPostTests
 e('FDMM_Config')e('FDMM_Utils')e('FDMM_UnitTypes')e('FDMM_RegimentTypes')e('FDMM_OrdinanceTypes')e('Additions/FDMM_LuaAdditions')e('Additions/FDMM_MISTAdditions')e('Additions/FDMM_MOOSEAdditions')e('Utilities/FDMM_RunLoop')e('Utilities/FDMM_YearRange')e('Cargo/FDMM_ResourceUnit')e('Cargo/FDMM_CargoRoute')e('Territory/FDMM_Territory')e('Territory/FDMM_Airbase')e('Territory/FDMM_ArmsPlant')e('Territory/FDMM_CommandCenter')e('Territory/FDMM_FARP')e('Territory/FDMM_OilField')e('Territory/FDMM_Port')e('Territory/FDMM_UnitFactory')do
-function fdmm.missionStart()local e="FDMM: Starting "..(fdmm.setup.serverName or"FDMM").."..."env.info(e)trigger.action.outText(e,10)fdmm.config.loadDCSJSONIfAble()fdmm.config.loadConfigOrDefaults()fdmm.config.detectVersions()fdmm.config.loadDCSDBIfAble()fdmm.unitTypes.processEntries()fdmm.regimentTypes.processEntries()fdmm.ordinanceTypes.processEntries()if db and dbYears and fdmm.config.configSettings.updatedDCSDetected then
+function fdmm.missionStart()local e="FDMM: Starting "..(fdmm.setup.serverName or"FDMM").."..."env.info(e)trigger.action.outText(e,10)fdmm.config.loadDCSJSONIfAble()fdmm.config.loadConfigOrDefaults()fdmm.config.detectVersions()fdmm.config.loadDCSDBIfAble()fdmm.unitTypes.processEntries()fdmm.regimentTypes.processEntries()fdmm.ordinanceTypes.processEntries()if db and dbYears and(fdmm.config.configSettings.updatedDCSDetected or
+fdmm.unitTypes.isMissingAvailability()or
+fdmm.ordinanceTypes.isMissingAvailability())then
 fdmm.unitTypes.createUnitTypeAvailability()fdmm.unitTypes.saveUnitTypeAvailability()fdmm.ordinanceTypes.createOrdinanceTypeAvailability()fdmm.ordinanceTypes.saveOrdinanceTypeAvailability()else
 fdmm.unitTypes.loadUnitTypeAvailability()fdmm.ordinanceTypes.loadOrdinanceTypeAvailability()end
 if fdmm.utils.isDevRunMode()then
@@ -1245,7 +1250,7 @@ if fdmm.runMode==fdmm.RunMode.DevWithPostTests then
 fdmm.config.runTestsScript()end
 end
 e="FDMM: ...Started "..(fdmm.setup.serverName or"FDMM").."!"env.info(e)trigger.action.outText(e,10)if not fdmm.utils.isRunnableMapKind()then
-env.warning("FDMM: FDMM will now bail-out... (anything after here is undefined behavior)")fdmm.missionStop()end
+env.warning("FDMM: FDMM will now bail-out... (you may now exit from DCS mission)")fdmm.missionStop()end
 end
 function fdmm.saveState()end
 function fdmm.loadState()end

@@ -2,7 +2,8 @@
 Fully Dynamic Multiplayer Mission for DCS: World.
 
 **FDMM_DCS v0.03-alpha**  
-**CURRENTLY UNDER DEVELOPMENT / PROPOSAL**
+
+**No longer under active development - feel free to salvage whatever value you can from this.**
 
 DCS: World multiplayer mission for server admins and air combat ethusiasts.  
 Licensed under the non-restrictive MIT license.
@@ -44,8 +45,4 @@ Other systems that FDDM is due to support:
 - Automated JTAC Lasing (for drones)
 - (more to come soon)
 
-**Currently under development, please check back later for updates.**
-
-------
-
-Help wanted: Are you a DCS script developer, livery artist, or other skilled mission editing guru? I can help you with some $(doe) if you can help me with some work on this project. Contact NachtRaveVL for details (her contact info can be found on her GitHub profile).
+**No longer under active development - feel free to salvage whatever value you can from this.**

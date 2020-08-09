@@ -61,7 +61,10 @@ do -- FDMM_MissionStart
     fdmm.ordinanceTypes.processEntries()
 
     -- Create/save or load type entry data.
-    if db and dbYears and fdmm.config.configSettings.updatedDCSDetected then
+    if db and dbYears and (
+        fdmm.config.configSettings.updatedDCSDetected or
+        fdmm.unitTypes.isMissingAvailability() or
+        fdmm.ordinanceTypes.isMissingAvailability()) then
       fdmm.unitTypes.createUnitTypeAvailability()
       fdmm.unitTypes.saveUnitTypeAvailability()
       fdmm.ordinanceTypes.createOrdinanceTypeAvailability()

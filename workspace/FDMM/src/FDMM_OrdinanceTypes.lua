@@ -27,6 +27,12 @@ do -- FDMM_OrdinanceTypes
         },
         GPS = {
         },
+        AntiRadiation = {
+        },
+        AntiShip = {
+        },
+        Dumb = {
+        },
         DLOS = {
         },
       },
@@ -99,6 +105,11 @@ do -- FDMM_OrdinanceTypes
 
   function fdmm.ordinanceTypes.createOrdinanceTypeAvailability()
     -- TODO: me.
+  end
+
+  function fdmm.ordinanceTypes.isMissingAvailability()
+    local availabilityFilename = fdmm.fullPath .. "data/OrdinanceTypeAvailability.json"
+    return not fdmm.utils.getFileExists(availabilityFilename)
   end
 
   function fdmm.ordinanceTypes.saveOrdinanceTypeAvailability()
